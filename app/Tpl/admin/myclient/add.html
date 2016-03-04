@@ -1,0 +1,161 @@
+<include file="public:header" />
+<style>
+.popup {position:absolute;width:229px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;overflow-y:auto; z-index:999}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<!--新建带看-->
+<form id="info_form" action="{:U('myclient/add')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">新建<if condition="$with_look eq 1">带看<else/>委托</if></li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list" style="padding:10px;">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="130">客户姓名 :</th>
+						<td><input type="text" name="name" id="name" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>客户电话 :</th>
+						<td><input type="text" name="mobile" id="mobile" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>客户性别 :</th>
+						<td>
+							<select name="gender" id="gender">
+							  <option value="">请选择</option>
+							  <option value="1">男</option>
+							  <option value="0">女</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>经纪人电话 :</th>
+						<td>
+							<input type="text" name="tel" id="tel" class="input-text" size="30">
+							<div id="telTip"></div>
+							<div style="color:#999999" id="user_id"></div>
+						</td>
+					</tr>
+					<tr style="display:none" class="J_username_block">
+						<th>经纪人姓名 :</th>
+						<td class="J_username"></td>
+					</tr>
+					<tr>
+						<th><if condition="$with_look eq 1">带看<else/>委托</if>楼盘 :</th>
+						<td style="position:relative;"><input autocomplete="off" type="text" name="pidtitle" id="pidtitle" value="{$pidtitle}" class="input-text input_loupan_search" size="30" <if condition="$pid neq ''">readonly=''</if>/>
+		                     <div id="J_loupan_name" style="display:none"></div>
+		                     <input name="pid" id="pid" type="hidden" value="" />
+	                   	</td>
+					</tr>
+					<if condition="$with_look eq 1">
+						<tr>
+							<th>到访时间 :</th>
+							<td><input type="text" name="visit_time" id="visit_time" class="date" size="20" readonly=""></td>
+						</tr>
+					</if>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="with_look" id="with_look" value="{$with_look}"/>
+</form>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+var check_mobile_url = "{:U('admin/myclient/ajax_check_mobile',array('roleid'=>1))}";
+<if condition="$with_look eq 1">
+	Calendar.setup({
+	    inputField : "visit_time",
+	    ifFormat   : "%Y-%m-%d %H:%M", 
+	    showsTime  : true,
+	    timeFormat : "24"
+	});
+</if>
+
+<if condition="$with_look eq 1">
+	var with_look = '带看';
+<else/>
+	var with_look = '委托';
+</if>
+
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#name").formValidator({onshow:" ",onfocus:"请输入客户姓名"}).inputValidator({min:2,onerror:"请输入客户姓名"});
+	$('#mobile').formValidator({onshow:' ',onfocus:'请输入客户电话'})
+	.inputValidator({min:11,onerror:'请输入正确的手机号码'})
+	.inputValidator({max:11,onerror:'请输入正确的手机号码'})
+	.regexValidator({regexp:'mobile',datatype:'enum',onerror:'请输入正确的手机号码'});
+	$("#gender").formValidator({onshow:' ',onfocus:'请选择客户性别'}).inputValidator({min:1,onerror:'请选择客户性别'});
+	//$("#username").formValidator({onshow:' ',onfocus:lang.please_input+""+with_look+"人姓名"}).inputValidator({min:1,onerror:lang.please_input+""+with_look+"人姓名"});
+	$('#tel').formValidator({onshow:' ',onfocus:'请输入'+with_look+'人电话', oncorrect: ' '})
+	.inputValidator({min:11,onerror:'请输入正确的手机号码'})
+	.inputValidator({max:11,onerror:'请输入正确的手机号码'})
+	.regexValidator({regexp:'mobile',datatype:'enum',onerror:'请输入正确的手机号码'}).ajaxValidator({
+	    type : "get",
+		url : check_mobile_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+            	$('.J_username_block').hide();
+					$('.J_username').text('');
+            	return false;
+			}else{
+				if(result.data.username!=''){
+					$('.J_username_block').show();
+					$('.J_username').text(result.data.username);
+				}else{
+					$('.J_username_block').hide();
+					$('.J_username').text('');
+				}
+                return true;
+			}
+		},
+		onerror : '该经纪人不存在,请先添加经纪人',
+		onwait : '正在检测'
+	}).defaultPassed();
+	$("#pid").formValidator({onshow:" ",onfocus:"请选择"+with_look+"楼盘"}).inputValidator({min:1,onerror:"请选择"+with_look+"楼盘"});
+	$("#visit_time").formValidator({onshow:" ",onfocus:"请选择到访时间"}).inputValidator({min:1,onerror:"请选择到访时间"});
+});
+
+//搜索楼盘
+$('.input_loupan_search').keyup(function(){
+	var title = $.trim($('#pidtitle').val());
+    var url   = '{:U('myclient/input_search',array('roleid'=>1))}';
+    if(title!=''){
+		$('#J_loupan_name').show();
+    	$.post(url,{title:title},function(result){
+			if(result.status == 1){
+				$('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+				$('#J_loupan_name').html(result.data);
+				return false;
+			}else{
+				$.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+			}
+		},'json');
+    }else{
+		$('#pid').val('').blur();
+		$('#J_loupan_name').hide();
+	}
+});
+
+//选择
+$('#J_loupan_name > ul > li').live('click',function(){
+	var rel = $(this).attr('rel');
+	var title = $(this).text();
+	$('#pid').val(rel).blur();
+	$('#pidtitle').val(title);
+	$('#J_loupan_name').hide();
+});
+
+</script>
+</body>
+</html>

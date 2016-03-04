@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<include file="public:head" />
+</head>
+
+<body>
+<include file="public:header" />
+<div class="brand_remit_header">
+  <div class="brand_remit_header_bg">
+    <div class="content">
+      <div class="brand_remit_headline">
+        <div class="brand_remit_crumbs">
+          <ul>
+            <li><a href="__ROOT__/">首页</a></li>
+            <li><a href="javascript:;">{$setTitle}</a></li>
+          </ul>
+        </div>
+        <h2>加入我们</h2>
+        <h5>展现自我价值和实现人生梦想的舞台</h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="join_us_main">
+  <div class="content">
+    <div class="intro">
+      <p>房品汇是基于互联网移动终端技术，整合开发商、经纪人、购房者资源，高效达成房产销售的房地产新型交易和服务平台。服务，是房品汇平台的核心价值。房品汇是全国首家提出未来打造“地产界类淘宝”平台概念的公司，通过该平台，开发商提供房品汇独家特惠房源，经纪人将匹配客户的房源收入囊中，进行线上推客。交易赚取佣金。房品汇平台通过搭载大量开放精准的特惠房源信息来匹配目标客户，客户和经纪人可在平台上自由搜索相关房源信息。建立庞大的社会关系网，使平台的业务流线更顺畅。该平台的诞生颠覆了传统意义的O2O模式，从线上到线下的疏导无需低效率的排雷式定位，而通过专业人士的精准客户群分析直接定位意向客户，使开发商高效锁客去化，经纪人轻松赚佣，购房者快速锁定“适合”房源。</p>
+
+	  
+	  <volist name="list" id="vo">
+		  <div class="title">{$vo.title}{$vo.people}名</div>
+		  <label>岗位职责:</label>
+		  {$vo.duty}
+		  <label>岗位要求:</label>
+		  {$vo.requirement}
+		  <div class="email">发送简历至：hr@fangpinhui.com</div>
+	  </volist>
+      
+	  
+	  
+    </div>
+  </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

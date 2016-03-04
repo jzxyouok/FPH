@@ -1,0 +1,18 @@
+/**************************************************
+ *@content:   fixie7.css
+ *@author：   xiongjianqiao@fangpinhui.com
+ *@date:      2015-08-5
+ *************************************************/	
+.footer{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 100px;
+}
+.good-resorce-inner{
+	top: 10%;
+	height: 100%;
+}
+.facetoface-service-inner{
+	top: 5%;
+}

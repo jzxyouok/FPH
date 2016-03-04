@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/weixinApi/css/popup.css">
+</head>
+
+<body>
+<div class="top_tips_new" id="top_tips_new"> <i></i>
+  <p class="tips">您可以利用右上角微信转发功能邀请好友加入房品汇，成为你的下线!</p>
+  <a href="javascript:void(0);" onClick="javascript:document.getElementById('top_tips_new').style.display='none';">我知道了,关闭</a> </div>
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <section class="invitation_frm">
+          <h1>{$info.name}邀请您的加入</h1>
+          <p>现我店与房品汇已达成战略合作，在斩获佣金的道路上我们将越走越远。而你作为我店不容小觑的中坚力量，将正式获得房品汇会员资格。赶快注册吧！</p>
+          <div class="btn"><a href="javascript:;" class="btn_send" id="share_monents">给朋友发送邀请函</a></div>
+        </section>
+      </section>
+      <div class="invitation_bottom"></div>
+    </section>
+  </div>
+<include file="public:footer_4_0" />
+<script type="text/javascript">
+	$('#share_monents').click(function(e){
+		$('#top_tips_new').show();
+	});
+</script>
+</body>
+</html>

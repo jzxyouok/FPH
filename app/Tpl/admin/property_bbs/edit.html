@@ -1,0 +1,161 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property_bbs/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加评论</em>
+        </a>
+    </div>
+</div>
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <form id="info_form" action="{:u('property_bbs/edit')}" method="post" enctype="multipart/form-data">
+                <table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">发布人 :</th>
+                        <td>{$info.username}</td>
+                    </tr>
+                    <tr>
+                        <th>电话 :</th>
+                        <td>{$info.mobile}</td>
+                    </tr>
+                    <tr>
+                        <th>点赞数 :</th>
+                        <td>{$info.praise}</td>
+                    </tr>
+                    <tr>
+                        <th>回复数 :</th>
+                        <td>{$info.reply_count}</td>
+                    </tr>
+                    <tr>
+                        <th>图片:</th>
+                        <td>
+                                <div class="img_border" id="img_data">
+                                    <volist name="info['img']" id="vo">
+                                        <notempty name="vo">
+                                            <ul class="J_img" style="float: left">
+                                                <input name="img[]"  type="hidden" value="{$vo}" />
+                                                <li><img src="{:get_fdfs_image($vo, '')}" width="100"></li>
+                                                <if condition="$info.origin eq 9">
+                                                    <li><a href="javascript:;" class="del_img">删除</a></li>
+                                                </if>
+                                            </ul>
+                                        </notempty>
+                                    </volist>
+                                </div>
+                            <if condition="$info.origin eq 9">
+                                <div style="clear:both"></div>
+                                <div id="J_upload_img" class="upload_btn" <if condition="$img_count eq 3">style="display:none"</if>><span>{:L('upload')}</span></div>
+                             </if>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>发布时间 :</th>
+                        <td>{$info.add_time|date='Y-m-d H:i',###}</td>
+                    </tr>
+                    <th>评论信息 :</th>
+                    <td>
+                        <if condition="$info.origin eq 9">
+                            <textarea id="info" name="info" style="width:67%;height:90px;resize:none;" maxlength="255">{$info.info}</textarea>
+                        <else/>
+                            {$info.info}
+                        </if>
+                    </td>
+                    </tr>
+                    <tr>
+                        <th>状态 :</th>
+                        <td>
+                            <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> 显示</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> 屏蔽</label>
+                        </td>
+                    </tr>
+                </table>
+                <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+                <input type="hidden" name="menuid"  value="{$menuid}"/>
+                <input type="hidden" name="id" id="id" value="{$id}" />
+                <input type="hidden" name="pid" id="pid" value="{$info.id}" />
+                <input type="hidden" name="origin" id="origin" value="{$info.origin}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+    $(function(){
+        <if condition="$info.origin eq 9">
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#info").formValidator({onshow:"请填写评论信息",onfocus:"请填写评论信息"}).inputValidator({min:3,max:255,empty:{leftempty:false,rightempty:false,emptyerror:"前后不能输入空格"},onerror:"请填写评论信息"});
+</if>
+
+        //上传图片
+        var img_uploader = new qq.FileUploaderBasic({
+            allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+            button: document.getElementById('J_upload_img'),
+            multiple: false,
+            action: "{:U('property_bbs/ajax_upload_img',array('roleid'=>1))}",
+            inputName: 'img',
+            forceMultipart: true, //用$_FILES
+            messages: {
+                typeError: lang.upload_type_error,
+                sizeError: lang.upload_size_error,
+                minSizeError: lang.upload_minsize_error,
+                emptyError: lang.upload_empty_error,
+                noFilesError: lang.upload_nofile_error,
+                onLeave: lang.upload_onLeave
+            },
+            showMessage: function(message){
+                $.pinphp.tip({content:message, icon:'error'});
+            },
+            onSubmit: function(id, fileName){
+                $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+            },
+            onComplete: function(id, fileName, result){
+                $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+                if(result.status == '1'){
+                    var imglen = $('.J_img').length;
+                    if(imglen==2){
+                        $('#J_upload_img').hide();
+                    }
+                    $('#img_data').append('<ul class="J_img" style="float: left"><input name="img[]" type="hidden" value="'+result.data+'" /><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+                } else {
+                    $.pinphp.tip({content:result.msg, icon:'error'});
+                }
+            }
+        });
+
+        //删除图片
+        $('.del_img').live('click',function(){
+            var img_path = $(this).parents('.J_img').children('input').val();
+            var delimg_url = "{:U('property_bbs/del_img',array('roleid'=>1))}";
+            var th = $(this);
+            $.post(delimg_url,{img_path:img_path},function(result){
+                if(result.status == 1){
+                    th.parents('ul').remove();
+                    var imglen = $('.J_img').length;
+                    if(imglen<3){
+                        $('#J_upload_img').show();
+                    }
+                    return false;
+                } else {
+                    $.pinphp.tip({content:result.msg, icon:'error'});
+                    return false;
+                }
+            },'json');
+        });
+
+
+    })
+
+</script>
+</body>
+</html>
+	

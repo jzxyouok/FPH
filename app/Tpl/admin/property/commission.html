@@ -1,0 +1,70 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+        <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property/commission_add',array('id'=>$id,'roleid'=>1))}">
+        <em>添加佣金</em>
+        </a>
+    </div>
+</div>
+<form id="info_form" action="" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="property:classification" />
+	</div>
+	<div class="J_tablelist table_list" >
+        <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+        <thead>
+            <tr>
+                <th  width="100px;" align="center">添加时间</th>
+                <th  width="60px;" align="left">适用物业</th>
+		<th  width="150px;" align="left">有效期</th>
+                <th  width="150px;" align="left">规则</th>
+		<th  width="150px;" align="left">渠道</th>
+
+                <th  width="100px;" align="center">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+	            <tr class="collapsed">
+                    <td align="center">
+                        {$val.add_time|date='Y-m-d H:i',###}               
+                    </td>
+		    <td align="left">
+                        {$val['cate']}
+                    </td>
+		    <td align="left">
+                        {$val.term_start|date='Y-m-d H:i',###} 至 {$val.term_end|date='Y-m-d H:i',###}
+                    </td>
+	                <td align="left">
+                        <if condition="$val['price'] neq 0">总价的&nbsp;&nbsp;{$val['price']}%<br></if> 
+                        <if condition="$val['each'] neq 0">每套&nbsp;&nbsp;{$val['each']}元<br></if> 
+                        <if condition="$val['money'] neq 0">现金奖&nbsp;&nbsp;{$val['money']}元<br></if> 
+                        <if condition="$val['see'] neq 0">带看奖&nbsp;&nbsp;{$val['see']}元<br></if> 
+                    </td>
+		    <td align="left">
+			{$val['storesname']}
+		    </td>
+                    
+	                <td align="center">
+	                	<a href="{:U('property/commission_edit',array('id'=>$id,'commission'=>$val['id'],'roleid'=>1))}">编辑</a>
+                        &nbsp;|
+                        <a href="{:U('property/commission_del',array('id'=>$id,'commission'=>$val['id'],'roleid'=>1))}">删除</a>
+	                </td>
+	            </tr>
+            </volist>
+        </tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+</form>
+<include file="public:footer" />
+</body>
+</html>

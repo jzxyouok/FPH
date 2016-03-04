@@ -1,0 +1,48 @@
+<include file="public:header" />
+<style>
+#brokercontain{width:194px; border: solid 1px #ccc; min-height: 25px; border-top: none; border-bottom: none; display: none;}
+#brokercontain li{ padding-top: 5px; border-bottom: dashed 1px #ccc; padding-left: 5px; cursor: pointer;}
+#brokercontain li:hover{ background: #DEF7CE;}
+.pad_lr_10{margin-top:15px;}
+#levelfont{ color:#F00; font-size:15px; font-weight:600}
+.table_form td label{ cursor: pointer; margin-right:8px;};
+</style>
+<!--添加管理员-->
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="app_fkb_customer:classification" />
+		<div class="J_panes">
+			<div class="content_list pad_10">
+<div class="J_tablelist table_list" style="margin-bottom:0px;">           
+          <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+            <thead>
+              <tr>
+                <th width="8%" align="left" style="background-color:#FFFFFF;">序号</th>
+                <th width="12%" align="left" style="background-color:#FFFFFF;">ID</th>
+                <th width="42%" style="background-color:#FFFFFF;text-align:left">楼盘名称</th>
+                <th width="17%" style="background-color:#FFFFFF;text-align:left">最后浏览时间</th>
+             </tr>
+            </thead>
+            <tbody id='newlist'>
+            <volist name="list" id="vo">
+             	 <tr>
+                    <td align="left" style="background-color:#FFFFFF;">{$key+1}</td>
+                    <td align="left" style="background-color:#FFFFFF;">{$vo.id}</td>
+                    <td style="background-color:#FFFFFF; text-align:left">{$vo.title}</td>
+                    <td style="background-color:#FFFFFF; text-align:left;">{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+                  </tr>  
+               </volist>   
+            </tbody>
+          </table>         
+        </div>
+      		<div class="btn_wrap_fixed" style="margin-bottom:10px;">
+            	  <div id="pages">{$page}</div>
+            </div>	
+			</div>
+        </div>		
+	</div>
+</div>
+
+<include file="public:footer" />
+</body>
+</html>

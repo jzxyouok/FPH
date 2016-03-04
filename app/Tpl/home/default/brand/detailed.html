@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<include file="public:head" />
+</head>
+<body>
+	<include file="public:header" />
+	<div class="brand_remit_home_crumbs">
+		<div class="content">
+			<ul>
+				<li><a href="__ROOT__/">首页</a></li>
+				<li><a href="{:U('brand/index')}">品牌汇</a></li>
+				<li><a href="{:u('brand/detailed', array('id'=>$list['id']))}">{$list['business_jian']}</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="brand_remit_home_header" style="background-color:#{$list.pigment};" >
+		<div class="content">
+			<div class="brand_remit_banner" style="background-image:url('{:get_fdfs_image($list['banner_img'], '_l')}')">
+				<div class="announcement_bg"></div>
+				<div class="announcement">
+					<div class="logo">
+						<img src="{:get_fdfs_image($list['logo'], '')}" alt="{$list['business_jian']}">
+					</div>
+					<div class="details">
+						<p>公司名称：{$list['business']}</p>
+						<p>外文名称：{$list['english_name']}</p>
+						<p>成立时间：{$list.found_time|date='Y-m-d',###}</p>
+						<p>董事长：{$list['boss']}</p>
+						<p>市值：{$list['money']}</p>
+					</div>
+					<div class="sales">
+						<div class="sales_title">
+							<span>在售</span>
+							<span>预售</span>
+						</div>
+						<div class="sales_main">
+							<span class="blue">{$list['zaisou']}</span>
+							<span class="green">{$list['yusou']}</span>
+						</div>
+					</div>
+				</div>
+				<!-- 分享 -->
+				<div id="ckepop" class="clearfix">
+					<p>好故事 乐分享:</p>					
+					<!-- TianJi Button BEGIN -->
+					<a title="分享到新浪微博" class="tianji_button_tsina"> </a>
+					<a title="分享到QQ收藏" class="tianji_button_qq"> </a>
+					<a title="分享到开心网" class="tianji_button_kaixin001"> </a>
+					<a title="分享到人人网" class="tianji_button_renren"> </a>
+					<span class="separator">|</span>
+					<a href="http://tj.see-say.com/share.asp" class="tianji button jtico jtico_more">更多</a>
+					<script type="text/javascript" src="http://tj.see-say.com/code/jia.js" charset=utf-8></script>
+					<!-- TianJi Button END -->
+ 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="brand_remit_main">
+		<div class="content">
+			<div class="brand_remit_nav">
+				<div class="nav_box">
+					<ul>
+						<li class="cur"><a href="__ROOT__/">首页</a></li>
+						<li><a href="{:u('brand/onsell', array('id'=>$list['id']))}">在售楼盘</a></li>
+						<li><a href="{:u('brand/tosell', array('id'=>$list['id']))}">预售楼盘</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="brand_story_wrapper">
+				<h3>品牌故事</h3>
+				<div class="brand_story">
+					<div class="detail">
+						{$list['info']}
+					</div>
+					<notempty name="list['img']">
+						<div class="picture"><img src="{:get_fdfs_image($list['img'], '')}"></div>
+					</notempty>
+				</div>
+			</div>
+			<div class="hot_sell_wrapper">
+				<h3>热销楼盘</h3>
+				<ul>
+					<volist name="list['property']" id="vo" >
+						<li>
+							<if condition="$vo['pid'] eq 1 " > 
+							<a href="{:u('property/detail', array('pid'=>$vo['id']))}">
+							<else />
+							<a href="javascript:;">
+							</if>
+								<div class="picture">
+								<if condition="$vo['pid'] eq 1 " ><span class="beingsold"></span></if>
+								<img src="{:get_fdfs_image($vo['img_thumb'], '_pc_thumb')}" alt="" >
+								<img src="{:get_fdfs_image($vo['img_thumb'], '_pc_thumb')}" alt="" >
+								</div>
+								<h4>{$vo['title']}</h4>
+								<div class="detail">
+									<p>楼盘均价：{$vo['item_price']}元/平米</p>
+									<p>开盘时间：{$vo.open_time|date='Y-m-d',###}</p>
+								</div>
+							</a>
+						</li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<include file="public:footer" />
+</body>
+</html>

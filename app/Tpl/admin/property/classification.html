@@ -1,0 +1,17 @@
+<ul class="J_tabs tab_but cu_li">
+	<a href="{:u('property/edit', array('id'=>$id,'menuid'=>298))}"><li <if condition="$type eq edit">class="current"</if>>{:L('article_basic')}</li></a>
+    <a href="{:u('property/propertyimg', array('id'=>$id))}"><li <if condition="$type eq propertyimg">class="current"</if>>图片管理</li></a>
+    <a href="{:u('property/housetype', array('id'=>$id))}"><li <if condition="$type eq house">class="current"</if>>户型管理</li></a>
+    <a href="{:u('property/activities', array('id'=>$id))}"><li <if condition="$type eq activities">class="current"</if>>楼盘活动</li></a>
+	<a href="{:u('property/commission', array('id'=>$id))}"><li <if condition="$type eq commission">class="current"</if>>渠道佣金</li></a>
+	<a href="{:u('property/cooperation', array('id'=>$id))}"><li <if condition="$type eq cooperation">class="current"</if>>合作信息</li></a>
+	<a href="{:u('property/methods', array('id'=>$id))}"><li <if condition="$type eq methods">class="current"</if>>合作佣金</li></a>
+	<a href="{:u('property/property_prize', array('id'=>$id,'menuid'=>298))}"><li <if condition="(ACTION_NAME eq property_prize) || (ACTION_NAME eq property_prize_add) || (ACTION_NAME eq property_prize_edit)">class="current"</if>>带看奖</li></a>
+    <a href="{:u('property/expenses_index', array('id'=>$id))}"><li <if condition="(ACTION_NAME eq expenses_index) || (ACTION_NAME eq expenses_add) || (ACTION_NAME eq expenses_edit)">class="current"</if>>路费</li></a>
+    <a href="{:u('property_bbs/index', array('id'=>$id))}"><li <if condition="MODULE_NAME eq property_bbs">class="current"</if>>社区</li></a>
+    <a href="{:u('property_groupon/index', array('id'=>$id))}"><li <if condition="MODULE_NAME eq property_groupon">class="current"</if>>团购</li></a>
+    <a href="{:u('property_group_buy/index', array('id'=>$id))}"><li <if condition="MODULE_NAME eq property_group_buy">class="current"</if>>砍价</li></a>
+    <a href="{:u('property_staff/index', array('id'=>$id))}"><li <if condition="MODULE_NAME eq property_staff">class="current"</if>>人员分配</li></a>
+    <a href="{:u('reservation/index', array('id'=>$id))}"><li <if condition="MODULE_NAME eq reservation or MODULE_NAME eq join_reservation">class="current"</if>>预约/看房</li></a>
+    <a href="{:u('property/fund', array('id'=>$id,'menuid'=>298))}"><li <if condition="$type eq fund">class="current"</if>>购房基金</li></a>
+</ul>

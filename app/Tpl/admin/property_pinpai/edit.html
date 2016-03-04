@@ -1,0 +1,287 @@
+<include file="public:header" />
+<form id="info_form" action="{:U('property_pinpai/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+				<tr>
+						<th width="120">状态:</th>
+						<td>
+
+								<select name="status" id="status">
+									<option>请选择</option>
+									<option <if condition="$info['status'] eq  1 ">selected="selected"</if> value='1'>非合作楼盘</option>
+									<option <if condition="$info['status'] eq  2 ">selected="selected"</if> value='2'>合作楼盘</option>
+								</select>
+						</td>
+				</tr>
+				<tr>
+						<th>开发商全称 :</th>
+						<td>
+								<input type="text" name="business" id="business"  class="input-text" size="30" value="{$info['business']}">
+						</td>
+				</tr>
+				<tr>
+						<th>开发商简称 :</th>
+						<td><input type="text" name="business_jian" id="business_jian" value="{$info['business_jian']}" class="input-text" size="30"></td>
+						
+				</tr>
+				<tr>
+						<th>英文名称 :</th>
+						<td><input type="text" name="english_name" id="english_name" value="{$info['english_name']}" class="input-text" size="30"></td>
+				</tr>
+				
+				<tr>
+						<th>成立时间 :</th>
+						<td><input type="text" name="found_time" id="found_time" value="{$info.found_time|date='Y-m-d',###}" class="date" size="20" readonly=""></td>
+				</tr>
+				<tr>
+						<th>董事长名称 :</th>
+						<td><input type="text" name="boss" id="boss" value="{$info['boss']}" class="input-text" size="30"></td>
+				</tr>
+				<tr>
+						<th>市值 :</th>
+						<td><input type="text" name="money" id="money" value="{$info['money']}" class="input-text" size="30"></td>
+				</tr>
+				<tr>
+						<th>logo图 :</th>
+						<td>
+							<input name="logo" id="J_img" type="hidden" value="{$info.logo}" />
+							<div class="img_border" id="img_data">
+								<notempty name="info['logo']">
+									<ul class='J_img'>
+									    <li><img src="{:get_fdfs_image($info['logo'], '')}" width="100"></li>
+									    <li><a href="javascript:;" rel="J_logo_img" class="del_img">删除</a></li>
+									</ul>
+								</notempty>
+							</div>
+							<div id="J_logo_img" class="upload_btn" <notempty name="info['logo']">style="display:none"</notempty>><span>{:L('upload')}</span></div>
+							<font color="#999999">&nbsp;图片的最佳尺寸为220*65px</font>
+						</td>
+				</tr>
+				<tr>
+						<th>banner图 :</th>
+						<td>
+							<input name="banner_img" id="banner_img" type="hidden" value="{$info.banner_img}" />
+							<div class="img_border" id="banner_img_data">
+								<notempty name="info['banner_img']">
+									<ul class='banner_img'>
+									    <li><img src="{:get_fdfs_image($info['banner_img'], '_s')}" width="100"></li>
+									    <li><a href="javascript:;" rel="J_banner_img" class="del_img">删除</a></li>
+									</ul>
+								</notempty>
+							</div>
+							<div id="J_banner_img" class="upload_btn" <notempty name="info['banner_img']">style="display:none"</notempty>><span>{:L('upload')}</span></div>
+							<font color="#999999">&nbsp;图片的最佳尺寸为990*500px </font>
+						</td>
+				</tr>
+				<tr>
+						<th>banner背景颜色 :</th>
+						<td>#<input type="text" name="pigment" id="pigment" value="{$info['pigment']}" class="input-text" size="30"></td>
+				</tr>
+				<tr>
+						<th>形象图 :</th>
+						<td>
+							<input name="img" id="image_img" type="hidden" value="{$info.img}" />
+							<div class="img_border" id="image_img_data">
+								<notempty name="info['img']">
+									<ul class='image_img'>
+									    <li><img src="{:get_fdfs_image($info['img'], '')}" width="100"></li>
+									    <li><a href="javascript:;" rel="J_image_img" class="del_img">删除</a></li>
+									</ul>
+								</notempty>
+							</div>
+							<div id="J_image_img" class="upload_btn" <notempty name="info['img']">style="display:none"</notempty>><span>{:L('upload')}</span></div>
+							<font color="#999999">&nbsp;图片的最佳尺寸为340*220px</font>
+						</td>
+				</tr>
+				<tr>
+				<th>品牌故事 :</th>
+		                <td><textarea name="info" id="info" style="width:68%;height:400px;visibility:hidden;resize:none;">{$info['info']}</textarea></td>
+				</tr>
+				
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<script src="__STATIC__/js/pinyin.js"></script>
+<script src="__STATIC__/css/admin/js/comment.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+Calendar.setup({
+    inputField : "found_time",
+    ifFormat   : "%Y-%m-%d %H:%M",
+    showsTime  : true,
+    timeFormat : "24"
+});
+var check_name_url = "{:U('property_pinpai/ajax_check_name',array('id'=>$info['id']))}";
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#status").formValidator({onshow:"请选择所属分类",onfocus:"请选择所属分类"}).inputValidator({min:1,onerror:"请选择所属分类"});
+	$("#business").formValidator({onshow:lang.please_input+"请填写开发商名称",onfocus:lang.please_input+"请填写开发商名称"}).inputValidator({min:1,onerror:lang.please_input+"请填写开发商名称"}).ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '开发商已经存在',
+		onwait : '正在检测'
+	}).defaultPassed();
+	//编辑器
+	KindEditor.create('#info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	
+	
+	//上传图片 logo
+	var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_logo_img'),
+        multiple: false,
+        action: "{:U('property_pinpai/ajax_logo_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_logo_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_logo_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_logo_img').hide();
+                $('#J_img').val(result.data);
+                $('#J_img').blur();
+                $('#img_data').html('<ul class="J_img"><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" rel="J_logo_img" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+	
+	//上传图片 banner
+	var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_banner_img'),
+        multiple: false,
+        action: "{:U('property_pinpai/ajax_banner_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_banner_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_banner_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_banner_img').hide();
+                $('#banner_img').val(result.data);
+                $('#banner_img').blur();
+                $('#banner_img_data').html('<ul class="banner_img"><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" rel="J_banner_img" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+	
+	
+	//上传图片 image
+	var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_image_img'),
+        multiple: false,
+        action: "{:U('property_pinpai/ajax_image_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_image_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_image_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_image_img').hide();
+                $('#image_img').val(result.data);
+                $('#image_img').blur();
+                $('#image_img_data').html('<ul class="image_img"><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" rel="J_image_img" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+	
+    //删除图片
+    $('.del_img').live('click',function(){
+       var img_path = $(this).parents('.img_border').prev('input').val();
+        var delimg_url = "{:U('property_pinpai/del_img',array('roleid'=>1))}";
+		var th = $(this);
+        $.post(delimg_url,{img_path:img_path},function(result){
+            if(result.status == 1){
+				var parentUl = th.parents('ul');
+				parentUl.prev().remove();
+				parentUl.remove();
+				$('#'+th.attr('rel')).show();
+				$('#'+parentUl.attr('class')).val('');
+                return false;
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+                return false;
+            }
+        },'json');
+    });
+});
+
+
+</script>
+</body>
+</html>

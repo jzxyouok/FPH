@@ -1,0 +1,63 @@
+<style type="text/css">
+.ad-buttons{ display:none}
+</style>
+<div class="dialog_content">
+  <div class="chkbox_groups">
+ 	<volist name="metro_list" id="vo">
+		<h3>{$vo.name}</h3>
+		<div class="chkbox_list">
+		  <input id='metro_name{$vo.id}' type='hidden'  value="{$vo.name}">
+		  <volist name="vo['subway']" id="v">
+			  <label>
+			  	<input id="metro_name_pid{$v.id}" type='hidden'  value="{$v.name}">
+			  	<input class="J_checkitem_metro" type="checkbox" <if condition="$v['status'] eq 1">checked="checked"</if>  rel="{$vo.id}" value="{$v.id}">{$v.name}
+			  </label>
+		  </volist>
+		</div>
+	</volist>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$('.d-state-highlight').click(function(){
+		var btn = this;
+			if($('.J_checkitem_metro:checked').length == 0){
+				$.pinphp.tip({content:lang.plsease_select_rows, icon:'alert'});
+				return false;
+			}
+			var str = '';
+			var leng = 0;
+			var ids = '';
+			var n ='';
+			$('.J_checkitem_metro:checked').each(function(){
+				if(leng == $(this).attr('rel'))
+				{
+					str += $(this).val()+',';
+					ids += $('#metro_name_pid'+$(this).val()).val()+' ';
+				}
+				else
+				{
+					str = str.substring(0,str.length-1);
+					if(leng != 0)
+					{
+						n = "\n";
+					}
+					str += '|'+$(this).attr('rel')+'&'+$(this).val()+',';
+					ids += n+$('#metro_name'+$(this).attr('rel')).val()+'：'+$('#metro_name_pid'+$(this).val()).val()+' ';
+					leng = $(this).attr('rel');
+				}
+			});
+			str = str.substring(1);
+			str = str.substring(0,str.length-1);
+			$('#hidden_metro').val(str);
+			$('#metro').val(ids);
+	});
+	
+	$('.J_checkitem_metro').click(function(){
+		$(this).parents('.chkbox_list').children('.J_checkitem_metro').attr('checked', this.checked);
+	});
+	
+})
+
+
+</script>

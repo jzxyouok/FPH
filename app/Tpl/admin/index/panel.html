@@ -1,0 +1,16 @@
+<include file="public:header" />
+<div class="pad_10">
+	<notempty name="message">
+	<ul id="message_list">
+    	<volist name="message" id="val">
+    	<li class="list_{$val.type}">{$val.content}</li>
+        </volist>
+    </ul>
+    </notempty>
+
+	<div class="clearfix">
+       <div style="width:800px; margin:0 auto; border-bottom:3px solid #eee;"><img src="__STATIC__/css/admin/bgimg/bg_main_end.gif" width="100%" /></div>   
+    </div>
+</div>
+</body>
+</html>

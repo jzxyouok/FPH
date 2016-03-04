@@ -1,0 +1,84 @@
+<include file="public:header" />
+<!--管理员管理-->
+<div class="pad_lr_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="vote_mengbao" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />               
+                &nbsp;&nbsp;参赛选手 :
+                <input name="vote_personal" type="text" class="input-text" size="25" value="{$vote_personal}" />
+                 &nbsp;&nbsp; &nbsp;&nbsp;按获赞数排序:   &nbsp;&nbsp;
+                <select name="clickfans">
+                <option value="">-{:L('please_select')}-</option>
+                <option value="1" <if condition="$clickfans eq '1'">selected="selected"</if>> 从高到底 </option>
+                <option value="2" <if condition="$clickfans eq '2'">selected="selected"</if>> 从低到高 </option>
+                </select>&nbsp;&nbsp; &nbsp;&nbsp;
+               <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('vote_young/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="40"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                <th width="55">ID</th>
+                 <th width="100" align="left">头像</th>	
+                <th align="left" width="100">参赛编号</th>               
+                <th width="100" align='left'>姓名</th>
+                <th width="100" align='left'>性别</th>
+                <th width="100" align="left">年龄</th>
+                <th width="100">获赞数</th>
+                <th width="173">{:L('status')}</th>
+                <th width=175>{:L('operations_manage')}</th>
+            </tr>
+            </thead>
+    	    <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>   
+                 <td align="left"><img src="{$val.avatar}" width="30"></td>            
+                <td align="left">{$val.vote_id}</td>                
+                <td align="left">{$val.vote_personal}</td>
+                <td align="left"><if condition="$val['gender'] eq 1">男<else/>女</if></td>
+                <td align="left">{$val.age} 岁</td>
+                <td align="center"> 
+                   <span data-tdtype="edit" data-field="clickfans" data-id="{$val.id}" class="tdedit" style="color:{$val.colors};">{$val.clickfans}</span>
+                </td>
+                <td align="center">
+                    <img data-tdtype="toggle" data-field="status" data-id="{$val.id}" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" />
+                </td>
+                <td align="center">
+                    <a href="{:U('vote_mengbao/edit', array('id'=>$val['id'],'menuid'=>$menuid))}">{:L('edit')}</a> | 
+					<a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('vote_young/delete', array('id'=>$val['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a>
+                </td>
+            </tr>
+            </volist>
+    	   </tbody>
+        </table>
+    </div>
+    <div class="btn_wrap_fixed">
+		<label class="select_all mr10"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+    	<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('vote_young/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+		<div id="pages">{$page}</div>
+    </div>
+</div>
+<include file="public:footer" />
+<script src="/static/js/jquery/plugins/listTable.js"></script>
+<script>
+$(function(){
+    $('.J_tablelist').listTable();
+});
+</script>
+</body>
+</html>

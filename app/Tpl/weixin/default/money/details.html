@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/customer.css">
+<style type="text/css">
+#TOP_FRAME .scroll_body .links_list .display_list li a .status {
+	right: 0;
+}
+.detail_blocks {
+	min-height: 120px;
+	background-color: #FFF;
+	margin-bottom: 10px;
+}
+.detail_blocks .tops {
+	height: 78px;
+	padding: 8px 10px;
+	border-bottom: solid 1px #eee;
+}
+.detail_blocks .tops .pics {
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	background: #f8b551 url(images_4_0/icon_money.png) no-repeat center center;
+	background-size: 60px 60px;
+	border-radius: 60px;
+}
+.detail_blocks .tops h2, .detail_blocks .tops h5 {
+	margin-left: 70px;
+}
+.detail_blocks .tops h2 {
+	color: #ff6600;
+	line-height: 30px;
+}
+.detail_blocks .tops h5 {
+	color: #666;
+	line-height: 26px;
+}
+.detail_blocks .brokerage_detail {
+	line-height: 42px;
+}
+.detail_blocks .brokerage_detail .half {
+	width: 50%;
+	line-height: 42px;
+	border-right: solid 1px #eee;
+	float: left;
+	padding: 0 10px;
+}
+.detail_blocks .brokerage_detail .half:last-child {
+	border: none;
+}
+.detail_blocks .brokerage_detail .half span:last-child {
+	float: right;
+}
+</style>
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME gray">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+     <a href="tel:4008869058" class="gotolist nobg">客服咨询</a> </header>
+  <section class="scroll_body">
+    <section class="detail_blocks">
+      <div class="tops">
+        <div class="pics"></div>
+        <h2>{$money['expenditure']}元</h2>
+        <h5>{$mys['username']}成交{$mys['title']}</h5>
+      </div>
+      <div class="brokerage_detail">
+        <div class="half"> <span>已提</span> <span>{$money['price']}元</span> </div>
+        <div class="half"> <span>剩余</span> <span>{$money['notprice']}元</span> </div>
+      </div>
+    </section>
+    <section class="links_list">
+      <label class="FORM_LABEL">结拥明细</label>
+      <section class="blocks">
+        <ul class="display_list">
+		<foreach name="list" key="kl" item="v">		
+			<li>
+				<a href="javascript:;">
+					<if condition="$v['status'] eq 1 ">
+					<span class="title">房品汇结佣</span>
+					</if>
+					<if condition="$v['status'] eq 2 ">
+					<span class="title">提佣</span>
+					</if>
+					<span class="mobile">+{$v['price']}元</span><span class="status">{$v['add_time']|date="Y-m-d",###}</span>
+				</a>
+			</li>
+			<!--<li><a href="#"><span class="title">提用</span><span class="mobile">-4000元</span><span class="status">2015.2.15</span></a></li>-->
+	       </foreach>
+        </ul>
+      </section>
+      <label class="FORM_LABEL">成交详情</label>
+      <section class="blocks">
+        <ul class="display_list">
+          <li><a href="#"><span class="title">成交日期</span><span class="status">{$mys['add_time']|date="Y-m-d",###}</span></a></li>
+          <li><a href="#"><span class="title">客户姓名</span><span class="status">{$mys['username']}</span></a></li>
+          <li><a href="#"><span class="title">成交楼盘</span><span class="status">{$mys['title']}</span></a></li>
+          <li><a href="#"><span class="title">户型面积</span><span class="status">{$mys['measure']}</span></a></li>
+          <li><a href="#"><span class="title">销售总价</span><span class="status">{$mys['total_price']}</span></a></li>
+        </ul>
+      </section>
+    </section>
+  </section>
+</div>
+<!----------------------------------------------------------------------------------------------------------------------------> 
+<script type="text/javascript" src="js_4_0/jquery.js"></script> 
+<script type="text/javascript">
+</script>
+</body>
+</html>

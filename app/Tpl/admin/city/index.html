@@ -1,0 +1,73 @@
+<include file="header" />
+<!--栏目列表-->
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list" data-acturi="{:U('city/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0" id="J_cate_tree">
+        <thead>
+            <tr>
+                <th width="30"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                <th width="30"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th>城市名称</th>
+                <th width="60"><span data-tdtype="order_by" data-field="latitude">经纬度</span></th>
+                <th width="60"><span data-tdtype="order_by" data-field="recommend">开通城市</span></th>
+                <th width="180">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+        {$list}
+    	</tbody>
+    </table>
+    </div>
+    <div class="btn_wrap_fixed">
+        <label class="select_all mr10"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('city/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+    </div>
+</div>
+<include file="public:footer" />
+<script src="__STATIC__/js/jquery/plugins/jquery.treetable.js"></script>
+<script>
+$(function(){
+    //initialState:'expanded'
+	//展开
+	$('.collapsed').live('click',function(){
+		var th = $(this);
+		var tr = th.parent().parent().attr('class');
+		if(!tr)
+		{
+		    $('.expanded').attr('class','collapsed');
+		    $('.no').hide();
+		}
+		var id = th.parent('td').prev().text();
+		var rel = parseInt(th.parent('td').prev().attr('rel'));
+		var rel_mun = rel+35;
+		var url = '{:U("city/city_list",array('roleid'=>1))}';
+		$.post(url,{id:id,rel_mun:rel_mun},function(result){
+			if(result.status == 1){
+				th.attr('class','expanded');
+				th.parents('tr').after(result.data);
+				return false;
+            } else {
+				return false;
+            }
+		},'json');
+		//alert(rel_mun);
+		//$(this).parents('tr').after('<tr><td>111111</td></tr>');
+	});
+	
+	//关闭
+	$('.expanded').live('click',function(){
+		var th = $(this);
+		var id = th.parent('td').prev().text();
+		var tr = th.parent().parent().attr('class');
+		if(!tr)
+		{
+		    $('.no').hide();
+		}
+		$('.node-'+id).hide();
+		th.attr('class','collapsed');
+		return false;
+	});	
+});        
+</script> 
+</body>
+</html>

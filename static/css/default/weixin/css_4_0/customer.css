@@ -1,0 +1,107 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+/************************************************************************************************/
+html, body {
+	background: #eeeeee;
+}
+#TOP_FRAME .search_result {
+	line-height: 45px;
+}
+#TOP_FRAME .search_result i {
+	color: #ff6600;
+	font-style: normal;
+	padding: 0 5px;
+	font-weight: bold;
+}
+#TOP_FRAME .detail_blocks ul {
+	padding: 16px 0;
+}
+#TOP_FRAME .detail_blocks ul li {
+	display: inline-block;
+	float: left;
+	min-width: 60px;
+	border-right: dotted 1px #999;
+	padding: 0 10px;
+	color:#999;
+	font-size:1.2rem;
+}
+#TOP_FRAME .detail_blocks ul li:last-child {
+	border: none;
+}
+#TOP_FRAME .detail_blocks ul:after { content:"."; display:block; height:0px; visibility:hidden; clear:both;}
+#TOP_FRAME .detail_blocks ul li h4 {
+	font-size: 1.4rem;
+	color:#333;
+	padding-bottom:0.5rem;
+}
+#TOP_FRAME .detail_blocks ul li strong {
+	font-size: 2rem;
+	color: #ff6600;
+	font-weight: normal;
+	padding:0.5rem 0;
+}
+#TOP_FRAME .detail_tips {
+	padding: 0 10px;
+}
+#TOP_FRAME .detail_tips a{
+	color: #006699;
+}
+#TOP_FRAME .scroll_body .links_list .blocks {
+	margin-top: 0;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li a .status.lighten {
+	color: #ff6600;
+}
+.customer_info {
+	padding: 20px 12px;
+}
+.customer_info .tel_img {
+	width: 60px;
+	height: 60px;
+	border-radius: 60px;
+	position: absolute;
+	background: #80c269 url(../images_4_0/icon_tel2.png) no-repeat center center;
+	background-size:60% 60%;
+}
+.customer_info .name, .customer_info .info {
+	padding-left: 70px;
+}
+.customer_info .name {
+	font-size: 2rem;
+	display: block;
+	line-height: 30px;
+}
+.customer_info .info {
+	color: #999999;
+	line-height: 30px;
+}
+#TOP_FRAME .scroll_body .links_list .display_list.customer li {
+	padding: 15px 0;
+}
+#TOP_FRAME .scroll_body .links_list .display_list.customer li .ring_status {
+	width: 47px;
+	height: 47px;
+	border-radius: 47px;
+	position: absolute;
+	border: solid 1px #80c269;
+	color: #80c269;
+	text-align: center;
+	line-height: 47px;
+}
+#TOP_FRAME .scroll_body .links_list .display_list.customer li .ring_status.disabled {
+	color: #b5b5b5;
+	border-color: #b5b5b5;
+}
+#TOP_FRAME .scroll_body .links_list .display_list.customer li p, #TOP_FRAME .scroll_body .links_list .display_list.customer li time {
+	padding-left: 55px;
+}
+#TOP_FRAME .scroll_body .links_list .display_list.customer li p {
+	margin: 0;
+	line-height: 24px;
+}
+#TOP_FRAME .scroll_body .links_list .display_list.customer li time {
+	font-size: 1.2rem;
+	color: #999;
+	line-height: 24px;
+}

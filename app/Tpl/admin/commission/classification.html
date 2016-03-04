@@ -1,0 +1,5 @@
+<ul class="J_tabs tab_but cu_li">
+	<a href="{:u('commission/edit', array('id'=>$id,'menuid'=>453))}"><li <if condition="$type eq edit">class="current"  </if>>成交信息</li></a>
+    <a href="{:u('income/index', array('id'=>$id))}"><li <if condition="$type eq income">class="current"</if>>收入管理</li></a>
+    <a href="{:u('expenditure/index', array('id'=>$id))}"><li <if condition="$type eq expenditure">class="current"</if>>支出管理</li></a>
+</ul>

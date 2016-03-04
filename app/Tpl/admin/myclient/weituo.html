@@ -1,0 +1,241 @@
+<include file="public:header" />
+<style type="text/css">
+.td_bg td{ background:#fffced}
+</style>
+<br>
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform"  method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div id="J_title"></div>
+            <div class="explain_col">
+                <input type="hidden" name="output"  id="output" />
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="myclient" />
+                <input type="hidden" name="a" value="weituo" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                &nbsp;&nbsp;报备人电话 :
+                <input name="user_mobile" type="text" class="input-text" size="25" value="{$search.user_mobile}" />
+                &nbsp;&nbsp;客户电话 :
+                <input name="mobile" type="text" class="input-text" size="25" value="{$search.mobile}" />
+                &nbsp;&nbsp;楼盘 :
+                <input id="searchtitle" name="title" type="text" class="input-text" size="25" value="{$search.title}" />
+                报备时间:
+                <input type="text" name="add_time_start" id="add_time_start" class="date" size="12" value="{$search.add_time_start}">
+                -
+                <input type="text" name="add_time_end" id="add_time_end" class="date" size="12" value="{$search.add_time_end}">
+                &nbsp;&nbsp;{:L('status')}:
+                <select name="status">
+                <option value="">-{:L('all')}-</option>
+                    <option value="1,1" <if condition="$search.status eq '1,1'">selected="selected"</if>>委托申请</option>
+                    <option value="2,1" <if condition="$search.status eq '2,1'">selected="selected"</if>>邀约成功</option>
+                    <option value="2,0" <if condition="$search.status eq '2,0'">selected="selected"</if>>邀约失败</option>
+                    <option value="3,1" <if condition="$search.status eq '3,1'">selected="selected"</if>>开发商确认</option>
+                    <option value="3,0" <if condition="$search.status eq '3,0'">selected="selected"</if>>开发商拒绝</option>
+                    <option value="4,1" <if condition="$search.status eq '4,1'">selected="selected"</if>>已带看</option>
+                    <option value="4,0" <if condition="$search.status eq '4,0'">selected="selected"</if>>未带看</option>
+                    <option value="5,1" <if condition="$search.status eq '5,1'">selected="selected"</if>>支付意向金</option>
+                    <option value="5,2" <if condition="$search.status eq '5,2'">selected="selected"</if>>参加团购</option>
+                    <option value="5,0" <if condition="$search.status eq '5,0'">selected="selected"</if>>意向终止</option>
+                    <option value="6,1" <if condition="$search.status eq '6,1'">selected="selected"</if>>支付定金</option>
+                    <option value="6,0" <if condition="$search.status eq '6,0'">selected="selected"</if>>退回意向金/团购费</option>
+                    <option value="7,0" <if condition="$search.status eq '7,0'">selected="selected"</if>>签约成交</option>
+                    <option value="8,0" <if condition="$search.status eq '8,0'">selected="selected"</if>>违约</option>
+                    <option value="9,0" <if condition="$search.status eq '9,0'">selected="selected"</if>>失效</option>
+                </select>
+                状态时间:
+                <input type="text" name="status_time_start" id="status_time_start" class="date" size="12" value="{$search.status_time_start}">
+                -
+                <input type="text" name="status_time_end" id="status_time_end" class="date" size="12" value="{$search.status_time_end}">
+
+                <input type="submit" name="search" id="sub" class="btn" value="{:L('search')}" />
+                -
+                <a target="_blank" href="{:U('myclient/export_excel',array('user_mobile'=>$search['user_mobile'],'mobile'=>$search['mobile'],'title'=>$search['title'],'add_time_start'=>$search['add_time_start'],'add_time_end'=>$search['add_time_end'],'status'=>$search['status'],'status_time_start'=>$search['status_time_start'],'status_time_end'=>$search['status_time_end'],'with_look'=>2,'roleid'=>1))}">
+                  <em>导出数据</em>
+                </a>
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    
+    <div class="J_tablelist table_list" data-acturi="{:U('business/ajax_edit',array('roleid'=>1))}">
+        <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+        <thead>
+            <tr>
+                <th width=40>序号</th>
+                <th width=60>ID</th>
+                <th align="left">报备人</th>
+                <th align="left">客户</th>
+                <th align="left">带看楼盘</th>
+                <th>当前状态</th>
+                <th>状态时间</th>
+                <th>报备时间</th>
+                <th align="left">案场人员</th>
+                <th width="150">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr class="collapsed">
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val['id']}</td>
+                <td align="left">{$val['username']}&nbsp;&nbsp;{$val['user_mobile']}</td>
+                <td align="left">{$val['name']}&nbsp;&nbsp;{$val['mobile']}</td>
+                <td align="left">{$val['title']}</td>
+                <td align="center">
+                    <if condition="$val['status'] eq 1">
+                          委托申请
+                      </if>
+                      <if condition="$val['status'] eq 2">
+                          <if condition="$val['status_cid'] eq 1">
+                          邀约成功
+                           <else/>
+                          邀约失败
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 3">
+                          <if condition="$val['status_cid'] eq 1">
+                          开发商确认
+                           <else/>
+                          开发商拒绝
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 4">
+                          <if condition="$val['status_cid'] eq 1">
+                          已带看
+                           <else/>
+                          未带看
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 5">
+                          <if condition="$val['status_cid'] eq 1">
+                          支付意向金
+                          <elseif condition="$val['status_cid'] eq 2"/>
+                          参加团购
+                          <else /> 
+                          购买意向终止
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 6">
+                          <if condition="$val['status_cid'] eq 1">
+                          已支付定金
+                          <else /> 
+                               <if condition="$val['zhongzhi'] eq 1">
+                                客户申请退回意向金
+                                 <else/>
+                                客户申请退回团购费
+                                </if>
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 7">
+                          签约成交
+                      </if>
+                      <if condition="$val['status'] eq 8">
+                          违约
+                      </if>
+                       <if condition="$val['status'] eq 9">
+                          失效
+                      </if>
+                </td>
+                <td align="center">{$val.status_time|date='Y-m-d H:i',###}</td>
+                <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                <td align="left">{$val['case_name']}</td>
+                <td align="center">
+                  <if condition="$my_admin['rolename'] eq 7 OR $my_admin['rolename'] eq 1">
+                    <a href="{:u('myclient/update_time', array('id'=>$val['id'],'with_look'=>2,'roleid'=>1))}">修改时间</a>&nbsp;|&nbsp;
+                  </if>
+                  <a href="{:u('myclient/liucheng', array('id'=>$val['id'],'with_look'=>2))}">流程跟进</a>
+				   <if condition="$my_admin['rolename'] eq 1">
+					  &nbsp;|&nbsp;<a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('myclient/delete', array('id'=>$val['id']))}" data-msg="确定要删除该报备数据?">{:L('delete')}</a>
+				   </if>
+                </td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page_list}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+var PINER = {
+    root: '__ROOT__',
+  };
+  
+Calendar.setup({
+    inputField : "add_time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "add_time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "status_time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "status_time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+$('#J_title').hide();
+//搜索楼盘
+$('#searchtitle').keyup(function(){
+  var title = $('#searchtitle').val();
+  var url   = PINER.root + '/?g=admin&m=myclient&a=ajax_title&roleid=1';
+  if(title != ''){
+    $('#J_title').show();
+      $.post(url,{title:title},function(result){
+          if(result.status == 1)
+          {
+            $('#J_title').html(result.data);
+            return false;
+          }
+          //else
+          //{
+          //  $.pinphp.tip({content:result.msg, icon:'error'});
+          //  return false;
+          //}
+        },'json');
+  }else{
+     $('#J_title').hide();
+  }
+});
+//选择
+$('#J_title > ul > li').live('click',function(){
+  var title = $(this).attr('rel');
+  $('#searchtitle').val(title);
+  $('#J_title').hide();
+});
+
+var $searchtitle = $('#searchtitle');
+var $J_title = $('#J_title');
+var top = $searchtitle.offset().top;
+var left = $searchtitle.offset().left;
+$J_title.css({
+  'position': 'absolute',
+  'left': left - 8 + 'px',
+  'top': 52 + 'px'
+});
+</script>
+</body>
+</html>
+

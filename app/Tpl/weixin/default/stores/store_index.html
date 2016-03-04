@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+<style type="text/css">
+#TOP_FRAME .scroll_body .comments {
+	color: #bbbbbb;
+	padding: 10px;
+	font-size: 1.2rem;
+	background-color: #FFF;
+	margin-top: 1px;
+}
+#TOP_FRAME .scroll_body .comments strong {
+	color: #e5004f;
+	font-size: 1.6rem;
+	padding-right: 5px;
+	display: block;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li a .status {
+	right: 20px;
+}
+.records_list {
+	min-height: 65px;
+	background-color: #FFF;
+	border-left: solid 2px #999;
+}
+#TOP_FRAME .scroll_body .records_list .top {
+	height: 22px;
+}
+#TOP_FRAME .scroll_body .records_list .top .contactor {
+	color: #999999;
+	float: left;
+	margin-left: 5px;
+}
+#TOP_FRAME .scroll_body .records_list .top .date {
+	color: #d3d3d3;
+	float: right;
+	margin-right: 5px;
+	font-size: 1.2rem;
+}
+#TOP_FRAME .scroll_body .records_list p {
+	line-height: 22px;
+	display: block;
+	padding: 0 5px;
+	color: #666;
+	padding-bottom: 10px;
+}
+.links_list > .title {
+	line-height: 30px;
+	display: block;
+	margin-top: 10px;
+	padding: 0 10px;
+}
+</style>
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+<!-- 	<if condition="$stores_info['id'] neq 1">
+    <if condition="$user_stores_id neq '0' "> -->
+    	<a href="{:U('weixin/myshare/invitation',array('id'=>$stores_info['storesid']))}" class="gotolist" id="btn_reset">邀请加入<i></i></a>
+  <!--   </if>
+  </if> -->
+</header>
+  <section class="scroll_body noPadding">
+  	<notempty name="user_stores_id">
+    <section class="photo inner"> <a href="{$stores_info['user_info']['mobile']}">
+      <figure>
+      	<img id="J_store_avatar" src="{:attach(get_thumb($stores_info['img'], '_100'), 'stores_avatar')}" onerror="this.src='./data/upload/avatar/default_100.jpg'" />
+      	<!-- <img width="180" src="http://qr.liantu.com/api.php?bg=FFFFFF&fg=000000&gc=000000&pt=000000&inpt=000000&el=h&w=200&m=10&logo=http://www.fangpinhui.com/static/css/default/home/images/icons/eode_icon.png&text={$http_host}/index.php?g=weixin%26m=myshare%26a=register%26id={$stores_info.storesid}"/> --></figure>
+      <section class="info">
+        <h2>{$stores_info.name}<eq name="stores_info['status']" value="1"><i class="LBL_STATUS sc_a1">已认证</i></eq></h2>
+        <span class="address">{$stores_info.address}</span> <span class="contactor">服务专员：{$stores_info['user_info']['username']}<strong>{$stores_info['user_info']['mobile']}</strong></span> </section>
+      </a> </section>
+
+    <section class="comments"><strong>邀请码 {$stores_info.code_id}</strong></section></notempty>
+    <section class="links_list"> <span class="title">门店成员</span>
+    	<notempty name="list">
+      <section class="blocks">
+        <ul class="display_list">
+		 <volist name="list" id="v" >
+           <li><a href="javascript:;"><span class="title">{$v.username}</span><span class="mobile">{$v.mobile}</span> <span class="status">成交{$v.count}套</span></a></li>
+          </volist>
+        </ul>
+      </section>
+    </section>
+</notempty>
+ <empty name="list">
+      <section class="PADDING_FRM">
+        <div class="NO_DATA_MSG">该门店还没有经纪人加入</div>
+      </section>
+  </empty>
+  <if condition="$internal eq 1"> 
+  	<a href="{:U('weixin/stores/user_add',array('id'=>$id))}" class="BTNs">添加成员</a>
+  </if>
+  </section>
+
+</div>
+<script type="text/javascript">
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

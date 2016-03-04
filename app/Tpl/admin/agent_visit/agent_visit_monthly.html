@@ -1,0 +1,132 @@
+<include file="public:header" /><br />
+<style type=' text/css'>
+    .J_tablelist td{border:1px solid #999;}
+    .now_bg{background:red;} 
+    .bg{ background: #666;color: #fff;}
+    .red{color:red;}
+</style>
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="agent_visit" />
+                <input type="hidden" name="a" value="agent_visit_monthly" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                <input type="hidden" name="roleid" value="1" />
+                <input type='hidden' value='' id='get_month' name='get_month'>
+                <input type='hidden' value='{$search.agent_status}' id='agent_status' name='agent_status'>
+                
+                选择时间:
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}" onchange='javascript:get_time();'>
+                <select name='select_city'>
+                    <volist name="citylist" id="vo">
+                        <option value="{$vo['id']}">{$vo['name']}</option>
+                    </volist>
+                </select>
+                &nbsp;&nbsp;
+                <select name='type'>
+                    <option value="1" <if condition="$search.type eq 1"> selected </if>>周</option>
+                    <option value="2" <if condition="$search.type eq 2"> selected </if>>月</option>
+                </select> 
+                &nbsp;&nbsp;
+                <select name='month'  onchange='javascript:get_month_id();'>
+                    <option value="01" <if condition="$search.month eq '01'"> selected </if>>1月</option>
+                    <option value="02" <if condition="$search.month eq '02'"> selected </if>>2月</option>
+                    <option value="03" <if condition="$search.month eq '03'"> selected </if>>3月</option>
+                    <option value="04" <if condition="$search.month eq '04'"> selected </if>>4月</option>
+                    <option value="05" <if condition="$search.month eq '05'"> selected </if>>5月</option>
+                    <option value="06" <if condition="$search.month eq '06'"> selected </if>>6月</option>
+                    <option value="07" <if condition="$search.month eq '07'"> selected </if>>7月</option>
+                    <option value="08" <if condition="$search.month eq '08'"> selected </if>>8月</option>
+                    <option value="09" <if condition="$search.month eq '09'"> selected </if>>9月</option>
+                    <option value="10" <if condition="$search.month eq 10"> selected </if>>10月</option>
+                    <option value="11" <if condition="$search.month eq 11"> selected </if>>11月</option>
+                    <option value="12" <if condition="$search.month eq 12"> selected </if>>12月</option>
+                </select>
+                 &nbsp;&nbsp;
+                <font style='font-size:15px;'><b>{$search.month}月</b></font>
+                &nbsp;&nbsp; 
+               <select name='uid'>
+                    <if condition="$search.agent_status eq 1">
+                        <option value="" >全部</option>
+                        <option value="one" <if condition="$search.uid eq 'one'"> selected </if>>扩展一组</option>
+                        <option value="two" <if condition="$search.uid eq 'two'"> selected </if>>扩展二组</option>
+                        <volist name="search[v_1]" id="v1" >
+                        <option value="{$key}" <if condition="$search.uid eq $key"> selected </if>>{$v1}</option>
+                   </volist>
+                    </if>
+                     <if condition="($search.agent_status eq 2) OR ($search.agent_status eq 1)">
+                        <neq name="search.agent_status" value="1"><option value="one" >扩展一组</option></neq>
+                        <volist name="search[v_2]" id="v2" >
+                        <option value="{$key}" <if condition="$search.uid eq $key"> selected </if>>{$v2}</option>
+                   </volist>
+                    </if>
+                     <if condition="($search.agent_status eq 3) OR ($search.agent_status eq 1)">
+                        <neq name="search.agent_status" value="1"><option value="two" >扩展二组</option></neq>
+                        <volist name="search[v_3]" id="v3" >
+                        <option value="{$key}" <if condition="$search.uid eq $key"> selected </if>>{$v3}</option>
+                   </volist>
+                    </if>
+                </select>
+                &nbsp;&nbsp; 
+                <input type="submit" name="search" class="btn" value="查看" />
+                <if condition="$search.is_min eq 1"><span class='red'><b>注意:最早录入数据日期为:{$search.min_date}</b></span></if>
+                <if condition="$search.is_min eq 2"><span class='red'><b>注意:最晚录入数据日期为:{$search.time_start}</b></span></if>
+
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" >
+        <table width='100%' border=1>
+            <tr align='center'>
+           <volist name="search[w_date]" id="val" key='k'>
+           <td >{$search[w_date][$k-1]}</td>
+           </volist>
+         </tr>
+        <tr>
+            <volist name='search.month_num' id='n' key='kk'>
+            <td <if condition="$n.bg eq 1"> class='bg'  style='background:#aaa;color:#fff;'</if>>{$n.link}</td>
+            <if condition="$kk % 7 eq 0">
+            </tr><tr>
+            </if>
+            </volist>
+        </tr>
+       
+    </table><BR>
+    <table width='100%' border=1>
+        <tr><td colspan=3><b>本月数据</b></td></tr>
+        <tr><td>开拓门店</td><td>拜访门店</td><td>新增经纪人</td></tr>
+        <tr><td>{$search['m_s_count']}</td><td>{$search['m_l_count']}</td><td>{$search['m_u_count']}</td></tr>  
+    </table>
+    </div>
+
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+    function get_month_id(){
+        $('#get_month').val(1);
+    }
+    function get_time(){
+        $('#get_month').val('');
+    }
+
+
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+</script>
+</body>
+</html>

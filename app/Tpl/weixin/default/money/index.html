@@ -1,0 +1,96 @@
+<!doctype html>
+<html style="background-color:#eee;">
+<head>
+<include file='public:head_4_0' />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/customer.css">
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME gray">
+  <header>
+    <section class="logo">房品汇</section>
+   <!-- <section class="dropdown">
+      <select name="">
+        <option value="上海">上海</option>
+        <option value="北京">北京</option>
+      </select>
+      <a href="#" class="city">上海<i></i></a> </section>-->
+    <a href="tel:4008869058" class="gotolist nobg">客服咨询</a>
+    <section class="search"> <a href="javascript:void(0);" onclick="sub();" class="btn_search">搜索</a>
+      <div class="frm">
+	 <form id='search_title'  action="{:U('weixin/money/index')}" method="post" >
+	    <input name="soso" type="text" value="{$soso}" placeholder="请输入客户姓名">
+	 </form>
+      </div>
+    </section>
+  </header>
+  <section class="scroll_body">
+    <section class="detail_blocks">
+      <ul>
+        <li>
+          <h4>累计佣金</h4>
+          <strong>
+	    {$list['addup']}
+	  </strong>元
+        </li>
+        <li>
+          <h4>已结佣金</h4>
+          <strong>
+	     {$list['closedaccount']}
+	  </strong>元
+        </li>
+        <li>
+          <h4>未结佣金</h4>
+          <strong>
+	    {$list['notknot']}
+	  </strong>元
+        </li>
+      </ul>
+    </section>
+    <section class="links_list">
+	    <foreach name="list['commission_list']" key="k" item="v">
+		<label class="FORM_LABEL">{$k}</label>
+		<section class="blocks">
+		  <ul class="display_list">
+			<foreach name="list['commission_list'][$k]" key="kl" item="vl">
+				<li>
+				    
+				    
+					<if condition="$vl['commissionstatus'] eq 1 ">
+					    <a href="javascript:;">
+					    <span class="title">{$vl['username']}</span><span class="mobile">{$vl['property_name']}</span>
+					    <span class="status ">未结佣</span>
+					     </a>
+					</if>
+					<if condition="$vl['commissionstatus'] eq 2 ">
+					    <a href="{:U('weixin/money/details',array('id'=>$vl['id']))}"><span class="title">{$vl['username']}</span><span class="mobile">{$vl['property_name']}</span>
+					    <span class="status lighten">￥{$vl['expenditure']}</span>
+					    <i></i>
+					     </a>
+					</if>
+					<if condition="$vl['commissionstatus'] eq 3 ">
+					    <a href="{:U('weixin/money/details',array('id'=>$vl['id']))}"><span class="title">{$vl['username']}</span><span class="mobile">{$vl['property_name']}</span>
+					    <span class="status ">已结佣</span>
+					    <i></i>
+					     </a>
+					</if>
+				    
+				    
+				   
+				</li>
+			</foreach>
+		  </ul>
+		</section>
+	    </foreach>
+    </section>
+  </section>
+</div>
+<!---------------------------------------------------------------------------------------------------------------------------->
+<!--<script type="text/javascript" src="js_4_0/jquery.js"></script> -->
+<script type="text/javascript">
+function sub(){
+  $('#search_title').submit();
+}
+</script>
+</body>
+</html>

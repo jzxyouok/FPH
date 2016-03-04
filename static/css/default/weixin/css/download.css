@@ -1,0 +1,41 @@
+html {font-size:12px\9;
+	font-size: 62.5%;/*10 ÷ 16 × 100% = 62.5%*/
+	font-family:"微软雅黑", Arial, Helvetica, sans-serif;
+	}
+* {
+	margin:0;
+	padding:0;
+	border:none;
+}
+body {
+	cursor:default;
+	-ms-content-zooming:none;
+	-webkit-text-size-adjust:1.4rem;
+	font-size:1.4rem;
+	line-height:1.5;
+	color:#fff;
+	background:#000;
+	}
+.tips { background:#333e5f url(../images/downpage/icon_share.png) no-repeat 95% bottom; background-size:contain; width:100%;  padding:10px 0; font-size:1.4rem; position:absolute; top:0;z-index:99;}
+.tips span { color:#41ff60;}
+.tips p { padding-left:2rem}
+h1 { width:100%; text-align:center; position:absolute; top:12%;z-index:99;}
+.btns {text-align:center; position:absolute; top:50%;z-index:99; width:220px; left:50%; margin-left:-110px;}
+.btns a { display:block; width:100%;margin-bottom:30px;}
+h2 { font-size:1.4rem; color:#fff; position:fixed; bottom:10px; padding:0; margin:0; width:100%; display:block; text-align:center; font-weight:normal;z-index:99;}
+.btns a img { width:220px;}
+.bg {position:absolute; width:100%; height:100%; z-index:1; overflow:hidden;}
+.bg img { width:100%}
+
+@media only screen and (min-width: 480px){
+	h1 { top:18%;}
+	h1 img { max-width:640px;}
+	.btns { top:60%;}
+	.bg img { width:100%;}
+	}
+
+@media screen and (max-width: 480px){
+	h1 { top:12%;}	
+	.btns { top:50%; width:180px;margin-left:-90px;}
+	.btns a img { width:180px;}
+	}

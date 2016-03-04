@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/team.css?v=1" rel="stylesheet" />
+</head>
+
+<body>
+<div class="steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>新增自有经纪人</label>
+            <input name="username" id="username" type="text" placeholder="输入经纪人名字">
+          </li>
+          <li>
+            <label>经纪人手机</label>
+            <input name="mobile" id="mobile" type="tel" placeholder="输入经纪人手机号">
+          </li>
+        </ul>
+      </section>
+      <section class="se_btn"><a href="javascript:;" class="BTNs half J_add_aubmit">确定</a><a href="javascript:history.go(-1)" class="BTNs cancel half">取消</a></section>
+    </section>
+  </div>
+</div>
+
+<include file="public:footer" />
+<script type="text/javascript">
+	$(function(){
+    $('.J_add_aubmit').click(function(){
+      var username   = $('#username').val();
+      var mobile     = $('#mobile').val();
+      var url        = PINER.root + '/?g=m&m=team&a=team_add';
+      var return_url = PINER.root + '/?g=m&m=team&a=index';
+      if(username==''){      
+        layer.open({
+          content: '请输入经纪人姓名',
+          style: '',
+          time: 1,
+          shade:false,
+          anim:true
+        });
+        return false;
+      }
+
+      if(mobile==''){      
+        layer.open({
+          content: '请输入经纪人手机号码',
+          style: '',
+          time: 1,
+          shade:false,
+          anim:true
+        });
+        return false;
+      }
+      if(!mobile.match(mobile_regex)){ 
+        layer.open({
+          content: '手机号码格式错误!',
+          style: '',
+          time: 1,
+          shade:false,
+          anim:true
+        });
+        return false; 
+     } 
+     $.post(url,{username:username,mobile:mobile},function(result){
+      if(result.status == 1){
+        layer.open({
+          content: result.msg,
+          btn: ['确认'],
+          shadeClose: true,
+          yes: function(){
+            window.location.href=return_url;
+          }
+        });
+        return false; 
+      }else{
+       layer.open({
+          content: result.msg,
+          style: '',
+          time: 1,
+          shade:true, //遮罩层 true,false
+          anim:true //是否动画弹出 true false
+        });
+        return false;
+      }
+    },'json');
+
+
+    });
+  })
+</script>
+</body>
+</html>

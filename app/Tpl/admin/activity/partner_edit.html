@@ -1,0 +1,261 @@
+<include file="public:header" />
+<style>
+	.popup {position:absolute;width:229px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto; z-index:100}
+	.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+	.popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<script type="text/javascript">
+	var PINER = {
+		root: '__ROOT__',
+	};
+</script>
+<div class="subnav">
+	<div class="content_menu ib_a blue line_x">
+		<a class="on" href="{:U('activity/index',array('roleid'=>1,'menuid'=>636))}">
+			<em>活动管理</em>
+		</a>
+		&nbsp;
+		<a href="{:U('activity/partner_add',array('id'=>$id,'roleid'=>1))}">
+			<em>添加合作伙伴</em>
+		</a>
+	</div>
+</div>
+<form id="info_form" action="{:U('activity/partner_edit',array('id'=>$id,'p_id'=>$p_id,'roleid'=>1))}" method="post" >
+	<div class="pad_lr_10">
+		<div class="col_tab">
+			<include file="activity:classification" />
+			<div class="J_panes">
+				<div class="content_list pad_10 ">
+					<table width="100%" cellspacing="0" class="table_form">
+						<tr>
+							<th width="120">合作伙伴名称 :</th>
+							<td>
+								<input type="text" name="name" id="name" value="{$info['name']}" class="input-text" size="30">
+							</td>
+						</tr>
+						<tr>
+							<th>合作伙伴描述 :</th>
+							<td>
+								<textarea name="intro" id="intro" style="width:67%;height:90px;resize:none;" maxlength="255">{$info['intro']}</textarea>
+							</td>
+						</tr>
+						<tr>
+							<th>相关楼盘 :</th>
+							<td style="position:relative;"><input autocomplete="off" type="text" name="pidtitle" id="pidtitle" value="{$propertyInfo.title}" class="input-text input_loupan_search" size="30"/>
+								<div id="J_loupan_name" style="display:none"></div>
+								<input name="pid" id="pid" type="hidden" value="{$info.pid}" />
+							</td>
+						</tr>
+						<tr>
+							<th>红包金额/众筹基数 :</th>
+							<td>
+								<input type="text" name="money" id="money" class="input-text" value="{$info['money']}" size="30">
+							</td>
+						</tr>
+						<tr>
+							<th>领取次数/助力次 :</th>
+							<td>
+								<input type="text" name="number" id="number" class="input-text" value="{$info['number']}" size="30">
+							</td>
+						</tr>
+						<tr>
+							<th>开始时间：</th>
+							<td><input type="text" name="time_start" id="time_start" value="<if condition="$info['time_start'] neq 0">{$info.time_start|date='Y-m-d',###}</if>" class="date" size="12" readonly=""></td>
+						</tr>
+						<tr>
+							<th>结束时间：</th>
+							<td><input type="text" name="time_end" id="time_end" value="<if condition="$info['time_end'] neq 0">{$info.time_end|date='Y-m-d',###}</if>"  class="date" size="12" readonly=""></td>
+						</tr>
+						<tr>
+							<th>合作伙伴icon网站端 :</th>
+							<td>
+								<input readonly type="text" name="icon_web_img" id="icon_web_img" class="input-text fl mr10" size="30" value="{$info.icon_web_img}">
+								<div id="J_upload_web_img" class="upload_btn"><span>{:L('upload')}</span></div>
+								<span class="gray ml10">图片最佳尺寸720*540(不低于480*360)</span>
+							</td>
+						</tr>
+						<tr>
+							<th>合作伙伴icon手机端 :</th>
+							<td>
+								<input readonly type="text" name="icon_mobile_img" id="icon_mobile_img" class="input-text fl mr10" size="30" value="{$info.icon_mobile_img}">
+								<div id="J_upload_mobile_img" class="upload_btn"><span>{:L('upload')}</span></div>
+								<span class="gray ml10">图片最佳尺寸720*540(不低于480*360)</span>
+							</td>
+						</tr>
+						<tr>
+							<th width="120">所属区域 :</th>
+							<td id="select_area" class="select_area"><select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected=""></select><input type="hidden" name="city_id" id="J_city_id" value="" /></td>
+						</tr>
+						<tr>
+							<th>详细地址 :</th>
+							<td><input type="text" name="address" id="address" value="" class="input-text" size="30"></td>
+						</tr>
+						<tr>
+							<th>地图坐标 :</th>
+							<td><input type="text" name="latitude" id="latitude" value="{$info.latitude}" class="input-text" size="30" readonly="">
+								<a id="J_latitude" href="javascript:void(0);">选择经纬度</a>
+							</td>
+						</tr>
+						<tr>
+							<th>是否启用 :</th>
+							<td>
+								<label><input type="radio" name="status" id="status" value='1' class="input-text" size="30" <if condition="$info['status'] eq 1">checked="checked"</if>>&nbsp;是&nbsp;</label>
+								<label><input type="radio" name="status" id="status" value='0' class="input-text" size="30" <if condition="$info['status'] eq 0">checked="checked"</if>>&nbsp;否&nbsp;</label>
+							</td>
+						</tr>
+
+					</table>
+				</div>
+			</div>
+			<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+		</div>
+	</div>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+Calendar.setup({
+	inputField : "time_start",
+	ifFormat   : "%Y-%m-%d",
+	showsTime  : false,
+	timeFormat : "24"
+});
+
+Calendar.setup({
+	inputField : "time_end",
+	ifFormat   : "%Y-%m-%d",
+	showsTime  : false,
+	timeFormat : "24"
+});
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#name").formValidator({onshow:"", onfocus:"请输入合作伙伴名称"}).inputValidator({min:1,onerror:"请输入合作伙伴名称"});
+	$("#intro").formValidator({onshow:"", onfocus:"请输入合作伙伴描述"}).inputValidator({min:1,max:510,onerror:"请输入合作伙伴描述"});
+	$("#money").formValidator({onshow:""}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"price2",datatype:"enum",onerror:"只能填写大于或等于0的正整数"});
+	$("#number").formValidator({onshow:""}).inputValidator({min:1,onerror:"请输入红包金额"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写数字"});
+	$("#icon_web_img").formValidator({onshow:"", onfocus:"请选择图片"}).inputValidator({min:1,onerror:"请选择图片"});
+	$("#icon_mobile_img").formValidator({onshow:"", onfocus:"请选择图片"}).inputValidator({min:1,onerror:"请选择图片"});
+
+	//搜索楼盘
+	$('.input_loupan_search').on('input',function(){
+		var title = $.trim($('#pidtitle').val());
+		var url   = '{:U('hezuo_property/input_search',array('roleid'=>1))}';
+		if(title!=''){
+			$('#J_loupan_name').show();
+			$.post(url,{title:title},function(result){
+				if(result.status == 1){
+					$('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+					$('#J_loupan_name').html(result.data);
+					return false;
+				}else{
+					$.pinphp.tip({content:result.msg, icon:'error'});
+					return false;
+				}
+			},'json');
+		}else{
+			$('#pid').val('').blur();
+			$('#J_loupan_name').hide();
+		}
+	});
+
+	//选择
+	$('#J_loupan_name > ul > li').live('click',function(){
+		var rel = $(this).attr('rel');
+		var title = $(this).text();
+		$('#pid').val(rel).blur();
+		$('#pidtitle').val(title);
+		$('#J_loupan_name').hide();
+	});
+
+	$('.J_city_select').city_select('请选择');
+	$('#J_latitude').click(function(){
+		var city_id = $('#J_city_id').val();
+		var address = $('#address').val();
+		if(city_id==0 || address==''){
+			$.pinphp.tip({content:'请选择所属区域和详细地址', icon:'error'});
+			return false;
+		}
+		var delimg_url = "{:U('property/latitude',array('roleid'=>1,'city_id'=>'"+city_id+"','address'=>'"+address+"'))}";
+		var i = $.layer({
+			type:2,
+			area: ['950px', '636px'],
+			title: '选择经纬度',
+			//closeBtn: false,//是否显示关闭按钮
+			iframe:{src: delimg_url},
+			moveOut: true,
+			fix: false,
+			offset : ['100px','']
+		});
+	});
+
+	//上传图片
+	var img_uploader = new qq.FileUploaderBasic({
+		allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+		button: document.getElementById('J_upload_web_img'),
+		multiple: false,
+		action: "{:U('activity/ajax_upload_img')}",
+		inputName: 'img',
+		forceMultipart: true, //用$_FILES
+		messages: {
+			typeError: lang.upload_type_error,
+			sizeError: lang.upload_size_error,
+			minSizeError: lang.upload_minsize_error,
+			emptyError: lang.upload_empty_error,
+			noFilesError: lang.upload_nofile_error,
+			onLeave: lang.upload_onLeave
+		},
+		showMessage: function(message){
+			$.pinphp.tip({content:message, icon:'error'});
+		},
+		onSubmit: function(id, fileName){
+			$('#J_upload_web_img').addClass('btn_disabled').find('span').text(lang.uploading);
+		},
+		onComplete: function(id, fileName, result){
+			$('#J_upload_web_img').removeClass('btn_disabled').find('span').text(lang.upload);
+			if(result.status == '1'){
+				$('#icon_web_img').val(result.data);
+			} else {
+				$.pinphp.tip({content:result.msg, icon:'error'});
+			}
+		}
+	});
+
+	//上传图片
+	var img_uploader = new qq.FileUploaderBasic({
+		allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+		button: document.getElementById('J_upload_mobile_img'),
+		multiple: false,
+		action: "{:U('activity/ajax_upload_img')}",
+		inputName: 'img',
+		forceMultipart: true, //用$_FILES
+		messages: {
+			typeError: lang.upload_type_error,
+			sizeError: lang.upload_size_error,
+			minSizeError: lang.upload_minsize_error,
+			emptyError: lang.upload_empty_error,
+			noFilesError: lang.upload_nofile_error,
+			onLeave: lang.upload_onLeave
+		},
+		showMessage: function(message){
+			$.pinphp.tip({content:message, icon:'error'});
+		},
+		onSubmit: function(id, fileName){
+			$('#J_upload_mobile_img').addClass('btn_disabled').find('span').text(lang.uploading);
+		},
+		onComplete: function(id, fileName, result){
+			$('#J_upload_mobile_img').removeClass('btn_disabled').find('span').text(lang.upload);
+			if(result.status == '1'){
+				$('#icon_mobile_img').val(result.data);
+			} else {
+				$.pinphp.tip({content:result.msg, icon:'error'});
+			}
+		}
+	});
+});
+
+</script>
+</body>
+</html>

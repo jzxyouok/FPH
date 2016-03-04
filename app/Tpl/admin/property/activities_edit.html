@@ -1,0 +1,136 @@
+<include file="public:header" />
+<script type="text/javascript">
+    //上传图片
+    var timestamp='{$time}',
+        token = '{$time | md5}',
+        uploader = '{:U('admin/upload/uploadify')}',
+        uploadLimit = 20,
+        static = '__STATIC__',
+        thumbMaxWidth = '{$thumbMaxWidth}',
+        thumbSuffix   = '{$thumbSuffix}';
+    var PINER = {
+        root: '__ROOT__',
+    };
+</script>
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('menuid'=>298,'roleid'=>1))}">
+        <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a  href="javascript:history.go(-1);">
+        <em>返回</em>
+        </a>
+    </div>
+</div>
+<form id="info_form" action="{:u('article/edit',array('pid'=>$id,'roleid'=>1))}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        </ul>
+        <div class="J_panes">
+            <div class="content_list pad_10 ">
+                <table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">{:L('article_cateid')} :</th>
+                        <td><select class="J_cate_select mr10" data-pid="0" data-uri="{:U('article_cate/ajax_getchilds',array('roleid'=>1))}" data-selected="{$selected_ids}"></select>
+                            <input type="hidden" name="cate_id" id="J_cate_id" value="{$info.cate_id}" /></td>
+                    </tr>
+                    <tr>
+                        <th>活动标题 :</th>
+                        <td><input type="text" name="title" id="title" class="input-text" size="60" value="{$info.title}"></td>
+                    </tr>
+                    <tr>
+                        <th>相关楼盘 :</th>
+                        <td style="position:relative;">
+                            <input type="text" readonly="readonly" value="{$property['title']}" class="input-text" size="30">
+                            <input type="hidden" name="pid" id="pid" value="{$property['id']}" class="input-text" size="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="120">活动地区 :</th>
+                        <td><select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected="{$selected_ids_city}"></select><input type="hidden" name="city_id" id="J_city_id" value="{$info.city_id}" /></td>
+                    </tr>
+                    <tr>
+                        <th>{:L('author')} :</th>
+                        <td><input type="text" name="author" class="input-text" size="30" value="{$info.author}"></td>
+                    </tr>
+                    <tr>
+                        <th>开始时间 :</th>
+                        <td>
+                        <input type="text" name="time_start" id="time_start" class="date" size="20" readonly="" value="{$info.time_start|date='Y-m-d H:i',###}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>结束时间 :</th>
+                        <td><input type="text" name="time_end" id="time_end" class="date" size="20" readonly="" value="{$info.time_end|date='Y-m-d H:i',###}"></td>
+                    </tr>
+                    <tr>
+                        <th>咨询电话 :</th>
+                        <td><input type="text" name="tel" id="tel" class="input-text" size="30" value="{$info.tel}"></td>
+                    </tr>
+                    <tr>
+                        <th>报名 :</th>
+                        <td>
+                            <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> {:L('no')}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{:L('article_img')} :</th>
+                        <td>
+                        <notempty name="info['img']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach(get_thumb($info['img'], ''), 'article')}"><img src="{:attach(get_thumb($info['img'], ''), 'article')}" width="100" /></span><br /></notempty>
+                        <input type="file" name="img" class="input-text"  style="width:200px;" />
+                        <font color="#999999">&nbsp;图片最佳尺寸720*540(不低于480*360)</font>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>详细内容 :</th>
+                        <td><textarea name="info" id="info" style="width:80%;height:400px;">{$info.info}</textarea></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$('.J_cate_select').cate_select('请选择');
+$('.J_city_select').city_select('请选择');
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d %H:%M",
+    showsTime  : true,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d %H:%M",
+    showsTime  : true,
+    timeFormat : "24"
+});
+$(function() {
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#J_city_id").formValidator({onshow:"",onfocus:"请选择活动地区"}).inputValidator({min:1,onerror:"请选择活动地区"}).regexValidator({regexp:"intege",datatype:"enum",onerror:"请选择活动地区"});
+    $("#J_cate_id").formValidator({onshow:"",onfocus:"请选择所属分类"}).inputValidator({min:1,onerror:"请选择所属分类"});
+    $("#title").formValidator({onshow:"",onfocus:lang.please_input+"活动标题"}).inputValidator({min:1,onerror:lang.please_input+"活动标题"});
+
+    $("#time_start").formValidator({onshow:"",onfocus:"请输入开始时间"}).inputValidator({min:3,onerror:"请输入开始时间"});
+    $("#time_end").formValidator({onshow:"",onfocus:"请输入结束时间"}).inputValidator({min:3,onerror:"请输入结束时间"});
+    //$("#J_img").formValidator({onshow:'请上传图片',onfocus:'请上传图片'}).inputValidator({min:1,onerror:'请上传图片'});
+
+    $("#info").formValidator({onshow:"",onfocus:lang.please_input+"详细内容",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,onerror:"请认真输入详细内容"});
+
+});
+</script>
+</body>
+</html>

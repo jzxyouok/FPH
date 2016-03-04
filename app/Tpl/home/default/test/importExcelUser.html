@@ -1,0 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>导入excel</title>
+</head>
+
+<body>
+<form action="{:U('home/test/importExcelUser')}" enctype="multipart/form-data" method="post" name="uploadfile">
+   选择需要导入的表格： <input type="hidden" name="leadExcel" value="true">
+   <div><input type="file" class="input-text"  style="width:200px;" name="inputExcel"></div>
+   <div><input type="text" maxlength="30" size="25" name="pid"></div>
+   <input type="submit" name="search" class="btn" value="导入数据" />
+</form>
+</body>
+</html>

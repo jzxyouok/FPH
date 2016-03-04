@@ -1,0 +1,113 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" action="{:U('giftbag/add')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">礼包类型 :</th>
+                        <td>
+                            <select name="type" id="type">
+                                <option value="0">请选择</option>
+								<volist name ="giftBagTypeList" id="vo">
+									<option value="{$key}">{$vo}</option>
+								</volist>
+                            </select>
+                        </td>
+                    </tr>
+					<tr class="remark-t">
+						<th width="80" >备注 :</th>
+						<td><input type="text" name="remark" id="remark" class="input-text" size="30" maxlength="8"></td>
+					</tr>
+                    <tr>
+                        <th>路费补贴 :</th>
+                        <td><input type="text" name="trip" id="trip" class="input-text" size="30" maxlength="8"> 元/人</td>
+                    </tr>
+					<tr>
+						<th>购房基金 :</th>
+						<td><input type="text" name="fund" id="fund" class="input-text" size="30" maxlength="8"> 元/人</td>
+					</tr>
+					<tr>
+						<th>相关楼盘 :</th>
+						<td><input type="text" name="pid" id="pid" class="input-text" size="30" > 请输入路盘id,多个楼盘用逗号分割</td>
+					</tr>
+					<tr class="invit-t">
+						<th class="invit-t">邀请人数 :</th>
+						<td><input type="text" name="invitation" id="invitation" class="input-text invit-t" size="30" maxlength="8"></td>
+					</tr>
+					<tr>
+						<th>发放人数 :</th>
+						<td><input type="text" name="planissue" id="planissue" class="input-text" size="30" maxlength="8"></td>
+					</tr>
+					<tr>
+						<th>开始时间 :</th>
+						<td><input type="text" name="time_start" id="time_start" class="date" size="20" readonly=""></td>
+					</tr>
+					<tr>
+						<th>结束时间 :</th>
+						<td><input type="text" name="time_end" id="time_end" class="date" size="20" readonly=""></td>
+					</tr>
+					<tr>
+						<th>状态 :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1"> 有效</label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" checked="checked"> 无效</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d %H:%M:%S",
+    showsTime  : true,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d %H:%M:%S",
+    showsTime  : true,
+    timeFormat : "24"
+});
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#type").formValidator({onshow:"请选择礼包类型",onfocus:"请选择礼包类型"}).inputValidator({min:1,onerror:"请选择礼包类型"});
+	$("#trip").formValidator({onshow:"请输入路费补贴金额",onfocus:"请输入路费补贴金额"}).inputValidator({min:1,onerror:"请输入路费补贴金额"}).regexValidator({regexp:"num6",datatype:"enum",onerror:"只能填写大于等于0的数字"});
+	$("#fund").formValidator({onshow:"请输入购房基金金额",onfocus:"请输入购房基金金额"}).inputValidator({min:1,onerror:"请输入购房基金金额"}).regexValidator({regexp:"num6",datatype:"enum",onerror:"只能填写大于等于0的数字"});
+	$("#planissue").formValidator({onshow:"请输入计划发放数量",onfocus:"请输入计划发放数量"}).inputValidator({min:0,onerror:"请输入计划发放数量"}).regexValidator({regexp:"num6",datatype:"enum",onerror:"只能填写大于等于0的数字"});
+    $("#time_start").formValidator({onshow:"请输入开始时间",onfocus:"请输入开始时间"}).inputValidator({min:3,onerror:"请输入开始时间"});
+    $("#time_end").formValidator({onshow:"请输入结束时间",onfocus:"请输入结束时间"}).inputValidator({min:3,onerror:"请输入结束时间"});
+	$(".remark-t, .invit-t").hide();
+	$("#type").on("change",function(){
+		var val=$(this).val();
+		if(val==2){
+			$(".invit-t").show();
+			$(".remark-t").hide();
+		}
+		else if(val==3 || val==4){
+			$(".invit-t").hide();
+			$(".remark-t").show();
+		}
+
+		else{
+			$(".remark-t, .invit-t").hide();
+		}
+	});
+});
+</script>
+</body>
+</html>

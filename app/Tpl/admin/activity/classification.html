@@ -1,0 +1,6 @@
+<ul class="J_tabs tab_but cu_li">
+	<a href="{:u('activity/edit', array('id'=>$id,'menuid'=>636))}"><li <if condition="$type eq edit">class="current"</if>>{:L('article_basic')}</li></a>
+    <a href="{:u('activity/partner_list', array('id'=>$id))}"><li <if condition="$type eq partner_list">class="current"</if>>合作伙伴</li></a>
+    <a href="{:u('activity/sign_list', array('id'=>$id,'menuid'=>636))}"><li <if condition="$type eq sign_list">class="current"</if>>报名列表</li></a>
+    <a href="{:u('activity/action', array('id'=>$id,'menuid'=>636))}"><li <if condition="$type eq action">class="current"</if>>活动人数</li></a>
+</ul>

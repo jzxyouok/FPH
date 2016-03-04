@@ -1,0 +1,171 @@
+<include file="public:header" />
+<!--路费提现-->
+<div class="pad_lr_10" >
+    <form name="searchform" id="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="withdraw_cash" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                客户姓名：
+                <input name="username" type="text" class="input-text" size="25" value="{$search.username}" maxlength="20" />
+                &nbsp;&nbsp;手机号码：
+                <input name="mobile" type="text" class="input-text" size="25" value="{$search.mobile}" maxlength="11" />
+                &nbsp;&nbsp;帐号：
+                <input name="account" type="text" class="input-text" size="25" value="{$search.account}" maxlength="30" />
+                &nbsp;&nbsp;帐号姓名：
+                <input name="name" type="text" class="input-text" size="25" value="{$search.name}" maxlength="5" />
+                &nbsp;&nbsp;账号类型:
+                <select name="account_type">
+                    <option value="">-{:L('all')}-</option>
+                    <option value="1" <if condition="$search.account_type eq '1'">selected="selected"</if>>支付宝</option>
+                    <option value="2" <if condition="$search.account_type eq '2'">selected="selected"</if>>银行卡</option>
+                </select>
+                &nbsp;&nbsp;{:L('status')}: 
+                <select name="status">
+                    <option value="">-{:L('all')}-</option>
+                    <option value="1" <if condition="$search.status eq '1'">selected="selected"</if>>已申请</option>
+                    <option value="2" <if condition="$search.status eq '2'">selected="selected"</if>>已打款</option>
+                    <option value="3" <if condition="$search.status eq '3'">selected="selected"</if>>打款失败</option>
+                    <option value="4" <if condition="$search.status eq '4'">selected="selected"</if>>延迟打款</option>
+                </select>
+                &nbsp;&nbsp;申请时间：
+                <input type="text" name="add_time_start" id="add_time_start" class="date" size="12" autocomplete="off" value="{$search.add_time_start}">
+                -
+                <input type="text" name="add_time_end" id="add_time_end" class="date" size="12" autocomplete="off" value="{$search.add_time_end}">
+                &nbsp;&nbsp;打款时间：
+                <input type="text" name="pay_time_start" id="pay_time_start" class="date" size="12" autocomplete="off" value="{$search.pay_time_start}">
+                -
+                <input type="text" name="pay_time_end" id="pay_time_end" class="date" size="12" autocomplete="off" value="{$search.pay_time_end}">
+                <input type="button" name="search" class="btn search_btn" value="{:L('search')}" />
+                <input type="button" name="search" class="btn export_but" value="导出数据" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('article/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+               <!-- <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>-->
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th align="left">客户姓名</th>
+                <th>手机号码</th>
+                <th>城市</th>
+                <th>提现金额</th>
+                <th>帐号类型</th>
+                <th align="left">帐号</th>
+                <th align="left">帐号姓名</th>
+				<th>申请时间</th>
+				<th>打款时间</th>
+                <th>客户状态</th>
+                <th align="left">禁用理由</th>
+				<th>状态</th>
+                <th>是否异常</th>
+                <th width="100">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <!--<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>-->
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.username}</td>
+                <td align="center">{$val.mobile}</td>
+                <td align="center">{$val.province_name} {$val.city_name}</td>
+                <td align="center">{$val.money}</td>
+				<td align="center"><if condition="$val['account_type'] eq 1">支付宝<else/>银行卡</if></td>
+                <td align="left">{$val.account}</td>
+                <td align="left">{$val.name}</td>
+				<td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+				<td align="center"><notempty name="val['pay_time']">{$val.pay_time|date='Y-m-d H:i',###}<else/>-</notempty></td>
+                <td align="center">
+                    <switch name="val['member_status']">
+                        <case value="0"><span style="color: #ff0000">禁用</span></case>
+                        <case value="1">正常</case>
+                        <case value="2"><span style="color: #ff0000">删除</span></case>
+                        <case value="3"><span style="color: #006600">预注册</span></case>
+                    </switch>
+                </td>
+                <td align="left"><if condition="$val['disable_reasons'] neq ''">{$val['disable_reasons']|msubstr=0,10,'utf-8',true}<else/>-</if></td>
+                <td align="center">
+                    <switch name="val['status']">
+                        <case value="1">已申请</case>
+                        <case value="2"><span style="color: #006600">已打款</span></case>
+                        <case value="3"><span style="color: #ff0000">打款失败</span></case>
+                        <case value="4"><span style="color: #d35605">延迟打款</span></case>
+                    </switch>
+                </td>
+                <td align="center">
+                    {$val['isNormal']}
+                </td>
+                <td align="center">
+                    <a href="{:u('withdraw_cash/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">打款</a> |
+                    <a href="{:u('member/edit', array('id'=>$val['uid'], 'menuid'=>562))}">客户资料</a>
+
+                </td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <!--<label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />-->
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+Calendar.setup({
+    inputField : "add_time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "add_time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "pay_time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "pay_time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+$(function(){
+    $('.search_btn').click(function(){
+        $('input[name="a"]').val('index');
+        $('#searchform').submit();
+        return false;
+    });
+    $('.export_but').click(function(){
+        $('input[name="a"]').val('export');
+        $('#searchform').submit();
+        return false;
+    });
+})
+</script>
+</body>
+</html>

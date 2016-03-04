@@ -1,0 +1,306 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" action="{:U('weixin_lottery_set/edit')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+		            <tr>
+						<th>一等奖 :</th>
+						<td><input type="text" name="one" id="one" class="input-text" size="30" value="{$info.one}"></td>
+					</tr>
+					<tr>
+						<th>{:L('article_img')} :</th>
+						<td>
+							<input name="one_img" id="J_img" type="hidden" value="{$info.one_img}" />
+                            <div class="img_border" id="img_data">
+                                <notempty name="info['one_img']">
+                                    <ul>
+                                        <li><img src="./data/upload/jiangpin/{$info.one_img}"></li>
+                                        <li><a href="javascript:;" class="del_img">删除</a></li>
+                                    </ul>
+                                </notempty>
+                            </div>
+                            <div id="J_upload_img" class="upload_btn" <notempty name="info['one_img']">style="display:none"</notempty>><span>{:L('upload')}</span></div>
+						</td>
+		 			</tr>
+		            <tr>
+						<th>二等奖 :</th>
+						<td><input type="text" name="two" id="two" class="input-text" size="30" value="{$info.two}"></td>
+					</tr>
+					<tr>
+						<th>{:L('article_img')} :</th>
+						<td>
+							<input name="two_img" id="J_img_two" type="hidden" value="{$info.two_img}" />
+                            <div class="img_border" id="img_data_two">
+                                <notempty name="info['two_img']">
+                                    <ul>
+                                        <li><img src="./data/upload/jiangpin/{$info.two_img}"></li>
+                                        <li><a href="javascript:;" class="del_img">删除</a></li>
+                                    </ul>
+                                </notempty>
+                            </div>
+                           <div id="J_upload_img_two" class="upload_btn" <notempty name="info['two_img']">style="display:none"</notempty>><span>{:L('upload')}</span></div>
+						</td>
+		 			</tr>
+					<tr>
+						<th>三等奖 :</th>
+						<td><input type="text" name="three" id="three" class="input-text" size="30" value="{$info.three}"></td>
+					</tr>
+					<tr>
+						<th>{:L('article_img')} :</th>
+						<td>
+							<input name="three_img" id="J_img_three" type="hidden" value="{$info.three_img}" />
+                            <div class="img_border" id="img_data_three">
+                                <notempty name="info['three_img']">
+                                    <ul>
+                                        <li><img src="./data/upload/jiangpin/{$info.three_img}"></li>
+                                        <li><a href="javascript:;" class="del_img">删除</a></li>
+                                    </ul>
+                                </notempty>
+                            </div>
+                           <div id="J_upload_img_three" class="upload_btn" <notempty name="info['three_img']">style="display:none"</notempty>><span>{:L('upload')}</span></div>
+						</td>
+		 			</tr>
+					<tr>
+						<th>四等奖 :</th>
+						<td><input type="text" name="four" id="four" class="input-text" size="30" value="{$info.four}"></td>
+					</tr>
+					<tr>
+						<th>{:L('article_img')} :</th>
+						<td>
+							<input name="four_img" id="J_img_four" type="hidden" value="{$info.four_img}" />
+                            <div class="img_border" id="img_data_four">
+                                <notempty name="info['four_img']">
+                                    <ul>
+                                        <li><img src="./data/upload/jiangpin/{$info.four_img}"></li>
+                                        <li><a href="javascript:;" class="del_img">删除</a></li>
+                                    </ul>
+                                </notempty>
+                            </div>
+                           <div id="J_upload_img_four" class="upload_btn" <notempty name="info['four_img']">style="display:none"</notempty>><span>{:L('upload')}</span></div>
+						</td>
+		 			</tr>
+					<tr>
+						<th>活动说明 :</th>
+						<td>
+							<textarea id="info" style="width:50%;height:90px;resize:none;" name="info">{$info.info}</textarea>
+						</td>
+		 			</tr>
+					<tr>
+						<th>开始时间 :</th>
+						<td><input type="text" name="time_start" id="time_start" class="date" size="20" readonly="" value="{$info.time_start|date='Y-m-d',###}"></td>
+					</tr>
+					<tr>
+						<th>结束时间 :</th>
+						<td><input type="text" name="time_end" id="time_end" class="date" size="20" readonly="" value="{$info.time_end|date='Y-m-d',###}"></td>
+					</tr>
+		            
+					<tr>
+						<th>{:L('publish')} :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" checked="checked"> {:L('yes')} </label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0"> {:L('no')}</label>
+						</td>
+					</tr>
+                   
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : true,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : true,
+    timeFormat : "24"
+});
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#one").formValidator({onshow:lang.please_input+"一等奖奖品名称",onfocus:lang.please_input+"一等奖奖品名称"}).inputValidator({min:1,onerror:lang.please_input+"一等奖奖品名称"});
+	$("#J_img").formValidator({onshow:'请上传图片',onfocus:'请上传图片'}).inputValidator({min:1,onerror:'请上传图片'});
+	$("#time_start").formValidator({onshow:lang.please_input+"开始时间",onfocus:lang.please_input+"开始时间"}).inputValidator({min:1,onerror:lang.please_input+"开始时间"});
+	$("#time_end").formValidator({onshow:lang.please_input+"结束时间",onfocus:lang.please_input+"结束时间"}).inputValidator({min:1,onerror:lang.please_input+"结束时间"});
+	$("#info").formValidator({onshow:lang.please_input+"活动说明",onfocus:lang.please_input+"活动说明"}).inputValidator({min:1,onerror:lang.please_input+"活动说明"});
+	
+	//上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('weixin_lottery_set/ajax_upload_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_upload_img').hide();
+                $('#J_img').val(result.data);
+                $('#J_img').blur();
+                $('#img_data').html('<ul><li><img src="./data/upload/jiangpin/'+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+	
+	//上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img_two'),
+        multiple: false,
+        action: "{:U('weixin_lottery_set/ajax_upload_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img_two').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img_two').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_upload_img_two').hide();
+                $('#J_img_two').val(result.data);
+                $('#J_img_two').blur();
+                $('#img_data_two').html('<ul><li><img src="./data/upload/jiangpin/'+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+	
+	//上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img_three'),
+        multiple: false,
+        action: "{:U('weixin_lottery_set/ajax_upload_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img_three').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img_three').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_upload_img_three').hide();
+                $('#J_img_three').val(result.data);
+                $('#J_img_three').blur();
+                $('#img_data_three').html('<ul><li><img src="./data/upload/jiangpin/'+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+	//上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img_four'),
+        multiple: false,
+        action: "{:U('weixin_lottery_set/ajax_upload_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img_four').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img_four').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_upload_img_four').hide();
+                $('#J_img_four').val(result.data);
+                $('#J_img_four').blur();
+                $('#img_data_four').html('<ul><li><img src="./data/upload/jiangpin/'+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+	
+	//删除图片
+    $('.del_img').live('click',function(){
+        var img_path = $(this).parent().prev().children().attr('src');
+        var delimg_url = '{:U('weixin_lottery_set/del_img',array('roleid'=>1))}';
+		var th = $(this);
+        $.post(delimg_url,{img_path:img_path},function(result){
+            if(result.status == 1){
+				th.parents('.img_border').prev('input').val('');
+				th.parents('.img_border').next('div').show();
+				th.parents('.img_border').prev('input').focus();
+				th.parents('.img_border').html('');
+                return false;
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+                return false;
+            }
+        },'json');
+    });
+	
+});
+</script>
+</body>
+</html>

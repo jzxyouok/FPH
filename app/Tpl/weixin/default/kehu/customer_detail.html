@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:new_head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/customer.css" rel="stylesheet" />
+</head>
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME gray">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+    <a href="tel:{$info.property_info.tel}" class="gotolist nobg">咨询案场</a> </header>
+  <section class="scroll_body">
+    <div class="customer_info">
+      <a href="tel:{$user['mobile']}" class="tel_img"></a>
+      <span class="name">{$user['name']} {$user['mobile']}</span> <span class="info">{$info.property_info.title} ｜ 每套{$info.property_info.list_price|default='0元'}起</span> </div>
+    <label class="FORM_LABEL">报备详情</label>
+    <section class="links_list">
+      <section class="blocks">
+        <ul class="display_list customer">
+            <volist name="list" id="val">
+            <if condition="$val['status'] eq 1">
+            <li>
+              <div class="ring_status">报备</div>
+                <p>您报备了{$user['name']}，带看{$info.property_info.title}</p>
+                <notempty name='val.info'><p>备注：{$val.info}</p></notempty>
+                <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+            </li>
+           </if>
+           <!--  <if condition="$val['status'] eq 2">
+            <li>
+              <if condition="$val['status_cid'] eq 1">
+              <div class="ring_status">邀约</div>
+                <p>已与您确认到访时间为{$val.visit_time|date='Y-m-d',###} {$val.info}</p>
+                <notempty name='val.info'><p>备注：{$val.info}</p></notempty>
+
+               <empty name='val.add_time'><time>时间未登记</time></empty>
+               <notempty name='val.add_time'><time>{$val.add_time|date='Y-m-d H:i',###}</time></notempty>
+            <else/>
+            <div class="ring_status disabled">失败</div>
+             <p> 邀约失败，{$val.info}</p>
+             <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+            </if>
+            </li>
+           </if> -->
+           <if condition="$val['status'] eq 3">
+            <li>
+              <if condition="$val['status_cid'] eq 1">
+              <div class="ring_status">确认</div>
+                <p>开发商已确认客户有效，请尽快到访</p>
+                <notempty name='val.info'><p>备注：{$val.info}</p></notempty>
+            <else/>
+            <div class="ring_status disabled">失败</div>
+             <p>开发商拒绝客户，{$val.info}</p>
+            </if>
+              <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+            </li>
+           </if>
+           <if condition="$val['status'] eq 4">
+            <li>
+              <if condition="$val['status_cid'] eq 1">
+              <div class="ring_status">到访</div>
+                <notempty name='val.info'><p>备注：{$val.info}</p></notempty>
+            <else/>
+              <div class="ring_status disabled">失败</div>
+              <notempty name='val.info'><p>{$val.info}</p></notempty>
+            </if>
+            <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+            </li>
+           </if>
+
+           <if condition="$val['status'] eq 5">
+            <li>
+              <if condition="$val['status_cid'] eq 1">
+              <div class="ring_status">意向</div>
+              <p>客户已支付{$val.intention_price}元意向金</p>
+              <elseif condition="$val['status_cid'] eq 2"/>
+              <div class="ring_status">团购</div>
+              <p>可与已参加了5万抵10万的团购活动</p>
+            <else/>
+              <div class="ring_status disabled">失败</div>
+              <notempty name='val.info'><p>{$val.info}</p></notempty>
+            </if>
+            <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+            </li>
+           </if>
+
+          <if condition="$val['status'] eq 6">
+            <li>
+              <if condition="$val['status_cid'] eq 1">
+              <div class="ring_status">定金</div>
+                 <volist name="listliu['deposit']" key='k' id="v" >
+                   <p>已支付{$v}元定金</p>
+                  <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+                  </volist>
+            <else/>
+              <div class="ring_status disabled">退款</div>
+               <if condition="$val['zhongzhi'] eq 1">
+                <p>客户申请退回意向金</p>
+                 <else/>
+                <p>客户申请退回团购费</p>
+                </if>
+              <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+            </if>
+            </li>
+           </if>  
+            <if condition="$val['status'] eq 7">
+            <li>
+            <div class="ring_status">成交</div>
+            <p>{$endlist['info']}</p>
+            <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+            </li>
+           </if>  
+          <!--  <if condition="$val['status'] eq 7">
+            <li>
+              <if condition="$val['status_cid'] eq 1">
+              <div class="ring_status">成交</div>
+              <p>{$endlist['info']}</p>
+            <else/>
+              <div class="ring_status disabled">失败</div>
+              <p>成交失败</p>
+            </if>
+            <empty name='val.add_time'><time>时间未登记</time></empty>
+            <notempty name='val.add_time'><time>{$val.add_time|date='Y-m-d H:i',###}</time></notempty>
+            </li>
+           </if>   -->
+            <if condition="$val['status'] eq 8">
+            <li>
+              <div class="ring_status">违约</div>
+              <p>{$val['info']}</p>
+              <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+            </li>
+           </if>  
+           <if condition="$val['status'] eq 9">
+            <li>
+              <div class="ring_status">无效</div>
+              <p>{$val['info']}</p>
+              <time>{$val.add_time|date='Y-m-d H:i',###}</time>
+            </li>
+           </if>  
+        </volist>
+        </ul>
+      </section>
+    </section>
+  </section>
+</div>
+<!----------------------------------------------------------------------------------------------------------------------------> 
+<include file="public:footer_4_0" />
+<script type="text/javascript">
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html style="background-color:#eee;">
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/team.css?v=1" rel="stylesheet" />
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+    <a href="{:U('weixin/garrison/edit')}" class="gotolist">设置驻守楼盘<i></i></a>
+  </header>
+  <section class="scroll_body">
+  	<div class="bg_eee p_tb_15">
+    <h2 class="all_title p_tb_10 p_l_10">我的驻守楼盘</h2>
+    
+    <ul class="premises_list">
+	<empty name="list"><li>暂无驻守楼盘</li></empty>
+      <volist name="list" id="vo">
+        <li><a href="{:U('weixin/loupan/detail',array('id'=>$vo['id'],'select_city'=>$search['select_city'],'select_name'=>$search['select_name']))}">
+          <figure><if condition="$vo.pid eq 1"><i></i></if> <img src="__STATIC__/css/default/weixin/images_4_0/sample/1.jpg" ></figure>
+          <section class="detail">
+            <h3>{$vo.title}</h3>
+            <span class="region">{$vo.area} 30000/平米</span>
+            <if condition="$vo['prefer'] neq ''">
+              <span class="price">优惠：{$vo.prefer}</span>
+            </if>
+          </section>
+          <if condition="$vo.list_price eq ''">
+            <section class="status"><span class="unit">暂无佣金</span></section>
+          <else/>
+            <section class="status"> <i class="PREMISES_STATUS">佣</i> <span class="deposit">{$vo.list_price}起</span> <span class="unit">每套</span> </section>
+          </if>
+          </a>
+        </li>
+		
+      </volist>
+    </ul>        
+        
+    </div>
+  </section>
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!doctype html>
+<html> <!--Moo修改-->
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/lottery.css">
+<script type="text/javascript">
+var send_url = '{:U('weixin/lottery/send_sms')}';
+var send_code = {$send_code};
+var iTime = 59;
+var Account;
+</script>
+</head>
+<body>
+<!--加载遮罩层-->
+<div class="gray_cover"></div>
+<div class="loading">正在加载，请稍后......</div>
+<div class="share share_hide"><img src="__STATIC__/css/default/weixin/images_4_0/lottery/share.png"></div>
+<!--加载遮罩层-->
+
+<section class="TOPS"> <img src="__STATIC__/css/default/weixin/images_4_0/lottery/top_bg.jpg"></section>
+<section class="main_body">
+	<empty name="lottery_count">
+		<div class="J_qq_button" <if condition="$uid eq '' OR $subscribe eq 0">style="display:none"</if>>
+			<h1>“都说是抢钱了，最高奖金必须嗨到100元”</h1>
+				<div class="ATM_machine">
+					<a href="javascript:;" class="btn_go J_click_button"><img src="__STATIC__/css/default/weixin/images_4_0/lottery/cash.png" class="money"></a>
+				</div>
+			<p class="nomargin">抢到的钱以微信红包方式发放给您</p><!--Moo修改-->
+		</div>
+	</empty>
+	
+<input name="openid" id="openid" type="hidden" value="{$openid}">
+<input name="subscribe" id="subscribe" type="hidden" value="{$subscribe}">
+	<if condition="$lottery_count neq 0 AND $uid neq ''">
+		<section class="form_frame">
+			<div class="top">你已经抢过红包！</div>
+			<p>下一波红包马上来！</p>
+			<table class="forms"> 
+				<tr>
+					<td><button class="btn_send share">找朋友来抢</button></td>
+				</tr>     
+			</table>
+		</section>
+  	</if>
+	<section class="form_frame J_success_morey" style="display:none">
+		<div class="top">恭喜您，红包抢到了！</div>
+		<p>你抢到红包<span class="J_morey">0</span>元，赶快去拆红包了！</p>
+		<table class="forms"> 
+			<tr>
+				<td><button class="btn_send share">找朋友来抢</button></td>
+			</tr>     
+		</table>
+	</section>
+	<if condition="$subscribe eq 0 AND ($uid eq '' OR $uid neq '')">
+		<h1>“不关注就不能发微信红包，这是真的”</h1>
+		<div class="qrcode"> <img src="__STATIC__/css/default/weixin/images_4_0/qrcode.jpg"> <span>长按二维码也能关注哦</span></div>
+		<a href="http://mp.weixin.qq.com/s?__biz=MzA3MjY2MTkyNw==&mid=204123876&idx=1&sn=7acd844f35e87d6ee2bd9b8c6d5aea3d#rd" class="btn_follow"><i></i>关注后抽奖</a>
+		<p class="nomargin">据调查，99%的聪明人此时选择前去关注</p>
+	</if>
+  <if condition="$uid eq '' AND $subscribe eq 1">
+	  <section class="form_frame J_login_html">
+		<div class="top show_money">“不登录就不能发微信红包，这也是真的”</div>
+		<table class="forms">
+		  <tr>
+			<td><input type="tel" maxlength="11" name="mobile" id="mobile" placeholder="输入手机号"></td>
+		  </tr>
+		  <tr>
+			<td>
+			  <input class="btn_send code" id="zphone" type="button" value="发送验证码 " onClick="get_mobile_code_hongbao();">
+			  <input name="mobile_code" id="mobile_code"  type="tel" maxlength="6" placeholder="验证码" class="short hongbao_code"></td>
+		  </tr>
+		  <tr>
+			<td>
+			  <a href="javascript:;" class="btn_tryagain J_lottery_one">去抢钱</a>
+			  <input type='hidden' value='0' class='is_disab'>
+			  </td>
+		  </tr>
+		</table>
+	  </section>
+  </if>
+</section>
+<footer>
+  <mark>本活动最终解释权归房品汇所有</mark>
+</footer>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+	$('.gray_cover').hide();
+	$('.loading').hide();
+	
+	//底部横底部
+	var $windowHeight = $(window).height()
+	var $bodyHeight = $('body').height();
+	if($bodyHeight < $windowHeight) {
+		$('body').height($windowHeight);
+		$('footer').css({
+			'position': 'fixed',
+			'bottom': '0'
+		});
+	}
+});
+$(function(){
+	$('.share').click(function(e){
+		$('.gray_cover').show();
+		$('.share').show();
+	});
+
+//end	
+})
+
+
+<if condition="$uid eq ''">
+/*
+*发送手机验证码
+*@param send_url
+*@param send_code
+*Author CH-L
+*/
+function get_mobile_code_hongbao(){
+  var mobile = $.trim($('#mobile').val());
+  if(mobile==''){
+    layer.open({
+      content: '请输入手机号码',
+      style: '',
+      time: 1,
+      shade:false,
+      anim:true
+    });
+    return false;
+  }
+   if(!mobile.match(mobile_regex)){ 
+    layer.open({
+      content: '手机号码格式不正确！请重新输入！',
+      style: '',
+      time: 1,
+      shade:false,
+      anim:true
+    });
+    return false; 
+   } 
+  $('#zphone').val('请等待...');
+  $.post(send_url, {mobile:mobile,send_code:send_code}, function(result) {
+    if(result.status==1){
+		//$('#mobile_code').val(result.data);
+		//$('.btn_tryagain').attr('class','btn_tryagain J_lottery_one');
+		RemainTime_hongbao();
+    }else{
+		$('#zphone').val('发送验证码');
+		layer.open({
+			content: result.msg,
+			style: '',
+			time: 1,
+			shade:true,
+			anim:true
+		});
+    }
+  },'json');
+};
+/*
+*手机验证码倒计时
+*@param iTime
+*@param Account
+*Author CH-L
+*/
+function RemainTime_hongbao(){
+  document.getElementById('zphone').disabled = true;
+  var iSecond,sSecond="",sTime="";
+  if (iTime >= 0){
+    iSecond = parseInt(iTime%60);
+    iMinute = parseInt(iTime/60)
+    if (iSecond >= 0){
+      if(iMinute>0){
+        sSecond = iMinute + "分" + iSecond + "秒";
+      }else{
+        sSecond =  iSecond + "秒后重新发送";
+      }
+    }
+    sTime=sSecond;
+    if(iTime==0){
+      clearTimeout(Account);
+      sTime='获取手机验证码';
+      iTime = 59;
+      document.getElementById('zphone').disabled = false;
+    }else{
+      Account = setTimeout("RemainTime()",1000);
+      iTime=iTime-1;
+    }
+  }else{
+    sTime='没有倒计时';
+  }
+  document.getElementById('zphone').value = sTime;
+}
+
+$(function(){
+	//去抢钱
+	$('.J_lottery_one').live('click',function(){
+		var mobile      = $.trim($('#mobile').val());
+     	var mobile_code = $.trim($('#mobile_code').val());
+		var url         = PINER.root+'/?g=weixin&m=lottery&a=login_submit';
+		var th          = $(this); 
+		if(!mobile.match(mobile_regex)){ 
+			layer.open({
+				content: '请输入手机号码',
+				style: '',
+				time: 1,
+				shade:false,
+				anim:true
+			});
+			return false; 
+		} 
+		if(mobile_code==''){ 
+			layer.open({
+				content: '请输入验证码',
+				style: '',
+				time: 1,
+				shade:false,
+				anim:true
+			});
+			return false; 
+		} 
+		th.removeClass('J_lottery_one');
+		th.text('正努力奔向钱包...');
+		$.post(url, {mobile:mobile,mobile_code:mobile_code}, function(result) {
+			if(result.status==1){
+				$('.J_login_html').remove();
+				$('.J_qq_button').show();
+			}else{
+				th.addClass('J_lottery_one');
+				th.text('去抢钱');
+				layer.open({
+					content: result.msg,
+					style: '',
+					time: 1,
+					shade:true,
+					anim:true
+				});
+			}
+		},'json');
+	});
+})
+</if>	
+
+
+//点击抢红包
+$(function(){
+	$('.J_click_button').live('click',function(){
+		var url         = PINER.root+'/?g=weixin&m=lottery&a=click_button_qq';
+		var th          = $(this); 
+		th.removeClass('J_click_button');
+		$.post(url, {}, function(result) {
+			if(result.status==1){
+				$('.J_qq_button').remove();
+				$('.J_morey').text(result.data);
+				$('.J_success_morey').show();
+			}else{
+				th.addClass('J_click_button');
+				layer.open({
+					content: result.msg,
+					style: '',
+					time: 2,
+					shade:true,
+					anim:true
+				});
+			}
+		},'json');
+	});
+})
+
+
+//添加分享js
+wx.config({
+    debug: false,
+    appId: '{$jssdk.appId}',
+    timestamp: {$jssdk.timestamp},
+    nonceStr: '{$jssdk.nonceStr}',
+    signature: '{$jssdk.signature}',
+  jsApiList: [
+    // 所有要调用的 API 都要加到这个列表中
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+  ]
+});
+var title = '百元微信红包,你也抢试试!';
+var desc  = '关注房品汇参与抢钱大战,最高100元,微信红包发给你!';
+var link = 'http://www.fangpinhui.com/weixin/lottery/index';
+var imgUrl = "{$url}/static/css/default/weixin/images_4_0/lottery/share.jpg";
+wx.ready(function () {
+  wx.onMenuShareTimeline({
+      title: title, // 分享标题
+  //desc: "分享描述分享描述分享描述分享描述分享描述分享描述", // 分享描述
+      link: link, // 分享链接
+      imgUrl: imgUrl, // 分享图标
+      success: function () { 
+          // 用户确认分享后执行的回调函数
+          $('.gray_cover').hide();
+      $('.share_hide').hide();
+      },
+      cancel: function () { 
+          // 用户取消分享后执行的回调函数
+          $('.gray_cover').hide();
+      $('.share_hide').hide();
+      }
+  });
+  wx.onMenuShareAppMessage({
+      title: title, // 分享标题
+      desc: desc, // 分享描述
+      link: link, // 分享链接
+      imgUrl: imgUrl, // 分享图标
+      type: '', // 分享类型,music、video或link，不填默认为link
+      dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+      success: function () { 
+          // 用户确认分享后执行的回调函数
+          $('.gray_cover').hide();
+      $('.share_hide').hide();
+      },
+      cancel: function () { 
+          // 用户取消分享后执行的回调函数
+          $('.gray_cover').hide();
+      $('.share_hide').hide();
+      }
+  });
+});
+</script>
+</body>
+</html>

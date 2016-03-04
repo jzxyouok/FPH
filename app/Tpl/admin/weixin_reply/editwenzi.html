@@ -1,0 +1,41 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" name="info_form" action="{:U('weixin_reply/edit')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">添加文字消息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+						<th width="120">文字内容 :</th>
+						<td><textarea name="title" id="title" style="width:60%;height:50px;">{$info.title}</textarea></td>
+					</tr>
+					<tr>
+						<th>{:L('publish')} :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> {:L('no')}</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input name="pid" id="pid" type="hidden" value="1" />
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#title").formValidator({onshow:lang.please_input+"文字内容",onfocus:lang.please_input+"文字内容"}).inputValidator({min:1,onerror:lang.please_input+"文字内容"});
+});
+</script>
+</body>
+</html>

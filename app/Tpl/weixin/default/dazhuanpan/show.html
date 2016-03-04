@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head" />
+<link href="__STATIC__/css/default/css/lp_detail.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="content">
+<if condition="$uid neq '' OR $pid neq ''">
+  <div class="toptxt">
+	<if condition="$s_id neq ''">
+		恭喜！你中了<span>
+		<switch name="weixin_lottery['prizetype']" >
+			<case value="1">一等奖，{$weixin_lottery_set.one}</case>
+			<case value="1">二等奖，{$weixin_lottery_set.two}</case>
+			<case value="3">三等奖，{$weixin_lottery_set.three}</case>
+			<case value="4">四等奖，{$weixin_lottery_set.four}</case>
+			<default />
+			</switch>
+		</span>，请于3日内将个人名片、分享截屏信息发送到“房品汇”微信账号领奖。
+	<else/>
+		手机为{$weixin_lottery.mobile}的用户中了
+		<span>
+			<switch name="weixin_lottery['prizetype']" >
+			<case value="1">一等奖，{$weixin_lottery_set.one}</case>
+			<case value="1">二等奖，{$weixin_lottery_set.two}</case>
+			<case value="3">三等奖，{$weixin_lottery_set.three}</case>
+			<case value="4">四等奖，{$weixin_lottery_set.four}</case>
+			<default />
+			</switch>
+		</span>
+	</if>
+</div>
+<div class="btn_guanzhu"><a href="weixin://profile/gh_81b781cc09bf">点击关注我们</a></div>
+</if> 
+  <div class="guize_box">{$info.info}</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="hezuo_property" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                &nbsp;&nbsp;楼盘名称 :
+                <input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('hezuo_property/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+        <thead>
+            <tr>
+                <th width=30>ID</th>
+                <th align="left" width=370>楼盘名称</th>
+                <th align="left" width=370>产品名称</th>
+                <th align="left" width=370>优惠信息</th>
+				<th align="left" width=180>开始时间</th>
+				<th align="left" width=180>结束时间</th>
+                <th width="140">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="hezuo_list" id="val" >
+            <tr class="collapsed">
+                <td align="center">{$val.id}</td>
+                <td align="left"><span <if condition="$val['pid_count'] neq 0">class="expander J_collapsed"</if> style="padding-left:20px" rel="{$val.id}"></span>{$val.title}</td>
+                <td align="left"></td>
+				<td align="left"></td>
+				<td align="left"></td>
+				<td align="left"></td>
+                <td align="center">
+		    <if condition="$val['boll'] eq 0">
+			已删除
+			|<a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('hezuo_property/kaiqi', array('id'=>$val['id'],'roleid'=>1))}" data-msg="是否开启合作楼盘">开启</a>
+		    <elseif condition="$val['boll'] eq 1"/>
+			<a class="J_showdialog" data-height="" data-width="500" data-id="add" data-title="修改楼盘" data-uri="{:u('hezuo_property_product/add', array('id'=>$val['id'],'roleid'=>1))}" href="javascript:;">新增产品</a>
+			| <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('hezuo_property/delete', array('id'=>$val['id'],'roleid'=>1))}" data-msg="是否确定删除楼盘？删除楼盘佣金也会作废">{:L('delete')}</a>
+		    <else />
+			<a class="J_showdialog" data-height="" data-width="500" data-id="add" data-title="修改楼盘" data-uri="{:u('hezuo_property_product/add', array('id'=>$val['id'],'roleid'=>1))}" href="javascript:;">新增产品</a>
+			| <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('hezuo_property/delete', array('did'=>$val['id'],'roleid'=>1))}" data-msg="是否确定删除楼盘？删除楼盘佣金也会作废">{:L('delete')}</a>
+		    </if>
+		</td>
+            </tr>
+		<volist name="val['product']" id="vo" >
+			<tr class="code-{$val.id}" style="display:none">
+			    <td align="center">{$vo.id}</td>
+			    <td align="left" style="padding-left:25px;">└─ </td>
+			    <td align="left">{$vo.name}</td>
+					    <td align="left">{$vo.youhui}</td>
+					    <td align="left">{$vo.start_time|date='Y-m-d H:i:s',###}</td>
+					    <td align="left">{$vo.end_time|date='Y-m-d H:i:s',###}</td>
+			    <td align="center">
+				<a class="J_showdialog" data-height="" data-width="500" data-id="edit" data-title="修改楼盘" data-uri="{:u('hezuo_property_product/edit', array('id'=>$vo['id']))}" href="javascript:;">{:L('edit')}</a>
+				| <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('hezuo_property/delete', array('pid'=>$vo['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a>
+			    </td>
+			</tr>
+		</volist>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page_list}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$(function(){
+	//展开二级菜单
+	$('.J_collapsed').live('click',function(){
+		var id = $(this).attr('rel');
+		$('.code-'+id+'').toggle();
+		$(this).parents('tr').attr('class','expanded');
+		$(this).attr('class','expander J_expanded');
+	})
+	$('.J_expanded').live('click',function(){
+		var id = $(this).attr('rel');
+		$('.code-'+id+'').toggle();
+		$(this).parents('tr').attr('class','collapsed');
+		$(this).attr('class','expander J_collapsed');
+	})
+})
+</script>

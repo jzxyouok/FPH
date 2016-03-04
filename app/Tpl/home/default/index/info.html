@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<css file="__STATIC__/css/default/article.css" />
+</head>
+<body>
+<div class="articel_title">{$info.title}</div>
+<div class="articel_tip">
+	<span>录入时间:{$info.add_time|date='Y-m-d',###}</span>
+	<span class="articel_site">优惠信息:{$info.offer}</span>
+</div>
+<div class="articel_content"><img src="/fangpinhui/data/upload/home/{$info.img}" ></div>
+</body>
+</html>

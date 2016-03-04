@@ -1,0 +1,186 @@
+<!--添加文章-->
+<style>
+.input_loupan_search {height:25px;line-height:25px;width:240px;}
+.popup {position:absolute;width:245px;left:8px;top:38px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+.tiaodian_inp{ width:70px; height:19px; line-height:19px;border: 1px solid #d0d0d0;}
+</style>
+<form id="info_form" action="{:U('hezuo_yongjin/add_rule',array('roleid'=>1))}" method="post">
+<div class="dialog_content">
+<table width="100%" cellspacing="0" class="table_form">
+	<tr>
+		<th>楼盘名称 :</th>
+		<td>
+			{$info.title}
+			<span style="padding-left:15px;color:#999999;">
+				<switch name="info['tiaodian']" >
+					<case value="1">全盘跳点</case>
+					<case value="2">单产品跳点</case>
+					<case value="3">无跳点</case>
+				</switch>
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<th>选择产品 :</th>
+		<td>
+			  <select class="sel_info" name="cid" id="cid">
+			  	<option value="0">请选择</option>
+			  	<volist name="porduct" id="vo">
+			  		<option value="{$vo.id}">{$vo.name}</option>
+				</volist>
+			  </select>
+			  <span class="youhui_txt"></span>
+		</td>
+	</tr>
+	<tr>
+		<th>佣金来源 :</th>
+		<td>
+			  <select name="source" id="source">
+			  	<option value="1">开发商结佣</option>
+				<option value="2">房品汇结佣</option>
+			  </select>
+		</td>
+	</tr>
+	<tr>
+		<th>佣金金额 :</th>
+		<td><input class="input-text" type="text" size="12" name="total_price" id="total_price"> 元</td>
+	</tr>
+	<tr>
+		<th>佣金分成 :</th>
+		<td>
+			信息分成<input class="input-text" type="text" value="" size="12" name="share_price" id="share_price"> 元&nbsp;&nbsp;/ 带看分成：<span class="minus_num">0</span>元
+		</td>
+	</tr>
+	<if condition="$info['tiaodian'] eq 2">
+	<tr>
+		<th>跳点模式 :</th>
+		<td>
+			  <div style="padding-bottom:10px;">超过<input id="set_num" name="set_num" class="tiaodian_inp" type="text"/>套&nbsp;&nbsp;跳点<input id="tiaodian_price" name="tiaodian_price" class="tiaodian_inp" type="text"/>元</div>
+			  超过<input id="set_num2" name="set_num2" class="tiaodian_inp" type="text"/>套&nbsp;&nbsp;跳点<input id="tiaodian_price2" name="tiaodian_price2" class="tiaodian_inp" type="text"/>元
+		</td>
+	</tr>
+	</if>
+</table>
+</div>
+<input name="yid" type="hidden" value="{$info.id}" />
+<input name="tiaodian" type="hidden" value="{$info.tiaodian}" />
+</form>
+<script>
+var check_name_url = "{:U('hezuo_yongjin/ajax_check_product',array('roleid'=>1))}";
+var youhui_url = "{:U('hezuo_yongjin/ajax_youhui',array('roleid'=>1))}";
+var minus_url = "{:U('hezuo_yongjin/minus',array('roleid'=>1))}";
+$(function() {
+	$('.sel_info').live('change',function(){
+		var id = $('#cid').val();
+		if(id != 0){
+			$.post(youhui_url,{id:id},function(result){
+				if(result.status == 1){
+					$('.youhui_txt').text(result.data);
+					return false;
+				} else {
+					$.pinphp.tip({content:result.msg, icon:'alert'});
+					return false;
+				}
+			},'json');
+		}else{
+			$('.youhui_txt').text('');
+		}
+	});
+	
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#cid").formValidator({onshow:"请选择产品",onfocus:"请选择产品"}).inputValidator({min:1,onerror:"请选择产品"}).ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '该产品已经存在',
+		onwait : '正在检测'
+	});
+	$('#total_price').formValidator({onshow:'请输入佣金金额',onfocus:'请输入佣金金额', oncorrect: '输入正确'})
+	.inputValidator({min:1,onerror:'请输入佣金金额'})
+	.inputValidator({max:8,onerror:'请输入佣金金额'})
+	.regexValidator({regexp:'price1',datatype:'enum',onerror:'只能填写大于或等于1的，支持两位小数'});
+	
+	$("#share_price").formValidator({onshow:"请输入信息分成",onfocus:"请输入信息分成",oncorrect:"输入正确"})
+	.inputValidator({min:1,onerror:'请输入信息分成'})
+	.inputValidator({max:8,onerror:'请输入信息分成'})
+	.regexValidator({regexp:'price1',datatype:'enum',onerror:'只能填写大于或等于1的，支持两位小数'}).functionValidator({fun:youhuiEmpty});
+	function youhuiEmpty(val,elem){
+		var total_price = parseInt($('#total_price').val());
+		//alert(total_price);
+		var share_price = parseInt($('#share_price').val());
+		return (share_price > total_price)?'信息分成必须小于佣金金额！':true; 
+	}
+	
+	$("#set_num,#tiaodian_price").formValidator({tipid:"set_numTip",onshow:"请填写跳点模式",onfocus:"跳点模式必须成组填写",oncorrect:"输入正确！"}).functionValidator({fun:allEmpty});
+	function allEmpty(val,elem){
+		var tiaodian = $('input[name="tiaodian"]:checked').val();
+		if(tiaodian==1){
+			return ($("#set_num").val()=="" || $("#tiaodian_price").val()=="")?'跳点模式必须成组填写！':true; 
+		}
+	}
+	$("#set_num2,#tiaodian_price2").formValidator({empty:true,tipid:"set_num2Tip",onshow:"可以为空",onfocus:"跳点模式必须成组填写",oncorrect:"输入正确！"}).functionValidator({fun:allEmpty2});
+	function allEmpty2(val,elem){ 
+		return ($("#set_num2").val()!="" && $("#tiaodian_price2").val()=="" || $("#set_num2").val()=="" && $("#tiaodian_price2").val()!="")?'跳点模式必须成组填写！':true;
+	}
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	
+	$('#share_price').keyup(function(){
+		var total_price = $('#total_price').val();
+		var share_price = $('#share_price').val();
+		if(total_price==''){
+			$.pinphp.tip({content:'请先输入佣金金额', icon:'alert'});
+			$('#share_price').val('');
+			$('#total_price').focus();
+			return false;
+		}
+		$.post(minus_url,{total_price:total_price,share_price:share_price},function(result){
+			if(result.status == 1){
+				$('.minus_num').text(result.data);
+				return false;
+			} else {
+				$.pinphp.tip({content:result.msg, icon:'alert'});
+				return false;
+			}
+		},'json');
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+});
+</script>

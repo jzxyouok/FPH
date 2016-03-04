@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+<title>花young时代，不一样又怎样！</title>
+<link href="__STATIC__/css/default/weixin/vote_young/css/young.css" rel="stylesheet" type="text/css">
+<style>
+</style>
+</head>
+<body>
+<div class="wrap">
+	<section class="banner">
+    <img src="__STATIC__/css/default/weixin/vote_young/images/banner.jpg">
+    <a href="javascript:void(0);" onClick="javascript:document.getElementById('note').style.display='block';">活动说明</a>
+    </section>
+    <h2 class="title">票选结果排名</h2>
+	<ol class="top_list">
+        <volist name="list" id="vo">
+    	<li class="clearfix">
+        	<em>{$key+1}</em>
+            <figure><img src="{:get_fdfs_image($vo['avatar'], '')}"></figure>
+            <h4>{$vo.vote_personal}<b>{$vo.clickfans}个赞</b></h4>
+            <i>{$vo.touxian|msubstr=0,10,'utf-8',true}</i>
+        </li>
+        </volist>
+    </ol>
+    <footer>&copy;房品汇 保留活动最终解释权</footer>
+</div>
+<section id="note" class="note">
+	<dl>
+    	<dt>活动说明</dt>
+       {$actinfo[1]['data']}
+    </dl>
+    <a href="javascript:void(0);" onClick="javascript:document.getElementById('note').style.display='none';">关闭</a>
+</section>
+</body>
+</html>

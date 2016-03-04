@@ -1,0 +1,118 @@
+<include file="public:header" />
+<style>
+.popup {position:absolute;width:229px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;overflow-y:auto; z-index:999}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<form id="info_form" action="{:U('coupon/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">					
+					 <tr>
+						<th width="120">优惠券编号 :</th>
+						<td><input type="text" name="mobile" id="mobile" class="input-text" size="30" value="{$info.mobile}" maxlength="4"></td>
+					</tr>							    
+					<tr>
+	                    <th>单位 :</th>
+	                    <td><input type="text" name="unit" id="unit" class="input-text" size="30" value="{$info.unit}"></td>
+	                </tr>
+	                <tr>
+	                    <th>项目 :</th>
+	                    <td style="position:relative;">
+	                    	<input type="text" name="item" id="item" class="input-text input_loupan_search" size="30" value="{$property_title}" autocomplete="off">
+	                    	<div id="J_loupan_name" style="display:none"></div>
+		                    <input name="pid" id="pid" type="hidden" value="{$info.pid}" />
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <th>优惠信息 :</th>
+	                    <td><input type="text" name="money" id="money" class="input-text" size="30" value="{$info.money}"></td>
+	                </tr>
+		            <tr style="display:none">
+						<th>{:L('article_img')} :</th>
+						<td><input type="file" name="img" id="img" class="input-text"  style="width:200px;" /><font color="#999999">&nbsp;图片最佳尺寸720*540(不低于480*360)</font></td>
+		 			</tr>
+		 			<tr>
+						<th>{:L('author')} :</th>
+						<td><input type="text" name="author" id="author" class="input-text" size="30" value="{$info.author}" readonly></td>
+					</tr>
+					<tr>
+						<th>状态 :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> {:L('no')}</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script>
+var check_mobile_url = "{:U('admin/coupon/ajax_check_number',array('roleid'=>1,'id'=>$info['id']))}";
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$('#mobile').formValidator({onshow:lang.please_input+"4位数的优惠券编号",onfocus:lang.please_input+"4位数的优惠券编号", oncorrect: '请输入正确'})
+	.inputValidator({min:4,onerror:'4位数的优惠券编号'})
+	.inputValidator({max:4,onerror:'4位数的优惠券编号'}).ajaxValidator({
+	    type : "get",
+		url : check_mobile_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '该编号已经存在',
+		onwait : '正在检测'
+	});
+	$("#item").formValidator({onshow:"请填写项目",onfocus:"请填写项目"}).inputValidator({min:1,onerror:"请填写项目"});
+	$("#money").formValidator({onshow:lang.please_input+"金额",onfocus:lang.please_input+"金额"}).inputValidator({min:1,onerror:lang.please_input+"金额"});
+
+	//搜索楼盘
+	$('.input_loupan_search').keyup(function(){
+		var title = $.trim($('#item').val());
+	    var url   = '{:U('coupon/input_search',array('roleid'=>1))}';
+	    if(title!=''){
+			$('#J_loupan_name').show();
+	    	$.post(url,{title:title},function(result){
+				if(result.status == 1){
+					$('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+					$('#J_loupan_name').html(result.data);
+					return false;
+				}else{
+					$.pinphp.tip({content:result.msg, icon:'error'});
+					return false;
+				}
+			},'json');
+	    }else{
+			$('#pid').val('').blur();
+			$('#J_loupan_name').hide();
+		}
+	});
+
+	//选择
+	$('#J_loupan_name > ul > li').live('click',function(){
+		var rel = $(this).attr('rel');
+		var title = $(this).text();
+		$('#pid').val(rel).blur();
+		$('#item').val(title);
+		$('#J_loupan_name').hide();
+	});
+});
+</script>
+</body>
+</html>

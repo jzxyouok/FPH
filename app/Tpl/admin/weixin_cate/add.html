@@ -1,0 +1,69 @@
+<!--添加栏目-->
+<div class="dialog_content">
+	<form id="info_form" action="{:U('weixin_cate/add')}" method="post">
+	<table width="100%" class="table_form">
+		<tr> 
+			<th width="100">{:L('item_cate_parent')} :</th>
+			<td>
+				<select name="pid" id="pid">
+				  <option value="0">--顶级分类--</option>
+				  <volist name="weixin_cate" id="vo">
+				  <option value="{$vo.id}" <if condition="$pid eq $vo['id']">selected="selected"</if>>{$vo.name}</option>
+				  </volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>菜单类型 :</th>
+            <td>
+                <label><input type="radio" name="menu_type" value="1" checked> 链接地址</label>&nbsp;&nbsp;
+                <label><input type="radio" name="menu_type" value="2"> 弹出消息</label>
+			</td>
+        </tr>
+		<tr>
+			<th>{:L('item_cate_name')} :</th>
+			<td><input type="text" name="name" id="J_name" class="input-text" size="30"></td>
+		</tr>
+		<tr class="url_none">
+			<th>链接地址 :</th>
+			<td><input type="text" name="link" id="link" class="input-text" size="30"><font color="#CCCCCC">&nbsp;链接地址必须以http://开头</font></td>
+		</tr>
+		<tr>
+			<th>审核状态 :</th>
+            <td>
+                <label><input type="radio" name="status" value="1"> 已审核</label>&nbsp;&nbsp;
+                <label><input type="radio" name="status" value="0" checked> 未审核</label>
+			</td>
+        </tr>
+	</table>
+	</form>
+</div>
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$('#J_name').formValidator({onshow:'请输入菜单名称',onfocus:'请输入菜单名称'}).inputValidator({min:1,onerror:'请输入菜单名称'});
+	
+	$('#info_form').ajaxForm({success:complate, dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	
+	$('input[name="menu_type"]').click(function(){
+		var menu_type = $(this).val();
+		if(menu_type==1){
+			$('.url_none').show();
+		}else if(menu_type==2){
+			$('.url_none').hide();
+			$('#link').val('');
+		}
+	});
+
+	
+});
+</script>

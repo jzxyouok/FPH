@@ -1,0 +1,37 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+.error_code {
+	color: #a0a0a0;
+	height: 200px;
+	padding-top: 20px;
+	line-height: 220px;
+	font-size: 230px;
+	text-align: center;
+}
+.error_title {
+	line-height: 80px;
+	text-align: center;
+	height: 80px;
+	font-size: 36px;
+	background-color: #a0a0a0;
+	color: #FFF;
+}
+.error_info {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 20px;
+	line-height: 40px;
+	font-size: 16px;
+}
+.error_frm {
+	min-height: 70px;
+	max-width: 96%;
+	padding-left: 20px;
+	font-size: 32px;
+	line-height: 70px;
+	margin: 40px auto 0px auto;
+	border: 1px solid #d2d2d2;
+	box-shadow: 0 0 20px #d2d2d2;
+}

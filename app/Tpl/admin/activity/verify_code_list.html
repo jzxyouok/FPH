@@ -1,0 +1,98 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('activity/index',array('roleid'=>1,'menuid'=>636))}">
+        <em>活动管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('activity/verify_code_add',array('id'=>$pid,'roleid'=>1))}">
+        <em>添加验证码</em>
+        </a>
+    </div>
+</div>
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="activity:classification" />
+    </div>
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        <input type="hidden" name="g" value="admin" />
+                        <input type="hidden" name="m" value="activity" />
+                        <input type="hidden" name="a" value="verify_code_list" />
+                        <input type="hidden" name="menuid" value="{$menuid}" />
+                        <input type="hidden" name="id" value="{$pid}" />
+                        <input type="hidden" name="aid" value="{$id}" />
+                        &nbsp;&nbsp;手机号:
+                        <input id="verify_mobile" name="verify_mobile" type="text" class="input-text" size="25" value="{$verify_mobile}" maxlength="30" />
+                        <input type="submit" name="search" class="btn" value="{:L('search')}" />
+                        &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" style="color: #0099CC;" id="export">导出数据</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="J_tablelist table_list" >
+        <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+        <thead>
+            <tr>
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th>合作伙伴</th>
+                <th>验证码</th>
+                <th>生成时间</th>
+                <th>验证手机号</th>
+                <th>验证时间</th>
+                <th>状态</th>
+                <th width="120px;" align="center">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+                <tr class="collapsed">
+                    <td align="center">{$p*50-50+$i}</td>
+                    <td align="center">{$val.id}</td>
+                    <td align="center">{$name}</td>
+                    <td align="center">{$val.verify_code}</td>
+                    <td align="center">{$val.add_time|date='Y-m-d H:i:s',###}</td>
+                    <td align="center"><if condition="$val['verify_mobile']">{$val.verify_mobile}<else/>-</if></td>
+                    <td align="center"><if condition="$val['verify_time'] eq 0">-<else/>{$val.verify_time|date='Y-m-d H:i:s',###}</if></td>
+                    <td align="center">
+                        <if condition="$val['status'] eq 1">已验证
+                        <elseif condition="$val['status'] eq 2"/>已发放
+                        <elseif condition="$val['status'] eq 3"/>不可用
+                        <else/>未验证</if></td>
+                    <td align="center">
+                        <a href="{:U('activity/code_edit',array('id'=>$val['id'], 'status'=>3, 'roleid'=>1))}">不可用</a>&nbsp;|&nbsp;
+                        <a href="{:U('activity/code_edit',array('id'=>$val['id'], 'status'=>2, 'roleid'=>1))}">已发放</a>
+                        <!--<a href="{:U('activity/activity_del',array('id'=>$id,'p_id'=>$val['id'],'roleid'=>1))}">删除</a>-->
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+    // export
+    $('#export').click(function(){
+        var verify_mobile  = $('#verify_mobile').val();
+        var url = "/?g=admin&m=activity&a=codeExport&verify_mobile="+verify_mobile+"&id={$pid}";
+        if(confirm('确定导出数据?'))
+        {
+            window.location.href = url;
+        }
+    });
+</script>
+</body>
+</html>

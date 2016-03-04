@@ -1,0 +1,75 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+	<br/>
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="memberDAQ" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                城市 :
+                <select name="cid">
+	                <option value="">全部</option>
+	                <volist name="citys" id="city" >
+	                <option value="{$city.id}">{$city.name}</option>
+	                </volist>
+                </select>
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th>手机号</th>
+                <th>用户名</th>
+                <th>城市</th>
+                <th>家庭结构</th>
+                <th>年龄结构</th>
+                <th>月支出</th>
+                <th>采集时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center">{$p*20-20+$i}</td>
+                    <td align="center">{$val.id}</td>
+                    <td align="center">{$val.mobile}</td>
+                    <td align="center">{$val.username}</td>
+                    <td align="center">{$val.city_name}</td>
+                    <td align="center">{$val.data.family_structure}</td>
+                    <td align="center">{$val.data.age_structure}</td>
+                    <td align="center">{$val.data.spending_power}</td>
+                    <td align="center">
+                        <if condition="$val.time neq 0">
+                            {$val.time|date='Y-m-d H:i',###}
+                        <else/>
+                            -
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page->show()}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

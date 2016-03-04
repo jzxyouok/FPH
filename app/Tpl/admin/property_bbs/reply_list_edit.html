@@ -1,0 +1,78 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property_bbs/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加评论</em>
+        </a>
+    </div>
+</div>
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <form id="info_form" action="{:u('property_bbs/reply_list_edit')}" method="post">
+                <table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">回复人 :</th>
+                        <td>{$info.username}</td>
+                    </tr>
+                    <tr>
+                        <th>电话 :</th>
+                        <td>{$info.mobile}</td>
+                    </tr>
+                    <tr>
+                        <th>回复时间 :</th>
+                        <td>{$info.add_time|date='Y-m-d H:i',###}</td>
+                    </tr>
+                    <th>回复信息 :</th>
+                    <td>{$info.info}</td>
+                    </tr>
+                    <tr>
+                        <th>状态 :</th>
+                        <td>
+                            <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> 显示</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> 屏蔽</label>
+                        </td>
+                    </tr>
+                </table>
+                <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+                <input type="hidden" name="menuid"  value="{$menuid}"/>
+                <input type="hidden" name="id" id="id" value="{$id}" />
+                <input type="hidden" name="pid" id="pid" value="{$info.id}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $(function(){
+        //删除图片
+        $('.del_img').click(function(){
+            var img =  $(this).parents('.img_border').children('input').val();
+            var url = '{:U('property_bbs/del_edit_img')}';
+            var th  = $(this);
+            $.post(url,{img:img},function(result){
+                if(result.status == 1){
+                    th.parents('.img_border').remove();
+                    return false;
+                } else {
+                    $.pinphp.tip({content:result.msg, icon:'error'});
+                    return false;
+                }
+            },'json');
+        });
+
+
+    })
+
+</script>
+</body>
+</html>
+	

@@ -1,0 +1,71 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('app_download/edit')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">筛选条件</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">选择日期 :</th>
+						<td>
+							 <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$_GET['time_start']}" readonly>
+							 &nbsp;&nbsp;&nbsp;- &nbsp;&nbsp;&nbsp;
+							<input type="text" name="time_end" id="time_end" class="date" size="12" value="{$_GET['time_end']}" readonly>
+						</td>
+					</tr>
+					<tr>
+						<th>手机号码 :</th>
+						<td><input type="text" name="mobile" id="mobile" class="input-text" size="30" value="{$_GET['mobile']}"></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="button" value="导出数据" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$(function() {
+	$('#dosubmit').click(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		var mobile = $('#mobile').val();
+		if(trim(mobile)){
+			$("#mobile").formValidator({onshow:lang.please_input+"手机号码",onfocus:lang.please_input+"手机号码"}).regexValidator({regexp:'url',datatype:'enum',onerror:'请输入正确的手机号码'});
+		}
+		var time_start = $('#time_start').val();
+		var time_end = $('#time_end').val();
+		if(!mobile && !trim(time_start) && !trim(time_end)){
+			alert('至少选择输入一个筛选条件');
+			return  false;
+		}
+		var url = "{:u('invitationCode/exportExcel')}"
+		window.location.href = url +'&menuid=609&time_start='+time_start+'&time_end='+time_end+'&mobile='+mobile
+	});
+
+	function trim (obj)
+	{
+		return obj.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+	}
+});
+
+Calendar.setup({
+	inputField : "time_start",
+	ifFormat   : "%Y-%m-%d",
+	showsTime  : false,
+	timeFormat : "24"
+});
+Calendar.setup({
+	inputField : "time_end",
+	ifFormat   : "%Y-%m-%d",
+	showsTime  : false,
+	timeFormat : "24"
+});
+</script>
+</body>
+</html>

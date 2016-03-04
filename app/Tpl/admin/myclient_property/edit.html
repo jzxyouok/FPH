@@ -1,0 +1,158 @@
+<form id="info_form" action="{:u('myclient_property/edit')}" method="post">
+<table width="100%" cellspacing="0" class="table_form">
+	<tr>
+		<th width="21%">带看楼盘 :</th>
+		<td width="79%"><if condition="$info_data['property'] neq 0">{$info_data.title}<else/>意向区域：{$info_data.area}&nbsp;&nbsp;意向价格：{$info_data.price}</if></td>
+	</tr>
+	<tr>
+		<th>带看模式 :</th>
+		<td><if condition="$info_data['with_look'] eq 1">由我带看<else/>委托带看</if></td>
+	</tr>
+	<tr>
+		<th>经纪人 :</th>
+		<td>{$user_info.username}</td>
+	</tr>
+	<tr>
+		<th>手机号码 :</th>
+		<td>{$user_info.mobile}</td>
+	</tr>
+	<tr>
+		<th>用户 :</th>
+		<td>{$info_data.name}</td>
+	</tr>
+	<tr>
+		<th>手机号码 :</th>
+		<td>{$info_data.mobile}</td>
+	</tr>
+	<if condition="$info['status'] egt 4">
+		<tr>
+			<th>购买产品 :</th>
+			<td>{$property_name['name']}</td>
+		</tr>
+		<tr>
+			<th>购买时间 :</th>
+			<td>{$info_data['buy_time']|date='Y-m-d',###}</td>
+		</tr>
+	</if>
+	<tr>
+		<th>状态 :</th>
+		<td>
+			<if condition="$info['status'] eq 2">
+				<label><input type="radio" name="status" id="status1" value="3" <if condition="$info['status'] eq 3">checked="checked"</if> /> 已带看</label>
+			<elseif condition="$info['status'] eq 3"/>
+				已带看
+			<elseif condition="$info['status'] eq 4 AND $info['buy_time'] != 0"/>
+				<label><input type="radio" name="status" id="status1" value="5" <if condition="$info['status'] eq 5">checked="checked"</if> /> 已结佣</label>
+			<elseif condition="$info['status'] eq 1 OR $info['status'] eq 0"/>
+				<label><input type="radio" name="status" id="status2" value="2" <if condition="$info['status'] eq 2">checked="checked"</if> /> 开发商确认</label>&nbsp;&nbsp;
+				<label><input type="radio" name="status" id="status1" value="0" <if condition="$info['status'] eq 0">checked="checked"</if> /> 开发商拒绝</label>
+				<div id="status2Tip" class="onShow">请选择状态</div>
+			<elseif condition="$info['status'] eq 5"/>
+				已结佣
+			</if>
+		    </td>
+	</tr>
+	<if condition="($info['status'] eq 3 OR $info['status'] eq 4) AND $info['buy_time'] eq 0">
+		<neq name="product_count" value="0">
+		<tr>
+			<th>购买产品 :</th>
+			<td>
+				<select name="buy_product" id="buy_product" class="buy_product">
+					<option value="0">请选择购买产品</option>
+					<foreach name="product_list" item="vo">
+						<option value="{$vo.id}" <if condition="$info['buy_product'] eq $vo['id']">selected="selected"</if>>{$vo.name}</option>
+					</foreach>
+				</select>
+				<span class="youhui_txt">{$youhui}</span>
+			</td>
+		</tr>
+		<tr>
+			<th>预计成交时间 :</th>
+			<td><input type="text" name="expects_rime" id="expects_rime" class="date" size="12" <if condition="$info['expects_rime'] neq 0">value="{$info.expects_rime|date='Y-m-d',###}"</if>></td>
+		</tr>
+		<tr>
+			<th>成交时间 :</th>
+			<td><input type="text" name="buy_time" id="buy_time" class="date" size="12" <if condition="$info['buy_time'] neq 0">value="{$info.buy_time|date='Y-m-d',###}"</if>></td>
+		</tr>
+		<tr>
+			<th>姓名 :</th>
+			<td><input id="name" class="input-text" type="text" size="30" name="name" value="{$info['name']}"></td>
+		</tr>
+		<tr>
+			<th>身份证 :</th>
+			<td><input id="shenfenzheng" class="input-text" type="text" size="30" name="shenfenzheng" value="{$info['shenfenzheng']}"></td>
+		</tr>
+		<input type="hidden" name="status" id="status" value="4" />
+		<input type="hidden" name="p_id" id="p_id" value="{$info_data.id}" />
+		<else/>
+		<tr>
+			<th></th>
+			<td style="color:#FF0000">该楼盘没有设置产品，不能进行下一步操作！</td>
+		</tr>
+		<input type="hidden" name="status" id="status" value="3" />
+		</neq>
+	</if>
+</table>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<script src="__STATIC__/js/jquery/plugins/formValidatorRegex.js"></script>
+<if condition="($info['status'] eq 3 OR $info['status'] eq 4) AND $info['buy_time'] eq 0 AND $product_count neq 0">
+<script type="text/javascript">
+Calendar.setup({
+    inputField : "expects_rime",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "buy_time",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</if>
+<script>
+var check_name_url = "{:U('case_field/ajax_check_name')}";
+var youhui_url = "{:U('hezuo_yongjin_rule/ajax_youhui')}";
+$(function() {
+	$('.buy_product').change(function(){
+		var buy_product = $('#buy_product').val();
+		if(buy_product != 0){
+			$.post(youhui_url,{id:buy_product},function(result){
+				if(result.status == 1){
+					$('.youhui_txt').text(result.data);
+					return false;
+				} else {
+					$.pinphp.tip({content:result.msg, icon:'alert'});
+					return false;
+				}
+			},'json');
+		}else{
+			$('.youhui_txt').text('');
+			return false;
+		}
+		
+	});
+	
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$(":radio[name='status']").formValidator({onshow:"请选择状态",onfocus:"请选择状态",oncorrect:"请选择状态"}).inputValidator({min:1,max:1,onerror:"请选择状态"});
+	$("#buy_product").formValidator({onshow:"请选择购买产品",onfocus:"请选择购买产品",oncorrect:"&nbsp;"}).inputValidator({min:1,onerror:"请选择购买产品"});
+	$("#expects_rime").formValidator({onshow:"请选择预计成交时间",onfocus:"请选择预计成交时间",oncorrect:"&nbsp;"}).inputValidator({min:1,onerror:"请选择预计成交时间"});
+	$("#buy_time").formValidator({empty:true,onshow:"没成交可以不用填写",onfocus:"请选择成交时间",oncorrect:"&nbsp;"}).inputValidator({min:1,onerror:"请选择成交时间"});
+	$("#name").formValidator({empty:true,onshow:"没成交可以不用填写",onfocus:"请填写姓名",oncorrect:"&nbsp;"}).inputValidator({min:1,onerror:"请填写姓名"});
+	$("#shenfenzheng").formValidator({empty:true,onshow:"没成交可以不用填写",onfocus:"输入15或18位的身份证",oncorrect:"输入正确"}).functionValidator({fun:isCardID});
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+});
+</script>

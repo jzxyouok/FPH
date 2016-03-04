@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head" />
+<link href="__STATIC__/css/default/css/index.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/css/default/css/base.css" rel="stylesheet" type="text/css" media="all">
+<link href="__STATIC__/css/default/css/common.css" rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+<div class="hous-list">
+	<div id="container">
+		<volist name="list" id="vo">
+			<div>
+				<a href="{:U('weixin/loupan/detail',array('id'=>$vo['id']))}" class="hous-item">
+					<img src="{:get_fdfs_image($vo['img_thumb'], '_weixin_thumb')}" onerror="this.src='__STATIC__/css/default/images/no_img.gif';" />
+					<ul class="item-info">
+						<li class="item-name break-word">{$vo.title}</li>
+						<li class="item-addr break-word"><span>{$vo.address}</span></li>
+						<li class="item-pay">
+							<span>
+								<if condition="is_numeric(trim($vo['item_price'])) eq FALSE ">
+									{:trim($vo['item_price'])}
+									<else />
+									{:trim($vo['item_price'])}元/平米
+								</if>
+							</span>
+						</li>
+					</ul>
+					<span class="item-price break-word">
+						<if condition="$vo['list_price'] neq '' ">
+						佣金{$vo.list_price}
+						</if>
+					</span>
+				</a>
+			</div>
+		</volist>
+		<if condition="$list eq '' ">
+			<div class="nodate_msg">
+			  <h1>您还没有收藏过任何楼盘</h1>
+			</div>	
+		</if>
+	</div>
+</div>
+
+<if condition="$countlp egt 15 ">
+<div class="bt-roading" style="text-align:center"><span>加载中</span></div>					
+</if>
+
+<div id="J_returntop" class="return_top"></div>
+<script type="text/javascript">
+$(function(){
+	//向下滑动加载
+	var winH = $(window).height(); //页面可视区域高度 
+	var pagefirst = 1; //设置当前页数
+	var stopstatus = true; 
+	$(window).scroll(function () { 
+        var pageH = $(document.body).height(); 
+        var scrollT = $(window).scrollTop(); //滚动条top 
+        var lq_height = (pageH-winH-scrollT)/winH; 
+		var url = PINER.root + '/?g=weixin&m=user&a=ajax_list';
+        if(lq_height<0.02 && stopstatus == true){ 
+			stopstatus = false;
+			$.post(url,{page:pagefirst},function(result){
+				if(result.status == 1){
+					$('#container').append(result.data);
+					pagefirst++;
+					stopstatus = true;
+					return false; 
+				} else {
+					$(".bt-roading").html(result.msg); 
+                    return false; 
+				}
+			},'json');
+        } 
+    });
+})
+
+;(function($){
+ $.pinphp = $.pinphp || {version: "v1.0.0"},
+    //把对象调整到中心位置
+    $.fn.setmiddle = function() {
+        var dl = $(document).scrollLeft(),
+            dt = $(document).scrollTop(),
+            ww = $(window).width(),
+            wh = $(window).height(),
+            ow = $(this).width(),
+            oh = $(this).height(),
+            left = (ww - ow) / 2 + dl,
+            top = (oh < 4 * wh / 7 ? wh * 0.382 - oh / 2 : (wh - oh) / 2) + dt;
+                
+        $(this).css({left:Math.max(left, dl) + 'px',top:Math.max(top, dt) + 'px'});             
+        return this;
+    }
+    //返回顶部
+    $.fn.returntop = function() {
+        var self = $(this);
+        self.live({
+            mouseover: function() {
+                $(this).addClass('return_top_hover');
+            },
+            mouseout: function() {
+                $(this).removeClass('return_top_hover');
+            },
+            click: function() {
+                $("html, body").animate({scrollTop: 0}, 120);
+            }
+        });
+        $(window).bind("scroll", function() {
+            $(document).scrollTop() > 0 ? self.fadeIn() : self.fadeOut();
+        });
+    }
+})(jQuery);
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

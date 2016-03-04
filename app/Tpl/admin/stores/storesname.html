@@ -1,0 +1,74 @@
+<include file="public:header" />
+<form id="info_form" action="" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<a href="{:U('stores/edit', array('id'=>$id,'store_type'=>$store_type,'menuid'=>$menuid))}" ><li>门店信息</li></a>
+			<li class="current">人员管理</li>
+		</ul>
+	</div>
+	<div class="J_tablelist table_list" >
+        <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+        <thead>
+            <tr>
+                <th  width="40px;" align="center">id</th>
+                <th  width="100px;" align="left">注册时间</th>
+                <th  width="60px;" align="left">终端</th>
+                <th  width="150px;" align="left">用户姓名</th>
+                <th  width="60px;" align="left">职务</th>
+                <th  width="60px;" align="center">带看</th>
+                <th  width="60px;" align="center">委托</th>
+                <th  width="60px;" align="center">成交数</th>
+                <th  width="100px;" align="center">佣金</th>
+                <th  width="100px;" align="center">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+	            <tr class="collapsed">
+                        <td align="center">
+                            {$val['id']} 
+                        </td>
+                        <td align="left">
+                            {$val.reg_time|date='Y-m-d H:i',###}
+                        </td>
+                        <td align="left">
+                            <if condition="$val['origin'] eq 1">微信</if>
+                            <if condition="$val['origin'] eq 2">IOS</if>
+                            <if condition="$val['origin'] eq 3">Android</if>
+                            <if condition="$val['origin'] eq 4">PC</if> 
+                        </td>
+                        <td align="left">
+                             {$val['username']} &nbsp; {$val['mobile']}
+                        </td>
+                         <td align="left">
+                            <if condition="$val['id'] eq $stores['uid']">创建则<else/>经纪人</if>
+                        </td>
+                        <td align="center">
+                            {$val['daikan']}
+                        </td>
+                        <td align="center">
+                            {$val['weituo']}
+                        </td>
+                        <td align="center">
+                            {$val['chengjiao']}
+                        </td>
+                        <td align="center">
+                            {$val['yongjin']}
+                        </td>
+                         <td align="center">
+			    <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('stores/delstores', array('uid'=>$val['id'],'roleid'=>1))}" data-msg="确定要删除?">{:L('delete')}</a>
+                         </td>
+	            </tr>
+            </volist>
+        </tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+</form>
+<include file="public:footer" />
+</body>
+</html>

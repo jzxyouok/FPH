@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/team.css?v=1" rel="stylesheet" />
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header>
+    <section class="logo">房品汇</section>
+    <a href="javascript:;" class="gotolist">筛选<i></i></a>
+    <form action="" id="from" method="get">
+      <input type="hidden" name="g" value="m" />
+      <input type="hidden" name="m" value="team" />
+      <input type="hidden" name="a" value="index" />
+      <section class="search"> <a href="javascript:;" class="btn_search">搜索</a>
+        <div class="frm">
+          <input name="keyword" id="keyword" type="text" placeholder="输入经纪人姓名、手机" value="{$keyword}">
+        </div>
+      </section>
+    </form>
+  </header>
+  <section class="scroll_body noPadding">
+  <h2 class="all_title p_tb_10 p_l_10 gray">我服务的经纪人 （共{$uid_user_count}人）</h2>
+    <section class="PADDING_FRM bgWhite">
+    
+      <section class="links_list store_mgmt">
+      
+        <ul class="display_list">
+		<empty name="list"><li>没有搜索到相关数据</li></empty>
+        <volist name="list" id="vo">
+          <li>
+            <a href="{:U('m/team/team_detail',array('id'=>$vo['id']))}">
+              <h2>{$vo.username} {$vo.mobile}</h2>
+              <notempty name="vo['property_title']">
+                <span class="address">{$vo.property_title}</span><span class="store_code_r">成交{$vo.chengjiao}套</span><i></i>
+              <else/>
+                <span class="address">暂无驻守案场</span>
+              </notempty>
+            </a>
+          </li>
+        </volist>
+       
+        </ul>
+		<if condition="$list_count egt 6 ">
+		  <div id="loading" class="LOADING">正在加载...</div>          
+		</if>
+      </section>
+    </section>
+  </section>
+  <div class="footer_2">
+    <span class="deposit">
+      邀请码:{$admin_code_id}
+      <a href="{:U('m/team/team_invite')}" style="font-size:1.6rem;color:#fff;padding-left:10px">邀请加入</a>
+    </span>
+    <a href="{:U('m/team/team_add')}" class="BTNs">新增经纪人</a>
+  </div>
+</div>
+<div id="HIDDEN_POPUP" class="HIDDEN_POPUP">
+  <form id='search_form' method="get" >
+  <input type="hidden" name="g" value="m" />
+  <input type="hidden" name="m" value="team" />
+  <input type="hidden" name="a" value="index" />
+  <div class="TOP_FRAME gray">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+      <a href="javascript:;" class="gotolist nobg J_but_reset">重置筛选</a> </header>
+    <section class="scroll_body noPadding">
+      <section class="filters">
+        <div class="dv_sel">
+          <select name="chengjiao" id="chengjiao">
+            <option value="0">成交筛选</option>
+            <option value="1" <if condition="$chengjiao eq 1">selected="selected"</if>>有成交</option>
+            <option value="2" <if condition="$chengjiao eq 2">selected="selected"</if>>无成交</option>
+          </select>
+          <i></i>
+          <a href="javascript:;" id="chengjiao_title">
+            <if condition="$chengjiao eq 1">有成交<elseif condition="$chengjiao eq 2"/>无成交<else/>成交筛选</if>
+          </a>
+        </div>
+        
+      </section>
+      <section class="filters">
+      <div class="dv_sel">
+          <select name="city" id="city">
+            <option value="0">全部城市</option>
+            <volist name="citylist" id="vo">
+              <option value="{$vo.id}" <if condition="$city_id_post eq $vo['id']">selected="selected"</if>>{$vo.name}</option>
+            </volist>
+          </select>
+          <i></i> <a href="javascript:;" id="city_title">全部城市</a> </div>
+        <div class="dv_sel">
+          <select name="area" id="area">
+            <option value="0">全部区域</option>
+            <volist name="area_list" id="vo">
+              <option value="{$vo.id}" <if condition="$area_id_post eq $vo['id']">selected="selected"</if>>{$vo.name}</option>
+            </volist>
+          </select>
+          <i></i> <a href="javascript:;" id="area_title">全部区域</a> </div>
+      </section>
+		<section class="filters">
+       <!--<div class="dv_sel">
+         <select name="suoshu" id="suoshu">
+           <option value="0">所属人筛选</option>
+           <option value="1">全部渠道经纪人</option>
+           <option value="2">我服务的经纪人</option>
+         </select>
+         <i></i> <a href="javascript:;" id="suoshu_title">所属人筛选</a>
+       </div>-->
+        
+      </section>
+      <section class="se_btn"><a href="javascript:;" class="BTNs half J_sub_submt">确定</a> <a href="javascript:;" class="BTNs half cancel">取消</a></section>      
+    </section>
+  </div>
+</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+$(function(){
+  var city_title = $('#city').find("option:selected").text();
+  $('#city_title').text(city_title);
+  var area_title = $('#area').find("option:selected").text();
+  $('#area_title').text(area_title);
+
+  var $gotolist = $('.gotolist');
+  var $HIDDEN_POPUP = $('#HIDDEN_POPUP');
+  $gotolist.click(function(e) {
+        $HIDDEN_POPUP.fadeIn(function(e){
+      $('#TOP_FRAME').hide();
+    });
+    });
+  
+  var $input_search = $('.search').find('input');
+  var $footer = $('footer');
+  $input_search.focus(function(e){
+    $footer.hide();
+  }).blur(function(e) {
+        $footer.show();
+    });
+  
+  var $cancel = $('.cancel');
+  $cancel.click(function(e){
+    $HIDDEN_POPUP.fadeOut();
+    $('#TOP_FRAME').show();
+  });
+
+  $('.btn_search').click(function(){
+    $('#from').submit();
+    return false;
+  });
+
+  //重置筛选
+  $('.J_but_reset').click(function(){
+    $('#chengjiao_title').text('成交筛选');
+    //$('#chengjiao').find("option").eq(0).attr("selected",'selected');
+    $("#chengjiao option[value='0']").attr("selected",'selected');
+    $('#suoshu_title').text('所属人筛选');
+    $("#suoshu option[value='0']").attr("selected",'selected');
+    $('#city_title').text('全部城市');
+    $("#city option[value='0']").attr("selected",'selected');
+    $('#area_title').text('全部区域');
+    $("#area option[value='0']").attr("selected",'selected');
+    return false;
+  });
+
+  //选择是否成交
+  $('#chengjiao').change(function(){
+    var name = $(this).find("option:selected").text();
+    $('#chengjiao_title').text(name);
+    return false;
+  });
+
+  //所属者
+  $('#suoshu').change(function(){
+    var name = $(this).find("option:selected").text();
+    $('#suoshu_title').text(name);
+    return false;
+  });
+
+  //城市
+  $('#city').change(function(){
+    var name = $(this).find("option:selected").text();
+    $('#city_title').text(name);
+    var id  = $(this).val();
+    var url = PINER.root + '/?g=m&m=team&a=ajax_city_list';
+    $.post(url,{id:id},function(result){
+      if(result.status == 1){
+        var html = '';
+            html += '<option value="0">全部区域</option>';       
+        $.each(result.data,function(i,n){
+          html += '<option value="' + n['id'] + '">' + n['name'] + '</option>';
+        });
+        $('#area').html(html);
+        $('#area_title').text('全部区域');
+        $("#area option[value='0']").attr("selected",'selected');
+        return false; 
+      }else{
+       layer.open({
+          content: result.msg,
+          style: '',
+          time: 1,
+          shade:true, //遮罩层 true,false
+          anim:true //是否动画弹出 true false
+        });
+      return false;
+      }
+    },'json');
+    return false;
+  });
+
+   //区域
+  $('#area').change(function(){
+    var name = $(this).find("option:selected").text();
+    $('#area_title').text(name);
+    return false;
+  });
+
+  //筛选确定
+  $('.J_sub_submt').click(function(){
+    $('#search_form').submit();
+    return false;
+  });
+
+  //向下滑动加载
+  var winH       = $(window).height(); //页面可视区域高度 
+  var pagefirst  = 1; //设置当前页数
+  var stopstatus = true; 
+
+   //向下滑动加载
+  $(window).scroll(function () { 
+      var pageH     = $(document.body).height(); 
+      var scrollT   = $(window).scrollTop(); //滚动条top 
+      var lq_height = (pageH-winH-scrollT)/winH;
+      var url       = PINER.root + '/?g=m&m=team&a=ajax_index_list';
+      if(lq_height<0.02 && stopstatus == true){ 
+          stopstatus = false;
+          $.post(url,{page:pagefirst},function(result){
+            if(result.status == 1){
+              $('.display_list').append(result.data);
+              $('#loading').html('正在加载...');
+              pagefirst++;
+              stopstatus = true;
+              return false; 
+            }else{
+              $('#loading').html('暂无数据');
+              //$(".bt-roading").html(result.msg); 
+              return false; 
+            }
+          },'json');
+        } 
+  });
+
+
+});
+</script>
+</body>
+</html>

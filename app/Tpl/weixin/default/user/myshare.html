@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<include file="public:head" />
+<script src="__STATIC__/css/default/js/jquery.qrcode.min.js"></script>
+<script>   
+jQuery(function(){   
+    jQuery('#output').qrcode("{$rq_img}");   
+})   
+</script>  
+</head>
+
+<body class="bgcolor-body">
+    <include file="public:list_header" />
+	<div class="part-box fenxiangtxt">
+    	<ul>
+        <li>点击右上角分享按钮，分享房品汇，邀请好友注册，通过你邀请的好友成功交易房产，你即可以得到房品汇发放的佣金<i></i></li>
+        </ul>
+    </div>
+    <div class="part-box">
+    	<ul class="float-two">
+        <li>我已推广<span class="fr">{$share_count}人</span></li>
+        </ul>
+    </div>
+    <div class="part-box">
+    	<ul>
+        <li>我的二维码</li>
+        <li id="output" class="align_c_img"></li>
+        </ul>
+    </div>
+    <div class="part-box">
+    	<ul>
+		<li>我的推广链接(长按链接复制到剪贴板)</li>
+        <li class="gray break-word">{$share_copy_url}</li>
+        </ul>
+    </div>
+<include file="public:footer_4_0" />
+</body>
+</html>

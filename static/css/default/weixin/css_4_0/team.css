@@ -1,0 +1,171 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+/************************************************************************************************/
+.myhouse { padding:0 10px; background:#fff; }
+.myhouse .display_list h2 { font-size:1.6rem; color:#333; }
+.myhouse .display_list h2 span { padding-left:1rem; color:#ccc;}
+#TOP_FRAME .scroll_body .myhouse .display_list li  { line-height:180%; padding:5px 0; border-bottom:1px solid #eee; position:relative;}
+#TOP_FRAME .scroll_body .myhouse .display_list .address { color:#999; font-size:1.2rem;}
+#TOP_FRAME .scroll_body .myhouse button { font-size:1.2rem;  position:absolute;background-color:#eee;  color:#fff; border:none; border-radius:6px; line-height:22px; line-height:22px; overflow:hidden; right:0px; top:50%; margin-top:-11px; outline:none;}
+#TOP_FRAME .scroll_body .myhouse button.cur {background-color:#8fc31f; }
+
+.TOP_FRAME .scroll_body .premises_list {
+	padding: 0 10px 10px 10px;
+	background-color:#FFF;
+}
+.TOP_FRAME .scroll_body .premises_list li {
+	width: 100%;
+	min-height: 100px;
+	position: relative;
+}
+.TOP_FRAME .scroll_body .premises_list li:last-child {
+	border: none;
+}
+.TOP_FRAME .scroll_body .premises_list li a {
+	display: block;
+	width: inherit;
+	min-height: inherit;
+	position: relative;
+}
+.TOP_FRAME .scroll_body .premises_list li a figure {
+	height: 74px;
+	width: 100px;
+	margin: 0;
+	position: absolute;
+	background: #eeeeee;
+	top: 50%;
+	margin-top: -37px;
+}
+.TOP_FRAME .scroll_body .premises_list li a figure img {
+	width: inherit;
+	height: inherit;
+}
+.TOP_FRAME .scroll_body .premises_list li a figure i {
+	height: 44px;
+	width: 44px;
+	background: url(../images_4_0/coop_tip.png) no-repeat;
+	background-size: 44px 44px;
+	position: absolute;
+}
+.TOP_FRAME .scroll_body .premises_list li a .detail {
+	height: 74px;
+	position: absolute;
+	padding-left: 110px;
+	/*padding-right: 60px;*/
+	top: 50%;
+	margin-top: -37px;
+	z-index: 997;
+}
+.TOP_FRAME .scroll_body .premises_list li a .detail h3 {
+	color: #333333;
+	font-size: 1.6rem;
+	font-weight: bold;
+}
+.TOP_FRAME .scroll_body .premises_list li a .region {
+	color: #999;
+	display: block;
+	padding: 8px 0;
+	font-size: 1.4rem;
+}
+.TOP_FRAME .scroll_body .premises_list li a .price {
+	color: #666;
+	font-size: 1.4rem;
+}
+.TOP_FRAME .scroll_body .premises_list li a .status {
+	position: absolute;
+	right: 0!important;
+	max-width: 80px;
+	height: 74px;
+	top: 50%;
+	margin-top: -37px;
+	z-index: 997;
+}
+.TOP_FRAME .scroll_body .premises_list li a .links .LBL_STATUS {
+	float: left;
+}
+
+.TOP_FRAME .scroll_body .premises_list li a .status .PREMISES_STATUS {
+	margin-top: 4px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	float: right;
+}
+.TOP_FRAME .scroll_body .premises_list li a .status .deposit {
+	display: block;
+	color: #fbad25;
+	width: 100%;
+	clear:both;
+}
+.TOP_FRAME .scroll_body .premises_list li a .status .unit {
+	color: #999999;
+	font-size: 0.9em;
+	width: 100%;
+	display: block;
+	text-align: right;
+}
+.btn {
+	display: block;
+	width: 90%;
+	text-align: center;
+	font-size: 1.6rem;
+	padding:0.6rem 0;
+	font-weight: lighter;
+	color: #FFF;
+	margin: 24px auto;
+	border-radius: 8px;
+	background: #1aa83b;
+	background: gradient(linear, center bottom, center top, from(#009944), to(#22ac38));
+	background: -webkit-gradient(linear, center bottom, center top, from(#009944), to(#22ac38));
+	background: -moz-gradient(linear, center bottom, center top, from(#009944), to(#22ac38));
+}
+.btn:hover {
+	background: #1aa83b;
+	opacity:0.8;
+}
+.TOP_FRAME .scroll_body { background-color:#eee;}
+
+#TOP_FRAME .scroll_body .links_list.store_mgmt li h2 {
+	color: #000;
+	font-size: 1.6rem;
+}
+#TOP_FRAME .scroll_body .links_list.store_mgmt li h2 b { margin-left:5px;}
+#TOP_FRAME .scroll_body .links_list.store_mgmt li .address {
+	color: #666;
+	font-size: 1.2rem;
+}
+#TOP_FRAME .scroll_body .links_list.store_mgmt li span.store_code_r {
+	color: #ccc;
+	font-size:1.4rem;
+	width:auto!important;
+	position:absolute;
+	top:50%;
+	right:20px;
+	text-align:right;
+	margin-top:-15px;
+	line-height:30px;
+	
+}
+.customer_info {
+	padding: 20px 12px;
+}
+.customer_info .tel_img {
+	width: 60px;
+	height: 60px;
+	border-radius: 60px;
+	position: absolute;
+	background: #80c269 url(../images_4_0/icon_tel2.png) no-repeat center center;
+	background-size:60% 60%;
+}
+.customer_info .name, .customer_info .info {
+	padding-left: 70px;
+}
+.customer_info .name {
+	font-size: 2rem;
+	display: block;
+	line-height: 30px;
+}
+.customer_info .info {
+	color: #999999;
+	line-height: 30px;
+}

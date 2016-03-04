@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<include file="public:head" />
+</head>
+<body>
+	<include file="public:header" />
+	<div class="brand_remit_header">
+		<div class="brand_remit_header_bg">
+			<div class="content">
+				<div class="brand_remit_headline">
+					<div class="brand_remit_crumbs">
+						<ul>
+							<li><a href="__ROOT__/">首页</a></li>
+							<li><a href="{:U('brand/index')}">品牌汇</a></li>
+						</ul>
+					</div>
+					<h2>品牌汇</h2>
+					<h5>知名房企品牌 国际居家理念 热销置业项目</h5>
+				</div>
+				<form id="form" action="__ROOT__/" method="get">
+				<input name="m" type="hidden" value="brand">
+				<input name="a" type="hidden" value="index">
+					<div class="search_box">
+					<if condition="$search_name eq ''">
+						<input style="color:#999" type="text" name='search_name' id="search_name" onFocus="focusInputEle(this)" onBlur="blurInputEle(this)" defaultVal="请输入品牌名称关键词..." value="请输入品牌名称关键词...">
+					<else/>
+						<input type="text" id="search_name" name="search_name" value="{$search_name}"/>
+					</if>
+						<button class="button J_brand_sub" type="button"><i class="search"></i>搜索</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="brand_remit_main">
+		<div class="content">
+			<div class="alphabetical_index_box">
+				<ul>
+					<li><a href="javascript:;">首字母索引</a></li>
+					<volist name="e" id="vo">
+						<li <if condition="$eg eq $vo">class="cur"</if>><a href="{:u('brand/index', array('eg'=>$vo))}">{$key}</a></li>
+					</volist>
+				</ul>
+			</div>
+			<empty name="list">
+				<div class="no_data_case">
+					<h3>当前搜索暂无数据！如需添加开发商品牌，请联系我们！</h3>
+					<p>你可以：</p>
+					<p>1.拨打房品汇客服电话：<span>{:C('pin_kefu_tel')}</span></p>
+					<p>2.返回<a href="{:U('brand/index')}">品牌汇首页</a>查看其它品牌</p>
+				</div>
+			</empty>
+			<volist name="list" id="vo" >
+				<div class="brand_remit_case">
+					<div class="introduce">
+						<div class="logo">
+							<img src="{:get_fdfs_image($vo['logo'], '')}" alt="{$vo['business_jian']}">
+						</div>
+						<h6>在售项目 {$vo['zaisou'][0]} 个</h6>
+						<h6>预售项目 {$vo['yusou'][0]} 个</h6>
+						<button class="button" onClick="javascript:window.location.href='{:u("brand/detailed", array("id"=>$vo["id"]))}'" >品牌故事</button>
+					</div>
+					<div class="picture" style="background-image:url('{:get_fdfs_image($vo['banner_img'], '_s')}')"><i></i></div>
+					<div class="high_demand_events">
+						<h4>热门楼盘</h4>
+						<ul>
+							<volist name="vo['property']" id="var">
+							<li>
+								<a href="{:u('property/detail', array('pid'=>$var['id']))}">{$var['title']}</a>
+							</li>
+							</volist>
+						</ul>
+					</div>
+				</div>
+			</volist>
+			<div class="pagination">{$page}</div>
+		</div>
+	</div>
+	<include file="public:footer" />
+</body>
+</html>

@@ -1,0 +1,138 @@
+<include file="public:header" /><br />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="weixin_lottery" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                抽奖时间：
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}">
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}">
+             用户名 ：
+                <input class="input-text" type="text" value="{$search.username}" size="12" name="username">
+         手机号码 ：
+                <input class="input-text" type="text" value="{$search.mobile}" size="12" name="mobile">
+                &nbsp;&nbsp;大转盘：
+                <select name="hits">
+                <option value="">-{:L('all')}-</option>
+                <option value="1" <if condition="$search.hits eq '1'">selected="selected"</if>>中奖</option>
+                <option value="2" <if condition="$search.hits eq '2'">selected="selected"</if>>未中奖</option>
+                </select>
+                
+                
+                 &nbsp;&nbsp;刮刮卡：
+                <select name="amount">
+                <option value="">-{:L('all')}-</option>
+                <option value="1" <if condition="$search.amount eq '1'">selected="selected"</if>>刮中奖</option>
+                <option value="2" <if condition="$search.amount eq '2'">selected="selected"</if>>未中奖</option>
+                </select>
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('weixin_lottery/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="30">序号</th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="center">昵称</th>
+                <th >手机号码</th>
+                <th width=150>奖品等级</th>
+				<th width=150>奖品</th>
+				<th width=120><span data-tdtype="order_by" data-field="add_time">抽奖时间</span></th>
+                <th width="80"><span data-tdtype="order_by" data-field="status">是否领奖</span></th>
+                <!-- <th width="80">{:L('operations_manage')}</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+                <td align="center">{$cate_list[$val['uid']]}</td>
+                <td align="center">{$cate_mobile[$val['uid']]}</td>
+				<td align="center">
+                   <if condition="$val.interval eq 0 "><!-- 每刮一次都会存在中奖区间的，所以只要刮，就有区间值-->
+                        <switch name="val['prizetype']" >
+                            <case value="0">--</case>
+                            <case value="1">一等奖</case>
+                            <case value="2">二等奖</case>
+                            <case value="3">三等奖</case>
+                            <case value="4">四等奖</case>
+                            <default />
+                        </switch>
+                   <elseif condition="$val.interval neq 0 and $val.amount neq 0" />
+                              中奖 
+                   <else /> 未中
+                  </if>
+				</td>
+				<td align="center">
+                <if condition="$val.interval eq 0 "><!-- 每刮一次都会存在中奖区间的，所以只要刮，就有区间值-->
+                    <switch name="val['prizetype']" >
+                        <case value="0">--</case>
+                        <case value="1">iPhone5S</case>
+                        <case value="2">13000mAh移动电源</case>
+                        <case value="3">50元电话卡</case>
+                        <case value="4">10元电话卡</case>
+                        <default />
+                    </switch>
+                <elseif condition="$val.interval neq 0 and $val.amount neq 0" />   
+                          {$val['amount']}元
+                <else />--
+                </if>
+				</td>
+				<td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                <td align="center">
+                 <if condition="$val.interval eq 0 "><!-- 每刮一次都会存在中奖区间的，所以只要刮，就有区间值-->
+                  <img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" />
+                <else />--
+                </if>
+                </td>
+                <!-- <td align="center"><a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('weixin_lottery/delete', array('id'=>$val['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a></td> -->
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('weixin_lottery/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$('.J_cate_select').cate_select({top_option:lang.all});
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</body>
+</html>

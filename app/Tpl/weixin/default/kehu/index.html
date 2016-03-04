@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:new_head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/customer.css" rel="stylesheet" />
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME gray">
+  <header>
+    <section class="logo">房品汇</section>
+        <a href="javascript:;" class="gotolist">筛选<i></i></a>
+    <section class="search"> <a  onClick="sub('search_title');"  href="javascript:;" class="btn_search btn_click">搜索</a>
+      <div class="frm">
+        <form id='search_title'  method="get" >
+          <input type="hidden" name="g" value="weixin" />
+          <input type="hidden" name="m" value="kehu" />
+          <input type="hidden" name="a" value="index" />
+          <input type="hidden" id="search_status" name="search_status" value=1>
+          <input name="search_title" id='search_title' type="text" value="{$search['search_title']}" placeholder="楼盘名、客户名或电话">
+      </div>
+    </section>
+  </header>
+  <section class="scroll_body">
+	<notempty name="search.search_status"><h3 class="search_result">为您搜索到<i>{$search.count_user}</i>个结果</h3></notempty>
+    <section class="detail_blocks">
+      <ul>
+        <li>
+          <h4>客户</h4>
+          <strong>{$mycount}</strong>人
+        </li>
+        <li>
+          <h4>成交</h4>
+          <strong>{$chengjiao}</strong>笔
+        </li>
+      </ul>
+      <p class="detail_tips">查看最新的报备状态，请下载<a href="http://d.fangpinhui.com">房品汇经纪人APP</a></p>
+      <div style="clear:both"></div>
+    </section>
+    <section class="links_list">
+      <volist name="list" id="vo">
+      <notempty name='vo.add_time' >
+      <label class="FORM_LABEL">{$vo.add_time|date='Y-m-d',###}</label>
+      <section class="blocks">
+        <ul class="display_list">
+          <volist name="vo['my_p']" id="val">
+          <li><a href="{:U('weixin/kehu/customer_detail',array('id'=>$val['pid'],'pro_id'=>$val['id'],'with_look'=>$val['with_look']))}"><span class="title">{$val['name']}</span><span class="mobile">{$val['title']}</span>
+             <if condition="$val['status'] eq 1">
+                    <span class="status">带看申请</span>
+              </if>
+              <if condition="$val['status'] eq 2">
+                  <if condition="$val['status_cid'] eq 1">
+                    <span class="status">邀约成功</span>
+                   <else/>
+                    <span class="status">邀约失败</span>
+                  </if>
+              </if>
+
+              <if condition="$val['status'] eq 3">
+                  <if condition="$val['status_cid'] eq 1">
+                  <span class="status">开发商确认</span>
+                   <else/>
+                  <span class="status">开发商拒绝</span>
+                  </if>
+              </if>
+              <if condition="$val['status'] eq 4">
+                  <if condition="$val['status_cid'] eq 1">
+                  <span class="status">已到访</span>
+                   <else/>
+                  <span class="status">未到访</span>
+                  </if>
+              </if>
+              <if condition="$val['status'] eq 5">
+                  <if condition="$val['status_cid'] eq 1">
+                  <span class="status lighten">支付意向金</span>
+                  <elseif condition="$val['status_cid'] eq 2"/>
+                  <span class="status">支付团购费</span>
+                  <else /> 
+                  <span class="status">意向终止</span>
+                  </if>
+              </if>
+              <if condition="$val['status'] eq 6">
+                  <if condition="$val['status_cid'] eq 1">
+                  <span class="status lighten">支付定金</span>
+                  <else /> 
+                       <if condition="$val['zhongzhi'] eq 1">
+                        <span class="status">退回意向金</span>
+                         <else/>
+                        <span class="status">退回团购费</span>
+                        </if>
+                  </if>
+              </if>
+              <if condition="$val['status'] eq 7">
+                  <span class="status lighten">签约成交</span>
+              </if>
+              <if condition="$val['status'] eq 8">
+                  <span class="status">违约</span>
+              </if>
+              <if condition="$val['status'] eq 9">
+                  <span class="status">失效</span>
+              </if>
+
+          <i></i></a></li>
+          </volist>
+        </ul>
+      </section>
+      </notempty>
+      </volist>
+      <empty name='search.count_user'>
+      <div class="NO_DATA_MSG">暂无数据</div>
+    </empty>
+    </section>
+    <if condition="$count_list egt 10">
+     <div class="LOADING">正在加载...</div> 
+    </if>
+  </section>
+<include file="public:nav_4_0" />
+</div>
+<!---------------------------------------------------------------------------------------------------------------------------->
+<div id="HIDDEN_POPUP" class="HIDDEN_POPUP">
+  <div class="TOP_FRAME gray">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+      <a href="javascript:;" onClick="shai_list();" class="gotolist nobg" id="btn_reset">重置筛选</a> </header>
+    <section class="scroll_body noPadding">
+      <section class="filters">
+        <div class="dv_sel">
+         <select name="status" id='shai_status' onchange="shai_status_name();">
+            <option value="">-全部状态-</option>
+            <option value="1,1" <if condition="$search.status eq '1,1'">selected="selected"</if>>带看申请</option>
+            <option value="2,1" <if condition="$search.status eq '2,1'">selected="selected"</if>>邀约成功</option>
+            <option value="2,0" <if condition="$search.status eq '2,0'">selected="selected"</if>>邀约失败</option>
+            <option value="3,1" <if condition="$search.status eq '3,1'">selected="selected"</if>>开发商确认</option>
+            <option value="3,0" <if condition="$search.status eq '3,0'">selected="selected"</if>>开发商拒绝</option>
+            <option value="4,1" <if condition="$search.status eq '4,1'">selected="selected"</if>>已带看</option>
+            <option value="4,0" <if condition="$search.status eq '4,0'">selected="selected"</if>>未带看</option>
+            <option value="5,1" <if condition="$search.status eq '5,1'">selected="selected"</if>>支付意向金</option>
+            <option value="5,2" <if condition="$search.status eq '5,2'">selected="selected"</if>>参加团购</option>
+            <option value="5,0" <if condition="$search.status eq '5,0'">selected="selected"</if>>意向终止</option>
+            <option value="6,1" <if condition="$search.status eq '6,1'">selected="selected"</if>>支付定金</option>
+            <option value="6,0" <if condition="$search.status eq '6,0'">selected="selected"</if>>退回意向金/团购费</option>
+            <option value="7,0" <if condition="$search.status eq '7,0'">selected="selected"</if>>签约成交</option>
+            <option value="8,0" <if condition="$search.status eq '8,0'">selected="selected"</if>>违约</option>
+            <option value="9,0" <if condition="$search.status eq '9,0'">selected="selected"</if>>失效</option>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_status_name">状态筛选</a> </div>
+      </section>
+
+      <section class="se_btn"><a onClick="sub('search_title');" href="javascript:;" class="BTNs btn_click">确定</a> <a href="javascript:;" class="BTNs cancel">取消</a></section>
+      </form>
+    </section>
+  </div>
+</div>
+
+<script type="text/javascript">
+var search_title =  "{$search['title']}";//搜索关键字
+var search_status =  "{$search['search_status']}";
+var search_status_name = "{$search['status']}";
+if(search_status_name != ''){
+  var s_name = $("#shai_status").find("option:selected").text();
+  $('#shai_status_name').html(s_name);
+}
+//状态筛选
+function shai_status_name(){
+  var name = $("#shai_status").find("option:selected").text();
+  if($('#shai_status').val() == ''){
+    $('#shai_status_name').html('-全部状态-');
+  }else{
+    $('#shai_status_name').html(name);
+  }
+}
+//提交
+function sub(str){
+  $('#'+str).submit();
+}
+
+$(function(){
+  //向下滑动加载
+  var winH = $(window).height(); //页面可视区域高度 
+  var pagefirst = 1; //设置当前页数
+  var stopstatus = true; 
+  $(window).scroll(function () { 
+      var pageH = $(document.body).height(); 
+      var scrollT = $(window).scrollTop(); //滚动条top 
+      var lq_height = (pageH-winH-scrollT)/winH;
+      var url = PINER.root + '/?g=weixin&m=kehu&a=ajax_baobei';
+      if(lq_height<0.02 && stopstatus == true){ 
+          stopstatus = false;
+          $.post(url,{
+            page:pagefirst,
+            status:search_status_name,
+            search_title:search_title,
+            search_status:search_status,
+          },function(result){
+             if(result.status == 1){
+              //$('.display_list').append(result.data);
+              $('.links_list').append(result.data);
+              $('.LOADING').html('正在加载...');
+              pagefirst++;
+              stopstatus = true;
+              return false; 
+            }else{
+              $('.LOADING').html(result.msg);
+              return false;
+            }
+        },'json');
+      }
+    });
+});
+	var $gotolist = $('.gotolist');
+	var $HIDDEN_POPUP = $('#HIDDEN_POPUP');
+	$gotolist.click(function(e) {
+        $HIDDEN_POPUP.fadeIn(function(e){
+			$('#TOP_FRAME').hide();
+		});
+    });
+	
+	var $input_search = $('.search').find('input');
+	var $footer = $('footer');
+	$input_search
+	.focus(function(e){
+		$footer.hide();
+	})
+	.blur(function(e) {
+        $footer.show();
+    });
+	;
+	
+	var $cancel = $('.cancel');
+	$cancel.click(function(e){
+		$HIDDEN_POPUP.fadeOut();
+		$('#TOP_FRAME').show();
+	});	
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

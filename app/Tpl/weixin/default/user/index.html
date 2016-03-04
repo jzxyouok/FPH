@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/profile.css?v=1" rel="stylesheet" />
+<style type="text/css">
+#TOP_FRAME .scroll_body .links_list .display_list li a .title {
+  padding-left: 35px;
+}
+
+</style>
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding noshadow">
+    <section class="logo">房品汇</section>
+      <!-- <a href="javascript:;" class="gotolist nobg J_logout" id="btn_reset">退出登录</a> -->
+    </header>
+  <section class="scroll_body hasResults">
+    <section class="photo"> <a href="{:U('weixin/user/editmy')}"> <i></i>
+      <figure><img src="{:get_fdfs_image($info['avatar'], '_100x100')}" onerror="this.src='{$info['headimgurl']}'" /></figure>
+        <h2>
+          <if condition="$info.username eq ''">
+              {$info['nickname']}
+          <else/>
+              {$info['username']}
+          </if> {$info['mobile']}</h2>
+      </a>
+      </section>
+      
+        <section class="service_call">
+          <i></i>         
+            <figure>
+              <img src="{:get_fdfs_image($service_info['avatar'], '_100x100')}" onerror="this.src='__ROOT__/data/upload/avatar/default_100.jpg'" />
+              <p>我的客服专员</p>
+              <h2>房品汇 {:C('pin_kefu_tel')}</h2>
+            </figure>
+            <a href="tel:{:C('pin_kefu_tel')}" class="call"></a> 
+        </section>
+      
+    <section class="links_list">
+      <!--<section class="blocks">
+        <ul class="display_list">
+          <li><a href="#"><span class="icons b1"></span><span class="title">驻守楼盘</span><span class="status">暂无</span><i></i></a></li>
+        </ul>
+      </section>-->
+      <section class="blocks">
+        <ul class="display_list">
+          <li><a href="{:U('weixin/garrison/index')}"><span class="icons b11"></span><span class="title">驻守楼盘</span><span class="status">{$stat_property}</span><i></i></a></li>
+          <li><a href="{:U('weixin/stores/index')}"><span class="icons b1"></span><span class="title">我的门店</span><span class="status">{$stores_info['name']}</span><i></i></a></li>
+          <li><a href="{:U('weixin/money/index')}"><span class="icons b2"></span><span class="title">我的佣金</span><span class="status">{$count['yijie']}</span><i></i></a></li>
+          <li><a href="{:U('weixin/user/favorites')}"><span class="icons b5"></span><span class="title">我的收藏</span><span class="status">{$count['favorites']}</span><i></i></a></li>
+        </ul>
+      </section>
+      <!--<section class="blocks">
+        <ul class="display_list">
+          <li><a href="#"><span class="icons b2"></span><span class="title">我的佣金</span><span class="status">55658</span><i></i></a></li>
+        </ul>
+      </section>-->
+      <!--<section class="blocks">
+        <ul class="display_list">
+          <li><a href="#"><span class="icons b3"></span><span class="title">我的推广</span><span class="status">96人</span><i></i></a></li>
+        </ul>
+      </section>
+      <section class="blocks">
+        <ul class="display_list">
+          <li><a href="#"><span class="icons b4"></span><span class="title">我的报名</span><span class="status">18</span><i></i></a></li>
+          <li><a href="#"><span class="icons b5"></span><span class="title">我的收藏</span><span class="status">6</span><i></i></a></li>
+        </ul>
+      </section>-->
+      <!--<section class="blocks">
+        <ul class="display_list">
+          <li><a href="#"><span class="icons b6"></span><span class="title">新建门店</span><span class="status">18</span><i></i></a></li>
+          <li><a href="#"><span class="icons b7"></span><span class="title">门店拜访</span><i></i></a></li>
+          <li><a href="#"><span class="icons b9"></span><span class="title">门店拜访统计</span><i></i></a></li>
+        </ul>
+      </section>-->
+      <!--<section class="blocks">
+        <ul class="display_list">
+          <li><a href="#"><span class="icons b8"></span><span class="title">项目跟进</span><span class="status">18</span><i></i></a></li>
+        </ul>
+      </section>
+      <section class="blocks">
+        <ul class="display_list">
+          <li><a href="#"><span class="icons b10"></span><span class="title">案场渠道</span><span class="status">18</span><i></i></a></li>
+        </ul>
+      </section>-->
+      <if condition="$info['admin_mobile'] eq 1"> 
+        <section class="blocks">
+          <ul class="display_list"><!-- {:U('m/user/index')} -->
+            <li><a href="http://myun.fangpinhui.com"><span class="icons b12"></span><span class="title">房品云内部管理</span><i></i></a></li>
+          </ul>
+        </section>
+      </if>
+    </section>
+  </section>
+  <include file="public:nav_4_0" />
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

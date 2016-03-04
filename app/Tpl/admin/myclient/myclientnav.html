@@ -1,0 +1,5 @@
+<ul class="J_tabs tab_but cu_li">
+	<a href="{:u('myclient/myclientinfo', array('id'=>$id))}"><li <if condition="ACTION_NAME eq 'myclientinfo'">class="current"</if>>客户信息</li></a>
+	<a href="{:u('myclient/myclientdaikan', array('id'=>$id))}"><li <if condition="ACTION_NAME eq 'myclientdaikan'">class="current"</if>>由我带看</li></a>
+	<a href="{:u('myclient/myclientweituo', array('id'=>$id))}"><li <if condition="ACTION_NAME eq 'myclientweituo'">class="current"</if>>委托带看</li></a>
+</ul>

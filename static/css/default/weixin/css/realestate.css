@@ -1,0 +1,256 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+.infoBlock {
+	position: relative;
+	color: #888888;
+	font-size: 14px;
+	padding: 15px 10px 15px 10px;
+}
+.infoBlock h3 {
+	font-weight: normal;
+	display: block;
+	margin-bottom: 10px;
+	color: #444444;
+	font-size: 16px;
+}
+.infoBlock img {
+	max-width: 100%;
+}
+.infoBlock span.bold {
+	padding-right: 5px;
+	font-size: inherit;
+	color: #ff6600;
+}
+.infoBlock p {
+	line-height: 22px;
+	margin:5px 0;
+}
+.infoBlock .favorite {
+	right: 12px;
+	top: 26px;
+}
+.infoBlock h4 {
+	display: block;
+	margin-bottom: 8px;
+	line-height: 20px;
+	font-weight: normal;
+	font-size: 14px;
+	color: #333333;
+	/*text-indent: 20px;
+	background-image: url(../images/common/icon_estate.png);
+	background-repeat: no-repeat;*/
+}
+.infoBlock a.link {
+	display: inline-block;
+	padding-right: 25px;
+	line-height: 26px;
+	font-size: 14px;
+	color: #0075a9;
+	background-image: url(../images/common/btn_more.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.infoBlock h4#title1 {
+	background-position: left -4px;
+}
+.infoBlock h4#title2 {
+	background-position: left -34px;
+}
+.infoBlock h4#title3 {
+	background-position: left -64px;
+}
+.infoBlock h4#title4 {
+	background-position: left -94px;
+}
+.infoBlock h4#title5 {
+	background-position: left -124px;
+}
+.infoBlock h4#title6 {
+	background-position: left -154px;
+}
+.infoBlock h4#title7 {
+	background-position: left -184px;
+}
+.infoBlock h4#title8 {
+	background-position: left -214px;
+}
+.infoBlock ul li {
+	display: block;
+	height: 75px;
+	padding: 5px;
+	margin-bottom: 15px;
+}
+.infoBlock ul li a {
+	display: inherit;
+	height: inherit;
+	width: inherit;
+	display: block;
+	background-image: url(../images/common/btn_more.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.infoBlock ul li a img {
+	width: 100px;
+	height: 75px;
+	border: solid 1px #dddddd;
+	float: left;
+}
+.infoBlock ul li a .list_right {
+	height: inherit;
+	float: left;
+	color: #666666;
+	padding: 0 8px 0 8px;
+}
+.infoBlock ul li a .list_right h5, .infoBlock ul li a .list_right span {
+	color: #666666;
+}
+.infoBlock ul li a .list_right h5 {
+	font-size: 14px;
+	display: inline-block;
+	margin-bottom: 9px;
+}
+.infoBlock ul li a .list_right span {
+	display: block;
+	line-height: 20px;
+}
+.infoBlock ul li a .list_right h5 span, .infoBlock h3 span {
+	color: #FFF;
+	display: inline-block;
+	font-size: 12px;
+	padding-top: 0px;
+	padding-right: 5px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+	font-weight: normal;
+	margin-right: 5px;
+	margin-left: 5px;
+	border-radius: 5px;
+}
+.infoBlock ul li a .list_right h5 span.onSale, .infoBlock h3 span.onSale {
+	background-color: #ff6600;
+}
+.infoBlock ul li a .list_right h5 span.soldOut, .infoBlock h3 span.soldOut {
+	background-color: #898989;
+}
+.infoBlock ul li a .list_right h5 span.toSell, .infoBlock h3 span.toSell {
+	background-color: #396;
+}
+.infoBlock table.detailList tr, .infoBlock table.detailInfo tr {
+	font-size: 14px;
+	line-height: 24px;
+	height: 30px;
+}
+.infoBlock table tr td a {
+	font-size: 14px;
+}
+.infoBlock table.detailList tr:first-child, .infoBlock table.detailInfo tr:first-child {
+	vertical-align: top;
+}
+.infoBlock table.detailList tr td, .infoBlock table.detailInfo tr td {
+	color: #666666;
+	font-size: 14px;
+}
+.infoBlock table.detailList tr td label, .infoBlock table.detailInfo tr td label {
+	color: #333333;
+	font-size: 14px;
+	display: inline-block;
+	min-width: 80px;
+	text-align: right;
+}
+.infoBlock ul.detailList li, .infoBlock ul.detailInfo li {
+	color: #666666;
+	font-size: 14px;
+	line-height: 30px;
+	height: 30px;
+	margin: 0;
+	padding: 0;
+}
+.infoBlock ul.detailList li label, .infoBlock ul.detailInfo li label {
+	color: #333333;
+	font-size: 14px;
+	display: inline-block;
+	min-width: 80px;
+	text-align: right;
+}
+.infoBlock ul.detailInfo li label {
+	min-width: 35px;
+}
+.infoBlock ul.detailInfo li ol {
+	float: left;
+}
+.infoBlock .map {
+	height: 200px;
+	border: solid 1px #dddddd;
+	margin-bottom: 15px;
+}
+.btn_report {
+	line-height: 45px;
+	height: 45px;
+	display: block;
+	color: #FFF;
+	font-size: 14px;
+	text-align: center;
+	position: fixed;
+	bottom: 0px;
+	width: 96%;
+	margin: 0 2% 10px 2%;
+}
+.huxing_img {
+	height: 180px;
+	text-align: center;
+}
+.huxing_img img {
+	height: 100%;
+}
+.swiper {
+	width: 100%;
+	overflow: hidden;
+}
+.swiper-container {
+	height: 180px;
+	width: inherit;
+	overflow: hidden;
+}
+.swiper-slide {
+	float: left;
+}
+.swiper-container .swiper-slide img {
+	width: 100%;
+	height: 180px;
+}
+.pagination {
+	text-align: center;
+	width: 100%;
+	height: 15px;
+	line-height: 13px;
+	background-color: #666;
+}
+.swiper-pagination-switch {
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	border-radius: 6px;
+	background: #999;
+	margin: 0 3px;
+	cursor: pointer;
+	line-height: inherit;
+}
+.swiper-active-switch {
+	background: #fff;
+}
+.visit_sum { 
+	background-color:#ddd;
+	padding:8px 0px;
+	color:#333;
+	}
+.visit_sum span {
+	display:inline-block;
+	width:49%;
+	}
+.visit_sum span:first-child { 
+	text-indent:12px;
+	}
+.visit_sum i {
+	font-style:normal; 
+	}

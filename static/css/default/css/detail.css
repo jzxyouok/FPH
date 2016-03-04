@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+h3 { font-size: 14px; color: #333; display: block; padding: 5px 0!important; font-weight: normal; }
+h1 { text-align:center;font-size:14px; display:block;}
+img { width:100%; height:auto;}
+.field { border-bottom:solid 1px #CCCCCC; padding-bottom:10px;}
+.time { color:#999;}
+.hpone_number { height:40px; width:100%; border:1px solid #ccc; font-size:16px; }
+.code {height:40px; width:56%; float:left; border:1px solid #ccc;font-size:16px;  }
+.get_code {display:inline-block;height:42px;  width:40%;  float: right;  border:#09C solid 1px; background-color:#6CF; border-radius: none; text-align: center; color:#06C;cursor:pointer; -webkit-appearance: none;}
+
+.content { width:94%; margin: 3% auto;}
+.news { border:#CCC 1px solid; display:block; color:#000; }
+.news img{ width:95%; height:auto; margin-top:10px; }
+.menu{ height:40px; width:33%; float:left; background:#F3F3F3; text-align:center; line-height:40px; display:block;color:#000; border-top:#CCC 1px solid;}
+.mid_menu{ height:40px; width:34%;float:left;background:#F3F3F3; text-align:center; line-height:40px; display:block;color:#000;border-top:#CCC 1px solid; border-left:#CCC 1px solid; border-right:#CCC 1px solid;}
+#gg{position:fixed;bottom:0;background:#000;width:100%;height:40px;line-height:23px;z-index:9999;opacity:1;filter:alpha(opacity=1);_bottom:auto;_width:100%;_position:absolute;_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0))); }
+.box{clear: both; width: 100%}
+.submit {display:block; font-size: 16px;  float:left;width:100%; height:50px; background-color:#09F; border-radius:none; border:#09C solid 1px; color:#FFF; text-align:center; line-height:50px; margin:30px auto; -webkit-appearance: none;}
+.sex { font-size:18px; margin-right:100px; display:block; float:left;}
+.submit_reg {display:block; float:left;width:100%;font-size: 14px; height:50px; background-color:#eee; border-radius:none; border:#ddd solid 1px; color:#333; text-align:center; line-height:50px; margin:0px auto; -webkit-appearance: none;}
+label.sex { display:inline-block; height:40px; line-height:40px; padding-right:40px;float:none!important; margin:0;}
+p.txt { line-height:40px; color:#333; font-size:16px;}
+input{text-indent:6px;font-family:Arial, Helvetica, sans-serif; }
+.btn_change_pw {padding:0.8rem 0; font-size:1.2rem; display:inline-block}

@@ -1,0 +1,158 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="property" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                物业类型：
+                <select name="property_type">
+                    <option value="">-{:L('all')}-</option>
+                    <volist name="catelist['property_type']" id="v">
+                        <option value="{$v['id']}" <if condition="$search['property_type'] eq $v['id']">selected="selected"</if>>{$v['name']}</option>
+                    </volist>
+                </select>
+                &nbsp;&nbsp;合作筛选：
+                <select name="cooperation">
+                    <option value="">-{:L('all')}-</option>
+                    <option value="1" <if condition="$search['cooperation'] eq 1">selected="selected"</if>>正在合作</option>
+                    <option value="2" <if condition="$search['cooperation'] eq 2">selected="selected"</if>>已结束合作</option>
+                    <option value="3" <if condition="$search['cooperation'] eq 3">selected="selected"</if>>非合作</option>
+                </select>
+                &nbsp;&nbsp;状态：
+                <select name="status">
+                    <option value="3">-{:L('all')}-</option>
+                    <option value="1" <if condition="$search['status'] eq '1'">selected="selected"</if>>上架</option>
+                    <option value="0" <if condition="$search['status'] eq '0'">selected="selected"</if>>下架</option>
+                </select>
+                &nbsp;&nbsp;乙方负责人：
+                <input name="b_head" type="text" class="input-text" size="10" value="{$search['b_head']}" maxlength="8" />
+                &nbsp;&nbsp;楼盘名称:
+                <input name="title" type="text" class="input-text" size="25" value="{$search['title']}" maxlength="30" />
+                &nbsp;&nbsp;所在城市：
+                <select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected="{$search['city_spid']}">
+                </select>
+                <input type="hidden" name="city_id" id="J_city_id" value="{$search['city_id']}" />
+                &nbsp;&nbsp;发布时间：
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}" readonly>
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}" readonly>
+                &nbsp;&nbsp;活动：
+                <select name="activity">
+                    <option value="">-{:L('all')}-</option>
+                    <option value="1" <if condition="$search['activity'] eq '1'">selected="selected"</if>>有带看奖</option>
+                    <option value="2" <if condition="$search['activity'] eq '2'">selected="selected"</if>>有路费</option>
+                    <option value="3" <if condition="$search['activity'] eq '3'">selected="selected"</if>>团购</option>
+                    <option value="4" <if condition="$search['activity'] eq '4'">selected="selected"</if>>推荐</option>
+                </select>
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('property/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="30">排序</th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left">楼盘标题</th>
+                <th align="left">楼盘单价</th>
+                <th align="left">地区</th>
+                <th align="left">发布时间</th>
+                <th align="center">B合作</th>
+                <th align="center">C合作</th>
+                <th align="center">C端推荐</th>
+                <th align="left">发布者</th>
+                <th align="center">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center" >
+                    <span class='tdedit' id="ordid{$val['id']}" onclick="ordid({$val['id']});">{$val.ordid}</span>
+                    <input style="display:none;width:30px;" type="text" value="{$val.ordid}" onblur="ordidblur({$val['id']});" size="1" id="ordid_text{$val['id']}">
+                </td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.title}</td>
+                <td align="left">
+                    <if condition="$val.item_price neq 0">
+                        {$val.item_price}元/㎡
+                    </if>
+                </td>
+                <td align="left">{$val['city_name']}</td>
+                <td align="left">{$val.add_time|date='Y-m-d',###}</td>
+                <td align="center"><img src="__STATIC__/images/admin/toggle_<if condition="$val.cooperation eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center"><img src="__STATIC__/images/admin/toggle_<if condition="$val.client_cooperation eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center"><img src="__STATIC__/images/admin/toggle_<if condition="$val.suggest eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="left">{$val.author}</td>
+                <td align="center"><a href="{:u('article/add', array('pid'=>$val['id'],'menuid'=>155))}">活动</a> | <a href="{:u('property/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">{:L('edit')}</a> | <a href="{:u('property/status', array('id'=>$val['id'],'status'=>$val['status'],'roleid'=>1))}">
+                    <if condition="$val.status eq 1">
+                        发布
+                    <else/>
+                        取消
+                    </if>
+                </a></td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$('.J_city_select').city_select('请选择');
+
+$('.J_preview').preview(); //查看大图
+
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+function ordid(id) {
+    $('#ordid_text'+id).show();
+    $('#ordid_text'+id).focus();
+    $('#ordid_text'+id).select();
+    $('#ordid'+id).hide();
+}
+
+function ordidblur(id) {
+    var url = "{:U('property/ajax_ordid_edit',array('roleid'=>1))}";
+    $.post(url,{id:id,ordid:$('#ordid_text'+id).val()},
+      function(result){
+        if(result.status == 0){
+          $.pinphp.tip({content:result.msg, icon:'error'});
+        }
+    },'json');
+    $('#ordid_text'+id).hide();
+    $('#ordid'+id).html($('#ordid_text'+id).val());
+    $('#ordid'+id).show();
+}
+
+</script>
+</body>
+</html>

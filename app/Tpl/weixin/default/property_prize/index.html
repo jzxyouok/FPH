@@ -1,0 +1,355 @@
+<!doctype html>
+<html style="background-color:#eee;">
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/premises.css">
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <form id='search_title'  method="get" >
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+    <section class="dropdown">
+       <select id="citylist" onChange="MM_jumpMenu('parent',this,0)">
+        <volist name="citylist" id="vo">
+          <option  value="">请选择</option>
+          <option  value="{:U('weixin/property_prize/index',array('select_city'=>$vo['id'],'select_name'=>$vo['name']))}" >{$vo['name']}</option>
+        </volist>
+      </select>
+      <a href="javascript:void(0);" id="city_name"  class="city">{$search['select_name']}
+      <i></i></a> </section>
+    <a href="javascript:;" class="gotolist">筛选<i></i></a>
+     
+            <input type="hidden" name="g" value="weixin" />
+            <input type="hidden" name="m" value="property_prize" />
+            <input type="hidden" name="a" value="index" />
+            <input type="hidden" name="select_city" value="{$search['select_city']}" />
+            <input type="hidden" name="select_name" value="{$search['select_name']}" />
+            <input type="hidden" name="search_key_status" id="search_key_status" value="1" />
+  </header>
+  <section class="scroll_body hasResults">
+    <if condition="$search['search_key_status'] neq ''">
+    <div class="search_result">为您搜索到 {$search.count} 个结果</div>
+    </if>
+    <ul class="premises_list">
+      <volist name="list_user" id="vo">
+        <li><a href="{:U('weixin/loupan/detail',array('id'=>$vo['id'],'select_city'=>$search['select_city'],'select_name'=>$search['select_name']))}">
+          <figure><if condition="$vo.pid eq 1"><i></i></if><img src="{:get_fdfs_image($vo['img_thumb'], '_weixin_thumb')}" width="120" height="90"></figure>
+          <section class="detail">
+            <h3>{$vo['title']}</h3>
+            <span class="region">
+            <if condition="$vo['item_price'] neq '' ">{$vo['item_price']}元/㎡<else/> 价格待定</if>
+              </span><span class="price"><if condition="$vo['list_price'] neq '' ">佣金{$vo['list_price']}起每套<else/> 佣金暂无</if></span> </section>
+          <section class="status "> <i class="PREMISES_STATUS">奖</i> <span class="deposit">
+            <if condition="$vo['prize'] neq '' ">{$vo['prize']}元每客<else/>带看奖待定</if>
+            </span> <span class="unit">{$vo['distance']}km</span> </section>
+          </a> </li>
+        </volist>
+      <volist name="list" id="vo">
+        <li><a href="{:U('weixin/loupan/detail',array('id'=>$vo['id'],'select_city'=>$search['select_city'],'select_name'=>$search['select_name']))}">
+          <figure><if condition="$vo.pid eq 1"><i></i></if><img src="{:get_fdfs_image($vo['img_thumb'], '_weixin_thumb')}" width="120" height="90"></figure>
+          <section class="detail">
+            <h3>{$vo['title']}</h3>
+            <span class="region">
+            <if condition="$vo['item_price'] neq '' ">{$vo['item_price']}元/㎡<else/> 价格待定</if>
+              </span><span class="price"><if condition="$vo['list_price'] neq '' ">佣金{$vo['list_price']}起每套<else/> 佣金暂无</if></span> </section>
+          <section class="status "> <i class="PREMISES_STATUS">奖</i> <span class="deposit">
+            <if condition="$vo['prize'] neq '' ">{$vo['prize']}元每客<else/>带看奖待定</if>
+            </span> <span class="unit">{$vo['distance']}km</span> </section>
+          </a> </li>
+        </volist>
+    </ul>
+    <if condition="$countlp egt 6 ">
+   <div id="loading" class="LOADING">正在加载...</div>          
+    </if>
+    <empty name='list'>
+      <empty name='list_user'>
+      <div class="NO_DATA_MSG">即将上线，敬请期待</div>
+      </empty>
+    </empty>
+    
+  </section>
+<include file="public:nav_4_0" />
+</div>
+<!---------------------------------------------------------------------------------------------------------------------------->
+<div id="HIDDEN_POPUP" class="HIDDEN_POPUP">
+  <div class="TOP_FRAME gray">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+      <a href="javascript:;" onClick="shai_list();" class="gotolist nobg" id="btn_reset">重置筛选</a> </header>
+      <input type="hidden" name="g" value="weixin" />
+      <input type="hidden" name="m" value="property_prize" />
+      <input type="hidden" name="a" value="index" />
+      <input type="hidden" id="search_shai_city" name="search_shai_city" value="{$search['search_shai_city']}" >
+      <input type="hidden" id="search_ban_city" name="search_ban_city" value="{$search['search_ban_city']}" >
+      <input type="hidden" id="search_ban_city_name" name="search_ban_city_name" value="{$search['search_ban_city_name']}" >
+      <input type="hidden" id="search_status_name" name="search_status_name" value="{$search['search_status_name']}">
+      <input type="hidden" id="open_id" name="open_id" value="{$open_id}">
+      
+    <section class="scroll_body noPadding">
+      <section class="filters">
+        <div class="dv_sel">
+          <select name="shai_status" id="shai_status"  onchange="shai_status_name();">
+        <option id='shai_status2' value="2" <if condition="2 eq $search['search_status_name']">selected="selected"</if>>距离最近</option>
+        <option id='shai_status3' value="3" <if condition="3 eq $search['search_status_name']">selected="selected"</if>>奖金最高</option>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_status_name">智能排序</a>
+        </div>
+      </section>
+      <section class="filters">
+        <div class="dv_sel">
+          <select id="shai_city"  onchange="shai_city_pid2();">
+            <option value=''>不限</option>
+            <volist name="shailist_city" id="vo">
+              <option sele  id="shai_city_id{$vo['id']}" value="{$vo['id']}" <if condition="$vo.id eq $search['search_shai_city']">selected="selected"</if>>{$vo['name']}</option>
+            </volist>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_city_name">区域筛选</a> </div>
+        <div class="dv_sel">
+          <select id="shai_ban" onChange="shai_ban_city_id();">
+    
+          </select>
+          <i></i> <a href="javascript:;" id="shai_ban_name">板块筛选</a> </div>
+      </section>
+      <section class="se_btn"><a href="javascript:;" onClick="sub('search_title');" class="BTNs">确定</a> <a href="javascript:;" class="BTNs cancel">取消</a></section>
+      </form>
+    </section>
+  </div>
+</div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+//提交
+function sub(str){
+  $('#'+str).submit();
+}
+
+var select_city = "{$search['select_city']}";//城市ID
+var select_name =  "{$search['select_name']}";//城市名称
+var search_shai_city = "{$search['search_shai_city']}";//选择的区ID
+var search_ban_city = "{$search['search_ban_city']}";//板块ID
+var search_ban_city_name=  "{$search['search_ban_city_name']}";//板块名字 **
+var search_key_status =  "{$search['search_key_status']}";
+if(search_ban_city != ''){
+  $('#shai_ban_name').html(search_ban_city_name);
+}
+if(search_shai_city != ''){
+  $('#shai_city_name').html($('#shai_city_id'+search_shai_city).html());
+  shai_city_pid();
+}
+var open_id ="{$open_id}";
+//智能排序
+var search_status_name = "{$search['search_status_name']}";
+if(search_status_name != ''){
+  $('#shai_status_name').html($('#shai_status'+search_status_name).html());
+}
+//区域
+function shai_city_pid(){
+  if($('#shai_city').val() == ''){
+    $('#shai_city_name').html('区域筛选');
+  }else{
+    var url = PINER.root + '/?g=weixin&m=property_prize&a=shai_city';
+    $.post(url,{
+      shai_city:$('#shai_city').val(),
+      },function(result){
+      if(result.status == 1){
+        $('#shai_ban').show();
+        $('#shai_ban').html(result.data);
+      }
+      $('#shai_ban_name').html(search_ban_city_name);
+      $('#shai_ban_name').html($("#shai_ban_id"+search_ban_city).html());
+      if($("#shai_ban_id"+search_ban_city).html()==null){
+        $('#shai_ban_name').html('板块筛选');
+      }
+      $('#shai_city_name').html($('#shai_city_id'+$('#shai_city').val()).html());
+      $('#search_shai_city').val($('#shai_city').val());
+      $("#shai_ban_id"+search_ban_city).attr("selected","selected");
+    },'json');//shai_ban_id
+  }
+}
+//板块
+
+if($('#shai_city').val()==''){
+  $('#shai_ban').hide();
+}
+
+function shai_city_pid2(){
+  $('#search_ban_city').val('');
+  $('#search_ban_city_name').val('');
+  if($('#shai_city').val() == ''){
+    $('#shai_city_name').html('区域筛选');
+    $('#search_shai_city').val('');
+    $('#shai_ban_name').html('板块筛选');
+    $('#shai_ban').hide();
+  }else{
+
+    $('#shai_ban').show();
+    var url = PINER.root + '/?g=weixin&m=property_prize&a=shai_city';
+    $.post(url,{
+      shai_city:$('#shai_city').val(),
+      },function(result){
+      if(result.status == 1){
+        $('#shai_ban').show();
+        $('#shai_ban').html(result.data);
+      }
+      $('#shai_city_name').html($('#shai_city_id'+$('#shai_city').val()).html());
+      $('#shai_ban_name').html('板块筛选');
+      $('#search_shai_city').val($('#shai_city').val());
+      $("#shai_ban_id"+search_ban_city).attr("selected","selected");
+    },'json');
+  }
+}
+function shai_ban_city_id(){
+  if($('#shai_ban').val() == ''){
+    $('#shai_ban_name').html('板块筛选');
+    $('#search_ban_city').val('');
+    $('#search_ban_city_name').val('');
+  }else{
+    $('#shai_ban_name').html($('#shai_ban_id'+$('#shai_ban').val()).html());
+    $('#search_ban_city').val($('#shai_ban').val());
+    $('#search_ban_city_name').val($('#shai_ban_id'+$('#shai_ban').val()).html());
+  }
+  if(search_ban_city != ''){
+    $("#shai_ban_id"+search_ban_city).attr("selected","selected");
+  }
+}
+
+//重置
+function shai_list(){
+  $('#search_shai_city').val('');
+  $('#search_ban_city').val('');
+  $('#search_ban_city_name').val('');
+  $('#shai_city_name').html('区域筛选');
+  $('#shai_ban_name').html('板块筛选');
+
+  $('#shai_status').val('');
+  $('#shai_status_name').html('智能排序');
+  $('#search_status_name').val('');
+
+  $("#shai_city_id"+$('#shai_city option:selected').val()).attr("selected",false);
+  $("#shai_ban_id"+$('#shai_ban option:selected').val()).attr("selected",false);
+  $('#shai_ban').hide();
+  return false;
+}
+////智能排序
+function shai_status_name(){
+  if($('#shai_status').val() == ''){
+    $('#shai_status_name').html('智能排序');
+    $('#search_status_name').val('');
+  }else{
+    $('#shai_status_name').html($('#shai_status'+$('#shai_status').val()).html());
+    $('#search_status_name').val($('#shai_status').val());
+  }
+}
+
+
+$(function(){
+  //向下滑动加载
+  var winH = $(window).height(); //页面可视区域高度 
+  var pagefirst = 1; //设置当前页数
+  var stopstatus = true; 
+  $(window).scroll(function () { 
+      var pageH = $(document.body).height(); 
+      var scrollT = $(window).scrollTop(); //滚动条top 
+      var lq_height = (pageH-winH-scrollT)/winH;
+      var url = PINER.root + '/?g=weixin&m=property_prize&a=ajax_prize_index';
+      if(lq_height<0.02 && stopstatus == true){
+          stopstatus = false;
+          $.post(url,{
+          page:pagefirst,
+          select_city:select_city,
+          select_name:select_name,
+          search_shai_city:search_shai_city,
+          search_ban_city:search_ban_city,
+          search_ban_city_name:search_ban_city_name,
+          search_status_name:search_status_name,
+          search_key_status:search_key_status,
+          open_id:open_id,
+          },function(result){
+             if(result.status == 1){
+              $('.premises_list').append(result.data);
+              $('.LOADING').html('正在加载...');
+              pagefirst++;
+              stopstatus = true;
+              return false; 
+            }else{
+              $('.LOADING').html(result.msg);
+              return false;
+            }
+        },'json');
+      }
+    });
+});
+	var $gotolist = $('.gotolist');
+	var $HIDDEN_POPUP = $('#HIDDEN_POPUP');
+	$gotolist.click(function(e) {
+        $HIDDEN_POPUP.fadeIn(function(e){
+			$('#TOP_FRAME').hide();
+		});
+    });
+	
+	var $input_search = $('.search').find('input');
+	var $footer = $('footer');
+	$input_search
+	.focus(function(e){
+		$footer.hide();
+	})
+	.blur(function(e) {
+        $footer.show();
+    });
+	;
+	
+	var $cancel = $('.cancel');
+	$cancel.click(function(e){
+		$HIDDEN_POPUP.fadeOut();
+		$('#TOP_FRAME').show();
+	});
+	
+//添加分享js
+    wx.config({
+      debug: false,
+    appId: '{$jssdk.appId}',
+    timestamp: {$jssdk.timestamp},
+    nonceStr: '{$jssdk.nonceStr}',
+    signature: '{$jssdk.signature}',
+      jsApiList: [
+        // 所有要调用的 API 都要加到这个列表中
+          'onMenuShareTimeline',
+          'onMenuShareAppMessage'
+      ]
+  });
+var title = '房品汇-带看有奖';
+var desc  = '邀约客户，带抵案场，惊喜大奖，赶快来抢';
+var link = "{$url}/weixin/property_prize/index";
+var imgUrl = "{$url}/static/css/default/weixin/topic/about/images/share.jpg";
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: title, // 分享标题
+    //desc: "分享描述分享描述分享描述分享描述分享描述分享描述", // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        type: '', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+  });
+</script>
+</body>
+</html>

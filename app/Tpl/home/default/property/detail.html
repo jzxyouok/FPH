@@ -1,0 +1,408 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<include file="public:head" />
+<!--[if lte IE 8]>
+	<link rel="stylesheet" href="content/css/ie8.css" />
+	<script type="text/javascript">
+        document.createElement("header");
+        document.createElement("footer");
+        $('.advantage_box ul li').corner("130px");
+    </script>
+<![endif]-->
+</head>
+
+<body>
+<include file="public:header" />
+<div class="brand_remit_home_crumbs">
+  <div class="content">
+    <ul>
+      <li><a href="__ROOT__/">首页</a></li>
+      <li><a href="{:U('property/index')}">热销楼盘</a></li>
+      <li><a href="javascript:;">{$setTitle}</a></li>
+    </ul>
+  </div>
+</div>
+<div class="realestate_main">
+  <div class="content">
+    <div class="estate_name"> <span>{$info.title}</span>
+      <ul>
+        <volist name='info.leixing' id='v'>
+        <li><a href="javascript:;" class="green">{$v.name}</a></li>
+        </volist>
+        <if condition="$info.cate_feature neq ''">
+         <volist name='info.cate_feature' id='vo'>
+          <li><a href="javascript:;" class="orange">{$vo.name}</a></li>
+         </volist>
+        </if>
+      </ul>
+    </div>
+    <div class="location">{$info.area}<span>已有 <i>{$info.intentioncount}</i> 个意向客户 | 收藏 <i>{$favorites_sum}</i> 次</span></div>
+    <div class="detail_block">
+      <div class="skitter">
+        <div class="show_area">
+          <ul>
+           <volist name="pic_img" id="vo">
+              <li><a href="javascript:;"><img src="{:get_fdfs_image($vo['img'], '_480x360')}" alt="{$vo.title}"/></a></li>
+            </volist>
+          </ul>
+        </div>
+        <div class="list_area"> <a href="javascript:;" class="arrow left"></a> <a href="javascript:;" class="arrow right"></a>
+          <div class="blocks">
+            <ul>
+               <volist name="pic_img" id="vo">
+                <li><a href="javascript:;"><img src="{:get_fdfs_image($vo['img'], '_100x75')}" alt="{$vo.title}"/></a></li>
+              </volist>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="info_detail">
+        <h2>{$info.sub_title}</h2>
+        <div class="blocks">
+          <ul>
+            <li>
+              <label>楼盘均价：</label>
+              <span><strong>{$info.item_price}</strong>元/㎡</span></li>
+            <li>
+              <label>最低首付：</label>
+              <span>{$info.payment}万</span></li>
+            <li>
+              <label>入住时间：</label>
+              <span>{$info.check_time|date='Y-m-d',###}</span></li>
+            <li>
+              <label>销售状态：</label>
+              <span>
+                <switch name="info['sales']">
+                  <case value="0">未知</case>
+                  <case value="1">在售</case>
+                  <case value="2">待售</case>
+                  <case value="3">售罄</case>
+                  <default />未知
+               </switch>
+              </span></li>
+            <li>
+              <label>开盘时间：</label>
+              <span>{$info.open_time|date='Y-m-d',###}</span></li>
+            <li>
+              <label>装修情况：</label>
+              <span>{$info.get_decoration}</span></li>
+            <li>
+              <label>楼盘地址：</label>
+              <span>{$info.address}</span></li>
+          </ul>
+        </div>
+        <if condition="$info.hz_pid eq '1'">
+        <div class="blocks ref">
+          <div class="qr_code"><img width="180" src="http://qr.liantu.com/api.php?bg=FFFFFF&fg=1e51a2&gc=00a0e9&pt=1e51a2&inpt=00a0e9&el=h&w=200&m=10&logo=http://{$http_host}/static/css/default/home/images/icons/eode_icon.png&text=http://{$http_host}/index.php?g=weixin%26m=loupan%26a=detail%26id={$info.id}"/><span>扫一扫马上报备客户</span></div>
+          <div class="BC brokerage"><span>佣金</span></div>
+          <span class="BCtext">每套{$info.list_price}元起 </span> 
+          <!--<p>微信扫描右侧二维码</p>
+          <p>报备客户，赚取高额佣金</p>-->
+          <div class="BC discount"><span>优惠</span><a href="javascript:;">{$info.prefer}</a></div>
+          <div class="anchors"><a href="#yongjinxize">佣金细则</a><a href="#baobeiguize">报备规则</a></div>
+          <div style="clear:both"></div>
+        </div>
+        </if>
+        <div class="main_hotlines"> <i></i> <span class="title">免费服务热线</span> <span class="tel">{$info.kefu_tel}</span> </div>
+      </div>
+    </div>
+    <div class="tab_frm"><if condition="$info.hz_pid eq '1'"><a href="#zhuanyongjin">赚佣金</a> </if><a href="#maidian">卖点</a> <if condition="$hxlist neq ''"><a href="#huxing">户型</a></if> <a href="#xiangqing">详情</a> <a href="#jiaotong">交通</a> <a href="#jieshao">介绍</a> </div>
+    <if condition="$info.hz_pid eq '1'">
+    <a id="zhuanyongjin"></a>
+    <div class="info_blocks org">
+      <h2>赚佣金</h2>
+      <div class="brok_list">
+        <ul>
+          <volist name='commission' id='v'>
+            <li><i>佣</i>
+              <h6>{$v.cate}</h6>
+              <h5>
+              <if condition="$v.price neq '0.00'">总价{$v.price}%</if>
+              <if condition="$v.each neq '0'"><neq name="v[price]" value="0.00">,</neq>每套{$v.each}元</if>
+              <if condition="$v.money neq '0'"><neq name="v[each]" value="0">,</neq>现金奖{$v.money}元</if>
+              </h5>
+            </li>
+          </volist>
+        </ul>
+      </div>
+      <section class="infos">
+       <a id="yongjinxize"></a>
+        <h6>佣金细则</h6>
+        <p>{$info.commission_info}</p>
+        <a id="baobeiguize"></a>
+        <h6>报备规则</h6>
+        <p>{$info.report_info}</p>
+      </section>
+    </div>
+    </if>
+
+    <a id="maidian"></a>
+    <div class="info_blocks org">
+      <h2>楼盘卖点</h2>
+      {$info.feature}</div>
+    <if condition="$hxlist neq ''">
+    <a id="huxing"></a>
+    <div class="info_blocks">
+      <h2>在售户型</h2>
+      <div class="selling_frm">
+        <ul>
+          <volist name="hxlist" id="vo">
+          <li><a href="{:U('home/property/apartment',array('id'=>$vo['id'],'pid'=>$vo['pid']))}"><img src="{:get_fdfs_image($vo['house_img'], '_280x210')}" alt="{$vo.name}"/></a>
+            <h4>{$vo.house_name}<i class="status_tip">在售</i></h4>
+            <span>户型结构：{$vo.house_room}/{$vo.house_hall}/{$vo.house_wc}</span> <span>面积：{$vo.house_area}㎡</span> </li>
+          </volist>
+        </ul>
+      </div>
+    </div>
+  </if>
+    <a id="xiangqing"></a>
+    <div class="info_blocks">
+      <h2>楼盘详情</h2>
+      <ul>
+        <li>
+          <label>项目均价：</label>
+          <span>{:trim($info['item_price'])}元/平方米</span></li>
+        <li>
+          <label>最低首付：</label>
+          <span>{$info.payment}</span></li>
+        <li>
+          <label>项目位置：</label>
+          <span>{$info.address}</span></li>
+        <li>
+          <label>工程进度：</label>
+          <span>
+            <switch name="info['progress']">
+                <case value="1">在建中</case>
+                <case value="2">已竣工</case>
+                <case value="3">未动工</case>
+            </switch>
+            </span></li>
+        <li>
+          <label>物业类型：</label>
+          <span>
+            {$info.leixing_i}
+          </span></li>
+        <li>
+          <label>产权年限：</label>
+          <span>
+            <switch name="info['property_age']">
+              <case value="0">未知</case>
+              <case value="1">70年产权</case>
+              <case value="2">50年产权</case>
+              <case value="3">40年产权</case>
+              <case value="4">永久产权</case>
+            </switch>
+          </span></li>
+        <li>
+          <label>容积率：</label>
+          <span>{$info.volume_rate}</span></li>
+        <li>
+          <label>绿化率：</label>
+          <span>{$info.green_rate}</span></li>
+        <li>
+          <label>车位比：</label>
+          <span>{$info.parking_ratio}</span></li>
+        <li>
+          <label>售楼地址：</label>
+          <span>{$info.sales_address}</span></li>
+        <li>
+          <label>开发商：</label>
+          <span>{$info.business}</span></li>
+      </ul>
+      <ul>
+        <li>
+          <label>销售状态：</label>
+          <span>
+            <switch name="info['sales']">
+              <case value="0">未知</case>
+              <case value="1">在售</case>
+              <case value="2">待售</case>
+              <case value="3">售罄</case>
+              <default />未知
+           </switch>
+          </span></li>
+        <li>
+          <label>装修情况：</label>
+          <span>{$info.get_decoration}</span></li>
+        <li>
+          <label>建筑类型：</label>
+          <span>{$info.building_type}</span></li>
+        <li>
+          <label>规划户数：</label>
+          <span>{$info.gouseholds}</span></li>
+        <li>
+          <label>楼层状况：</label>
+          <span>{$info.floors}</span></li>
+        <li>
+          <label>开盘时间：</label>
+          <span>{$info.open_time|date='Y/m/d',###}</span></li>
+        <li>
+          <label>入住时间：</label>
+          <span>{$info.check_time|date='Y/m/d',###}</span></li>
+        <li>
+          <label>物业费：</label>
+          <span>{$info.property_costs}元/平米/月</span></li>
+        <li>
+          <label>物业公司：</label>
+          <span>{$info.propert_company}</span></li>
+      </ul>
+    </div>
+    <a id="jiaotong"></a>
+    <div class="info_blocks">
+      <h2>交通</h2>
+      <div id="map" class="map" style="height:360px; border: solid 1px #dddddd; margin-bottom: 15px;">
+   <!--引用百度地图API-->
+<style type="text/css">
+    .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+    .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+  <!--百度地图容器-->
+  <div style="width:100%;height:360px;border:#ccc solid 1px;" id="dituContent"></div>
+<script type="text/javascript">
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+        addMarker();//向地图中添加marker
+    }
+    
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+        var point = new BMap.Point({$info['latitude']});//定义一个中心点坐标
+        map.centerAndZoom(point,18);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+    }
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+    
+     var latitude = "{$info['latitude']}";
+     var title = "{$info['title']}";
+     var quyuname ="{$quyuname}";
+     var weizhi ="{$info.address}";
+    //地图控件添加函数：
+    function addMapControl(){
+      //向地图中添加缩放控件
+      var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+      map.addControl(ctrl_nav);
+            //向地图中添加缩略图控件
+      var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+      map.addControl(ctrl_ove);
+            //向地图中添加比例尺控件
+      var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+      map.addControl(ctrl_sca);
+    }
+    var markerArr = [{title:title,content:""+quyuname +' '+weizhi+"",point:latitude,isOpen:1,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+     ];
+    //创建marker
+    function addMarker(){
+        for(var i=0;i<markerArr.length;i++){
+            var json = markerArr[i];
+            var p0 = json.point.split(",")[0];
+            var p1 = json.point.split(",")[1];
+            var point = new BMap.Point(p0,p1);
+      var iconImg = createIcon(json.icon);
+            var marker = new BMap.Marker(point,{icon:iconImg});
+      var iw = createInfoWindow(i);
+      var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
+      marker.setLabel(label);
+            map.addOverlay(marker);
+            label.setStyle({
+                        borderColor:"#808080",
+                        color:"#333",
+                        cursor:"pointer"
+            });
+      
+      (function(){
+        var index = i;
+        var _iw = createInfoWindow(i);
+        var _marker = marker;
+        _marker.addEventListener("click",function(){
+            this.openInfoWindow(_iw);
+          });
+          _iw.addEventListener("open",function(){
+            _marker.getLabel().hide();
+          })
+          _iw.addEventListener("close",function(){
+            _marker.getLabel().show();
+          })
+        label.addEventListener("click",function(){
+            _marker.openInfoWindow(_iw);
+          })
+        if(!!json.isOpen){
+          label.hide();
+          _marker.openInfoWindow(_iw);
+        }
+      })()
+        }
+    }
+    //创建InfoWindow
+    function createInfoWindow(i){
+        var json = markerArr[i];
+        var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
+        return iw;
+    }
+    //创建一个Icon
+    function createIcon(json){
+        var icon = new BMap.Icon("http://app.baidu.com/map/images/us_mk_icon.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
+        return icon;
+    }
+    
+    initMap();//创建和初始化地图
+</script>
+      </div> 
+      <if condition="$info.metro neq '' ">
+        <p>周边地铁:<volist name="metro_info_m" id="vo">
+            {$vo['metro_name']}:
+            <volist name="vo['metro_end']" id="v">
+                {$v['name']}&nbsp;
+            </volist>
+        </volist>
+        </p>
+      </if>
+      <if condition="$info.bus neq '' ">
+        <p>公交线路:{$info.bus}</p>
+      </if>
+    </div>
+    <a id="jieshao"></a>
+    <div class="info_blocks">
+      <h2>项目介绍</h2>
+     <if condition="$info.info neq '' ">
+        <p>{$info.info}</p>
+      </if>
+    </div>
+    <div class="title_more">
+      <h2>周边房源<a href="{:U('property/index',array('area'=>$area_id))}">更多&gt;&gt;</a></h2>
+    </div>
+    <div class="realestate_list">
+      <ul>
+        <volist name="move_list" id="vo">
+          <li> <a href="{:U('property/detail',array('pid'=>$vo['id']))}"><img src="{:get_fdfs_image($vo['img_thumb'], '_pc_thumb')}" onerror="this.src='__STATIC__/css/default/images/no_img.gif';"  alt="{$vo.title}"/></a>
+            <div class="title"><span>[{$vo.city}]</span>{$vo.title} <i>
+              <if condition="is_numeric(trim($vo['item_price'])) eq FALSE ">{:trim($vo['item_price'])}
+                <else />
+                {:trim($vo['item_price'])}元/㎡</if>
+              </i></div>
+            <div class="BC discount"><span>优惠</span>{$vo.prefer}</div>
+            <div class="BC brokerage"><span>佣金</span>每套{$vo.list_price}元起</div>
+          </li>
+        </volist>
+      </ul>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__STATIC__/css/default/home/js/skitter_list.js"></script> 
+<script type="text/javascript">
+  $('.skitter').Skitter();
+</script> 
+<include file="public:footer" />
+</body>
+</html>

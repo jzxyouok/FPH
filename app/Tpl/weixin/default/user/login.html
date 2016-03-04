@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/lrcp.css">
+<script type="text/javascript">
+var send_url = '{:U('weixin/user/send_sms')}';
+var send_code = {$send_code};
+var iTime = 59;
+var Account;
+</script>
+</head>
+<body>
+<div class="LRCP_top_frm"> </div>
+<div class="LRCP_bottom_frm">
+  <div class="form_frm">
+    <label class="title">用户登录</label>
+    <div class="input_frm">
+      <ul>
+        <li>
+          <input type="tel" name="mobile" id="mobile" placeholder="您的手机号">
+        </li>
+        <li>
+          <input type="tel" class="short" name="mobile_code" id="mobile_code" maxlength="6" placeholder="输入验证码">
+          <input class="getcode" id="zphone" type="button" value="获取手机验证码 " onClick="get_mobile_code();">
+        </li>
+      </ul>
+    </div>
+    <input name="remember" id="remember" type="hidden" value="1">
+    <input name="url" id="url" type="hidden" value="{$url}">
+    <input name="admin_id" id="admin_id" type="hidden" value="{$admin_id}">
+
+    <a href="javascript:;" class="btn J_send_code_login">登录</a>
+      <!--<a href="{:U('weixin/password/index')}" class="other_link">重置密码</a>
+      <div class="bottom_links">
+        <span class="title">还没有账号？加入房品汇，高额佣金等你来拿</span> <a href="{:U('weixin/user/register',array('url'=>$url))}" class="btn">马上注册</a>
+      </div>-->
+  </div>
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

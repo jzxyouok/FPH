@@ -1,0 +1,57 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a href="{:u('commission/index', array('id'=>$id,'menuid'=>453))}"><em>佣金管理</em></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="{:u('income/add', array('id'=>$id,'menuid'=>457))}"><em>添加收入</em></a>
+    </div>
+</div>
+<div class="pad_lr_10" >
+    <div class="col_tab">
+    <include file="commission:classification" /></div>
+    <div class="J_tablelist table_list pad_10" data-acturi="{:U('commission/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=120  >添加时间</th>
+                <th>收入名称</th>
+                <th>金额</th>
+                <th width=250>收入时间</th>
+                <!--<th align='left'>发票抬头</th>-->
+                <th  width=300 align='left'>付款方明细</th>
+                <th>操作人</th>
+                <th>{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                <td align="center" >
+                    <switch name="val['name']" >
+                        <case value="1">服务费</case>
+                        <case value="2">平台服务费</case>
+                        <case value="3">代理费</case>
+                        <case value="4">佣金</case>
+                    </switch>
+                </td>
+                <td align="center">{$val.price}</td>
+                <td align="center">{$val.income_time|date='Y-m-d',###}</td>
+                <!--<td align="left" >{$val.invoice_up|default="暂无开票"}</td>-->
+                <td align="left">{$val.income_info}</td>
+                <td align="center">{$val.author}</td>
+                <td align="center"><a href="{:u('income/edit', array('iid'=>$val['id'],'id'=>$id, 'menuid'=>$menuid))}">{:L('edit')}</a> | <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('income/delete', array('id'=>$val['id']))}" data-msg="{:L('confirm_delete')}">{:L('delete')}</a></td>
+            </tr>
+            </volist>
+            <empty name="list">
+            <tr><td colspan=8>暂无数据</td></tr>
+            </empty>
+        </tbody>
+    </table>
+     <div class="btn_wrap_fixed">
+         <label >&nbsp;&nbsp;&nbsp;剩余收入:{$surplus}</label>
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

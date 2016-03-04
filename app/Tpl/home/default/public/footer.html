@@ -1,0 +1,65 @@
+<footer class="insidePage">
+  <div class="footer_menu">
+    <div class="content">
+      <ul>
+        <li><a href="{:U('article/about')}">关于我们</a></li>
+        <li><a href="{:U('article/contact')}">联系我们</a></li>
+        <li><a href="{:U('joinus/index')}">加入我们</a></li>
+        <li><a href="javascript:;">友情链接</a></li>
+        <li><a href="{:U('article/service')}">服务协议</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="content">
+    <div class="logo"> <a href="index.html"><img src="__STATIC__/css/default/home/images/logo_footer.png" alt=""></a>
+      <div class="hotlines">
+        <span class="title">免费客服电话</span>
+        <span class="tel">400-886-9058</span>
+      </div>
+    </div>
+    <div class="details_box">
+      <p>上海房品汇网络信息技术有限公司</p>
+      <p>上海市徐汇区田林路487号宝石园20号楼18楼</p>
+      <p>Tel: 86-021-61264678  61264673</p>
+      <p>Copyright &copy; 2012 - 2014 Fangpinhui.com. All Rights Reserved.房品汇 版权所有  沪ICP备14024338号-1</p>
+    </div>
+    <div class="logo_r"> <img src="__STATIC__/css/default/home/images/logo_footer2.png" alt=""> </div>
+  </div>
+</footer>
+<script src="{:U('home/online/online_count',array('origin'=>4))}" type="text/javascript"></script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?7cfb33a66c6d3110d2e42b1b5c7e31f8";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+(function() {
+    var $backToTopTxt = " ", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+            .text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+                    $("html,body").animate({ scrollTop: 0 }, 120);
+    }), $backToTopFun = function() {
+            var st = $(document).scrollTop(), winh = $(window).height();
+            (st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+            //IE6下的定位
+            if (!window.XMLHttpRequest) {
+                    $backToTopEle.css("top", st + winh - 166);
+            }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $(function() { $backToTopFun(); });
+})();
+var PINER = {
+    root: "__ROOT__",
+    uid: "<?php echo $visitor['id'];?>", 
+    async_sendmail: "<?php echo $async_sendmail;?>",
+    //URL
+    url: {}
+};
+//语言项目
+var lang = {};
+<volist name=":L('js_lang')" id="val">lang.{$key} = "{$val}";</volist>
+</script>

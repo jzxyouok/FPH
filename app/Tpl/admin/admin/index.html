@@ -1,0 +1,84 @@
+<include file="public:header" />
+<!--管理员管理-->
+<div class="pad_lr_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                &nbsp;&nbsp;{:L('status')}: 
+                <select name="status">
+                <option value="">-{:L('all')}-</option>
+                <option value="1" <if condition="$status eq '1'">selected="selected"</if>>正常</option>
+                <option value="0" <if condition="$status eq '0'">selected="selected"</if>>停用</option>
+                </select>
+                &nbsp;&nbsp;用户名 :
+                <input name="username" type="text" class="input-text" size="25" value="{$username}" />
+                &nbsp;&nbsp;电话 :
+                <input name="mobile" type="text" class="input-text" size="25" value="{$mobile}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('admin/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="40"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                <th width="40">ID</th>
+                <th align="left">{:L('admin_username')}</th>
+                <th>手机号码</th>
+                <th align='left'>负责城市</th>
+                <th>{:L('admininrole')}</th>
+                <th>{:L('lasttime')}</th>
+      			<th>{:L('lastip')}</th>
+                <th>{:L('status')}</th>
+                <th width=100>{:L('operations_manage')}</th>
+            </tr>
+            </thead>
+    	    <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.username}</td>
+                <td align="center">{$val.mobile}</td>
+                <td align="left">{$val.city_id_name|msubstr=0,8,'utf-8',true}</td>
+                <td align="center">{$val.role_id_name}</td>
+                <td align="center"> 
+                    <neq name="val.last_time" value="0">{$val.last_time|date='Y-m-d H:i:s',###}</neq>
+                </td>
+                <td align="center">{$val.last_ip}</td>
+                <td align="center">
+                    <img data-tdtype="toggle" data-field="status" data-id="{$val.id}" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" />
+                </td>
+                <td align="center">
+                    <a href="{:U('admin/edit', array('id'=>$val['id'],'menuid'=>$menuid))}">{:L('edit')}</a> | 
+					<if condition="$val.status eq 1">
+                    	<a href="javascript:;" class="J_confirmurl" data-acttype="ajax"  data-uri="{:U('admin/delete', array('id'=>$val['id']))}" data-msg="确定要停用该用户么?">停用</a>
+					<else/>
+						<a href="javascript:;" class="J_confirmurl" data-acttype="ajax"  data-uri="{:U('admin/recovery', array('id'=>$val['id']))}" data-msg="确定要恢复该用户么?">恢复</a>
+					</if>
+                </td>
+            </tr>
+            </volist>
+    	   </tbody>
+        </table>
+    </div>
+    <div class="btn_wrap_fixed">
+		<label class="select_all mr10"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+    	<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('admin/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+		<div id="pages">{$page}</div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

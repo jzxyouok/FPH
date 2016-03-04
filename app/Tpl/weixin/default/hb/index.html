@@ -1,0 +1,124 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1"/>
+<title>春节不打烊 50万话费天天抢</title>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/hongbao/style.css" />
+<script type="text/javascript">
+var PINER = {
+	root: "__ROOT__",
+	static: "__STATIC__",
+};
+</script>
+</head>
+<body>
+<img src="__STATIC__/css/default/weixin/hongbao/share.jpg" width="0" height="0" style="position:absolute;bottom:0;z-index:1;line-height:1%;">
+<div class="wrap">
+	<header>
+    <h1><img src="__STATIC__/css/default/weixin/hongbao/bg_txt.png" alt="春节不打烊 50万话费天天抢"></h1>
+    </header>
+    <div class="content">
+    	<!--第一步，刮-->
+        <div class="item" style="display:block">
+        <h2>春节话费满天飞 每天3次抢个够</h2>
+			<div class="btn">
+				<div class="bg_hongbao">
+				<a href="javascript:;" class="btn_chai">马上抢</a>
+				</div>
+			</div>
+        </div>
+        <!--第二步，刮出钱/没钱-->
+        <div class="result success" style="display:none">
+       		<h3>恭喜你！</h3>        	
+            <h4>话费到手啦！（可申请充值话费）</h4>
+            <h5><b id="award">3.35</b><span>元</span></h5>
+            <dl>
+            <dd><a href="{:U('weixin/hb/index')}" class="red">再抢一次</a>登陆用户每天可以抢3次话费</dd>
+			<dd><a href="javascript:;" class="blue">分享活动</a>点击右上角分享活动给好友或朋友圈</dd>
+            <dd><a href="http://d.fangpinhui.com" class="green">下载APP</a>下载APP拿万元佣金</dd>
+            </dl>
+        </div> 
+
+        <!--刮出钱/没钱-->
+		<div class="result failure" style="display:none">
+       		
+        	<h3 class="grey">竟然没抢到！</h3><!--没获的-->
+            <h4>难道刚才姿势不对？再来一次！</h4>            
+            <dl>
+            <dd><a href="{:U('weixin/hb/index')}" class="red">再抢一次</a>登陆用户每天可以抢3次话费</dd>
+			<dd><a href="http://mp.weixin.qq.com/s?__biz=MzA3MjY2MTkyNw==&mid=200902194&idx=1&sn=6be7f12ab7ed43b99252d7c159482f65#rd" class="yellow">关注公众号</a>关注公众号每天领福利</dd>
+            <dd><a href="http://d.fangpinhui.com" class="green">下载APP</a>下载APP拿万元佣金</dd>
+            </dl>
+        </div>
+
+    </div>
+    <div class="bottom_c">
+    <a href="{:U('weixin/user/prize')}">查看我的钱包</a>
+    <strong>话费金额随机抽取，累积10元即可申请充值</strong>
+	<p>本活动最终解释权归房品汇所有!</p>
+    </div>
+    <!--刮完/提示-->
+    <div class="popup" <if condition="$hit eq '1'"> style="display:block" <else/> style="display:none"</if> >
+        	<div class="popbox"  <if condition="$hit eq '1'"> style="display:block" <else/> style="display:none"</if> >
+					<div class="allover" <if condition="$hit eq '1'"> style="display:block" <else/> </if> ><!--未登录注册-->
+					<img src="__STATIC__/css/default/weixin/hongbao/face_no.png">
+					<h3>注册并登陆才能每天领3次哦！</h3>
+					<dl>
+					<dd><a href="{:U('weixin/user/register')}" class="yellow">立即注册</a></dd>
+					<dd><a href="{$login_url}" class="blue">马上登录</a></dd>
+					</dl>
+					</div>
+
+					<div class="allup"  style="display:none"><!--次数用完显示-->
+					<img src="__STATIC__/css/default/weixin/hongbao/face_login.png">
+					<h3>今天抢够3次啦！明天再来！</h3>
+					<h4>福利太瘦，还没领够？</h4>
+					<dl>
+<dd><a href="http://mp.weixin.qq.com/s?__biz=MzA3MjY2MTkyNw==&mid=200902194&idx=1&sn=6be7f12ab7ed43b99252d7c159482f65#rd" class="yellow">关注公众号</a>关注公众号每天领3次福利</dd>
+					<dd><a href="{:U('weixin/user/prize')}" class="blue">查看我的钱包</a>话费累积超过10元可申请充值啦</dd>		   			
+					
+					<dd><a href="http://d.fangpinhui.com/" class="green">下载APP</a>下载APP拿万元佣金</dd>
+					</dl>
+					</div>
+            </div>
+			<!--点击分享-->
+            <div class="share" style="display:none"><img src="__STATIC__/css/default/weixin/hongbao/share.png"></div>
+   </div>
+
+</div>
+<script src="__STATIC__/js/jquery/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var id  = {$id};
+	$(".btn_chai").click(function(){
+			var url = PINER.root +'/?g=weixin&m=hb&a=scratch';
+				$.post(url,{id:id },
+						function(data) {
+						   if (data.success == 2) {
+                               $('.popup').show();
+		                       $('.popbox').show();
+							   $('.allover').hide();
+                               $('.allup').show();
+							}else if(data.success == 0){
+                               $('.item').hide();
+							   $('.failure').show();
+							}else if(data.success == 1){
+                               $('.item').hide();
+							   $("#award").html(data.award);
+							   $('.success').show();
+							}
+
+						},"json");});    
+	//进入钱包
+	$(".blue").click(function(){
+        $('.popup').show();
+		$('.popbox').hide();
+        $('.share').show();
+	});
+	
+	$('.popup').click(function(){
+		$(this).hide();
+	});
+</script>
+</body>
+</html>

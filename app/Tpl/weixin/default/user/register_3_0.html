@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head" />
+<link href="__STATIC__/css/default/css/index.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/css/default/css/base.css" rel="stylesheet" type="text/css" media="all">
+<link href="__STATIC__/css/default/css/common.css" rel="stylesheet" type="text/css" media="all">
+<link href="__STATIC__/css/default/css/detail.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<form id="form1" name="form1" action="{:U('weixin/user/register')}" method="post">
+    <div class="content">
+        <div class="box">
+            <h3>您的手机</h3>
+            <input class="hpone_number" type="number" name="mobile" id="mobile">
+        </div>
+        <div class="box">
+            <h3>验证码</h3>
+            <input class="code" type="number" name="mobile_code" id="mobile_code">
+			<input class="get_code" id="zphone" type="button" value="获取手机验证码 " onClick="get_mobile_code();">
+        </div>
+        <div class="box">
+            <h3>输入密码</h3>
+            <input class="hpone_number" type="password" name="password" id="password">
+        </div>
+        <div class="box">
+            <h3>确认密码</h3>
+            <input class="hpone_number" type="password" name="password2" id="password2">
+            <input class="submit" type="button" id="sub_register" value="提交注册">
+        </div>
+		<div class="">
+       		<input class="submit_reg" type="button" value="已注册,请登录" onClick="location.href='{:U('weixin/user/login',array('url'=>$url))}';">
+       </div>
+    </div>
+	<input name="url" id="url" type="hidden" value="{$url}">
+	<input name="share_uid" id="share_uid" type="hidden" value="{$share_uid}">
+	</form>
+<script language="javascript">
+	var send_url = '{:U('weixin/user/send_sms')}';
+	var send_code = {$send_code};
+	function get_mobile_code(){
+		var mobile = $.trim($('#mobile').val());
+		if(mobile==''){
+			$.layer({
+				shade : [0.4 , '#000' , false],
+				area : ['auto','auto'],
+				title : false,
+				closeBtn:false,
+				time : 2,
+				dialog : {msg:'请输入手机号码',type : 3}	
+			});
+			return false;
+		}
+		 if(!mobile.match(/^13[0-9]{1}[0-9]{8}$|15[012356789]{1}[0-9]{8}$|18[0123456789]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|17[0123456789]{1}[0-9]{8}$/)){ 
+			$.layer({
+				shade : [0.4 , '#000' , false],
+				area : ['auto','auto'],
+				title : false,
+				closeBtn:false,
+				time : 2,
+				dialog : {msg:'手机号码格式不正确！请重新输入！',type : 3}	
+			});
+			return false; 
+		 } 
+        $.post(send_url, {mobile:mobile,send_code:send_code}, function(msg) {
+			if(msg=='提交成功'){
+				RemainTime();
+			}else{
+				layer.msg(jQuery.trim(unescape(msg)),2,3);
+			}
+        });
+	};
+	var iTime = 59;
+	var Account;
+	function RemainTime(){
+		document.getElementById('zphone').disabled = true;
+		var iSecond,sSecond="",sTime="";
+		if (iTime >= 0){
+			iSecond = parseInt(iTime%60);
+			iMinute = parseInt(iTime/60)
+			if (iSecond >= 0){
+				if(iMinute>0){
+					sSecond = iMinute + "分" + iSecond + "秒";
+				}else{
+					sSecond =  iSecond + "秒后重新发送";
+				}
+			}
+			sTime=sSecond;
+			if(iTime==0){
+				clearTimeout(Account);
+				sTime='获取手机验证码';
+				iTime = 59;
+				document.getElementById('zphone').disabled = false;
+			}else{
+				Account = setTimeout("RemainTime()",1000);
+				iTime=iTime-1;
+			}
+		}else{
+			sTime='没有倒计时';
+		}
+		document.getElementById('zphone').value = sTime;
+	}	
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<include file="public:header" />
+<style type='text/css'>
+    .red{color:red;}
+    .orange{color:orange;}
+    .green{color:green;}
+</style>
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="commission" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                提佣:
+                <select name='status'>
+                    <option value='3' >全部显示</option>
+                    <option value="1" <if condition="$search.status eq '1'"> selected </if>>已申请提佣</option>
+                    <option value="0" <if condition="$search.status eq '0'"> selected </if>>未申请提佣</option>
+                </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                经纪人：
+                <input type="text" name="uid" id="uid" class="input-text" size="12" value="{$search.uid}">
+                &nbsp;&nbsp;客户:
+               <input type="text" name="kehu" id="kehu" class="input-text"  size="12" value="{$search.kehu}">
+                &nbsp;&nbsp;楼盘 :
+                <input name="loupan" type="text" class="input-text" size="25" value="{$search.loupan}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('commission/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>成交时间</th>
+                <th align="left">成交楼盘</th>
+                <th >客户</th>
+                <th >经纪人</th>
+                <th>总价</th>
+		        <th>应收</th>
+                <th >实收</th>
+                <th>收款比率</th>
+                <th>应付</th>
+                <th>实付</th>
+                <th>付款比率</th>
+                <!-- <th>提佣</th> -->
+                <th>{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                <td align="left">{$val.title}</td>
+                <td align="center">{$val.username}</td>
+                <td align="center">{$val.uid}</td>
+                <td align="center">{$val.total_price}</td>
+                <td align="center">{$val.commission.income}</td>
+                <td align="center">{$val.income}</td>
+                <td align="center"
+                    <if condition="$val.income_ratio eq 0"> class='red'
+                      <elseif condition="$val.income_ratio egt 100"/> class='green' 
+                      <elseif condition="($val.income_ratio gt 0) and ($val.income_ratio lt 100) "/> class='orange'
+                     </if> >
+                   {$val.income_ratio|substr=0,4}%
+                </td>
+                <td align="center">{$val.commission.expenditure}</td>
+                <td align="center">{$val.expenditure}</td>
+                <td align="center"
+                        <if condition="$val.expenditure_ratio eq 0"> class='red'
+                          <elseif condition="$val.expenditure_ratio egt 100"/> class='green' 
+                          <elseif condition="($val.expenditure_ratio gt 0) and ($val.expenditure_ratio lt 100) "/> class='orange'
+                         </if> >{$val.expenditure_ratio|substr=0,4}% </td>
+               <!--  <td align="center"><img data-tdtype="toggle" data-id="{$val.commission.id}" data-field="status" data-value="{$val.commission.status}" src="__STATIC__/images/admin/toggle_<if condition="$val[commission][status] eq 0">disabled<else/>enabled</if>.gif" /></td> -->
+                <!-- <td align="center">
+                    <if condition="$val[commission][status] neq ''"><img src="__STATIC__/images/admin/toggle_disabled.gif" /></if>
+                </td> -->
+                <td align="center"><a href="{:u('commission/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">结算</a></td>
+            </tr>
+            </volist>
+            <empty name="list">
+            <tr><td colspan=13>暂无数据</td></tr>
+            </empty>
+        </tbody>
+    </table>
+     <div class="btn_wrap_fixed">
+         <label >&nbsp;&nbsp;&nbsp;应收 {$list_t.tot_income}　实收 {$list_t.totincome}&nbsp;&nbsp;&nbsp;结余{$list_t.jieyu1}　比率 {$list_t[totincome]/$list_t[tot_income]*100|substr=0,4}%　｜　应付 {$list_t.tot_expenditure}　实付 {$list_t.totexpenditure}&nbsp;&nbsp;&nbsp;结余{$list_t.jieyu2}　比率 {$list_t[totexpenditure]/$list_t[tot_expenditure]*100|substr=0,4}%</label>
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

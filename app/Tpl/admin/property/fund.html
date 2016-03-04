@@ -1,0 +1,66 @@
+<include file="public:header" />
+<script type="text/javascript">
+    var PINER = {
+        root: '__ROOT__',
+    };
+</script>
+<form id="info_form" action="{:U('property/fund')}" method="post">
+    <div class="pad_lr_10">
+        <div class="col_tab">
+            <include file="property:classification" />
+            <div class="J_panes">
+                <div class="content_list pad_10 ">
+                    <table width="100%" cellspacing="0"  class="table_form">
+                        <tr>
+                            <th>金额 :</th>
+                            <td><input type="text" name="money" id="money" class="input-text" size="30" maxlength="8" value="{$info.money}"></td>
+                        </tr>
+                        <tr>
+                            <th width="120">开始时间：</th>
+                            <td>
+                                <input type="text" name="time_start" id="time_start" value="{$info.time_start|date='Y-m-d',###}" class="date" size="12" readonly="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>结束时间：</th>
+                            <td>
+                                <input type="text" name="time_end" id="time_end" value="{$info.time_end|date='Y-m-d',###}"  class="date" size="12" readonly="">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+        </div>
+    </div>
+    <input type="hidden" name="menuid" value="{$menuid}" />
+    <input type="hidden" name="pid" value="{$info.pid}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    $(function() {
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#money").formValidator({onshow:"请输入金额",onfocus:"请输入金额"}).inputValidator({min:1,onerror:"请输入金额"}).regexValidator({regexp:"num3",datatype:"enum",onerror:"只能填写大于0的数字"});
+        $("#time_start").formValidator({onshow:"请选择开始时间",onfocus:"请选择开始时间"}).inputValidator({min:3,onerror:"请选择开始时间"}).defaultPassed();
+        $("#time_end").formValidator({onshow:"请选择结束时间",onfocus:"请选择结束时间"}).inputValidator({min:3,onerror:"请选择结束时间"}).defaultPassed();
+    });
+
+</script>
+</body>
+</html>

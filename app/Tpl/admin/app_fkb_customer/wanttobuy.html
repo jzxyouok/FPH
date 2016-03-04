@@ -1,0 +1,256 @@
+<include file="public:header" />
+<style>
+#brokercontain{width:194px; border: solid 1px #ccc; min-height: 25px; border-top: none; border-bottom: none; display: none;}
+#brokercontain li{ padding-top: 5px; border-bottom: dashed 1px #ccc; padding-left: 5px; cursor: pointer;}
+#brokercontain li:hover{ background: #DEF7CE;}
+.pad_lr_10{margin-top:15px;}
+#levelfont{ color:#F00; font-size:15px; font-weight:600}
+.table_form td label{ cursor: pointer; margin-right:8px;};
+</style>
+<!--添加管理员-->
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="app_fkb_customer:classification" />
+		<div class="J_panes">
+			<div class="content_list pad_10">
+	<form id="info_form" name="info_form" action="{:u('app_fkb_customer/wanttobuy',array('id'=>$_GET['id']))}" method="post">
+	<table width="100%" class="table_form">
+    	<tr> 
+	      <th width="80">客户等级 :</th>
+	      <td>
+              <b id="levelfont">
+                <if condition="$info['level'] eq 1">A 级客户</if>
+                <if condition="$info['level'] eq 2">B 级客户</if>
+                <if condition="$info['level'] eq 3">C 级客户</if>
+                <if condition="$info['level'] eq 4">D 级客户</if>
+              </b>
+          </td>
+	    </tr>
+        <tr>
+			<th width="120">购房时间 :</th>
+			<td  class="select_area">
+				<select class=" mr10" name="level" id="buytime">
+						<option value=""  <if condition="$info['level'] eq 0"> selected ="selected"</if>>--请选择--</option>
+						<option value="1" <if condition="$info['level'] eq 1"> selected ="selected"</if>>1-2个月</option>
+						<option value="2" <if condition="$info['level'] eq 2"> selected ="selected"</if>>2-3个月</option>
+						<option value="3" <if condition="$info['level'] eq 3"> selected ="selected"</if>>1年左右</option>
+						<option value="4" <if condition="$info['level'] eq 4"> selected ="selected"</if>>不确定</option>
+				</select>
+				
+			</td>
+		</tr> 
+		<tr> 
+	      <th width="80">购买动机 :</th>
+	      <td>
+          <label><input type="checkbox" name="buyingmotive1[]" id="buyingmotive_all" value="0"  size="30">全部</label>
+          <volist name="buyingmotivelist" id="v">
+         	 <label><input type="checkbox" name="buyingmotive[]"  value="{$v.id}" <in name='v.id' value="$info.buyingmotive">checked="checked"</in> class="buyingmotive" size="30"> {$v.name}</label>
+		  </volist>	
+          </td>
+	    </tr>       
+		<tr>
+			<th width="120">意向城市 :</th>
+			<td id="select_area" class="select_area">
+            <font id="result_city_id"></font>
+            </td>
+		</tr>
+		<tr>
+			<th width="120">意向区域 :</th>
+			<td id="" class="select_area">
+            <font id="result_area_id"></font>
+            </td>
+		</tr>
+        <tr> 
+	      <th width="80">意向户型 :</th>
+	      <td id="housetype">
+				<font id="result_housetype"></font>
+          </td>
+	    </tr>
+        <tr> 
+	      <th width="80">预算总价 :</th>
+	      <td>
+          	<font id="result_sumprice"></font><input type="hidden" name="id" id="customerid" value="{$id}" />	<input type="button" value="加载分析数据" id="analysisbtn" name="analysisbtn" class="btn btn_submit" >
+          </td>
+	    </tr>
+        <tr> 
+	      <th width="80">意向均价 :</th>
+	      <td>
+          <font id="result_average_price"></font>
+          </td>
+	    </tr>        
+        <tr> 
+	      <th width="80">意向类型 :</th>
+	      <td>
+          <font id="result_property_type"></font>
+          	<!--<label><input type="checkbox" name="property_type[]" id="property_type_all" value="0" class="input-text" size="30">全部</label>
+          	<volist name="catelist['property_type']" id="v">
+								<label><input type="checkbox" name="property_type[]" class="property_type" value="{$v['id']}" class="input-text" size="30" <in name="v.id" value="$info.property_type">checked="checked"</in>>{$v['name']}</label>
+			</volist>
+			<div id="property_type_2Tip" ></div>-->
+          </td>
+	    </tr>
+        <tr> 
+	      <th width="80">特色需要 :</th>
+	      <td>
+          <font id="result_property_feature">		  
+          </font>
+          <!--	<label><input type="checkbox" name="property_feature[]" id="property_feature_all" value="0" class="input-text" size="30">全部</label>
+          	<volist name="catelist['property_feature']" id="v">
+					<label><input type="checkbox" name="property_feature[]" class="property_feature" value="{$v['id']}" class="input-text" size="30" <in name="v.id" value="$info.property_feature">checked="checked"</in>>{$v['name']}</label>
+			</volist>-->
+          </td>
+	    </tr>	   
+		
+	   
+	</table>
+	<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	
+	</form>
+			</div>
+        </div>		
+	</div>
+</div>
+<include file="public:footer" />
+<script>
+$(function(){	
+
+//加载分析数据
+//$('#analysisbtn').click(function(){
+		var id = $('#customerid').val();
+		var url = "{:u('app_fkb_customer/analysis')}"
+		$.post(url,{customerid:id},function(data){
+				$('#result_average_price').html(data.data.result_average_price);
+				$('#result_housetype').html(data.data.result_housetype);
+				$('#result_sumprice').html(data.data.result_sumprice);
+				$('#result_property_type').html(data.data.result_property_type);
+				$('#result_property_feature').html(data.data.result_property_feature);
+				$('#result_city_id').html(data.data.result_city_id);
+				$('#result_area_id').html(data.data.result_area_id);
+				
+			},'json')
+		$('#analysisbtn').hide();
+
+/*
+ $('.J_city_select').live('change',function(){
+	 	var city_id = $(this).val();
+		var customerid = $('#customerid').val();
+		var housetype = "{$info.housetype}"	
+		var housetypeurl = "{:u('app_fkb_customer/gethousetypebycity')}"
+		$.post(housetypeurl,{city_id:city_id,customerid:customerid,housetype:housetype},function(data){
+				if(data.status ==1){
+					$('#housetype').html('');	
+					$('#housetype').html(data.data);
+				}else{
+					$('#housetype').html('');	
+					}
+			},'json');
+			
+		var getpricesum = "{:u('app_fkb_customer/getpricesum')}"
+		$.post(getpricesum,{city_id:city_id,customerid:customerid},function(data){
+				if(data.status ==1){
+					$('#sumprice').html('<option value="">--全部--</option>');	
+					$('#sumprice').html(data.data);
+				}else{
+					$('#sumprice').html('<option value="">--全部--</option>');	
+					}
+			},'json');
+		var average_price = "{:u('app_fkb_customer/average_price')}"
+		$.post(average_price,{city_id:city_id,customerid:customerid},function(data){
+				if(data.status ==1){
+					$('#average_price').html('<option value="">--全部--</option>');	
+					$('#average_price').html(data.data);
+				}else{
+					$('#average_price').html('<option value="">--全部--</option>');	
+					}
+			},'json');		
+	 })
+	 */
+	 
+	//购买时间联动客户等级选择
+	$('#buytime').live('change',function(){
+			var buytime = $(this).val();
+			if(buytime ==1){
+				   $('#levelfont').text('A 级客户');
+				}
+			if(buytime ==2){
+				   $('#levelfont').text('B 级客户');
+				}
+			if(buytime ==3){
+				   $('#levelfont').text('C 级客户');
+				}
+			if(buytime ==4){
+				   $('#levelfont').text('D 级客户');
+				}
+			if(buytime ==''){
+				   $('#levelfont').text('');
+				}	
+		})
+		
+		
+	//全选  反选
+	$('#property_type_all,#property_feature_all,#buyingmotive_all').click(function(){
+			var flag = $(this).attr('checked');
+			if(flag){
+				var len = $(this).parent().siblings('label').find('input').attr('checked',true);
+			}else{
+				var len = $(this).parent().siblings('label').find('input').attr('checked',false);
+				}
+		})
+	$('.property_type,.property_feature,.buyingmotive').click(function(){
+				var classname = $(this).attr('class');
+				var allcheckbox = $('.'+classname);			
+				var j=0;
+				for(var i=0;i<allcheckbox.length;i++){
+						var t = allcheckbox.eq(i).attr('checked');
+						if(t){
+								j++;
+						}				
+				 }
+				 var classname = $(this).attr('class');
+				 if(j==allcheckbox.length){					 	
+						$('#'+classname+'_all').attr('checked',true);
+					 }
+				else{
+						$('#'+classname+'_all').attr('checked',false);
+					}	 	
+				
+		})
+		
+	/*	
+	//增加意向 区域 户型选择
+	$('.addwantto').live('click',function(){
+			var city_id = $(this).parent('td').find('#J_city_id').val();
+			var url = "{:U('app_fkb_customer/ajax_city',array('roleid'=>1))}"
+			var html = '';
+			html = '<tr>';
+			html = html+ '<th width="120">意向区域 :</th>';
+			html = html+ '<td id="select_area" class="select_area">';
+            html = html+ '<select class="J_city_select mr10" data-pid="0" data-uri="'+url+'" data-selected="{$selected_ids_city}" id="J_city_select">';
+            html = html+ ' </select><a href="javascript:;" class="addwantto">添加意向户型</a>';
+            html = html+ '<input type="hidden" name="city" id="J_city_id" value="" /></td>';
+			html = html+ '</tr>'
+			html = html+ ' <tr> '
+			html = html+ '<th width="80">意向户型 :</th>'
+			html = html+ '<td id="housetype">'			
+			html = html+ '</td>'
+			html = html+ '</tr>'
+			$(this).parents('tr').next('tr').after(html)
+			var len = $(this).prev().city_select('请选择');
+			alert(len)
+			$(this).hide();
+			
+		
+		
+		})			
+	 */
+});
+function delHtmlTag(str)
+{
+        var str=str.replace(/<\/?[^>]*>/gim,"");//去掉所有的html标记
+        var result=str.replace(/(^\s+)|(\s+$)/g,"");//去掉前后空格
+        return  result.replace(/\s/g,"");//去除文章中间空格
+}
+</script>
+</body>
+</html>
+	

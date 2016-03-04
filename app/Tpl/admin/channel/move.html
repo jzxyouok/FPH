@@ -1,0 +1,40 @@
+<!--移动栏目-->
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:U('channel/move', array('roleid'=>1))}" method="post">
+		<table width="100%" class="table_form">
+			<tr> 
+				<th width="130">原所属者 :</th>
+				<td>{$admin_username}的自有经纪人</td>
+			</tr>
+			<tr> 
+				<th>分配给 :</th>
+				<td>
+					<select name="move_id" id="move_id">
+						<option selected="selected">请选择</option>
+						<volist name="admin_list" id="vo">
+							<option value="{$vo.id}">{$vo.username}</option>
+						</volist>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="ids" id="ids" value="{$ids}" />
+	</form>
+</div>
+<script>
+var check_weixin_url = "{:U('user/ajax_check_weixin', array('roleid'=>1))}";
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#move_id").formValidator({onshow:"请选择要分配给的所属者",onfocus:"请选择要分配给的所属者"}).inputValidator({min:1,onerror:"请选择要分配给的所属者"});
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+});
+</script>

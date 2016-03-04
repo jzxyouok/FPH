@@ -1,0 +1,319 @@
+@charset:"utf-8";
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "微软雅黑";
+}
+img{
+	border: none;
+}
+header .logo{
+	background-image:none;
+	text-align: center;
+	line-height: 60px;
+}
+header .phone-number{
+	float: right;
+	width: 110px;
+	padding:23px 23px 0 43px;
+	background: url("../images/download_c_pc/icon_tel.png") 10px 16px no-repeat;
+}
+header .phone-number p{
+	color: #b0b0b0;
+	font-size:14px;
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+.section { 
+	 text-align: center; 
+	 font: 18px "Microsoft Yahei";
+	 color: #fff;
+	 position: relative;
+	 background:#fff url("../images/download_c_pc/bg_wenli.png") repeat;
+	 width: 100%;
+	 min-width: 1400px;
+	 _width:1400px;
+}
+.screen-main { 
+	position: relative; 
+	width: 100%;
+  margin: 0 auto;
+  margin-top: 80px;
+  background-color:#e8e8e8;
+}
+.screen-main span { 
+	position: absolute;
+}
+	
+	/*显示/隐藏图片的样式*/
+	.img-show {
+		display:block;
+		z-index: 99999999;
+	}
+	
+	.img-hidden {
+		display:none;
+	}
+.facetoface-service-inner { 
+	position: relative; 
+	width: 100%; 
+	height: 100%; 
+	margin: 0 auto;
+	/*background-color: #fff; */
+	overflow: hidden;
+	}
+.good-resorce-inner { 
+	position: relative;
+	width: 100%; 
+	height: 100%; 
+	margin: 0 auto; 
+	overflow: hidden;
+	}
+
+/*top banner*/
+/*块*/
+.fph-top-banner {
+	width:100%;
+    height:80px;
+    position: fixed;
+    top:0;
+    left:0;
+    background-color: #fff;
+    border-bottom:1px solid #C8C8C8;
+    -moz-box-shadow:0em 0em 1em #C8C8C8; 
+	-webkit-box-shadow:0em 0em 1em #C8C8C8;
+	 box-shadow:0em 0em 1em #C8C8C8;
+    z-index:9999;
+}
+.banner-center{
+	width: 1000px;
+	height: 100%;
+	overflow: hidden;
+	zoom: 1;
+	margin: auto;
+}
+/*左部Logo和标语*/
+
+
+.fph-left  { 
+	width: 354px;
+	float: left;
+} 
+.fph-left-img { 
+width: 104px;
+float: left;
+padding-top:17px;
+} 
+.fph-ad{
+	color: #B1B1B1;
+	display: block;
+	float: left;
+	padding-left: 30px;
+	font-size: 22px;
+	line-height: 76px;
+}
+/*右部电话部分*/
+.fph-right {
+	float: right;
+	width: 170px;
+	padding-right: 23px;
+	background:url("../images/download_c_pc/icon_tel.png") no-repeat;
+	background-position: 0px 22px;
+
+}
+.fph-call {
+	font-size: 18px;
+	color: #FB8A54;
+	float:right;
+	line-height: 76px;
+}
+/*第一屏元素*/
+.screen-main .s1-bg { 
+	 width:100%;
+	 min-width: 1400px;
+	 _width:1400px;
+	 height: 650px;
+	 position: relative;
+	 margin: auto;
+	 z-index: 11;
+	 background:#ee5550 url("../images/download_c_pc/bg_top.jpg") no-repeat center center;
+	 background-position: 50% 0px;
+	 }
+	 
+	 /*苹果*/
+.screen-main .s1-apple { 
+	width:243px; 
+	z-index: 12;
+	position: absolute;
+	bottom:281px;
+	right:271px;
+}
+	/*安卓*/
+.screen-main .s1-android{
+	width:243px; 
+	z-index: 13;
+	position: absolute;
+	bottom:171px;
+	right:271px;
+}
+.s1-wrap{
+	width: 1000px;
+	height: 650px;
+	margin: auto;
+	position: relative;
+}
+
+/*二维码*/
+.s1-ewm { 
+	width:216px; 
+	height:183px; 
+	right:15px; 
+	z-index: 14; 
+	bottom:170px;
+	position: absolute;
+	padding: 0.2rem; 
+	
+	-webkit-border-radius: 0.5rem;
+	-moz-border-radius: 0.5rem;
+	-moz-border-radius: 0.5rem;
+	border-radius: 0.5rem;
+	
+	}
+
+
+/*第二屏*/
+/*背景*/
+.fee-inner {
+	position:relative;
+	width:977px;
+	height:620px;
+	margin:auto; 
+}
+.fee-inner a { text-decoration: none; color: #004b85;position: absolute;display: block;}
+.fee-inner a:hover { color: #1c9cff }
+.s2-bg {
+	top:0px;
+	left:470px;
+}
+
+.s2-line {
+	top:147px;
+	left: 245px;
+}
+
+.s2-text{
+	top: 138px;
+	left: 0;
+}
+
+
+/*第三屏*/
+/*砍价背景纹理*/
+.cut-price-inner {
+	position:relative; 
+	width:977px; 
+	height:630px; 
+	margin:auto; 
+}
+.p-cut{
+	background:#fff url("../images/download_c_pc/bg_wenli.png") 0 0;
+}
+.section3,.section5{
+	background-color: #f9f9f9;
+}
+.cut-price-inner a { text-decoration: none; color: #8a5e25; float: left; position: absolute; display: block;}
+.cut-price-inner a:hover { color: #d58116 }
+.s3-bg {
+	top:0px;
+	left:0px;
+}
+
+.s3-line {
+	top: 100px;
+	left: 300px;
+}
+
+.s3-text{
+	top: 90px;
+	left: 688px;
+}
+
+/*第四屏*/
+/*一对一服务*/
+.facetoface-service-inner{
+	position: relative;
+	width:977px;
+	height:630px;
+	margin: auto;
+}
+.s4-bg{
+	top: 0;
+	left:600px;
+	z-index: 999;
+}
+.s4-bg-circle{
+	left: 350px;
+	top: 0;
+}
+.s4-line{
+	top: 227px;
+	left: 346px;
+}
+.s4-text{
+	top: 214px;
+	left: 0;
+}
+.facetoface-service-inner a { text-decoration: none; color: #535353; float: left; position: absolute; display:block;}
+.facetoface-service-inner a:hover { color: #bababa }
+
+
+
+/*第五屏*/
+/*真房源，快速更新*/
+.section5{
+	height: 630px;
+}
+.good-resorce-inner {
+	width:977px;
+	height:630px;
+	position: relative;
+	margin: auto;
+	text-align: center;
+}
+.good-resorce-inner a { 
+	text-decoration: none;
+	/*float: left;*/
+	display: block; 
+	white-space: nowrap;
+}
+.s5-text{
+	padding: 37px 0 50px;
+}
+.good-resorce-inner a:hover { color: #054b6b }
+.good-resorce-inner .netiteml { padding-left: 37px; background: url(../images/num-net_d930c09.png) 0 0 no-repeat }
+.good-resorce-inner .netitemr { padding-right: 37px; background: url(../images/num-net_d930c09.png) 0 0 no-repeat }
+
+
+/*页脚*/
+.footer{
+	width:100%;
+	min-width: 1000px;
+	_width:1000px;
+	height:108px;
+	padding: 10px 0 0 0px;
+	z-index: 999;
+	text-align: center;
+	background-color: #7e7e7e;
+	color: #fff;
+}
+.footer p{
+	margin: 0 auto;
+	padding: 0;
+	display: block;
+	width: 1000px;
+	line-height: 2em;
+}
+.fp1{font-size: 18px;}
+.fp2{font-size: 12px;}
+.fp3{font-size: 14px;}

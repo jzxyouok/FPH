@@ -1,0 +1,247 @@
+<include file="public:header" />
+<!--添加广告-->
+<style>
+a { text-decoration:none; }
+ul, li { list-style:none; margin:0; padding:0; }
+.area_list { width:620px; border:1px solid #eee; padding:15px; font-size:12px;}
+.area_list > li{ display:inline-block; position:relative; z-index:1; line-height:180%; width:86px;}
+.area_list > li.cur { color:#0089cb;z-index:999; font-weight:bold; background-color:#0089cb; color:#fff; }
+.area_list div { padding:5px 12px;cursor:pointer;}
+.area_list div span { cursor:pointer;}
+.sub_list { position:absolute; z-index:19; background-color:#fff; border:1px solid #0089cb; width:230px; padding-top:5px;}
+.sub_list a { font-size:12px; text-align:center; display:block; background-color:#e4f6ff; color:#4d7c9f;font-weight:normal;}
+.sub_list li {display:inline-block; color:#0089cb;font-weight:normal;}
+input[type=checkbox] { margin:-3px 3px 0px 0; padding:0; vertical-align:middle;}
+.area_list label { display:block; padding:5px 12px; }
+li { list-style:none;}
+.qudao_type li{ display:inline-block; border:1px solid #ddd; color:#333; padding:2px 10px; cursor:pointer;}
+.qudao_type li.cur { background-color:#498cd0; color:#fff; border-color:#498cd0;}
+.qudao_info label { padding:0 10px 0 0; display:inline-block!important;}
+.qudao_info p { margin:5px 0; color:#666;}
+.qudao_info p span { display:inline-block; width:5em; margin-right:5px; text-align:right;}
+.qudao_info textarea {width:300px;height:30px; vertical-align:middle}
+</style>
+<form id="info_form" action="{:u('ad/edit')}" method="post">
+    <div class="pad_lr_10">
+        <div class="col_tab">
+            <ul class="J_tabs tab_but cu_li">
+                <li class="current">{:L('article_basic')}</li>
+            </ul>
+            <div class="J_panes">
+                <div class="content_list" style="padding:10px;">
+                    <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+                        <tr>
+                            <th width="80">{:L('ad_name')} :</th>
+                            <td><input type="text" name="name" id="name" class="input-text" size="40" value="{$info.name}"></td>
+                        </tr>
+                        <tr>
+                            <th>{:L('ad_url')} :</th>
+                            <td><input type="text" name="url" id="url" class="input-text" size="40" value="{$info.url}"></td>
+                        </tr>
+                        <tr>
+                            <th>跳闪时间 :</th>
+                            <td><input type="text" name="display_time" id="display_time" value="{$info.display_time}" class="input-text" size="12"> 秒</td>
+                        </tr>
+                        <tr>
+                            <th>{:L('adboard')} :</th>
+                            <td>
+                                <select name="board_id" id="board_id">
+                                    <option value="0">请选择</option>
+                                    <volist name="board_list" id="val" >
+                                        <option value="{$val.id}" <if condition="$info['board_id'] eq $val['id']">selected</if>>{$val.name}（{$val.width}*{$val.height}）</option>
+                                    </volist>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="ad_image" class="bill_media">
+                            <th>{:L('ad_image')} :</th>
+                            <td><input type="text" name="img" id="J_img" class="input-text fl mr10" size="30" value="{$info.img}" readonly>
+                                <div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="120">适用地区 :</th>
+                            <td class="select_area">
+                                <div>
+                                    <ul class="area_list">
+                                        <label><input type="checkbox" class="J_check_all" name="whole_country" value="1" <if condition="$info['city_id'] eq ''">checked="checked"</if> />选择全部城市</label>
+                                        <volist name="city_list" id="val">
+                                            <li>
+                                                <div><input type="checkbox" class="J_province_checkall" <if condition="$val.ture eq 1 ">checked="checked"</if>><span>{$val.name}</span></div>
+                                                <ul class="sub_list">
+                                                    <volist name="val['two']" id='vo'>
+                                                        <li><label><input name="city[]" type="checkbox" value="{$vo.id}" class="J_city_checkall" <if condition="$vo.have eq 1 ">checked="checked"</if>>{$vo.name}</label></li>
+                                                    </volist>
+                                                    <a href="javascript:;">关闭</a>
+                                                </ul>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{:L('ad_desc')} :</th>
+                            <td><textarea rows="4" cols="45" class="input-textarea" id="desc" name="desc" maxlength="255">{$info.desc}</textarea></td>
+                        </tr>
+                        <tr>
+                            <th>{:L('ad_time')} :</th>
+                            <td>
+                                <input type="text" name="start_time" id="start_time" class="date" size="12" value="{$info.start_time|date='Y-m-d',###}" readonly>
+                                <input type="text" name="end_time" id="end_time" class="date" size="12" value="{$info.end_time|date='Y-m-d',###}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{:L('enabled')} :</th>
+                            <td>
+                                <label><input type="radio" <if condition="$info['status'] eq '1'">checked="checked"</if> value="1" name="status"> {:L('yes')}</label>&nbsp;&nbsp;
+                                <label><input type="radio" <if condition="$info['status'] eq '0'">checked="checked"</if> value="0" name="status"> {:L('no')}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>是否判断登录 :</th>
+                            <td>
+                                <label><input type="radio" name="is_login" value="1" <if condition="$info['is_login'] eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+                                <label><input type="radio" name="is_login" value="0" <if condition="$info['is_login'] eq '0'">checked="checked"</if>> {:L('no')}</label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+        </div>
+    </div>
+    <input type="hidden" name="id" id="id" value="{$info.id}" />
+    <input type="hidden" name="menuid"  value="{$menuid}"/>
+</form>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "start_time",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "end_time",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#name").formValidator({onshow:"请填写广告名称",onfocus:"请填写广告名称"}).inputValidator({min:1,empty:{leftempty:false,rightempty:false,emptyerror:"前后不能输入空格"},onerror:"请填写广告名称"});
+        $("#url").formValidator({ empty: true,onshow:"可以为空",onfocus:"请填写广告链接"}).inputValidator({min:1,onerror:"请填写广告链接"}).regexValidator({regexp:"url",datatype:"enum",onerror:"广告链接格式错误,已http://开始"});
+        $("#board_id").formValidator({onshow:"请选择广告位",onfocus:"请选择广告位"}).inputValidator({min:1,onerror:"请选择广告位"});
+        $("#J_img").formValidator({onshow:"请上传图片",onfocus:"请上传图片"}).inputValidator({min:1,onerror:"请上传图片"});
+        $("#start_time").formValidator({onshow:"选择开始时间",onfocus:"选择开始时间"}).inputValidator({min:1,onerror:"选择开始时间"});
+        $("#end_time").formValidator({onshow:"选择结束时间",onfocus:"选择结束时间"}).inputValidator({min:1,onerror:"选择结束时间"});
+
+        $(".sub_list").hide();
+        $(".area_list > li > div").click(function(){
+            $('.sub_list').parent().removeClass("cur");
+            $('.sub_list').hide();
+            $(this).next('ul').show();
+            $(this).parent().addClass("cur");
+        })
+        $('.sub_list > a').click(function(){
+            $(this).parent('ul').hide();
+            $(this).parent().parent().removeClass("cur");
+        });
+
+        //全选反选
+        $('.J_province_checkall').live('click',function(){
+            if (this.checked) {
+                $(this).parent().next().find('.J_city_checkall').attr("checked", true);
+            } else {
+                $(this).parent().next().find('.J_city_checkall').attr("checked", false);
+            }
+
+            var flag = true;
+            $(this).parents('.area_list').find('.J_province_checkall').each(function () {
+                if (!this.checked) {
+                    flag = false;
+                }
+            });
+            if (flag) {
+                $('.J_check_all').attr('checked', true);
+            } else {
+                $('.J_check_all').attr('checked', false);
+            }
+        });
+        //如果子checked有一个没有被选中，父checked也失去选中
+        $('.J_city_checkall').live('click',function(){
+            var flag = true;
+            $(this).parents('.sub_list').find('.J_city_checkall').each(function () {
+                if (!this.checked) {
+                    flag = false;
+                }
+            });
+            if (flag) {
+                $(this).parents('.sub_list').prev().find('.J_province_checkall').attr('checked', true);
+            } else {
+                $(this).parents('.sub_list').prev().find('.J_province_checkall').attr('checked', false);
+            }
+            var flag_parent = true;
+            $(this).parents('.area_list').find('.J_province_checkall').each(function () {
+                if (!this.checked) {
+                    flag_parent = false;
+                }
+            });
+            if (flag_parent) {
+                $('.J_check_all').attr('checked', true);
+            } else {
+                $('.J_check_all').attr('checked', false);
+            }
+
+        });
+
+        //选择全部城市
+        $('.J_check_all').live('click',function(){
+            if (this.checked) {
+                $(this).parents('ul').children('li').find('.J_province_checkall').attr("checked", true);
+                $(this).parents('ul').children('li').children('.sub_list').find('.J_city_checkall').attr("checked", true);
+            } else {
+                $(this).parents('ul').children('li').find('.J_province_checkall').attr("checked", false);
+                $(this).parents('ul').children('li').children('.sub_list').find('.J_city_checkall').attr("checked", false);
+            }
+        });
+
+        //上传图片
+        var img_uploader = new qq.FileUploaderBasic({
+            allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+            button: document.getElementById('J_upload_img'),
+            multiple: false,
+            action: "{:U('ad/ajax_upload_img')}",
+            inputName: 'img',
+            forceMultipart: true, //用$_FILES
+            messages: {
+                typeError: lang.upload_type_error,
+                sizeError: lang.upload_size_error,
+                minSizeError: lang.upload_minsize_error,
+                emptyError: lang.upload_empty_error,
+                noFilesError: lang.upload_nofile_error,
+                onLeave: lang.upload_onLeave
+            },
+            showMessage: function(message){
+                $.pinphp.tip({content:message, icon:'error'});
+            },
+            onSubmit: function(id, fileName){
+                $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+            },
+            onComplete: function(id, fileName, result){
+                $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+                if(result.status == '1'){
+                    $('#J_img').val(result.data);
+                } else {
+                    $.pinphp.tip({content:result.msg, icon:'error'});
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

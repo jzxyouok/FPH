@@ -1,0 +1,54 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" action="{:U('article_page/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+		            <tr>
+						<th>页码标题 :</th>
+						<td><input type="text" name="title" id="title" class="input-text" size="30"></td>
+					</tr>
+		            <tr>
+						<th>{:L('author')} :</th>
+						<td><input type="text" name="author" id="author" class="input-text" size="30" value="{$author}" readonly=""></td>
+					</tr>
+		            <tr>
+						<th>{:L('article_img')} :</th>
+						<td><input type="file" name="img" id="img" class="input-text"  style="width:200px;" /></td>
+		 			</tr>
+                    <tr>
+						<th>{:L('article_abst')} :</th>
+						<td><textarea name="intro" id="abst" style="width:67%;height:50px;resize:none;"></textarea></td>
+					</tr>
+		            <tr>
+						<th>详细内容 :</th>
+		                <td><textarea name="info" id="info" style="width:68%;height:400px;visibility:hidden;resize:none;"></textarea></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#title").formValidator({onshow:lang.please_input+"页面标题",onfocus:lang.please_input+"页面标题"}).inputValidator({min:1,onerror:lang.please_input+"页面标题"});
+	KindEditor.create('#info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<include file="public:header" />
+<!--编辑管理员-->
+<style>
+.popup {position:absolute;width:229px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto; z-index:100}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+
+a { text-decoration:none; }
+ul, li { list-style:none; margin:0; padding:0; }
+.area_list { width:620px; border:1px solid #eee; padding:15px; font-size:12px;}
+.area_list > li{ display:inline-block; position:relative; z-index:1; line-height:180%; width:86px;}
+.area_list > li.cur { color:#0089cb;z-index:999; font-weight:bold; background-color:#0089cb; color:#fff; }
+.area_list div { padding:5px 12px;cursor:pointer;}
+.area_list div span { cursor:pointer;}
+.sub_list { position:absolute; z-index:19; background-color:#fff; border:1px solid #0089cb; width:230px; padding-top:5px;}
+.sub_list a { font-size:12px; text-align:center; display:block; background-color:#e4f6ff; color:#4d7c9f; padding:5px 0; font-weight:normal;}
+.sub_list li {display:inline-block; color:#0089cb;font-weight:normal;}
+input[type=checkbox] { margin:-3px 3px 0px 0; padding:0; vertical-align:middle;}
+label { display:block; padding:5px 12px; }
+.none { display:none}
+li { list-style:none;}
+.qudaobox {padding:15px; font-size:12px; width:620px;}
+.qudao_type li{ display:inline-block; border:1px solid #ddd; color:#333; padding:2px 10px; cursor:pointer;}
+.qudao_type li.cur { background-color:#498cd0; color:#fff; border-color:#498cd0;}
+.qudao_info {}
+.qudao_info label { padding:0 10px 0 0; display:inline-block!important;}
+.type_child { padding:20px 0;}
+.qudao_info p { margin:5px 0; color:#666;}
+.qudao_info p span { display:inline-block; width:5em; margin-right:5px; text-align:right;}
+.qudao_info textarea {width:300px;height:30px; vertical-align:middle}
+</style>
+<div class="pad_lr_10">
+	<form id="info_form" action="{:U('admin/edit')}" method="post">
+	<table width="100%" class="table_form">
+		  <tr>
+      		<th width="80">{:L('admin_username')} :</th>
+      		<td><input type="text" name="username" id="username" class="input-text" value="{$info.username}" size="25"></td>
+    	</tr>
+      <tr> 
+        <th>手机号码 :</th>
+        <td><input type="text" name="mobile" id="mobile" class="input-text" value="{$info.mobile}" size="25"></td>
+      </tr>
+    	<tr> 
+      		<th>{:L('password')} :</th>
+      		<td><input type="password" name="password" id="J_password" class="input-text" size="25"></td>
+    	</tr>
+    	<tr>
+      		<th>{:L('cofirmpwd')} :</th>
+      		<td><input type="password" name="repassword" id="J_repassword" class="input-text" size="25"></td>
+    	</tr>
+      <tr>
+		<th width="120">负责城市 :</th>
+		<td class="select_area">
+			<div> 
+				<ul class="area_list">
+					<label><input type="checkbox" class="J_check_all" />选择全部城市</label>
+					<volist name="city_list" id="val"> 
+						<li>
+							<div><input type="checkbox" class="J_province_checkall" <if condition="$val.ture eq 1 ">checked="checked"</if>><span>{$val.name}</span></div>
+							<ul class="sub_list">
+								<volist name="val['two']" id='vo'>
+									<li><label><input name="city[]" type="checkbox" value="{$vo.id}" class="J_city_checkall" <if condition="$vo.have eq 1 ">checked="checked"</if>>{$vo.name}</label></li>
+								</volist> 
+								<a href="javascript:;">关闭</a>
+							</ul>
+						</li>
+					</volist>
+				</ul>
+			</div>
+		</td>
+      </tr>
+      <tr>
+			<th width="120">工作城市 :</th>
+			<td id="select_area" class="select_area"><select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected="{$selected_ids_city}"></select><input type="hidden" name="location" id="J_city_id" value="{$info.location}" /></td>
+		</tr>
+      <tr>
+        <th>{:L('admin_email')} :</th>
+        <td><input type="text" name="email" id='J_email' class="input-text" value="{$info.email}" size="25"></td>
+      </tr>
+    	<tr>
+      		<th>{:L('admininrole')} :</th>
+      		<td>
+      			<select name="role_id">
+        			<volist name="role_list" id="val">
+        			<option value="{$val.id}" <if condition="$val['id'] eq $info['role_id']">selected="selected"</if>>{$val.name}</option>
+            		</volist>
+        		</select>
+      		</td>
+    	</tr>
+		<tr>
+			<th>状态 :</th>
+			<td>
+				<input type="radio" name="status" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> 正常&nbsp;&nbsp;
+				<input type="radio" name="status" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> 停用
+			</td>
+		</tr>
+	</table>
+	<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	<input type="hidden" name="id" value="{$info.id}" />
+	</form>
+</div>
+<include file="public:footer" />
+<script>
+$('.J_city_select').city_select('请选择');
+var check_name_url = "{:U('admin/admin/ajax_check_name', array('id'=>$info['id']))}";
+var check_mobile_url = "{:U('admin/admin/ajax_check_mobile', array('id'=>$info['id']))}";
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+
+	$("#username").formValidator({onshow:'请填写用户名',onfocus:'请填写用户名'}).inputValidator({min:1,onerror:'请填写用户名'}).ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '该账号已经存在',
+		onwait : '正在检测'
+	}).defaultPassed();
+ 	$('#mobile').formValidator({onshow:lang.please_input+"手机号码",onfocus:lang.please_input+"手机号码", oncorrect: '请输入正确'})
+	.inputValidator({min:11,onerror:'请输入正确的手机号码'})
+	.inputValidator({max:11,onerror:'请输入正确的手机号码'})
+	.regexValidator({regexp:'mobile',datatype:'enum',onerror:'请输入正确的手机号码'}).ajaxValidator({
+	    type : "get",
+		url : check_mobile_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '该手机号码已经存在',
+		onwait : '正在检测'
+	}).defaultPassed();
+  $('#J_mobile').formValidator({onshow:lang.please_input+"手机号码",onfocus:lang.please_input+"手机号码", oncorrect: '请输入正确'})
+  .inputValidator({min:11,onerror:'请输入正确的手机号码'})
+  .inputValidator({max:11,onerror:'请输入正确的手机号码'})
+  .regexValidator({regexp:'mobile',datatype:'enum',onerror:'请输入正确的手机号码'});
+	$("#J_password").formValidator({ empty:true, onshow:lang.not_edit_password, onfocus:lang.password+lang.between_6_to_20}).inputValidator({ min:6, max:20, onerror:lang.password+lang.between_6_to_20});
+	$("#J_repassword").formValidator({ empty:true, onshow:lang.not_edit_password, onfocus:lang.cofirmpwd}).compareValidator({desid:"J_password",operateor:"=",onerror:lang.passwords_not_match});
+
+$("#J_email").formValidator({onshow:lang.please_input+"邮箱",onfocus:lang.please_input+"邮箱"}).inputValidator({min:1,onerror:lang.please_input+"邮箱"}).regexValidator({regexp:'email',datatype:'enum',onerror:'邮箱格式不正确'});
+
+	$(".sub_list").hide();
+	$(".area_list > li > div").click(function(){
+		$('.sub_list').parent().removeClass("cur");
+		$('.sub_list').hide();
+		$(this).next('ul').show();
+		$(this).parent().addClass("cur");
+	})
+	$('.sub_list > a').click(function(){
+		$(this).parent('ul').hide();
+		$(this).parent().parent().removeClass("cur");
+	});
+	
+	//全选反选
+	$('.J_province_checkall').live('click',function(){
+		 if (this.checked) {
+			 $(this).parent().next().find('.J_city_checkall').attr("checked", true);
+		 } else {
+			 $(this).parent().next().find('.J_city_checkall').attr("checked", false);
+		 }
+		 
+		var flag = true;
+		$(this).parents('.area_list').find('.J_province_checkall').each(function () {
+			if (!this.checked) {
+				flag = false;
+			}
+		});
+		if (flag) {
+			$('.J_check_all').attr('checked', true);
+		} else {
+			$('.J_check_all').attr('checked', false);
+		}
+	});
+	//如果子checked有一个没有被选中，父checked也失去选中
+	$('.J_city_checkall').live('click',function(){
+		var flag = true;
+		$(this).parents('.sub_list').find('.J_city_checkall').each(function () {
+			if (!this.checked) {
+				flag = false;
+			}
+		});
+		if (flag) {
+			$(this).parents('.sub_list').prev().find('.J_province_checkall').attr('checked', true);
+		} else {
+			$(this).parents('.sub_list').prev().find('.J_province_checkall').attr('checked', false);
+		}
+		var flag_parent = true;
+		$(this).parents('.area_list').find('.J_province_checkall').each(function () {
+			if (!this.checked) {
+				flag_parent = false;
+			}
+		});
+		if (flag_parent) {
+			$('.J_check_all').attr('checked', true);
+		} else {
+			$('.J_check_all').attr('checked', false);
+		}
+		
+	});
+	
+	//选择全部城市
+	$('.J_check_all').live('click',function(){
+		 if (this.checked) {
+			 $(this).parents('ul').children('li').find('.J_province_checkall').attr("checked", true);
+			 $(this).parents('ul').children('li').children('.sub_list').find('.J_city_checkall').attr("checked", true);
+		 } else {
+			 $(this).parents('ul').children('li').find('.J_province_checkall').attr("checked", false);
+			 $(this).parents('ul').children('li').children('.sub_list').find('.J_city_checkall').attr("checked", false);
+		 }
+	});
+
+});
+</script>
+</body>
+</html>

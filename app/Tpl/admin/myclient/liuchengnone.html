@@ -1,0 +1,216 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="javascript:history.go(-1);">
+        <em>返回</em>
+        </a>
+    </div>
+</div>
+<div class="pad_lr_10">
+  <div class="col_tab">
+    <ul class="J_tabs tab_but cu_li">
+      <li class="current">{:L('article_basic')}</li>
+    </ul>
+    <div class="J_panes">
+      <div class="content_list pad_10 js_content">
+        <div  class="J_tablelist table_list sMarginBottom">
+          <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+            <thead>
+              <tr>
+                <th align="left" style="background-color:#FFFFFF;">时间</th>
+                <th align="left" style="background-color:#FFFFFF;">阶段</th>
+                <th align="left" style="background-color:#FFFFFF;">详情</th>
+                <th style="background-color:#FFFFFF;">操作人</th>
+              </tr>
+            </thead>
+            <tbody id='newlist'>
+              <volist name="list" id="val" >
+                <tr class="collapsed">
+                  <td width="100px;" align="left">{$val.add_time|date='Y-m-d H:i',###}</td>
+                  <td width="100px;" align="left">
+                      <if condition="$val['status'] eq 1">
+                          <if condition="$val['with_look'] eq 1">
+                          带看申请
+                          <else/>
+                          委托申请
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 2">
+                          <if condition="$val['status_cid'] eq 1">
+                          邀约成功
+                           <else/>
+                          邀约失败
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 3">
+                          <if condition="$val['status_cid'] eq 1">
+                          开发商确认
+                           <else/>
+                          开发商拒绝
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 4">
+                          <if condition="$val['status_cid'] eq 1">
+                          已到访
+                           <else/>
+                          未到访
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 5">
+                          <if condition="$val['status_cid'] eq 1">
+                          支付意向金
+                          <elseif condition="$val['status_cid'] eq 2"/>
+                          支付团购费
+                          <else /> 
+                          意向终止
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 6">
+                          <if condition="$val['status_cid'] eq 1">
+                          支付定金
+                          <else /> 
+                               <if condition="$list[4]['status_cid'] eq 1">
+                                退回意向金
+                                 <else/>
+                                退回团购费
+                                </if>
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 7">
+                          签约成交
+                      </if>
+                       <if condition="$val['status'] eq 8">
+                          违约
+                      </if>
+                      <if condition="$val['status'] eq 9">
+                          无效
+                      </if>
+                  </td>
+                  <if condition="$val['status'] eq 1">
+                      <td  align="left"><if condition="$val['with_look'] eq 1">到访时间：{$val.visit_time|date='Y-m-d',###}&nbsp;&nbsp;&nbsp;</if>楼盘名称：{$val.title}　　客户电话：{$val.myclient_mobile} </td>
+                      <td  align="center">
+                        <if condition="$val['name'] eq ''">
+                          {$val.user_name} 
+                          <else/>
+                          {$val.name} 
+                          </if>
+                      </td>
+                  </if>
+                  <if condition="$val['status'] eq 2">
+                      <if condition="$val['status_cid'] eq 1">
+                          <td align="left"> 
+                            到访时间：{$val.visit_time|date='Y-m-d',###}
+                             <if condition="$val['info'] neq ''">
+                              &nbsp;&nbsp;备注：{$val.info}
+                            </if>
+                          </td>
+                        <else/>
+                         <td align="left">
+                          <if condition="$val['info'] neq ''">
+                             备注：{$val.info}
+                          </if>
+                        </td>
+                      </if>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 3">
+                      <td align="left">
+                        <if condition="$val['info'] neq ''">
+                           备注：{$val.info}
+                        </if>
+                      </td>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                <if condition="$val['status'] eq 4">
+                      <td align="left">
+                        <if condition="$val['status_cid'] eq 1">
+                            带看确认单：{$val.affirm_one}
+                        </if>
+                        <if condition="$val['info'] neq ''">
+                           备注：{$val.info}
+                        </if>
+                      </td>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 5">
+                      <if condition="$val['status_cid'] eq 0">
+                      <td align="left"> 
+                        <if condition="$val['info'] neq ''">
+                        备注：{$val.info}
+                        </if>
+                      </td>
+                      </if>
+                      <if condition="$val['status_cid'] eq 1">
+                      <td align="left">
+                        票据编号：{$val.counterfoil}
+                         金额：{$val.intention_price}元
+                         <if condition="$val['info'] neq ''">
+                          &nbsp;&nbsp;备注：{$val.info}
+                          </if>
+                       </td>
+                      </if>
+                      <if condition="$val['status_cid'] eq 2">
+                      <td align="left">
+                        票据编号：{$val.counterfoil}
+                        团购费：{$val.intention_price}
+                        <if condition="$val['info'] neq ''">
+                         &nbsp;&nbsp;备注：{$val.info}
+                        </if>
+                      </td>
+                      </if>
+                      
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 6">
+                      <if condition="$val['status_cid'] eq 0">
+                          <td align="left"> 
+                            <if condition="$val['info'] neq ''">
+                               备注：{$val.info}
+                            </if>
+                          </td>
+                       <else/>
+                      <td align="left"> 
+                         <volist name="listliu['deposit']" key='k' id="v" >
+                            金额：{$v}&nbsp;元&nbsp;&nbsp;签约时间：{$listliu['signing_time'][$k-1]|date='Y-m-d',###}
+                            <if condition="$listliu['info'][$k-1] neq ''">
+                             &nbsp;&nbsp;备注：{$listliu['info'][$k-1]}
+                            </if>
+                            <br>
+                          </volist>
+                      </td>
+                      </if>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 7">
+                      <td align="left">
+                           {$endlist['info']}
+                      </td>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 8">
+                      <td align="left">
+                          备注：{$endlist['info']}
+                      </td>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 9">
+                      <td align="left">
+                           无效
+                      </td>
+                      <td align="center"> 系统 </td>
+                  </if>
+                </tr>
+              </volist>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="hidden" name="mpid" id="mpid" value="{$mpid}" />
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+</body>
+</html>

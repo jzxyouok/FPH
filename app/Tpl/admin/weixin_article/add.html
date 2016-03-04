@@ -1,0 +1,62 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" action="{:U('weixin_article/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">文章信息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+		            <tr>
+						<th>{:L('article_title')} :</th>
+						<td><input type="text" name="title" id="title" class="input-text" size="30"></td>
+					</tr>
+		            <tr>
+						<th>{:L('author')} :</th>
+						<td><input type="text" name="author" id="author" class="input-text" size="30" value="房品汇"></td>
+					</tr>
+		            <tr>
+						<th>{:L('article_img')} :</th>
+						<td><input type="file" name="img" id="img" class="input-text"  style="width:200px;" /></td>
+		 			</tr>
+		 			<tr>
+						<th>排序 :</th>
+						<td><input type="text" name="ordid" id="ordid" class="input-text" size="30" value="255"></td>
+					</tr>
+					<tr>
+						<th>{:L('publish')} :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" checked="checked"> {:L('yes')} </label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0"> {:L('no')}</label>
+						</td>
+					</tr>
+		            <tr>
+						<th>详细内容 :</th>
+		                <td><textarea name="info" id="info" style="width:68%;height:400px;visibility:hidden;resize:none;"></textarea></td>
+					</tr>
+				</table>
+			</div>
+			</div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<script>
+$('.J_cate_select').cate_select('请选择');
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#title").formValidator({onshow:'请输入文章标题',onfocus:'请输入文章标题'}).inputValidator({min:1,onerror:'请输入文章标题'});
+
+	KindEditor.create('#info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+});
+</script>
+</body>
+</html>

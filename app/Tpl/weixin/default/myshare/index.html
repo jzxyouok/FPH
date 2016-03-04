@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:new_head" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/makemoney.css" rel="stylesheet" />
+<style>
+html {background-color:#ea395d!important; }
+body {background-color:#ea395d!important; }
+.contents_new .warp { width:90%; margin:0px auto 150px auto; }
+.bg_title img{ width:100%; }
+.contents_new dl { color:#fff; font-size:14px; line-height:130%; margin-bottom:1em; margin-top:-10px; }
+.contents_new dt { padding:1em 0; font-size:22px; color:#FFC; font-weight:normal;}
+.contents_new dd { margin:0; padding:0;}
+.contents_new dd span { color:#FF0; font-weight:bold;}
+.btn_fixed { width:100%; position:fixed; bottom:0px; left:0; text-align:center;background:#fff; box-shadow:0px -2px 5px #555;  }
+.btn_fixed a {display:block; font-size:18px; color:#fff; text-align:center;  padding:0.7em 0; background:#fff url(__STATIC__/css/default/weixin/images/makemoney/bg_links_w.png) no-repeat 98% center; background-size:20px 20px; margin:10px;color:#fff}
+.btn_fixed a.btn_code { background-color:#5e90af}
+.btn_fixed a.btn_seed { background-color:#e86741}
+.min_btn {padding:0em 0 1em 0;}
+.min_btn a { display:inline-block; padding:0.5em 0; color:#fff; font-size:18px; }
+.contents_new p { color:#fff; font-size:12px;}
+@media all and (min-width:1280px) {
+	.contents_new .warp { width:480px; margin:0 auto}
+	}
+</style>
+</head>
+<body>
+<div class="contents_new">
+	<div class="warp">
+	<div class="bg_title"><img src="__STATIC__/css/default/weixin/images/makemoney/bg_title.png"></div>
+    <dl>
+    <dd>友推奖励：每邀请1位朋友注册房品汇，您的友推奖池额度提高￥10000元；您的朋友每次通过平台推客成交，您可从奖池中领取￥1000元现金奖励。</dd>
+    </dl>
+    <dl>
+    <dt>如何激活奖池</dt>
+    <dd style="margin-bottom:5px;"><span>1.邀请好友：</span>点击“我的二维码”邀请好友扫码注册；也可“发送邀请函”给您的朋友或分享至朋友圈。</dd>
+    <dd style="margin-bottom:5px;"><span>2.完成注册：</span>朋友注册成功，您的友推奖额度提高￥10000元。</dd>
+    </dl>
+    <dl>
+    <dt>如何提现奖金</dt>
+    <dd style="margin-bottom:5px;"><span>1.平台成交：</span>您的朋友每次在平台推客成交(包括委托/带看成交)，您的友推奖池自动解锁￥1000元。</dd>
+    <dd style="margin-bottom:5px;"><span>2.申请提现：</span>奖池每次解锁，可在个人中心随时申请提现（可提现总奖金最高额度=邀请人数*10000元）。</dd>
+    </dl>
+
+    <div class="min_btn"><a href="javascript:;">我的友推</a></div>
+    </div>
+</div>
+<div class="btn_fixed">
+    <a href="{:U('weixin/myshare/qrcode',array('share_id'=>$share_id))}" class="btn_code">我的二维码</a>
+    <a href="{:U('weixin/myshare/invitation',array('share_id'=>$share_id))}" class="btn_seed">发送邀请函</a>
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

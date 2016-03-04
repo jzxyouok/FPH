@@ -1,0 +1,341 @@
+<include file="public:header" />
+<script type="text/javascript">
+	var PINER = {
+		root: '__ROOT__',
+	};
+</script>
+<!--添加文章-->
+<form id="info_form" action="{:U('activity/add')}" method="post">
+	<div class="pad_lr_10">
+		<div class="col_tab">
+			<include file="activity:classification" />
+			<div class="J_panes">
+				<div class="content_list pad_10">
+					<table width="100%" cellspacing="0" class="table_form">
+						<tr>
+							<th>活动渠道 :</th>
+							<td>
+								<label><input type="checkbox" name="channel[]" id="channel" value="1" class="input-text" size="30" >
+									&nbsp;网站&nbsp;&nbsp;</label>
+								<label><input type="checkbox" name="channel[]" id="channel" value="2" class="input-text" size="30" >
+									&nbsp;微信&nbsp;&nbsp;</label>
+								<label><input type="checkbox" name="channel[]" id="channel" value="3" class="input-text" size="30" >
+									&nbsp;C端&nbsp;&nbsp;</label>
+								<label><input type="checkbox" name="channel[]" id="channel" value="4" class="input-text" size="30" >
+									&nbsp;B端&nbsp;&nbsp;</label>
+							</td>
+						</tr>
+						<tr>
+							<th>活动类型 :</th>
+							<td>
+								<label><input type="radio" name="type" id="type" value='1' class="input-text" size="30" checked >&nbsp;领红包&nbsp;</label>
+								<label><input type="radio" name="type" id="type" value='2' class="input-text" size="30" >&nbsp;摇一摇&nbsp;</label>
+								<label><input type="radio" name="type" id="type" value='3' class="input-text" size="30" >&nbsp;众筹&nbsp;</label>
+								<label><input type="radio" name="type" id="type" value='4' class="input-text" size="30" >&nbsp;兑换&nbsp;</label>
+							</td>
+						</tr>
+						<tr>
+							<th width="120">活动标题 :</th>
+							<td>
+								<input type="text" name="title" id="title" value="" class="input-text" size="30">
+							</td>
+						</tr>
+						<tr>
+							<th>活动描述 :</th>
+							<td>
+								<textarea name="intro" id="intro" style="width:67%;height:90px;resize:none;" maxlength="255" ></textarea>
+							</td>
+						</tr>
+						<tr>
+							<th>作    者 :</th>
+							<td>
+								<input type="text" name="author" id="author" value="" class="input-text" size="30">
+							</td>
+						</tr>
+						<tr>
+							<th>开始时间 :</th>
+							<td><input type="text" name="time_start" id="time_start" value="" class="date" size="12" readonly=""></td>
+						</tr>
+						<tr>
+							<th>结束时间 :</th>
+							<td><input type="text" name="time_end" id="time_end" value="" class="date" size="12" readonly=""></td>
+						</tr>
+						<tr>
+							<th>上限人数 :</th>
+							<td>
+								<input type="text" name="limit" id="limit" value="" class="input-text" size="30">
+							</td>
+						</tr>
+						<tr>
+							<th>是否唯一 :</th>
+							<td>
+								<label><input type="radio" name="only" id="only" value='1' class="input-text" size="30" >&nbsp;是&nbsp;</label>
+								<label><input type="radio" name="only" id="only" value='0' class="input-text" size="30" checked>&nbsp;否&nbsp;</label>
+							</td>
+						</tr>
+						<tr>
+							<th width="120">所属区域 :</th>
+							<td id="select_area" class="select_area"><select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected=""></select><input type="hidden" name="city_id" id="J_city_id" value="" /></td>
+						</tr>
+						<tr>
+							<th>详细地址 :</th>
+							<td><input type="text" name="address" id="address" value="" class="input-text" size="30"></td>
+						</tr>
+						<tr>
+							<th>地图坐标 :</th>
+							<td><input type="text" name="latitude" id="latitude" value="" class="input-text" size="30" readonly="">
+								<a id="J_latitude" href="javascript:void(0);">选择经纬度</a>
+							</td>
+						</tr>
+						<tr>
+							<th width="120">活动电话 :</th>
+							<td>
+								<input type="text" name="telephone" id="telephone" value="" class="input-text" size="30">
+							</td>
+						</tr>
+						<tr>
+							<th>报  名 :</th>
+							<td>
+								<label><input type="radio" name="sign" id="sign_1" value='1' class="input-text" size="30" >&nbsp;是&nbsp;</label>
+								<label><input type="radio" name="sign" id="sign_0" value='0' class="input-text" size="30" checked>&nbsp;否&nbsp;</label>
+								&nbsp;&nbsp;&nbsp;<label style="color:red;">注：需报名活动请联系技术人员！</label>
+							</td>
+						</tr>
+						<!--报名信息-->
+						<tr class="sign">
+							<th width="120">报名人数限制 :</th>
+							<td>
+								<input type="text" name="sign_number" id="sign_number" value="" class="input-text" size="30">
+							</td>
+						</tr>
+						<tr class="sign">
+							<th>报名开始时间 :</th>
+							<td><input type="text" name="sign_time_start" id="sign_time_start" value="" class="date" size="12" readonly=""></td>
+						</tr>
+						<tr class="sign">
+							<th>报名结束时间 :</th>
+							<td><input type="text" name="sign_time_end" id="sign_time_end" value="" class="date" size="12" readonly=""></td>
+						</tr>
+						<tr class="sign">
+							<th width="120">网站报名地址 :</th>
+							<td>
+								<input type="text" name="sign_web_url" id="sign_web_url" value="" class="input-text" size="30">
+							</td>
+						</tr>
+						<tr class="sign">
+							<th width="120">手机报名地址 :</th>
+							<td>
+								<input type="text" name="sign_mobile_url" id="sign_mobile_url" value="" class="input-text" size="30">
+							</td>
+						</tr>
+						<!----------->
+						<tr>
+							<th width="120">网站图片 :</th>
+							<td>
+								<input readonly type="text" name="web_img" id="web_img" class="input-text fl mr10" size="30" value="">
+								<div id="J_upload_web_img" class="upload_btn"><span>{:L('upload')}</span></div>
+							</td>
+						</tr>
+						<tr>
+							<th width="120">手机图片 :</th>
+							<td>
+								<input readonly type="text" name="mobile_img" id="mobile_img" class="input-text fl mr10" size="30" value="">
+								<div id="J_upload_mobile_img" class="upload_btn"><span>{:L('upload')}</span></div>
+							</td>
+						</tr>
+						<tr>
+							<th>网站活动地址 :</th>
+							<td><input type="text" name="web_url" id="web_url" value="" class="input-text" size="30"></td>
+						</tr>
+						<tr>
+							<th>手机活动地址 :</th>
+							<td><input type="text" name="mobile_url" id="mobile_url" value="" class="input-text" size="30"></td>
+						</tr>
+						<tr>
+							<th>活动规则 :</th>
+							<td>
+								<textarea name="rule"  id="rule" style="width:67%;height:90px;resize:none;" ></textarea>
+							</td>
+						</tr>
+						<tr>
+							<th>是否启用 :</th>
+							<td>
+								<label><input type="radio" name="status" id="status" value='1' class="input-text" size="30" checked >&nbsp;是&nbsp;</label>
+								<label><input type="radio" name="status" id="status" value='0' class="input-text" size="30" >&nbsp;否&nbsp;</label>
+							</td>
+						</tr>
+						<tr>
+							<th>是否推荐 :</th>
+							<td>
+								<label><input type="radio" name="choose" id="choose" value='1' class="input-text" size="30" checked >&nbsp;是&nbsp;</label>
+								<label><input type="radio" name="choose" id="choose" value='0' class="input-text" size="30" >&nbsp;否&nbsp;</label>
+							</td>
+						</tr>
+						<tr>
+							<th width="120">活动code :</th>
+							<td>
+								<select id="code" name="code" >
+									<option value="0">请选择</option>
+									<volist name="relation_list" id="vo">
+										<option value="{$vo.code}">{$vo.code}</option>
+									</volist>
+								</select>
+							</td>
+						</tr>
+
+					</table>
+				</div>
+			</div>
+			<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+		</div>
+	</div>
+	<input type="hidden" name="menuid"  value="{$menuid}"/>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+	$('.J_city_select').city_select('请选择');
+
+	Calendar.setup({
+		inputField : "time_start",
+		ifFormat   : "%Y-%m-%d",
+		showsTime  : false,
+		timeFormat : "24"
+	});
+	Calendar.setup({
+		inputField : "time_end",
+		ifFormat   : "%Y-%m-%d",
+		showsTime  : false,
+		timeFormat : "24"
+	});
+	Calendar.setup({
+		inputField : "sign_time_start",
+		ifFormat   : "%Y-%m-%d",
+		showsTime  : false,
+		timeFormat : "24"
+	});
+	Calendar.setup({
+		inputField : "sign_time_end",
+		ifFormat   : "%Y-%m-%d",
+		showsTime  : false,
+		timeFormat : "24"
+	});
+
+	$(function() {
+
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#title").formValidator({onshow:"请输入活动标题", onfocus:"请输入活动标题"}).inputValidator({min:1,onerror:"请输入活动标题"});
+		$("#intro").formValidator({onshow:"请输入活动描述", onfocus:"请输入活动描述"}).inputValidator({min:1,max:510,onerror:"请输入活动描述"});
+		$("#time_start").formValidator({onshow:"请选择开始时间",onfocus:"请选择开始时间"}).inputValidator({min:3,onerror:"请选择开始时间"});
+		$("#time_end").formValidator({onshow:"请选择结束时间",onfocus:"请选择结束时间"}).inputValidator({min:3,onerror:"请选择结束时间"});
+		$("#limit").formValidator({empty:true,onshow:"",onfocus:""}).inputValidator({min:0,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"num6",datatype:"enum",onerror:"只能填写正整数"});
+		$("#code").formValidator({onshow:"请选择活动code",onfocus:"请选择活动code"}).inputValidator({min:1,onerror:"请选择活动code"});
+
+		toggleSign();
+		$("input[name='sign']").on('change',function(){
+			toggleSign();
+		});
+		function toggleSign(){
+			if( $("#info_form")[0].sign.value==1 ){
+				$(".sign").show();
+			}else{
+				$(".sign").hide();
+			}
+		}
+
+		$('#J_latitude').click(function(){
+			var city_id = $('#J_city_id').val();
+			var address = $('#address').val();
+			if(city_id==0 || address==''){
+				$.pinphp.tip({content:'请选择所属区域和详细地址', icon:'error'});
+				return false;
+			}
+			var delimg_url = "{:U('property/latitude',array('roleid'=>1,'city_id'=>'"+city_id+"','address'=>'"+address+"'))}";
+			var i = $.layer({
+				type:2,
+				area: ['950px', '636px'],
+				title: '选择经纬度',
+				//closeBtn: false,//是否显示关闭按钮
+				iframe:{src: delimg_url},
+				moveOut: true,
+				fix: false,
+				offset : ['100px','']
+			});
+		});
+
+		//上传图片
+		var img_uploader = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+			button: document.getElementById('J_upload_web_img'),
+			multiple: false,
+			action: "{:U('activity/ajax_upload_img')}",
+			inputName: 'img',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.pinphp.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				$('#J_upload_web_img').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_upload_web_img').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.status == '1'){
+					$('#web_img').val(result.data);
+				} else {
+					$.pinphp.tip({content:result.msg, icon:'error'});
+				}
+			}
+		});
+
+		//上传图片
+		var img_uploader = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+			button: document.getElementById('J_upload_mobile_img'),
+			multiple: false,
+			action: "{:U('activity/ajax_upload_img')}",
+			inputName: 'img',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.pinphp.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				$('#J_upload_mobile_img').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_upload_mobile_img').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.status == '1'){
+					$('#mobile_img').val(result.data);
+				} else {
+					$.pinphp.tip({content:result.msg, icon:'error'});
+				}
+			}
+		});
+
+	});
+</script>
+<style type="text/css">
+	element.style {
+		display: block;
+	}
+</style>
+</body>
+</html>

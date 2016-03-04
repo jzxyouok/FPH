@@ -1,0 +1,154 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" name="info_form" action="{:U('weixin_reply/add')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">添加多图文消息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+		            <tr class="jiedian">
+						<th width="120">封面标题 :</th>
+						<td><input type="text" name="title[]" id="title" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>链接地址 :</th>
+						<td>
+							<input type="text" name="url[]" id="url" class="input-text" size="30">
+							<font color="#999">链接地址必须以http://开头</font>
+						</td>
+					</tr>
+					<tr>
+						<th>封面图片 :</th>
+						<td>
+							<input name="img[]" id="J_img" type="hidden" value="" />
+							<div class="img_border" id="img_data"></div>
+          					<div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+						</td>
+		 			</tr>
+					<tbody id="add_list_info"></tbody>
+					<tr>
+						<th></th>
+						<td><a href="javascript:;" class="add_list">+添加表信息</a></td>
+					</tr>
+					<tr>
+						<th>{:L('publish')} :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" checked="checked"> {:L('yes')} </label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0"> {:L('no')}</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input name="pid" id="pid" type="hidden" value="4" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+var uploae_url = '{:U('weixin_reply/ajax_upload_img',array('roleid'=>1))}';
+var del_img_url = '{:U('weixin_reply/del_img',array('roleid'=>1))}';
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#title").formValidator({onshow:lang.please_input+"信息标题",onfocus:lang.please_input+"信息标题"}).inputValidator({min:1,onerror:lang.please_input+"信息标题"});
+	$("#J_img").formValidator({onshow:'请上传图片',onfocus:'请上传图片'}).inputValidator({min:1,onerror:'请上传图片'});
+
+	 //上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('weixin_reply/ajax_upload_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+            	$('#J_upload_img').hide();
+                $('#J_img').val(result.data);
+                $('#J_img').blur();
+                $('#img_data').html('<ul><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+
+	//删除图片
+	$('.del_img').live('click',function(){
+		var img_path = $(this).parents('.img_border').prev('input').val();
+		var delimg_url = del_img_url;
+		$.post(delimg_url,{img_path:img_path},function(result){
+			if(result.status == 1){
+				$('#img_data').html('');
+				$('#J_img').val('');
+				$('#J_upload_img').show();
+				$('#J_img').focus();
+				return false;
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+            }
+		},'json');
+	});
+
+	//添加列表信息
+	$('.add_list').click(function(){
+		var jiedian_len = $('.jiedian').length;
+		if(jiedian_len==8){
+			$.pinphp.tip({content:'最多只能添加8条信息', icon:'error'});
+			return false;
+		}
+		jQuery.getScript("__STATIC__/js/img.js");
+		var html='<tr class="jiedian">';
+			html+='<th><a href="javascript:;" class="del_tr"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" title="删除"> </a>信息标题 :</th>';
+			html+='<td><input type="text" name="title[]" name="title'+jiedian_len+'" class="input-text" size="30"></td>';
+			html+='</tr>';
+		    html+='<tr>';
+			html+='<th>链接地址 :</th>';
+			html+='<td>';
+			html+='<input type="text" name="url[]" class="input-text" size="30">';
+			html+='<font color="#999">链接地址必须以http://开头</font>';
+			html+='</td>';
+			html+='</tr>';
+			html+='<tr>';
+			html+='<th>列表图片 :</th>';
+			html+='<td>';
+			html+='<input name="img[]" id="J_img'+jiedian_len+'" type="hidden" value="" />';
+			html+='<div class="img_border" id="img_data'+jiedian_len+'"></div>';
+			html+='<div id="J_upload_img'+jiedian_len+'" class="upload_btn" style="position: relative; overflow: hidden; direction: ltr;"><span>{:L('upload')}</span><input type="file" name="file" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;"></div>';
+			html+='</td>';
+			html+='</tr>';
+		$('#add_list_info').append(html);
+		//alert(html);
+	});
+	//删除一条信息
+	$('.del_tr').live('click',function(){
+		$(this).parents('tr').next().remove();
+		$(this).parents('tr').next().remove();
+		$(this).parents('tr').remove();
+		return false;
+	});
+});
+</script>
+</body>
+</html>

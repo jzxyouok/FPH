@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+<style>
+#dv_mydestiny { position:relative; background-color:#fff; border:1px solid #ccc; height:38px;}
+#dv_mydestiny span { width:100%; position:absolute; color:#999; text-indent:8px;}
+#dv_mydestiny select{ width:100%; opacity:0; width:100%; border:none; z-index:999;}
+.longSel_content { background-color:#fff; border:1px solid #ccc; border-top:none; line-height:40px; padding:0 10px; color:#666;}
+.nosel { border:1px solid #ccc!important;}
+#project_contact_add_one { color:#666; line-height:40px; display:block;}
+</style>
+</head>
+
+<body>
+<div class="steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>姓名</label>
+            <input name="username" class='username' type="text" placeholder="请填写姓名">
+          </li>
+          <li>
+            <label>手机</label>
+            <input name="mobile" class='mobile' type="text" placeholder="请填写手机">
+          </li>
+        </ul>
+        <input type='hidden' value='{$id}' name='store_id' class='store_id'>
+      </section>
+      <section class="se_btn"><a href="javascript:;" class="BTNs stores_username_add">确定</a></section>
+    </section>
+  </div>
+</div>
+
+</body>
+</html>

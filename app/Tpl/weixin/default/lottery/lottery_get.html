@@ -1,0 +1,231 @@
+<html>
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/lottery.css">
+</head>
+<script type="text/javascript">
+var send_url = '{:U('weixin/lottery/send_sms')}';
+var send_code = {$send_code};
+var iTime = 59;
+var Account;
+</script>
+<body>
+<!--加载遮罩层-->
+<div class="gray_cover"></div>
+<div class="loading">正在加载，请稍后......</div>
+<!--加载遮罩层-->
+
+<section class="TOPS"> <img src="__STATIC__/css/default/weixin/images_4_0/lottery/top_bg.jpg"></section>
+<section class="main_body">
+  <h5>再抢一次就能收到微信红包咯！</h5>
+  <section class="form_frame">
+    <div class="top show_money">
+哈！抢到了 <mark>{$cook_info[amount]}</mark> 元，再接再厉！
+      </div>
+    <span class="titles">验证手机，参与第二次抢钱</span>
+    <table class="forms">
+      <tr>
+        <td><input type="tel" maxlength="11" name="mobile" id="mobile" placeholder="输入手机号"></td>
+      </tr>
+      <tr>
+        <td>
+          <input class="btn_send code" id="zphone" type="button" value="发送验证码 " onclick="get_mobile_code_hongbao();">
+          <input name="mobile_code" id="mobile_code"  type="tel" maxlength="8" placeholder="验证码" class="short hongbao_code"></td>
+      </tr>
+      <tr>
+        <td>
+          <a href="javascript:;" id='lottery2' class="btn_tryagain lottery_one disabled" rel='1'>再抢一次</a>
+          <input type='hidden' value='0' class='is_disab'>
+          </td>
+      </tr>
+    </table>
+  </section>
+  <p>据调查，99%的聪明人此时选择再抢一次</p>
+</section>
+<footer>
+  <mark>本活动最终解释权归房品汇所有</mark>
+</footer>
+
+<script type="text/javascript">
+    var status = "{$status}";
+    var uid = "{$uid}";
+    var get_url  = "{$url}";
+    var open_id  = "{$open_id}";
+    var follow_url =  PINER.root + '/?g=weixin&m=lottery&a=lottery_follow&open_id='+open_id;
+    var dzp_url = PINER.root+'/?g=weixin&m=lottery&a=lottery_get&open_id='+open_id;
+    var cook_info  = "{$cook_info['interval']}";
+    $('.lottery_one').live('click',function(){
+      if($('.is_disab').val()==0){
+        layer.open({
+          content: '手机或验证码不正确',
+          style: '',
+          time: 1,
+          shade:false,
+          anim:true
+        });
+        return false; 
+      }
+    })
+    //再抽一次
+    $('#lottery').live('click',function(){
+      var mobile      = $.trim($('#mobile').val());
+      var mobile_code = $.trim($('#mobile_code').val());
+      var rel = $(this).attr('rel');
+      var url = PINER.root + '/?g=weixin&m=lottery&a=scratch';
+      var url_ok = PINER.root+'/?g=weixin&m=lottery&a=lottery_complete&open_id='+open_id;
+      if(status ==0){
+        window.location.href=follow_url; return false;
+      }
+      $.post(url,{id:'1',open_id:open_id,mobile:mobile,mobile_code:mobile_code,rel:rel},function(result){
+        if(result.status==0){
+          layer.open({
+            content: '手机号码输入错误',
+            style: '',
+            time: 1,
+            shade:false,
+            anim:true
+          });
+          return false;
+        }
+        if(result.status==6){
+          layer.open({
+            content: '验证码输入错误',
+            style: '',
+            time: 1,
+            shade:false,
+            anim:true
+          });
+          return false;
+        }
+        if(result.success == 7 || result.success == 8 ){
+           window.location.href=url_ok; return false;
+        }
+        if(result.success == 5){
+         var tryagain_url = PINER.root + '/?g=weixin&m=lottery&a=lottery_tryagain&open_id='+open_id;
+         window.location.href=tryagain_url; return false;
+        }
+        if(result.success == 4){
+          window.location.href=follow_url; return false;
+        }
+        if(result.success == 3){
+          //var login_url = PINER.root +'/?g=weixin&m=user&a=login&url='+get_url;
+          window.location.href=dzp_url; return false;
+        }
+        if(result.success == 2){
+          window.location.href=url_ok;
+          //layer.msg('每天只有两次抽奖机会哦',2,8);
+           return false;
+        }
+        if(result.success == 1){
+          //$('.show_money mark ').html(result.amount);
+          //抽奖成功
+          window.location.href=dzp_url;
+        }
+      },'json');
+  })
+
+	$(window).load(function(){
+    $('.gray_cover').hide();
+    $('.loading').hide();
+    
+    //底部横底部
+    var $windowHeight = $(window).height()
+    var $bodyHeight = $('body').height();
+    if($bodyHeight < $windowHeight) {
+      $('body').height($windowHeight);
+      $('footer').css({
+        'position': 'fixed',
+        'bottom': '0'
+      });
+    }
+  });
+
+
+/*
+*发送手机验证码
+*@param send_url
+*@param send_code
+*Author CH-L
+*/
+function get_mobile_code_hongbao(){
+  var mobile = $.trim($('#mobile').val());
+  if(mobile==''){
+    layer.open({
+      content: '请输入手机号码',
+      style: '',
+      time: 1,
+      shade:false,
+      anim:true
+    });
+    return false;
+  }
+   if(!mobile.match(mobile_regex)){ 
+    layer.open({
+      content: '手机号码格式不正确！请重新输入！',
+      style: '',
+      time: 1,
+      shade:false,
+      anim:true
+    });
+    return false; 
+   } 
+  $('#zphone').val('请等待...');
+  $.post(send_url, {mobile:mobile,send_code:send_code}, function(result) {
+    if(result.status==1){
+      $('.is_disab').val(1);
+      $(".lottery_one").attr("class", "btn_tryagain lottery_one"); 
+      $(".lottery_one").attr("id", "lottery");
+      $('#mobile_code').val(result.data);
+      RemainTime_hongbao();
+    }else{
+      $('.is_disab').val(0);
+      $(".lottery_one").attr("class", "btn_tryagain lottery_one disabled");
+      $(".lottery_one").attr("id", "lottery2");
+      layer.open({
+        content: result.msg,
+        style: '',
+        time: 1,
+        shade:true,
+        anim:true
+      });
+    }
+  },'json');
+};
+/*
+*手机验证码倒计时
+*@param iTime
+*@param Account
+*Author CH-L
+*/
+function RemainTime_hongbao(){
+  document.getElementById('zphone').disabled = true;
+  var iSecond,sSecond="",sTime="";
+  if (iTime >= 0){
+    iSecond = parseInt(iTime%60);
+    iMinute = parseInt(iTime/60)
+    if (iSecond >= 0){
+      if(iMinute>0){
+        sSecond = iMinute + "分" + iSecond + "秒";
+      }else{
+        sSecond =  iSecond + "秒后重新发送";
+      }
+    }
+    sTime=sSecond;
+    if(iTime==0){
+      clearTimeout(Account);
+      sTime='获取手机验证码';
+      iTime = 59;
+      document.getElementById('zphone').disabled = false;
+    }else{
+      Account = setTimeout("RemainTime()",1000);
+      iTime=iTime-1;
+    }
+  }else{
+    sTime='没有倒计时';
+  }
+  document.getElementById('zphone').value = sTime;
+}
+
+</script>
+</body>
+</html>

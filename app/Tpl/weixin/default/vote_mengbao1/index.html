@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<link rel="stylesheet" href="__STATIC__/css/default/weixin/vote_mengbao/css/index.css">
+	<script src="__STATIC__/js/jquery/jquery-1.7.2.min.js"></script>
+	<title>萌宝投票</title>
+</head>
+<body>
+	<div class="wrap">
+		<div class="center">
+			<a href="{:u('vote_mengbao/reward')}"><img src="__STATIC__/css/default/weixin/vote_mengbao/img/reward-btn.png" class="fl"/></a>
+			<a href="{:u('vote_mengbao/rule')}"><img src="__STATIC__/css/default/weixin/vote_mengbao/img/rule-btn.png" class="fr"/></a>
+		</div>
+		<div class="bottom">
+			<a href="{:u('vote_mengbao1/vote')}"><img src="__STATIC__/css/default/weixin/vote_mengbao/img/vote.png" class="fl"/></a>
+			<a href="{:u('vote_mengbao1/join')}"><img src="__STATIC__/css/default/weixin/vote_mengbao/img/join.png" class="fr"/></a>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+	
+//添加分享js
+wx.config({
+    debug: false,
+    appId: '{$jssdk.appId}',
+    timestamp: {$jssdk.timestamp},
+    nonceStr: '{$jssdk.nonceStr}',
+    signature: '{$jssdk.signature}',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+    ]
+});
+var title = '萌宝大比拼';
+var desc  = "2015首届中国小小好舞蹈大赛活动火热进行中！";
+var link = 'http://www.fangpinhui.com/?g=weixin&m=vote_mengbao&a=index';
+var imgUrl = "{$url}/static/css/default/weixin/vote_mengbao/img/index-bg.jpg";
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: title, // 分享标题
+    //desc: "分享描述分享描述分享描述分享描述分享描述分享描述", // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+             $('.share').hide();
+             $('.gray_cover').hide();
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+             $('.share').hide();
+             $('.gray_cover').hide();
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        type: '', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+    wx.onMenuShareQQ({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+            $('.share').hide();
+            $('.gray_cover').hide();
+        },
+        cancel: function () { 
+           // 用户取消分享后执行的回调函数
+           $('.share').hide();
+           $('.gray_cover').hide();
+        }
+    });
+    wx.onMenuShareWeibo({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+});
+
+</script>
+</html>

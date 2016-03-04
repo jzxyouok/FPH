@@ -1,0 +1,64 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="case_field" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+				&nbsp;&nbsp;姓名 :
+                <input name="name" type="text" class="input-text" size="25" value="{$search.name}" />
+                &nbsp;&nbsp;手机号码 :
+                <input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('case_field/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="30">序号</th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left" width="40"><span data-tdtype="order_by" data-field="admin_id">案场人</span></th>
+                <th width=120><span data-tdtype="order_by" data-field="mobile">手机</span></th>
+                <th align="left">关联楼盘</th>
+				<th width=100>楼盘数量</th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+			<volist name="case_list" id="val">
+				<tr>
+					<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+					<td align="center">{$p*20-20+$i}</td>
+					<td align="center">{$val.id}</td>
+					<td align="left">{$val.username}</td>
+					<td align="center">{$val.mobile}</td>
+					<td align="left">{$val.property_name|msubstr=0,20,'utf-8',true}</td>
+					<td align="center">{$val.property_count}</td>
+					
+					<td align="center"><a href="{:u('case_field/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">{:L('edit')}</a> | <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('case_field/delete', array('id'=>$val['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$val['username'])}">{:L('delete')}</a></td>
+				</tr>
+			</volist>
+        </tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('case_field/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page_list}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

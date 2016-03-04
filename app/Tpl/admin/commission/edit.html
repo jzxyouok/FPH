@@ -1,0 +1,136 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('commission/edit')}" method="post" >
+<div class="pad_lr_10">
+	<div class="col_tab">
+        <include file="commission:classification" />
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+				     <tr>
+						<th width=70>带看确认单 :</th>
+						<td width=300>{$info.affirm_one} </td>
+						<th width=65>票据编号 :</th>
+						<td>{$info.counterfoil} </td>
+					</tr>
+		            <tr>
+						<th width=65>成交时间 :</th>
+						<td width=300>{$info.add_time|date='Y年m月d日',###} </td>
+						<th width=65>成交楼盘 :</th>
+						<td>{$info.mess.title} </td>
+					</tr>
+                    <tr>
+						<th>销售面积 :</th>
+						<td>{$info.measure}㎡ </td>
+						<th>成交总价 :</th>
+						<td>{$info.total_price} 元</td>
+					</tr>
+					<tr>
+						<th>报备类型 :</th>
+						<td>
+							<if condition="($info[with_look] eq 1)"> 
+								由我带看
+ 							<elseif condition="$info[with_look] eq 2"/>
+ 								委托带看
+ 							</if>
+						</td>
+						<th>物业类型 :</th>
+						<td>{$info.cate_name} </td>
+					</tr>
+					<tr>
+						<th>佣金规则 :</th>
+						<td>
+						     <if condition="$p_info neq '' ">
+							<if condition="$info[with_look] eq '1' "> 
+							    带看佣金：
+							    <if condition="$p_info['price'] neq 0">总价的&nbsp;&nbsp;{$p_info['price']}%&nbsp;</if> 
+							    <if condition="$p_info['each'] neq 0">每套&nbsp;&nbsp;{$p_info['each']}元&nbsp;</if> 
+							    <if condition="$p_info['money'] neq 0">现金奖&nbsp;&nbsp;{$p_info['money']}元&nbsp;</if> 
+							    <if condition="$p_info['see'] neq 0">带看奖&nbsp;&nbsp;{$p_info['see']}元&nbsp;</if>
+							</if>
+ 							<if condition="$info[with_look] eq '2' "> 
+							    委托佣金
+							    <if condition="$p_info['entrust_price'] neq 0">总价的&nbsp;&nbsp;{$p_info['entrust_price']}%<br></if> 
+							    <if condition="$p_info['entrust_each'] neq 0">每套&nbsp;&nbsp;{$p_info['entrust_each']}元<br></if>
+							</if>
+						    </if>
+						     <if condition="$p_info eq '' ">
+							暂无数据请去完善
+						    </if>
+						</td>
+						<th>成交房号:</th>
+						<td>{$info.number}</td>
+					</tr>
+					<tr>
+						<th>客　户 :</th>
+						<td>{$info.username} </td>
+						<th>经 纪 人 :</th>
+						<td>{$info.uid.username} {$info.uid.mobile}</td>
+					</tr>
+					<tr>
+						<th>门店 :</th>
+						<td>{$stores_info.name} </td>
+						<th>合作方式:</th>
+						<td>
+						    <if condition="$cme['service_money'] neq '' ">
+						    服务佣金{$cme.service_money}%；
+						    </if>
+						     <if condition="$cme['platform_money'] neq '' ">
+						    平台使用费 {$cme.platform_money}
+						    </if> 
+						</td>
+					</tr>
+					<tr>
+						<th>应收款项 :</th>
+						<td><input type='text' name='income' id='income' class="input-text" size=8 value="{$c_info.income}"> 元</td>
+						<th>应收备注 :</th>
+						<td><input type='text' name='income_info'  class="input-text" size=40 value="{$c_info.income_info}"></td>
+					</tr>
+					<tr>
+						<th>应付款项 :</th>
+						<td><input type='text' name='expenditure' id='expenditure' class="input-text" size=8 value="{$c_info.expenditure}"> 元 </td>
+						<th>应付备注 :</th>
+						<td><input type='text' name='expenditure_info' class="input-text" size=40 value="{$c_info.expenditure_info}"> </td>
+					</tr> 
+					<tr>
+						<th>开户行 :</th>
+						<td><input type="text" name="bank" id="bank" class="input-text" size="30" value="{$stores_info.bank}" ></td>
+						<th>开户账号 :</th>
+						<td><input type="text" name="bank_account" id="bank_account" class="input-text" size="30" value="{$stores_info.bank_account}" ></td>
+					</tr> 
+					<tr>
+						<th>开户名称 :</th>
+						<td><input type="text" name="bank_name" id="bank_name" class="input-text" size="30" value="{$stores_info.bank_name}" ></td>
+						<th></th>
+						<td></td>
+					</tr> 
+					<input type="hidden" name="status"  value="0" >
+					<input type="hidden" name="stores_id" value="{$stores_info.id}" >
+					<!-- <tr>
+						<th>是否提佣 :</th>
+						<td>
+							<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$c_info.status eq '1'">checked="checked"</if> > {:L('yes')} </label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$c_info.status eq '0'">checked="checked"</if> > {:L('no')}</label>
+						</td>
+						<th></th>
+						<td></td>
+					</tr> -->
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="pid" id="pid" value="{$info.mess.id}" />
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#income").formValidator({onshow: "请输入数字", oncorrect: "输入正确" }).regexValidator({ regexp: "num", datatype: "enum", onerror: "请输入数字" });
+	$("#expenditure").formValidator({onshow: "请输入数字", oncorrect: "输入正确" }).regexValidator({ regexp: "num", datatype: "enum", onerror: "请输入数字" });
+});
+</script>
+</body>
+</html>

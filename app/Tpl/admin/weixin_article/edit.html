@@ -1,0 +1,65 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('weixin_article/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">修改文章</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+		            <tr>
+						<th>{:L('article_title')} :</th>
+						<td><input type="text" name="title" id="title" class="input-text" size="60" value="{$info.title}"> </td>
+					</tr>
+		            <tr>
+						<th>{:L('author')} :</th>
+						<td><input type="text" name="author" class="input-text" size="30" value="{$info.author}"></td>
+					</tr>
+		            <tr>
+						<th>{:L('article_img')} :</th>
+						<td>
+                        <notempty name="info['img']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach(get_thumb($info['img'], ''), 'article')}"><img src="{:attach(get_thumb($info['img'], ''), 'article')}" width="100" /></span><br /></notempty>
+                        <input type="file" name="img" class="input-text"  style="width:200px;" />
+                        </td>
+		 			</tr>
+		 			<tr>
+						<th>排序 :</th>
+						<td><input type="text" name="ordid" id="ordid" class="input-text" size="30" value="{$info.ordid}"></td>
+					</tr>
+					<tr>
+						<th>{:L('publish')} :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> {:L('no')}</label>
+						</td>
+					</tr>
+		            <tr>
+		                <th>详细内容 :</th>
+						<td><textarea name="info" id="info" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor-min.js"></script>
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#title").formValidator({onshow:'请输入文章标题',onfocus:'请输入文章标题'}).inputValidator({min:1,onerror:'请输入文章标题'});
+
+	KindEditor.create('#info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+});
+</script>
+</body>
+</html>

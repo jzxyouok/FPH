@@ -1,0 +1,52 @@
+<include file="public:header" />
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <ul class="J_tabs tab_but cu_li">
+            <li><a href="{:u('bluetooth/show', array('id'=>$id, 'menuid'=>$menuid))}">{:L('article_basic')}</a></li>
+            <li class="current"><a href="{:u('bluetooth/lists', array('id'=>$id, 'menuid'=>$menuid))}">楼盘绑定记录</a></li>
+        </ul>
+        <div class="J_panes">
+            <div class="content_list pad_10">
+
+                <div class="J_tablelist table_list" data-acturi="{:U('app_fkb_customer/brokersuggest')}" style="margin-bottom:0px;">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="60" align="center">序号</th>
+                            <th align="center">ID</th>
+                            <th align="left">楼盘名</th>
+                            <th align="center">绑定开始时间</th>
+                            <th align="center">绑定结束时间</th>
+                            <th align="center">链接人次</th>
+                            <th align="center">状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="list" id="val">
+                            <tr class="collapsed">
+                                <td align="center">{$p*20-20+$i}</td>
+                                <td align="center">{$val.id}</td>
+                                <td align="left">{$val.title}</td>
+                                <td align="center">{$val.time_start|date='Y-m-d',###}</td>
+                                <td align="center">{$val.time_end|date='Y-m-d',###}</td>
+                                <td align="center">{$val.links}</td>
+                                <td align="center">
+                                    <if condition="$val['status'] eq 1">绑定中<else/><span style="color:#ff0000">已解除绑定</span></if>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+	

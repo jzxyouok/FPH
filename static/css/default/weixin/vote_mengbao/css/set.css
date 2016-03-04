@@ -1,0 +1,80 @@
+/*reset*/
+html,body,div,img,a,p,h4,ul,li{margin: 0;padding: 0;}
+body{font-size: 16px;font-family: "微软雅黑";}
+img{vertical-align: middle;}
+li{list-style: none;}
+.fl{float: left;}
+.fr{float: right;}
+.cl{
+	zoom:1;
+}
+.cl:after{
+	content:'';
+	width: 0;
+	height: 0;
+	display: block;
+	clear: both;
+}
+/*main*/
+.wrap{
+	max-width: 768px;
+	width: 100%;
+	margin:0 auto;
+	background: #73c9ff url("../img/rule_bg.jpg") top center no-repeat;
+	background-size: 100%;
+	text-align: center;
+}
+.back-btn{
+	position: absolute;
+	top: 47px;
+	left: 32px;
+}
+.title{
+	padding-top: 77px;
+}
+.rule-title{
+	position: relative;
+}
+.rule-content{
+	width: 70%;
+	margin:182px auto 0;
+}
+.rule-content p{
+	font-size: 1.25em;
+	text-align: left;
+	padding-top: 30px;
+	color: #000;
+}
+.rule-content img{
+	width: 100%;
+}
+@media screen and (max-width: 480px){
+	
+	body{
+		font-size: 12px;
+	}
+	.back-btn{
+		left: 13px;
+		top: 24px;
+		width: 65px;
+	}
+	.title{
+		width: 200px;
+		padding-top: 55px;
+	}
+	.rule-content{width: 80%;margin-top: 120px;}
+	.rule-content p{padding-top: 20px;}
+
+}
+
+@media screen and (max-width: 400px){
+	body{
+		font-size: 10px;
+	}
+	.title{width: 150px;padding-top: 57px;}
+	.rule-content{margin-top: 90px;}
+}
+@media screen and (max-width: 320px){
+	.back-btn{width: 60px;}
+	.rule-content{margin-top: 50px;}
+}

@@ -1,0 +1,60 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+        <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property/housetype_add',array('id'=>$id,'roleid'=>1))}">
+        <em>添加户型</em>
+        </a>
+    </div>
+</div>
+<form id="info_form" action="" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+        <include file="property:classification" />
+	</div>
+	<div class="J_tablelist table_list" >
+        <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+        <thead>
+            <tr>
+                <th width="100px;" align="center">户型名称</th>
+                <th width="60px;" align="center">户型图</th>
+                <th width="80px;" align="left">户型面积</th>
+                <th width="80px;" align="left">户型结构</th>
+                <th width="500px;" align="left">户型描述</th>
+                <th width="80px;" align="center">物业类型</th>
+                <th width="120px;" align="center">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+	            <tr class="collapsed">
+					<td align="center">{$val['house_name']}</td>
+	                <td align="center"><img src="{:get_fdfs_image($val['house_img'], '_100x75')}"/> </td>
+	                <td align="left">{$val['house_area']}<font color="#999999">&nbsp;㎡</font></td>
+	                <td align="left">{$val['house_room']}室{$val['house_hall']}厅{$val['house_wc']}卫</td>
+	                <td width="600px;" align="left">{$val['house_info']}</td>
+	                <td align="center">
+	                	{$val['property_type']}
+	                </td>
+	                <td align="center">
+	                	<a href="{:U('property/housetype_edit',array('id'=>$id,'houseid'=>$val['id'],'roleid'=>1))}">编辑</a>
+                        &nbsp;|
+	                	&nbsp;
+                        <a href="{:U('property/housetype_del',array('id'=>$id,'houseid'=>$val['id'],'roleid'=>1))}">删除</a>
+	                </td>
+	            </tr>
+            </volist>
+        </tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+</form>
+<include file="public:footer" />
+</body>
+</html>

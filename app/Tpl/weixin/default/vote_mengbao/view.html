@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<title>{$info.vote_id}号--{$info.vote_personal}</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/vote_mengbao/css/view.css"/>
+</head>
+<body>
+	<div class="wrap">
+		<header>
+			<h1>2015首届中国小小好舞蹈大赛暨“萌宝大比拼”评选活动</h1>
+			<h2><span id="uId">{$info.vote_id}号</span><span id="uName">{$info.vote_personal}</span></h2>
+			<span id="totalView">浏览量:{$info.views}</span>
+			<div class="divider"></div>
+		</header>
+		<div class="u-content">
+			<div class="img-box">
+				<img src="{$info.avatar}">
+			</div>
+			<table class="info">
+				<tr>
+					<td>姓&nbsp;&nbsp;&nbsp;&nbsp;名:</td>
+					<td>{$info.vote_personal}</td>
+				</tr>
+				<tr>
+					<td>参加编号:</td>
+					<td id="voteId">{$info.vote_id}号</td>
+				</tr>
+				<tr>
+					<td>票&nbsp;&nbsp;&nbsp;&nbsp;数:</td>
+					<td id="voteTotal">{$info.clickfans}</td>
+				</tr>
+				<tr>
+					<td colspan='2'>2015首届中国小小好舞蹈萌宝活动</td>
+				</tr>
+				<tr>
+					<td>年&nbsp;&nbsp;&nbsp;&nbsp;龄:</td>
+					<td>{$info.age}岁</td>
+				</tr>
+				<tr>
+					<td>性&nbsp;&nbsp;&nbsp;&nbsp;别:</td>
+					<td><if condition="$info['gender'] eq 1">男<else/>女</if></td>
+				</tr>
+                </table>				
+                <div class="detail">
+				<h4>简&nbsp;&nbsp;&nbsp;&nbsp;介:</h4>
+				<p>{$info.description}</p>
+			</div>
+			
+		</div>
+        <if condition="$isclick eq ''">
+		<button id="voteBtn" data-id="{$info.id}">点击为Ta投票</button>
+        <else/>
+       <button id="voteBtn" class="disabled" disabled="disabled">今日已投票,当前票数:{$info.clickfans}</button>
+       </if>
+		<div class="img-list">
+            <volist name="info.imgs" id="v">
+                    <img src="{$v}" alt="">
+            </volist>
+		</div>
+	</div>
+    <script src="__STATIC__/js/jquery/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	 $(function(){
+		//投票
+		  	$('#voteBtn').live('click',function(){
+				  	var id = $(this).attr('data-id');
+					var url = "{:u('vote_mengbao/addvote')}"
+					$.post(url,{id:id},function(data){
+						//alert(data.data);
+							if(data.status == 1){
+									$(this).addClass('disabled');
+									$("#voteBtn").attr('disabled','disabled').addClass('disabled').text('今日已投票,当前票数:'+data.msg);
+
+								}else{
+									alert(data.msg)
+									}							
+						},'json')
+				  });
+		 })		  
+		
+	</script>
+</body>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">	
+//添加分享js
+wx.config({
+    debug: false,
+    appId: '{$jssdk.appId}',
+    timestamp: {$jssdk.timestamp},
+    nonceStr: '{$jssdk.nonceStr}',
+    signature: '{$jssdk.signature}',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+    ]
+});
+var title = "{$info.vote_id}号--{$info.vote_personal}";
+var desc  = "我在萌宝大比拼中参加比赛，快点来投我一票吧！";
+var link = "http://www.fangpinhui.com/?g=weixin&m=vote_mengbao&a=view&id={$info.id}";
+var imgUrl = "{$info.avatar}";
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: title, // 分享标题
+    //desc: "分享描述分享描述分享描述分享描述分享描述分享描述", // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+             $('.share').hide();
+             $('.gray_cover').hide();
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+             $('.share').hide();
+             $('.gray_cover').hide();
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        type: '', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+    wx.onMenuShareQQ({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+            $('.share').hide();
+            $('.gray_cover').hide();
+        },
+        cancel: function () { 
+           // 用户取消分享后执行的回调函数
+           $('.share').hide();
+           $('.gray_cover').hide();
+        }
+    });
+    wx.onMenuShareWeibo({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+});
+
+</script>
+</html>

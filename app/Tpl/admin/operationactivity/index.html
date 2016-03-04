@@ -1,0 +1,46 @@
+<include file="public:header" />
+<!--管理员管理-->
+<div class="pad_lr_10" style="height:15px;" >
+    <form name="searchform" method="get" >
+   
+    </form>
+</div>
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list" data-acturi="{:U('vote_young/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="40"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                <th width="50">ID</th>
+                <th align="left" width="100">openid</th>
+                <th width="100" align='left'>姓名</th>
+                <th align='left'>签到天数</th>
+            </tr>
+            </thead>
+    	    <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center" width="80">{$val.id}</td>
+                <td align="left"   width="180">{$val.openid}</td>
+                <td align="left"   width="180">{$val.name}</td>
+                <td align="left"   width="180">{$val.counts} / 天</td>
+            </tr>
+            </volist>
+    	   </tbody>
+        </table>
+    </div>
+    <div class="btn_wrap_fixed">
+		
+		<div id="pages">{$page}</div>
+    </div>
+</div>
+<include file="public:footer" />
+<script src="/static/js/jquery/plugins/listTable.js"></script>
+<script>
+$(function(){
+    $('.J_tablelist').listTable();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head" />
+<link href="__STATIC__/css/default/css/index.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/css/default/css/base.css" rel="stylesheet" type="text/css" media="all">
+<link href="__STATIC__/css/default/css/common.css" rel="stylesheet" type="text/css" media="all">
+<link href="__STATIC__/css/default/css/detail.css" rel="stylesheet" type="text/css">
+<script src="__STATIC__/css/default/js/alert.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="content">
+        <textarea name="content" id="content" style="height:200px; width:100%; font-size:16px;"></textarea>
+		<div style="height:13px;color:#FF0000;" id="return_tip"></div>
+        <a href="javascript:;" class="submit">发送给我们</a>
+    </div>
+<script type="text/javascript">
+$(function(){
+	$('.submit').click(function(){
+		var url = '{:U('weixin/user/yijian')}';
+		var content = $.trim($('#content').val());
+		if(content==''){
+			$('#return_tip').text('请输入需要反馈的信息');
+			return false;
+		}
+		$.post(url,{content:content},function(result){
+				if(result.status == 1){
+					$('#content').val('');
+					alert(result.msg);
+					return false;
+				} else {
+					$('#return_tip').text(result.msg);
+					return false;
+				}
+			},'json');
+		
+	});
+})
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

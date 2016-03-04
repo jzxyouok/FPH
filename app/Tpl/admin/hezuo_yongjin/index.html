@@ -1,0 +1,108 @@
+<include file="public:header" />
+<div class="subnav">
+	<div class="content_menu ib_a blue line_x">
+		<a class="on" href="{:U('admin/hezuo_yongjin/index',array('menuid'=>349))}">
+		<em>佣金管理</em>
+		</a>
+	<span>|</span>
+		<a class="J_showdialog" data-height="300" data-width="600" data-id="add" data-title="添加楼盘" data-uri="{:U('admin/hezuo_yongjin/add',array('menuid'=>349))}" href="javascript:;">
+		<em>添加项目</em>
+		</a>
+	</div>
+</div>
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="hezuo_yongjin" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                跳点：
+                <select name="tiaodian">
+					<option value="0">全部</option>
+					<option value="1" <if condition="$search['tiaodian'] eq 1">selected="selected"</if>>全盘跳点</option>
+					<option value="2" <if condition="$search['tiaodian'] eq 2">selected="selected"</if>>单产品跳点</option>
+					<option value="3" <if condition="$search['tiaodian'] eq 3">selected="selected"</if>>无跳点</option>
+				</select>
+				&nbsp;&nbsp;是否执行：
+                <select name="carried">
+					<option value="">全部</option>
+					<option value="1" <if condition="$search['carried'] eq '1'">selected="selected"</if>>执行中</option>
+					<option value="0" <if condition="$search['carried'] eq '0'">selected="selected"</if>>已作废</option>
+				</select>
+                &nbsp;&nbsp;{:L('keyword')} :
+                <input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list">
+	<volist name="yongjin_list" id="vo">
+    	<div class="yongjinlist_item">
+        	<div class="loupan_title">
+            	<h4>{$vo.title}<span><a class="J_showdialog btn_add_guize" data-height="" data-width="700" data-id="add" data-title="添加佣金规则" data-uri="{:U('admin/hezuo_yongjin/add_rule',array('id'=>$vo['id'],'roleid'=>1))}" href="javascript:;">添加佣金规则</a><a href="javascript:void(0);" class="btn_del_guize J_confirmurl" data-acttype="ajax" data-uri="{:u('hezuo_yongjin/carried', array('id'=>$vo['id'],'carried'=>$vo['carried'],'roleid'=>1))}" data-msg="{:sprintf(L('confirm_zuofei_one'),$vo['title'])}"><if condition="$vo['carried'] eq 1">作废<else/>执行</if></a></span></h4>
+                <div class="tiaodian_all">
+				<if condition="$vo['carried'] eq 1">
+				<span class="tag">执行中</span>
+				<else/>
+				<span class="tag gray">已作废</span>
+				</if>
+					<switch name="vo['tiaodian']" >
+						<case value="1">跳点规则：全盘跳点，{$vo.set_num}套以上{$vo.tiaodian_price}元<if condition="$vo['set_num2'] neq 0">，{$vo.set_num2}套以上{$vo.tiaodian_price2}元</if></case>
+						<case value="2">跳点规则：单产品跳点</case>
+						<default />
+							无跳点
+					</switch>
+				</div>
+        	</div>
+            <div class="pro_list_box">
+            	<ul >
+					<li class="title">
+						<span class="mingcheng">产品名称</span>
+						<span class="youhui">优惠信息</span>
+						<span class="laiyuan">佣金来源</span>
+						<span class="jine">佣金金额</span>
+						<span class="fencheng">佣金分成</span>
+						<span class="shijian">合作时间</span>
+						<span class="tiaodian">跳点</span>
+						<span class="caozuo">操作</span>
+					</li>
+					<volist name="vo['yongjin_rule']" id="v">
+						<li class="pro">
+							<span class="mingcheng">{$v.name}</span>
+							<span class="youhui">{$v.youhui}</span>
+							<span class="laiyuan"><if condition="$v['source'] eq 1">开发商<else/>房品汇</if></span>
+							<span class="jine">{$v.total_price}元</span>
+							<span class="fencheng">{$v.share_price}元 / {$v.minus_price}元</span>
+							<span class="shijian">{$v.start_time|date='Y/m/d H:i:s',###} - {$v.end_time|date='Y/m/d H:i:s',###}</span>
+							<span class="tiaodian"><if condition="$vo['tiaodian'] eq 2">{$v.set_num}套以上{$v.tiaodian_price}元<if condition="$v['set_num2'] neq 0">，{$v.set_num2}套以上{$v.tiaodian_price2}元</if><else/>-</if></span>
+							<span class="caozuo">
+								<a class="J_showdialog btn_add_guize" data-height="" data-width="700" data-id="edit" data-title="编辑" data-uri="{:U('admin/hezuo_yongjin/edit',array('id'=>$v['id'],'pid'=>$vo['pid']))}" href="javascript:;">编辑</a> | 
+								<a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('hezuo_yongjin/delete', array('id'=>$v['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$v['name'])}">删除</a>
+							</span>
+						</li>
+					</volist>
+                </ul>
+            </div>
+        </div>
+	</volist>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page_list}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

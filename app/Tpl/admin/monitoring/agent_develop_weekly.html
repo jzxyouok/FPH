@@ -1,0 +1,116 @@
+<include file="public:header" />
+<script type="text/javascript" src="__STATIC__/css/admin/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="__STATIC__/css/admin/js/highcharts.js"></script>
+<script type="text/javascript" src="__STATIC__/css/admin/js/exporting.js"></script> 
+<script> 
+$(function () {
+	$('#container').highcharts({
+		title: {
+			text: '经纪人开拓周报',
+			x: -20 //center
+		},
+		subtitle: {
+			text: 'Source: fangpinhui.com',
+			x: -20
+		},
+		xAxis: {
+			categories: [{$day}]
+		},
+		yAxis: {
+			title: {
+				text: 'The number (number)'
+			},
+			plotLines: [{
+				value: 0,
+				width: 1,
+				color: '#808080'
+			}]
+		},
+		tooltip: {
+			valueSuffix: '个'
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'middle',
+			borderWidth: 0
+		},
+		series: [{
+			name: '新注册用户数',
+			data: [{$count}]
+		}, {
+			name: '微信新增粉丝数',
+			data: [{$subscribe}]
+		}, {
+			name: '微信活跃用户数',
+			data: [{$wx_active}]
+		}, {
+			name: '网站UV',
+			data: [{$uv}]
+		}, {
+			name: 'appUV',
+			data: [{$appuv}]
+		}, {
+			name: 'APP活跃用户数',
+			data: [{$app_active}]
+		}]
+	});
+});
+</script> 
+
+<div id="container" style="min-width:700px;height:400px"></div>
+<div class="table_list pad_lr_10">
+	<table border=1 bordercolor="#d5dfe8" cellspacing="0" width=100% align=center>
+		<caption>【经纪人开拓周报相关数据参考】</caption>
+		<tr style="background:#eaf0f7">
+			<td width="150px" align=center>时间</td>
+			<volist name="arr_day" id='val'>
+				<th>{$val}</th>
+			</volist>
+		</tr>
+		<tr align=center>
+			<td>新注册用户数</td>
+			<volist name="arr_count" id='val'>
+				<th>{$val}</th>
+			</volist>
+		</tr>
+		<tr align=center>
+			<td>微信新增粉丝数</td>
+			<volist name="arr_subscribe" id='val'>
+				<th>{$val}</th>
+			</volist>
+		</tr>
+		<tr align=center>
+			<td>微信活跃用户数</td>
+			<volist name="arr_wx_active" id='val'>
+				<th>{$val}</th>
+			</volist>
+		</tr>
+		<tr align=center>
+			<td>网站UV</td>
+			<volist name="arr_uv" id='val'>
+				<th>{$val}</th>
+			</volist>
+		</tr>
+		<tr align=center>
+			<td>appUV</td>
+			<volist name="arr_appuv" id='val'>
+				<th>{$val}</th>
+			</volist>
+		</tr>
+		<tr align=center>
+			<td>APP活跃用户数</td>
+			<volist name="arr_app_active" id='val'>
+				<th>{$val}</th>
+			</volist>
+		</tr>
+	 <tr><td colspan="31">注：<br/>新增注册数: 该周期内新注册的经纪人数量<br/>
+                                          微信新增粉丝数：该周期内新关注公众号的粉丝数<br/>
+                                              微信活跃用户数：该周期内在微信中有过消息通讯的注册用户数<br/>
+                                                网站UV：不同的、通过互联网访问、浏览这个网页的自然人<br/>
+                       AppUV：App中每天和服务器发生交互的用户数<br/>
+                       App活跃用户数：App每天和服务器发生交互的注册用户数</td></tr>
+	</table>
+</div>
+</body>
+</html>

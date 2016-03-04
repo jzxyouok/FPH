@@ -1,0 +1,67 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('activity/index',array('roleid'=>1,'menuid'=>636))}">
+            <em>活动管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('activity/verify_code_add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加验证码</em>
+        </a>
+    </div>
+</div>
+<form id="info_form" action="" method="post" >
+    <div class="pad_lr_10">
+        <div class="col_tab">
+            <include file="activity:classification" />
+            <div class="J_panes">
+                <div class="content_list pad_10 ">
+                    <table width="100%" cellspacing="0" class="table_form">
+                        <tr>
+                            <th width="120">生成验证码数量 :</th>
+                            <td>
+                                <input type="text" name="num" id="num" value="" class="input-text" size="30">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>验证码有效期限 :</th>
+                            <td>
+                                <input type="text" name="time_start" id="time_start" class="date" size="12" readonly=""> -
+                                <input type="text" name="time_end" id="time_end" class="date" size="12" readonly="">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mt10">
+                <input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;">
+                <input type="button" value="返回" id="back" name="back" class="btn btn_submit" onclick="history.go(-1);" style="margin:0 0 10px 10px;">
+                <br /><br /><br /></div>
+        </div>
+    </div>
+</form>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+$(function() {
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#num").formValidator({onshow:"请输入生成验证码数量", onfocus:"请输入生成验证码数量"}).inputValidator({min:1,onerror:"请输入生成验证码数量"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写大于或等于0的正整数"});;
+    $("#time_start").formValidator({onshow:"请选择开始时间",onfocus:"请选择开始时间"}).inputValidator({min:3,onerror:"请选择开始时间"});
+    $("#time_end").formValidator({onshow:"请选择结束时间",onfocus:"请选择结束时间"}).inputValidator({min:3,onerror:"请选择结束时间"});
+});
+</script>
+</body>
+</html>

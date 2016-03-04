@@ -1,0 +1,84 @@
+<!--添加文章-->
+<style>
+.input_loupan_search {height:25px;line-height:25px;width:240px;}
+.popup {position:absolute;width:245px;left:8px;top:38px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<form id="info_form" action="{:U('hezuo_property/edit')}" method="post">
+<div class="dialog_content">
+<table width="100%" cellspacing="0" class="table_form">
+	<tr>
+		<th>楼盘名称 :</th>
+		<td style="position:relative;"><input type="text" name="title" id="title" class="input-text input_loupan_search" value="{$info_title.title}"><div id="pidTip" class="onShow">请选择楼盘名称</div>
+		<div id="J_loupan_name"></div>
+		</td>
+	</tr>
+</table>
+</div>
+<input name="pid" id="pid" type="text" value="{$info.pid}" style="width:0px;height:0px;border:0px;" />
+<input name="id" id="id" type="hidden" value="{$info.id}" />
+</form>
+<script>
+var check_name_url = "{:U('hezuo_property/ajax_check_name', array('id'=>$info['id'],'roleid'=>1))}";
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#pid").formValidator({onshow:"请选择楼盘名称",onfocus:"请选择楼盘名称"}).inputValidator({min:1,onerror:"请选择楼盘名称"}).ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '该楼盘已经存在',
+		onwait : '正在检测'
+	}).defaultPassed();
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	$('#pid').blur();
+	//搜索消息
+	$('.input_loupan_search').keyup(function(){
+		var title = $.trim($('#title').val());
+        var url   = '{:U('hezuo_property/input_search',array('roleid'=>1))}';
+	    if(title!=''){
+			$('#J_loupan_name').show();
+	    	$.post(url,{title:title},function(result){
+				if(result.status == 1){
+					$('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+					$('#J_loupan_name').html(result.data);
+					return false;
+				}else{
+					$.pinphp.tip({content:result.msg, icon:'error'});
+					return false;
+				}
+			},'json');
+	    }else{
+			$('#pid').val('').blur();
+			$('#J_loupan_name').hide();
+		}
+	});
+	
+	//选择
+	$('#J_loupan_name > ul > li').live('click',function(){
+		var rel = $(this).attr('rel');
+		var title = $(this).text();
+		$('#pid').val(rel).blur();
+		$('#title').val(title);
+		$('#J_loupan_name').hide();
+	});
+});
+</script>

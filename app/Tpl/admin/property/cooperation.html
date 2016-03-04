@@ -1,0 +1,219 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('menuid'=>298,'roleid'=>1))}">
+        <em>信息管理</em>
+        </a>
+    </div>
+</div>
+<form id="info_form" action="{:U('property/cooperation',array('id'=>$id,'roleid'=>1))}" method="post" enctype ="multipart/form-data">
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10 ">
+                <table width="100%" cellspacing="0"  class="table_form">
+                <tr>
+                    <th width="120">甲方：</th>
+                   <td>
+                        <input type="text" name="a_party" id="a_party" value="{$list['a_party']}" class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >公司地址：</th>
+                   <td>
+                        <input type="text" name="a_address" id="a_address" value="{$list['a_address']}" class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >负责人：</th>
+                   <td>
+                        <input type="text" name="a_head" id="a_head" value="{$list['a_head']}" class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >负责人电话：</th>
+                   <td>
+                        <input type="text" name="a_head_mobile" id="a_head_mobile"  value="{$list['a_head_mobile']}" class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >案场对接人：</th>
+                   <td>
+                        <input type="text" name="a_market" id="a_market" value="{$list['a_market']}" class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >案场对接人电话：</th>
+                   <td>
+                        <input type="text" name="a_market_mobile" id="a_market_mobile" value="{$list['a_market_mobile']}" class="input-text" size="45">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th width="120"></th>
+                   <td>
+                        
+                    </td>
+                </tr>
+
+                <tr>
+                    <th width="120">乙方：</th>
+                   <td>
+                        <input type="text" name="b_party" id="b_party" <if condition="$list['b_party'] neq ''">value="{$list['b_party']}"<else/>value="上海房品汇网络信息技术有限公司（简称：房品汇）"</if> class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >公司地址：</th>
+                   <td>
+                        <input type="text" name="b_address" id="b_address" <if condition="$list['b_address'] neq ''">value="{$list['b_address']}"<else/>value="上海虹梅路1905号远中科研楼西部506室"</if> class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >负责人：</th>
+                   <td>
+                        <input type="text" name="b_head" id="b_head" value="{$list['b_head']}" class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >负责人电话：</th>
+                   <td>
+                        <input type="text" name="b_head_mobile" id="b_head_mobile" value="{$list['b_head_mobile']}" class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >案场对接人：</th>
+                   <td>
+                        <input type="text" name="b_market" id="b_market" value="{$list['b_market']}" class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >案场对接人电话：</th>
+                   <td>
+                        <input type="text" name="b_market_mobile" id="b_market_mobile" value="{$list['b_market_mobile']}" class="input-text" size="45">
+                    </td>
+                </tr>
+                <tr>
+                    <th >合作房源：</th>
+                   <td>
+                        <input type="text" name="inventory" id="inventory" value="{$list['inventory']}" class="input-text" size="45"><font color="#999999">&nbsp;套</font>
+                    </td>
+                </tr>
+                <tr>
+                    <th>签约时间：</th>
+                    <td><input type="text" name="signing_time" id="signing_time" <if condition="$list['signing_time'] neq 0">value="{$list.signing_time|date='Y-m-d',###}"</if> class="date" size="12" readonly=""></td>
+                </tr>
+                <tr>
+                    <th>合作期限：</th>
+                    <td>
+                        <input type="text" name="term_start" id="term_start" <if condition="$list['term_start'] neq 0">value="{$list.term_start|date='Y-m-d',###}"</if> class="date" size="12" readonly="">
+                        <font color="#999999">&nbsp;&nbsp;至&nbsp;&nbsp;</font>
+                        <input type="text" name="term_end" id="term_end" <if condition="$list['term_end'] neq 0">value="{$list.term_end|date='Y-m-d',###}"</if> class="date" size="12" readonly=""><font color="#999"> 经纪人</font>
+                    </td>
+                </tr>
+                <tr>
+                    <th>合作期限：</th>
+                    <td>
+                        <input type="text" name="client_time_start" id="client_time_start" <if condition="$list['client_time_start'] neq 0">value="{$list.client_time_start|date='Y-m-d',###}"</if> class="date" size="12" readonly="">
+                        <font color="#999999">&nbsp;&nbsp;至&nbsp;&nbsp;</font>
+                        <input type="text" name="client_time_end" id="client_time_end" <if condition="$list['client_time_end'] neq 0">value="{$list.client_time_end|date='Y-m-d',###}"</if> class="date" size="12" readonly=""><font color="#999"> 客户端</font>
+                    </td>
+                </tr>
+                <tr>
+                    <th>上传附件：</th>
+                    <td id="file">
+                        <a href="javascript:;" onclick="add_file()">添加</a>
+                        <br><br>
+                        <input name="file[]" type="file">
+                        <br>
+                        <volist name="list['cooperation_file']" id="v">
+                            <br>
+                            {$v}
+                            <a href="{:u('property/cooperation_download', array('id'=>$id,'file'=>$v,'roleid'=>1))}">{:L('download')}</a>
+                            <a href="{:u('property/cooperation_download_del', array('id'=>$id,'file'=>$v,'roleid'=>1))}">{:L('delete')}</a>
+                        </volist>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+    </div>
+</div>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+var leng = 1;
+function add_file()
+{
+    $('#file').append('<br><input name="file[]" type="file">');
+}
+
+Calendar.setup({
+    inputField : "signing_time",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+Calendar.setup({
+    inputField : "term_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+Calendar.setup({
+    inputField : "client_time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+Calendar.setup({
+    inputField : "client_time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+Calendar.setup({
+    inputField : "term_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+
+$(function() {
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#a_party").formValidator({onshow:"",onfocus:"请输入甲方信息"}).inputValidator({min:3,onerror:"请输入甲方信息"});
+    $("#a_address").formValidator({onshow:"",onfocus:"请输入甲方公司地址"}).inputValidator({min:3,onerror:"请输入甲方公司地址"});
+    //$("#a_head").formValidator({onshow:"",onfocus:"请输入甲方负责人"}).inputValidator({min:3,onerror:"请输入甲方负责人"});
+    // $("#a_head_mobile").formValidator({onshow:""}).inputValidator({min:1,onerror:"请输入甲方负责人电话"}).regexValidator({regexp:"mobile",datatype:"enum",onerror:"请填写正确手机号码"});
+    //$("#a_market").formValidator({onshow:"",onfocus:"请输入甲方案场对接人"}).inputValidator({min:3,onerror:"请输入甲方案场对接人"});
+    // $("#a_market_mobile").formValidator({onshow:""}).inputValidator({min:1,onerror:"请输入甲方案场对接人电话"}).regexValidator({regexp:"mobile",datatype:"enum",onerror:"请填写正确手机号码"});
+
+    $("#b_party").formValidator({onshow:"",onfocus:"请输入乙方信息"}).inputValidator({min:3,onerror:"请输入乙方信息"});
+    $("#b_address").formValidator({onshow:"",onfocus:"请输入乙方公司地址"}).inputValidator({min:3,onerror:"请输入乙方公司地址"});
+    //$("#b_head").formValidator({onshow:"",onfocus:"请输入乙方负责人"}).inputValidator({min:3,onerror:"请输入乙方负责人"});
+    // $("#b_head_mobile").formValidator({onshow:""}).inputValidator({min:1,onerror:"请输入乙方负责人电话"}).regexValidator({regexp:"mobile",datatype:"enum",onerror:"请填写正确手机号码"});
+    //$("#b_market").formValidator({onshow:"",onfocus:"请输入乙方案场对接人"}).inputValidator({min:3,onerror:"请输入乙方案场对接人"});
+    // $("#b_market_mobile").formValidator({onshow:""}).inputValidator({min:1,onerror:"请输入乙方案场对接人电话"}).regexValidator({regexp:"mobile",datatype:"enum",onerror:"请填写正确手机号码"});
+
+    //$("#inventory").formValidator({onshow:""}).inputValidator({min:1,onerror:"请输入合作房源"}).regexValidator({regexp:"intege",datatype:"enum",onerror:"请填写整数"});
+
+    $("#signing_time").formValidator({onshow:"",onfocus:"请输入签约时间"}).inputValidator({min:3,onerror:"请输入签约时间"});
+    $("#term_start").formValidator({onshow:"",onfocus:"请输入合作开始时间"}).inputValidator({min:3,onerror:"请输入合作开始时间"});
+    $("#term_end").formValidator({onshow:"",onfocus:"请输入合作结束时间"}).inputValidator({min:3,onerror:"请输入合作结束时间"});
+
+});
+
+</script>
+</body>
+</html>

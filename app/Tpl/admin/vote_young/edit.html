@@ -1,0 +1,120 @@
+<include file="public:header" />
+<style type="text/css">
+	#touxian{ width: 500px;}
+	#hopeless{ width: 500px; height: 180px;}
+
+</style>
+<!--添加管理员-->
+<div class="pad_lr_10">
+	<form id="info_form" name="info_form" action="{:u('vote_young/edit')}" method="post">
+	<table width="100%" class="table_form">
+		<tr> 
+	      <th width="80">选手编号 :</th>
+	      <td><input type="text" name="vote_id" id="vote_id" class="input-text" size="25" value="{$info.vote_id}"> 号</td>
+	    </tr>
+	    <tr> 
+	      <th>选手姓名 :</th>
+	      <td><input type="text" name="vote_personal" id="vote_personal" class="input-text" size="25" value="{$info.vote_personal}"></td>
+	    </tr>
+
+	    <tr> 
+	      <th>形象照片 :</th>
+	      <td>
+				<input name="avatar" id="J_img" type="hidden" value="{$info.avatar}" />
+				<div class="img_border" id="img_data">
+					<notempty name="info['avatar']">
+						<ul>
+							<li><img src="{:get_fdfs_image($info['avatar'], '')}" width="100"></li>
+							<li><a href="javascript:;" class="del_img">删除</a></li>
+						</ul>
+					</notempty>
+                  </div>
+				 <div id="J_upload_img" class="upload_btn" <notempty name="info['avatar']">style="display:none;"</notempty>><span>{:L('upload')}</span></div>
+	      </td>
+	    </tr>
+
+	    <tr>
+	    <tr> 
+	      <th>选手头衔 :</th>
+	      <td><input type="text" name="touxian" id="touxian" class="input-text" size="25" value="{$info.touxian}"  maxlength="8"></td>
+	    </tr>
+	     <tr> 
+	      <th>参数宣言 :</th>
+	      <td><textarea name="hopeless" id="hopeless" value="">{$info.hopeless}</textarea></td>
+	    </tr>
+	     
+		
+	   
+	</table>
+	<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	<input type="hidden" name="id" value="{$info.id}">
+	</form>
+</div>
+<include file="public:footer" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#vote_id").formValidator({onshow:lang.please_input+lang.vote_id,onfocus:lang.please_input+lang.vote_id}).inputValidator({min:1,onerror:lang.please_input+lang.vote_id}).defaultPassed();
+	$("#vote_personal").formValidator({onshow:lang.please_input+lang.vote_personal,onfocus:lang.please_input+lang.vote_personal}).inputValidator({min:1,onerror:lang.please_input+lang.vote_personal}).defaultPassed();
+	$("#hopeless").formValidator({onshow:lang.please_input+lang.hopeless,onfocus:lang.please_input+lang.hopeless}).inputValidator({min:1,onerror:lang.please_input+lang.hopeless}).defaultPassed();
+	$("#J_img").formValidator({onshow:lang.upload+lang.vote_avatar,onfocus:lang.upload+lang.vote_avatar}).inputValidator({min:1,onerror:lang.upload+lang.vote_avatar}).defaultPassed();
+		
+//上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('vote_young/ajax_upload_img')}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+            	$('#J_upload_img').hide();
+                $('#J_img').val(result.data);
+                $('#J_img').blur();
+                $('#img_data').html('<ul><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+    //删除图片
+	$('.del_img').live('click',function(){
+		var img_path = $(this).parents('.img_border').prev('input').val();
+		var delimg_url = '{:U('media/del_img',array('roleid'=>1))}';
+		$.post(delimg_url,{img_path:img_path},function(result){
+			if(result.status == 1){
+				$('#img_data').html('');
+				$('#J_img').val('');
+				$('#J_upload_img').show();
+				$('#J_img').focus();
+				return false;
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+            }
+		},'json');
+	});		
+	
+
+});
+</script>
+</body>
+</html>
+	

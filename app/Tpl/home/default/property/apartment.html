@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<include file="public:head" />
+</head>
+
+<body>
+<include file="public:header" />
+<div class="brand_remit_home_crumbs">
+  <div class="content">
+    <ul>
+      <li><a href="__ROOT__/">首页</a></li>
+      <li><a href="{:U('property/index')}">合作楼盘</a></li>
+      <li><a href="javascript:;">{$setTitle}</a></li>
+    </ul>
+  </div>
+</div>
+<div class="realestate_main">
+  <div class="content">
+    <div class="detail_block">
+      <div class="detail_img"> 
+     	<div class="show_area J_img_none">
+          <ul>
+	      <volist name="hxlist" id="vo">
+            	<li><a href="javascript:;"><img rel="{$vo.id}" src="{:get_fdfs_image($vo['house_img'], '_640x480')}" alt="{$vo.house_name}" <if condition="$info['id'] neq $vo['id']">style="display:none"</if>/></a></li>
+	      </volist>
+          </ul>
+        </div>
+	
+        <div class="list_area"> <a style="color:#3fa2cf" href="javascript:;" class="arrow left J_property_left">上一房型</a> <a href="javascript:;" class="arrow right J_property_right">下一房型</a>
+          <div class="blocks J_select_huxing_img">
+            <ul>
+            <volist name="hxlist" id="vo">
+              <li rel="{$vo.id}"><a <if condition="$info['id'] eq $vo['id']">class="on"</if> href="javascript:;"><img src="{:get_fdfs_image($vo['house_img'], '_100x75')}" alt="{$vo.house_name}"/></a></li>
+            </volist>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="detail_info J_info_data">
+        <h2>{$info.house_name}<i class="status_tip">{$info.hxtitle}</i></h2>
+        <span>户型：{$info.house_room}室{$info.house_hall}厅{$info.house_wc}卫</span>
+        <div class="BC brokerage"><span>卖点</span></div>
+         {$info.house_info}
+      </div>
+
+    </div>
+  </div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="__STATIC__/css/default/home/js/skitter.js"></script>
+<script type="text/javascript">
+	$('.detail_img').Skitter();
+</script>
+</body>
+</html>

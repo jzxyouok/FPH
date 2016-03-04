@@ -1,0 +1,100 @@
+<include file="public:header" />
+<!--门店管理-->
+<div class="pad_lr_10">
+<form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="stores" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    时间筛选：
+                    <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}">
+                    -
+                    <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}">
+                    地区:<select class="J_city_select2 mr10" data-pid="0" data-uri="{:U('stores/ajax_city',array('roleid'=>1))}" data-selected="{$selected_ids_city}"></select><input type="hidden" name="city_id" id="J_city_id2" value="{$search.city_id}" />&nbsp;
+                    状态: <select name='status'>
+                        <option value=''>全部</option>
+                        <option value='1' <if condition="$search.status eq '1'">selected="selected"</if>>已审核</option>
+                        <option value='0' <if condition="$search.status eq '0'">selected="selected"</if>>未审核</option>
+                    </select>
+                    &nbsp;输入<if condition="$search.store_type eq 2">门店<else/>案场</if>或代码 :
+                    <input type="text" name="keyword" id="keyword" value="{$search.keyword}" class="input-text" size="30">
+                    <input type="hidden" name="store_type" id="store_type" value="{$search.store_type}" />
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('company/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th>时间</th>
+                <th align='left'><if condition="$search.store_type eq 2">门店<else/>案场</if>名称</th>
+        
+                <th align='left'><if condition="$search.store_type eq 2">门店<else/>案场</if>代码</th>
+  
+                <th align='left'>地区</th>
+      			<th>人数</th>
+                <th align="left">所属者</th>
+                <th align="left">联系人</th>
+                <th align="left">联系人电话</th>
+                <th align="center">审核</th>
+                <th width=100>{:L('operations_manage')}</th>
+            </tr>
+            </thead>
+    	    <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center">{$val.id}</td>
+                <td align="center">{$val.add_time|date='Y.m.d H:i',###}</td>
+                <td align="left">{$val.name}</td>
+                <td align="left">{$val.code_id}</td>
+                <td align="left">{$val['city_names']}</td>
+                <td align="center">{$val.count}</td>
+                <td align="left">{$val.user_edit}</td>
+                <td align="left">{$val.contact}</td>
+                <td align="left">{$val.contact_tel}</td>
+                <td align="center"> <img src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center">
+                    <a href="{:U('stores/edit', array('id'=>$val['id'],'store_type'=>$search[store_type],'menuid'=>$menuid))}" >{:L('edit')}</a>
+                </td>
+            </tr>
+            </volist>
+    	   </tbody>
+        </table>
+        <empty name='list'>暂无数据</empty>
+    </div>
+    <div class="btn_wrap_fixed">
+		<div id="pages">{$page}</div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$(function(){
+    $('.J_city_select2').city_select2('请选择');
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+})
+</script>

@@ -1,0 +1,501 @@
+<!doctype html>
+<html style="background-color:#eee;">
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/premises.css">
+</head>
+<div id="TOP_FRAME" class="TOP_FRAME">
+<form id='search_title'  method="get" >	
+  <header>
+    <section class="logo">房品汇</section>
+    <section class="dropdown">
+      <select id="citylist" onChange="MM_jumpMenu('parent',this,0)">
+	<volist name="citylist" id="vo">
+		<option  value="{:U('weixin/loupan/index',array('select_city'=>$vo['id'],'select_name'=>$vo['name']))}" >{$vo['name']}</option>
+	</volist>
+      </select>
+		<a href="javascript:void(0);" id="city_name"  class="city">{$search['select_name']}<i></i></a>
+     </section>
+	<a href="javascript:void(0);" class="gotolist">筛选<i></i></a>
+    <section class="search"> <a href="javascript:void(0);" onClick="sub('search_title');" class="btn_search">搜索</a>
+      <div class="frm">
+		<input type="hidden" name="g" value="weixin" />
+                <input type="hidden" name="m" value="loupan" />
+                <input type="hidden" name="a" value="index" />
+		<input type="hidden" name="select_city" value="{$search['select_city']}" />
+		<input type="hidden" name="select_name" value="{$search['select_name']}" />
+		<input name="search_title" value="{$search['title']}" type="text" placeholder="输入楼盘名">
+      </div>
+    </section>
+  </header>
+  <section class="scroll_body hasResults">
+	<if condition="$search['get'] egt 1 ">
+	    <div class="search_result">为您搜索到{$search['getcount']} 个结果</div>
+	</if>
+    <ul id="container" class="premises_list">
+	<volist name="list" id="vo">
+		<li><a href="{:U('weixin/loupan/detail',array('id'=>$vo['id'],'select_city'=>$search['select_city'],'select_name'=>$search['select_name']))}">
+			<figure><if condition="$vo.pid eq 1"><i></i></if> <img src="{:get_fdfs_image($vo['img_thumb'], '_weixin_thumb')}" width="120" height="90"> </figure>
+		<section class="detail">
+			<h3>{$vo['title']}</h3>
+			<span class="region">{$vo['area']}</span> <span class="price">
+			 <if condition="$vo['item_price'] neq '' ">{$vo['item_price']}元/㎡<else/> 价格待定</if>
+			</span>
+		</section>
+		<section class="status">
+			<if condition="$vo.list_price eq ''">
+				<span class="no_brokerage">即将上线</span>
+			<else />
+				<i class="PREMISES_STATUS">佣</i> <span class="deposit">{$vo['list_price']}起</span> <span class="unit">每套</span>
+			</if>
+		 </section>
+		</a>
+		</li>
+	</volist>
+    </ul>
+    <if condition="$countlp egt 15 ">
+	 <div id="loading" class="LOADING">正在加载...</div>					
+    </if>
+  </section>
+<include file="public:nav_4_0" />
+</div>
+<!---------------------------------------------------------------------------------------------------------------------------->
+<div id="HIDDEN_POPUP" class="HIDDEN_POPUP" style="display:none;position:absolute;top:0;width:100%;z-index:999;">
+  <div class="TOP_FRAME gray">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+      <section class="dropdown">
+<!--        <select name="">
+          <option value="上海">上海</option>
+          <option value="北京">北京</option>
+        </select>-->
+      <!--  <a href="#" class="city"> 上海<i></i></a>--></section>
+      <a href="javascript:;" onClick="shai_list();" class="gotolist nobg">重置筛选</a> </header>
+	<input type="hidden" name="g" value="weixin" />
+	<input type="hidden" name="m" value="loupan" />
+	<input type="hidden" name="a" value="index" />
+		 
+	<input type="hidden" id="search_shai_city" name="search_shai_city" value="{$search['search_shai_city']}" >
+	<input type="hidden" id="search_ban_city" name="search_ban_city" value="{$search['search_ban_city']}" >
+	<input type="hidden" id="search_ban_city_name" name="search_ban_city_name" value="{$search['search_ban_city_name']}" >
+	<input type="hidden" id="search_shai_metro" name="search_shai_metro" value="{$search['search_shai_metro']}" >
+	<input type="hidden" id="search_shai_metro_pid" name="search_shai_metro_pid" value="{$search['search_shai_metro_pid']}" >
+	<input type="hidden" id="search_shai_metro_pid_name" name="search_shai_metro_pid_name" value="{$search['search_shai_metro_pid_name']}" >
+	<input type="hidden" id="search_shai_item_price" name="search_shai_item_price" value="{$search['search_shai_item_price']}" >
+	<input type="hidden" id="search_shai_room" name="search_shai_room" value="{$search['search_shai_room']}" >
+	<input type="hidden" id="search_shai_property_type" name="search_shai_property_type" value="{$search['search_shai_property_type']}" >
+	<input type="hidden" id="search_shai_property_feature" name="search_shai_property_feature" value="{$search['search_shai_property_feature']}" >
+
+    <section class="scroll_body noPadding">
+      <section class="filters">
+        <div class="dv_sel">
+          <select  id="shai_city"  onchange="shai_city_pid();">
+		<option class='strnull' value=''>不限</option>
+		<volist  name="shailist_city" id="vo">
+			<option sele  id="shai_city_id{$vo['id']}" value="{$vo['id']}" <if condition="$vo.id eq $search['search_shai_city']">selected="selected"</if>>{$vo['name']}</option>
+		</volist>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_city_name">区域筛选</a> </div>
+        <div class="dv_sel">
+          <select disabled="disabled" id="shai_ban" onChange="shai_ban_city_id();">
+		
+          </select>
+          <i></i> <a href="javascript:;" id="shai_ban_name">板块筛选</a> </div>
+      </section>
+     <if condition="$shaimetrolist neq ''">
+      <section class="filters">
+        <div class="dv_sel">
+          <select id="shai_metro"  onchange="shai_metro_pid();">
+		<option class='strnull' value=''>不限</option>
+		<volist name="shaimetrolist" id="vo">
+			<option id="shai_metro_id{$vo['id']}" value="{$vo['id']}" <if condition="$vo.id eq $search['search_shai_metro']">selected="selected"</if>>{$vo['name']}</option>
+		</volist>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_metro_name">地铁筛选</a> </div>
+        <div class="dv_sel"><!--multiple-->
+          <select id="shai_metro_ban" disabled="disabled"  onChange="shai_metro_ban_pid();">
+          </select>
+          <i></i> <a href="javascript:;" id="shai_metro_ban_name">线路筛选</a> </div>
+      </section>
+      </if>
+      <section class="filters">
+        <div class="dv_sel">
+          <select id="shai_item_price" onChange="shai_item_price_id();">
+	    <option class='strnull' value=''>不限</option>
+            <option id="shai_item_priceid1" value="1" <if condition="1 eq $search['search_shai_item_price']">selected="selected"</if>>从低到高</option>
+            <option id="shai_item_priceid2" value="2" <if condition="2 eq $search['search_shai_item_price']">selected="selected"</if>>从高到低</option>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_item_price_name">均价筛选</a> </div>
+      </section>
+      <section class="filters">
+        <div class="dv_sel">
+          <select id="shai_room" onChange="shai_room_id();">
+	    <option class='strnull' value=''>不限</option>
+            <option id='shai_roomid1'  value="1" <if condition="1 eq $search['search_shai_room']">selected="selected"</if>>一室</option>
+            <option id='shai_roomid2'  value="2" <if condition="2 eq $search['search_shai_room']">selected="selected"</if>>二室</option>
+	    <option id='shai_roomid3'  value="3" <if condition="3 eq $search['search_shai_room']">selected="selected"</if>>三室</option>
+	    <option id='shai_roomid4'  value="4" <if condition="4 eq $search['search_shai_room']">selected="selected"</if>>四室</option>
+	    <option id='shai_roomid5'  value="5" <if condition="5 eq $search['search_shai_room']">selected="selected"</if>>五室以上</option>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_room_name">户型筛选</a> </div>
+      </section>
+      <section class="filters">
+        <div class="dv_sel">
+          <select id="shai_property_type" onChange="shai_property_type_id();">
+		<option class='strnull' value=''>不限</option>
+		<volist name="catelist['property_type']" id="vo">
+			<option id="shai_property_typeid{$vo['id']}" value="{$vo['id']}" <if condition="$vo.id eq $search['search_shai_property_type']">selected="selected"</if>>{$vo['name']}</option>
+		</volist>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_property_type_name">物业筛选</a> </div>
+      </section>
+      <section class="filters">
+        <div class="dv_sel">
+          <select id="shai_property_feature" onChange="shai_property_feature_id();">
+		<option class='strnull' value=''>不限</option>
+		<volist name="catelist['property_feature']" id="vo">
+			<option id="shai_property_featureid{$vo['id']}" value="{$vo['id']}" <if condition="$vo.id eq $search['search_shai_property_feature']">selected="selected"</if>>{$vo['name']}</option>
+		</volist>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_property_feature_name">楼盘特色</a> </div>
+      </section>
+      <section class="se_btn">
+	<a href="javascript:void(0);" onClick="sub('search_title');" class="BTNs">确定</a>
+	<a href="#" class="BTNs cancel">取消</a>
+      </section>
+      </form>
+    </section>
+  </div>
+</div>
+<script type="text/javascript">
+	
+	
+//重置
+function shai_list()
+{
+	$('#search_shai_city').val('');
+	$('#search_ban_city').val('');
+	$('#search_ban_city_name').val('');
+	$('#search_shai_metro').val('');
+	$('#search_shai_metro_pid').val('');
+	$('#search_shai_metro_pid_name').val('');
+	$('#search_shai_item_price').val('');
+	$('#search_shai_room').val('');
+	$('#search_shai_property_type').val('');
+	$('#search_shai_property_feature').val('');
+	
+	$('#shai_city_name').html('区域筛选');
+	$('#shai_ban_name').html('板块筛选');
+	$('#shai_metro_name').html('地铁筛选');
+	$('#shai_metro_ban_name').html('线路筛选');
+	$('#shai_room_name').html('户型筛选');
+	$('#shai_property_type_name').html('物业筛选');
+	$('#shai_property_feature_name').html('楼盘特色');
+	$('#shai_item_price_name').html('均价筛选');
+	
+	$('.strnull').attr("selected",true);
+	
+	$("#shai_ban").attr("disabled","disabled");
+	$("#shai_metro_ban").attr("disabled","disabled");
+}
+
+var   select_city = "{$search['select_city']}";
+var   search_title =  "{$search['title']}";
+
+var	search_shai_city = "{$search['search_shai_city']}";
+if(search_shai_city != '')
+{
+	$('#shai_city_name').html($('#shai_city_id'+search_shai_city).html());
+	shai_city_pid();
+}
+
+var	search_ban_city = "{$search['search_ban_city']}";
+if(search_ban_city != '')
+{
+	var search_ban_city_name=  "{$search['search_ban_city_name']}";
+	$('#shai_ban_name').html(search_ban_city_name);
+}
+var	search_shai_metro = "{$search['search_shai_metro']}";
+if(search_shai_metro != '')
+{
+	$('#shai_metro_name').html($('#shai_metro_id'+search_shai_metro).html());
+	shai_metro_pid();
+}
+var	search_shai_metro_pid = "{$search['search_shai_metro_pid']}";
+if(search_shai_metro_pid != '')
+{
+	var	shai_metro_ban_name = "{$search['search_shai_metro_pid_name']}";
+	$('#shai_metro_ban_name').html(shai_metro_ban_name);
+}
+var	search_shai_item_price = "{$search['search_shai_item_price']}";
+if(search_shai_item_price != '')
+{
+	$('#shai_item_price_name').html($('#shai_item_priceid'+search_shai_item_price).html());
+}
+var	search_shai_room = "{$search['search_shai_room']}";
+if(search_shai_room != '')
+{
+	$('#shai_room_name').html($('#shai_roomid'+search_shai_room).html());
+}
+var	search_shai_property_type = "{$search['search_shai_property_type']}";
+if(search_shai_property_type != '')
+{
+	$('#shai_property_type_name').html($('#shai_property_typeid'+search_shai_property_type).html());
+}
+var	search_shai_property_feature = "{$search['search_shai_property_feature']}";
+if(search_shai_property_feature != '')
+{
+	$('#shai_property_feature_name').html($('#shai_property_featureid'+search_shai_property_feature).html());
+}
+
+$(function(){
+	//向下滑动加载
+	var winH = $(window).height(); //页面可视区域高度 
+	var pagefirst = 1; //设置当前页数
+	var stopstatus = true; 
+	$(window).scroll(function () { 
+        var pageH = $(document.body).height(); 
+        var scrollT = $(window).scrollTop(); //滚动条top 
+        var lq_height = (pageH-winH-scrollT)/winH; 
+	var url = PINER.root + '/?g=weixin&m=loupan&a=ajax_list';
+        if(lq_height<0.02 && stopstatus == true){ 
+		stopstatus = false;
+		$.post(url,{
+			page:pagefirst,
+			select_city:select_city,
+			search_title:search_title,
+			search_shai_city:search_shai_city,
+			search_ban_city:search_ban_city,
+			search_shai_metro:search_shai_metro,
+			search_shai_metro_pid:search_shai_metro_pid,
+			search_shai_item_price:search_shai_item_price,
+			search_shai_room:search_shai_room,
+			search_shai_property_type:search_shai_property_type,
+			search_shai_property_feature:search_shai_property_feature
+			},function(result){
+			if(result.status == 1){
+				$('#container').append(result.data);
+				$('#loading').html('正在加载...');
+				pagefirst++;
+				stopstatus = true;
+				return false; 
+			}
+			else
+			{
+				$('#loading').html('暂无数据');
+				//$(".bt-roading").html(result.msg); 
+				return false; 
+			}
+		},'json');
+        } 
+    });
+});
+
+//筛选
+//区域
+function shai_city_pid()
+{
+	if($('#shai_city').val() == '')
+	{
+		$('#shai_city_name').html('区域筛选');
+		$('#shai_ban_name').html('板块筛选');
+		$("#shai_ban").attr("disabled","disabled");
+		$('#search_ban_city').val('');
+		$('#search_ban_city_name').val('');
+		$('#search_shai_city').val('');
+	}
+	else
+	{
+		var url = PINER.root + '/?g=weixin&m=loupan&a=shai_city';
+		$.post(url,{
+			shai_city:$('#shai_city').val(),
+			},function(result){
+			if(result.status == 1){
+				$('#shai_ban').html(result.data);
+			}
+			$('#shai_city_name').html($('#shai_city_id'+$('#shai_city').val()).html());
+			$('#search_shai_city').val($('#shai_city').val());
+			shai_ban_city_id();
+			$("#shai_ban").removeAttr("disabled");
+		},'json');
+	}
+	
+}
+//板块
+function shai_ban_city_id()
+{
+	$('#search_ban_city').val('');
+	$('#search_ban_city_name').val('');
+	if($('#shai_ban').val() == '')
+	{
+		$('#shai_ban_name').html('板块筛选');
+		$('#search_ban_city').val('');
+		$('#search_ban_city_name').val('');
+	}
+	else
+	{
+		$('#shai_ban_name').html($('#shai_ban_id'+$('#shai_ban').val()).html());
+		$('#search_ban_city').val($('#shai_ban').val());
+		$('#search_ban_city_name').val($('#shai_ban_id'+$('#shai_ban').val()).html());
+	}
+	
+	if(search_ban_city != '')
+	{
+		$("#shai_ban_id"+search_ban_city).attr("selected","selected");
+		var search_ban_city_name=  "{$search['search_ban_city_name']}";
+		$('#shai_ban_name').html(search_ban_city_name);
+	}
+}
+
+//地铁线路
+function shai_metro_pid()
+{
+	if($('#shai_metro').val() == '')
+	{
+		$('#shai_metro_name').html('地铁筛选');
+		$('#search_shai_metro').val('');
+	}
+	else
+	{
+		var url = PINER.root + '/?g=weixin&m=loupan&a=shai_metro';
+		$.post(url,{
+			shai_metro:$('#shai_metro').val(),
+			},function(result){
+			if(result.status == 1){
+				$('#shai_metro_ban').html(result.data);
+			}
+			$('#shai_metro_name').html($('#shai_metro_id'+$('#shai_metro').val()).html());
+			$('#search_shai_metro').val($('#shai_metro').val());
+			
+			shai_metro_ban_pid();
+			$("#shai_metro_ban").removeAttr("disabled");
+		},'json');
+		
+	}
+}
+
+//地铁线路选择
+function shai_metro_ban_pid()
+{
+	if($('#shai_metro_ban').val()  == '')
+	{
+		$('#shai_metro_ban_name').html('线路筛选');
+		$('#search_shai_metro_pid').val('');
+		$('#search_shai_metro_pid_name').val('');
+	}
+	else
+	{
+		$('#search_shai_metro_pid').val($('#shai_metro_ban').val());
+		$('#search_shai_metro_pid_name').val($('#shai_metro_pid'+$('#shai_metro_ban').val()).html());
+		$('#shai_metro_ban_name').html($('#shai_metro_pid'+$('#shai_metro_ban').val()).html());
+	}
+	if(search_shai_metro_pid != '')
+	{
+		$('#search_shai_metro_pid').val(search_shai_metro_pid);
+		$('#search_shai_metro_pid_name').val($('#shai_metro_pid'+search_shai_metro_pid).html());
+		var	shai_metro_ban_name = "{$search['search_shai_metro_pid_name']}";
+		$('#shai_metro_ban_name').html(shai_metro_ban_name);
+		search_shai_metro_pid = '';
+	}
+	
+}
+
+//均价筛选
+function shai_item_price_id()
+{
+	if($('#shai_item_price').val() == '')
+	{
+		$('#shai_item_price_name').html('均价筛选');
+		$('#search_shai_item_price').val('');
+	}
+	else
+	{
+		$('#shai_item_price_name').html($('#shai_item_priceid'+$('#shai_item_price').val()).html());
+		$('#search_shai_item_price').val($('#shai_item_price').val());
+	}
+	
+}
+
+//户型筛选
+function shai_room_id()
+{
+	if($('#shai_room').val() == '')
+	{
+		$('#shai_room_name').html('户型筛选');
+		$('#search_shai_room').val('');
+	}
+	else
+	{
+		$('#shai_room_name').html($('#shai_roomid'+$('#shai_room').val()).html());
+		$('#search_shai_room').val($('#shai_room').val());
+	}
+	
+}
+
+
+//物业类型
+function shai_property_type_id()
+{
+	if($('#shai_property_type').val() == '')
+	{
+		$('#shai_property_type_name').html('物业筛选');
+		$('#search_shai_property_type').val('');
+	}
+	else
+	{
+		$('#shai_property_type_name').html($('#shai_property_typeid'+$('#shai_property_type').val()).html());
+		$('#search_shai_property_type').val($('#shai_property_type').val());
+	}
+	
+}
+
+//楼盘特点
+function shai_property_feature_id()
+{
+	if($('#shai_property_feature').val() == '')
+	{
+		$('#shai_property_feature_name').html('楼盘特色');
+		$('#search_shai_property_feature').val('');
+	}
+	else
+	{
+		$('#shai_property_feature_name').html($('#shai_property_featureid'+$('#shai_property_feature').val()).html());
+		$('#search_shai_property_feature').val($('#shai_property_feature').val());
+	}
+}
+
+//提交
+function sub(str)
+{
+	$('#'+str).submit();
+	//document.getElementById(''+str+'').submit();
+}
+
+//
+var $gotolist = $('.gotolist');
+var $HIDDEN_POPUP = $('#HIDDEN_POPUP');
+$gotolist.click(function(e) {
+$HIDDEN_POPUP.fadeIn(function(e){
+		$('#TOP_FRAME').hide();
+	});
+});
+
+var $input_search = $('.search').find('input');
+var $footer = $('footer');
+$input_search
+.focus(function(e){
+	$footer.hide();
+})
+.blur(function(e) {
+	$footer.show();
+});
+var $cancel = $('.cancel');
+$cancel.click(function(e){
+	$HIDDEN_POPUP.fadeOut();
+	$('#TOP_FRAME').show();
+});
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>
+

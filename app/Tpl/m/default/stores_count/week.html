@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/expansion.css" rel="stylesheet" />
+</head>
+
+<body>
+<div class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+  </header>
+  <section class="scroll_body noPadding">
+    <section class="expansion_frm">
+      <ul class="exp_navi">
+        <li><a href="{:U('m/stores_count/index')}">日拓展</a></li>
+        <li><a href="{:U('m/stores_count/week')}"  class="on">周拓展</a></li>
+        <li><a href="{:U('m/stores_count/month')}" >月拓展</a></li>
+      </ul>
+    </section>
+    <section class="PADDING_FRM">
+      <volist name='arr_week' id='v' >
+      <section class="table_blocks"> <span class="LABELS">{$v['title']}</span>
+        <table>
+          <thead>
+          <th>拜访门店</th>
+            <th>拓展门店</th>
+            <th>经纪人数量</th>
+              </thead>
+          <tbody>
+            <tr>
+              <td>{$v['l_count']|default='0'}</td><td>{$v['s_count']|default='0'}</td><td>{$v['s_list']['count']|default='0'}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </volist>
+    </section>
+
+<if condition="$str_date  eq ''">
+<div class="LOADING">暂无数据</div> 
+ <elseif condition="$days egt 35"/>
+ <div class="LOADING">正在加载...</div> 
+ </if>
+  </section>
+</div>
+<script type="text/javascript">
+var num = {$days_str};
+	$(function(){
+  //向下滑动加载
+  var winH = $(window).height(); //页面可视区域高度 
+  var pagefirst = 1; //设置当前页数
+  var stopstatus = true; 
+  $(window).scroll(function () {
+      var pageH = $(document.body).height();
+      var scrollT = $(window).scrollTop(); //滚动条top 
+      var lq_height = (pageH-winH-scrollT)/winH;
+      var url = PINER.root + '/?g=m&m=stores_count&a=ajax_stores_week_list';
+      if(lq_height<0.02 && stopstatus == true){
+          stopstatus = false;
+          $.post(url,{
+          page:pagefirst,
+          },function(result){
+             if(result.status == 1){
+              var strs=result.data.split("$$$"); //字符分割 
+              //$('.PADDING_FRM').html(result.data);
+              $('.PADDING_FRM').html(strs[0]);
+              if(num ==strs[1]){
+                $('.LOADING').html('别滑动了，已经到底了...');return false;
+              }
+              $('.LOADING').html('正在加载...');
+              pagefirst++;
+              stopstatus = true;
+              return false; 
+            }else{
+              $('.LOADING').html(result.msg);
+              return false;
+            }
+        },'json');
+      }
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+
+.btn_next {
+	position: relative;
+	margin-top: 25px;
+}

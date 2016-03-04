@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+</head>
+
+<body>
+<div class="steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>新建案场名称</label>
+            <input name="name" id="name" type="text" placeholder="输入案场渠道名称">
+          </li>
+		  
+          <li>
+            <label>选择城市</label>
+          </li>
+          
+		  
+		  <li>
+          <select name="city_id" class="nosel" id="city_id"  onchange="city_stores_id_pid()">
+            <option value=''>请选择城市</option>
+            <volist name="citylist" id="vo">
+              <option  value="{$vo['id']}" >{$vo['name']}</option>
+            </volist>
+          </select>
+          <i class="ARROW_WEST"></i> </li>
+        <li>
+          <select name="shai_city" class="nosel" id="shai_city" onChange="shai_stores_city_pid();">
+            <option value=''>请选择区域</option>
+          </select>
+          <i class="ARROW_WEST"></i> </li>
+        <li>
+          <select name="shai_ban" id="shai_ban" class="nosel" onChange="shai_stores_ban_pid();">
+            <option value=''>请选择板块</option>
+          </select>
+          <i class="ARROW_WEST"></i> </li>
+          <input type='hidden'  name='get_city_id' id='get_city_id'>
+          <li>
+            <label>项目地址</label>
+            <input name="address" id="address" type="text" placeholder="如：虹梅路1901号">
+          </li>
+        </ul>
+      </section>
+      <section class="se_btn"><a href="javascript:;" class="BTNs half J_add_case">确定</a><a href="javascript:history.go(-1);" class="BTNs cancel half">取消</a></section>
+    </section>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$('#shai_city').parents('li').hide();
+	$('#shai_ban').parents('li').hide();
+})
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

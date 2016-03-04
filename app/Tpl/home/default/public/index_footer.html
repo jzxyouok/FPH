@@ -1,0 +1,53 @@
+<footer>
+  <div class="content">
+    <div class="footer_toptag"></div>
+  </div>
+  <div class="footer_top">
+    <div class="content">
+      <h1>立即关注房品汇！只需1秒，扫一扫"码"上赚起来！</h1>
+      <div class="two_dimension_code weixin"><span>微信二维码</span><img src="__STATIC__/css/default/home/images/icons/qr_weixin.png" alt=""/></div>
+      <div class="two_dimension_code app"><span>手机APP二维码</span><img src="__STATIC__/css/default/home/images/icons/qr_app.png" alt=""/></div>
+    </div>
+  </div>
+  <div class="footer_bottom" style="height: 330px">
+    <div class="content">
+      <ul>
+        <li><a href="{:U('article/about')}">关于我们</a></li>
+        <li><a href="{:U('article/contact')}">联系我们</a></li>
+        <li><a href="{:U('joinus/index')}">加入我们</a></li>
+        <li><a href="javascript:;">友情链接</li>
+        <li><a href="{:U('article/service')}">服务协议</a></li>
+      </ul>
+      <div class="index_hotlines">免费客服电话<b>400-886-9058</b></div>
+      <div class="details_box">
+        <p>上海房品汇网络信息技术有限公司</p>
+        <p>上海市徐汇区田林路487号宝石园20号楼18楼</p>
+        <p>Tel: 86-021-61264678  61264673</p>
+        <p>Copyright &copy; 2012 - 2014 Fangpinhui.com. All Rights Reserved.房品汇版权所有 沪ICP备14024338号-1</p>
+        <p style="padding-top: 10px;"><a href='https://www.sgs.gov.cn/lz/licenseLink.do?method=licenceView&entyId=dov73ne26zbqpz06h12rsrrskullcc4vtg' target="_blank"><img src="__STATIC__/css/default/home/images/gongshangicon.gif" alt=""></a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="{:U('home/online/online_count',array('origin'=>4))}" type="text/javascript"></script>
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?7cfb33a66c6d3110d2e42b1b5c7e31f8";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+<script>
+var PINER = {
+    root: "__ROOT__",
+    uid: "<?php echo $visitor['id'];?>", 
+    async_sendmail: "<?php echo $async_sendmail;?>",
+    //URL
+    url: {}
+};
+//语言项目
+var lang = {};
+<volist name=":L('js_lang')" id="val">lang.{$key} = "{$val}";</volist>
+</script>

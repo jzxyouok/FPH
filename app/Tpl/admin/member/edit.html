@@ -1,0 +1,88 @@
+<include file="public:header" />
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="member:classification" />
+		<!--<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>-->
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<form id="info_form" action="{:u('member/edit')}" method="post">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">客户姓名 :</th>
+						<td><input type="text" name="username" id="username" class="input-text" size="25" value="{$info.username}"</td>
+					</tr>
+					<tr>
+						<th>手机号码 :</th>
+						<td>{$info.mobile}</td>
+					</tr>
+                    <tr>
+						<th width="120">所属城市 :</th>
+						<td><select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected="{$selected_ids_city}"></select><input type="hidden" name="city_id" id="J_city_id" value="{$info.city_id}" /></td>
+					</tr>
+		            <tr>
+						<th>注册时间 :</th>
+						<td>
+							<if condition="$info.reg_time neq 0">
+								{$info.reg_time|date='Y-m-d H:i',###}
+							<else/>
+								-
+							</if>
+						</td>
+					</tr>
+					<tr>
+						<th>最后登录 :</th>
+						<td><notempty name="info['last_time']">{$info.last_time|date='Y-m-d H:i',###}<else/>-</notempty></td>
+					</tr>
+                    <tr>
+                        <th>状态 :</th>
+                        <td>
+                            <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> 正常</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> 禁用</label>
+                        </td>
+                    </tr>
+					<tbody class="disableStatus" <if condition="$info.status eq '1'">style="display: none"</if>>
+						<tr>
+							<th>禁用理由 :</th>
+							<td><textarea id="disable_reasons" maxlength="255" name="disable_reasons" style="width:68%;height:70px;">{$info.disable_reasons}</textarea></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" value="{$info.id}" />
+<input type="hidden" name="mobile" value="{$info.mobile}" />
+</form>
+<include file="public:footer" />
+<script>
+$('.J_city_select').city_select('请选择');
+
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#username").formValidator({empty:"true",onshow:"",onfocus:"请填写客户姓名"}).inputValidator({min:2,max:15,empty:{leftempty:false,rightempty:false,emptyerror:"不能输入空格"},onerror:"请填写客户姓名,必须是中文或字母"}).regexValidator({regexp:"username",datatype:"enum",onerror:"请填写客户姓名,必须是中文或字母"});
+    $("#J_city_id").formValidator({empty:"true",onshow:"",onfocus:"请选择所属城市"}).inputValidator({min:1,onerror:"请选择所属城市"});
+
+	<if condition="$info.status eq '0'">
+			$("#disable_reasons").formValidator({onshow:"",onfocus:"请输入禁用理由"}).inputValidator({min:2,max:510,empty:{leftempty:false,rightempty:false,emptyerror:"不能输入空格"},onerror:"请输入禁用理由"});
+	</if>
+
+	$('input[name="status"]').click(function(){
+		var result_status = $(this).val();
+		if(result_status==1){
+			$('.disableStatus').hide();
+			$('#disable_reasons').val('');
+			$("#disable_reasons").formValidator({empty:"true",onshow:"",onfocus:""});
+		}else{
+			$('.disableStatus').show();
+			$("#disable_reasons").formValidator({onshow:"请输入禁用理由",onfocus:"请输入禁用理由"}).inputValidator({min:2,max:510,empty:{leftempty:false,rightempty:false,emptyerror:"不能输入空格"},onerror:"请输入禁用理由"});
+		}
+	});
+});
+</script>
+</body>
+</html>

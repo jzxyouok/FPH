@@ -1,0 +1,107 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+/************************************************************************************************/
+html, body {
+	background: #FFF;
+}
+#TOP_FRAME .scroll_body .info_detail_list li {
+	padding: 10px 0;
+	margin: 10px 0;
+	background: #FFF;
+}
+#TOP_FRAME .scroll_body .info_detail_list li a {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+#TOP_FRAME .scroll_body .info_detail_list li .tips {
+	background-image: url(../images_4_0/info_tip_bg.png);
+	background-repeat: no-repeat;
+	height: 25px;
+	line-height: 25px;
+	width: 47px;
+	display: block;
+	color: #FFF;
+	text-indent: 8px;
+	font-size: 1.2rem;
+	position: absolute;
+}
+#TOP_FRAME .scroll_body .info_detail_list li h2 {
+	font-size: 1.6rem;
+	color: #000;
+	padding-left: 12px;
+	padding-right: 10px;
+	padding-top: 5px;
+}
+#TOP_FRAME .scroll_body .info_detail_list li h2 b {
+	margin-left:5px;
+}
+#TOP_FRAME .scroll_body .info_detail_list li figure {
+	display: block;
+	margin: 12px;
+	padding: 0;
+	clear: both;
+}
+#TOP_FRAME .scroll_body .info_detail_list li figure img {
+	width: 100%;
+	max-height:180px;
+}
+#TOP_FRAME .scroll_body .info_detail_list li time {
+	padding-right: 10px;
+	padding-left: 10px;
+	color: #666666;
+	font-size: 1.4rem;
+}
+#TOP_FRAME .scroll_body .info_detail_list li p {
+	padding-right: 10px;
+	padding-left: 10px;
+	line-height: 20px;
+	color: #777;
+	margin-bottom: 0px;
+}
+#TOP_FRAME .scroll_body .info_details {
+	background-color: #fff;
+}
+#TOP_FRAME .scroll_body .info_details h2 {
+	font-size: 1.8rem;
+	display: block;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+#TOP_FRAME .scroll_body .info_details figure {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+}
+#TOP_FRAME .scroll_body .info_details figure img {
+	width: 100%;
+}
+#TOP_FRAME .scroll_body .PADDING_FRM .info_details .info_list li a {
+	font-size: 1.6rem;
+	color: #000000;
+	display: inline-block;
+}
+#TOP_FRAME .scroll_body .info_details p img {
+	width: 100%;
+}
+#TOP_FRAME .scroll_body {
+	position: relative;
+}
+#TOP_FRAME .scroll_body .bottom_btns {
+	position: fixed;
+	bottom: 15px;
+	width: 100%;
+	padding: 0;
+}
+#TOP_FRAME .scroll_body .info_details h3 {
+	font-size: 1.4rem;
+	display: block;
+	color:#999;
+}
+#TOP_FRAME .scroll_body .info_details h3 a {
+	font-size: 1.4rem;
+	margin-left:1rem;
+	color:#06f;
+}
+.html_box img { max-width:90%; display:block; margin:0 auto;}

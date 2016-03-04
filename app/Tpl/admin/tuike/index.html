@@ -1,0 +1,176 @@
+<include file="public:header" />
+<div class="subnav">
+	<div class="content_menu ib_a blue line_x">
+		<a class="on" href="{:U('admin/tuike/index',array('menuid'=>$menuid))}">
+		<em>客户管理</em>
+		</a>
+		<a href="javascript:" class="btn fr" id="outputs">导出数据</a>
+	</div>
+</div>
+
+<style type="text/css">
+.td_bg td{ background:#fffced}
+</style>
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform"  method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="output"  id="output" />
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="tuike" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+				&nbsp;&nbsp;经纪人 :
+                <input name="username" type="text" class="input-text" size="25" value="{$search.username}" />
+				&nbsp;&nbsp;用户 :
+                <input name="name" type="text" class="input-text" size="25" value="{$search.name}" />
+				&nbsp;&nbsp;用户手机 :
+                <input name="mobile" type="text" class="input-text" size="25" value="{$search.mobile}" />
+                <br>
+		状态更新:
+		<input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}">
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}">
+		报备时间:
+		<input type="text" name="add_time_start" id="add_time_start" class="date" size="12" value="{$search.add_time_start}">
+                -
+                <input type="text" name="add_time_end" id="add_time_end" class="date" size="12" value="{$search.add_time_end}">
+		&nbsp;&nbsp;{:L('status')}:
+                <select name="status">
+                <option value="">-{:L('all')}-</option>
+                <option value="1" <if condition="$search.status eq '1'">selected="selected"</if>>已报备</option>
+                <option value="2" <if condition="$search.status eq '2'">selected="selected"</if>>电话拜访</option>
+				<option value="3" <if condition="$search.status eq '3'">selected="selected"</if>>到访带看</option>
+				<option value="4" <if condition="$search.status eq '4'">selected="selected"</if>>支付定金</option>
+				<option value="5" <if condition="$search.status eq '5'">selected="selected"</if>>成交</option>
+                </select>
+		&nbsp;&nbsp;意向区域
+                <select name="city">
+                <option value="">-{:L('all')}-</option>
+			<volist name="city" id="val" >
+				<option value="{$val['id']}">{$val['name']}</option>
+			</volist>
+                </select>
+		&nbsp;&nbsp;意向价格:
+                <select name="price">
+                <option value="">-{:L('all')}-</option>
+			<volist name="price" id="val" >
+				<option value="{$val['id']}">{$val['title']}</option>
+			</volist>
+                </select>
+                <input type="submit" name="search" id="sub" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('myclient/ajax_edit',array('roleid'=>1))}">
+        <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+        <thead>
+            <tr>
+				<th width=40>序号</th>
+                <th width=30>ID</th>
+                <th align="left" width=150>经纪人</th>
+		<th align="left" width=100>推荐者</th>
+                <th align="left" width=120>手机号码</th>
+                <th align="left" width=370>意向区域/价格</th>
+				<th align="left" width=80>客户</th>
+				<th align="left" width=80>性别</th>
+				<th align="left" width=120>手机号码</th>
+				<th align="left" width=80>状态</th>
+				<th width=120>状态更新时间</th>
+				<th width=120>报备时间</th>
+                <th width="120">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="myclient_list" id="val" >
+            <tr class="collapsed">
+				<td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.username}</td>
+		<td align="left">{$val.share_name}</td>
+                <td align="left">{$val.user_mobile}</td>
+				<td align="left">{$val.city_name}/{$val.price}</td>
+				<td align="left">{$val.name}</td>
+				<td align="left"><if condition="$val['gender'] eq 0">女<elseif condition="$val['gender'] eq 1"/>男<else/>-</if></td>
+				<td align="left">{$val.mobile}</td>
+				<td align="left">
+					<switch name="val['status']" >
+						<case value="1">已报备</case>
+						<case value="2">电话拜访</case>
+						<case value="3"><font color="#FF9900">到访带看</font></case>
+						<case value="4"><font color="#0099FF">支付定金</font></case>
+						<case value="5"><font color="#339900">已成交</font></case>
+						<default />
+					</switch>
+				</td>
+				<td align="center"><if condition="$val['update_time'] eq 0">-<else/>{$val.update_time|date='Y-m-d H:i',###}</if></td>
+                <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                <td align="center">
+				<if condition="$val['status'] eq 3"><a class="J_showdialog" data-height="" data-width="700" data-id="edit" data-title="录入购买信息" data-uri="{:u('myclient_twitter/edit', array('id'=>$val['id'], 'menuid'=>$menuid,'roleid'=>1))}" href="javascript:;">录入购买信息</a><else/><a class="J_showdialog" data-height="" data-width="700" data-id="edit" data-title="修改楼盘" data-uri="{:u('myclient_twitter/edit', array('id'=>$val['id'], 'menuid'=>$menuid,'roleid'=>1))}" href="javascript:;">{:L('edit')}</a></if>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page_list}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$(function () {
+    $("#outputs").click(function(){
+    	    $("#output").val('1'); 
+            document.searchform.submit();
+    });
+ 
+    $("#sub").click(function(){
+    	    $("#output").val(''); 
+            document.searchform.submit();
+    });     
+    
+});
+
+
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "add_time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "add_time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</body>
+</html>
+

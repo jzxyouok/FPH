@@ -1,0 +1,84 @@
+<include file="public:header" />
+<style>
+#brokercontain li{ padding-top: 5px; border-bottom: dashed 1px #ccc; padding-left: 5px; cursor: pointer;}
+#brokercontain li:hover{ background: #DEF7CE;}
+.pad_lr_10{margin-top:15px;}
+.table_form td label{ cursor: pointer; margin-right:8px;}
+</style>
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="member:classification" />
+		<div class="J_panes">
+			<div class="content_list pad_10">
+<div class="J_tablelist table_list" style="margin-bottom:0px;">           
+          <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+            <thead>
+              <tr>
+                  <th align="left" style="background-color:#FFFFFF;">序号</th>
+                  <th align="left" style="background-color:#FFFFFF;">ID</th>
+                  <th style="background-color:#FFFFFF;text-align:left">基金来源</th>
+                  <th style="background-color:#FFFFFF;text-align:left">领取总额</th>
+                  <th style="background-color:#FFFFFF;text-align:left">领取时间</th>
+                  <th style="background-color:#FFFFFF;text-align:left">截止时间</th>
+                  <th style="background-color:#FFFFFF;text-align:left">使用范围</th>
+                  <th style="background-color:#FFFFFF;text-align:left">使用状态</th>
+                <th style="background-color:#FFFFFF;text-align:left">备注</th>
+                <th style="background-color:#FFFFFF;text-align:left">操作</th>
+             </tr>
+            </thead>
+            <tbody id='newlist'>
+            <volist name="list" id="vo">
+             	 <tr>
+                    <td align="left" style="background-color:#FFFFFF;">{$key+1}</td>
+                    <td align="left" style="background-color:#FFFFFF;">{$vo.id}</td>
+                    <td style="background-color:#FFFFFF; text-align:left">{$vo.title}</td>
+                     <td style="background-color:#FFFFFF; text-align:left">{$vo.journal_account}</td>
+                     <td style="background-color:#FFFFFF; text-align:left">{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                     <td style="background-color:#FFFFFF; text-align:left">{$vo.by_time|date="Y-m-d H:i:s",###}</td>
+                     <td style="background-color:#FFFFFF; text-align:left">通用</td>
+                     <td style="background-color:#FFFFFF; text-align:left">
+                         <switch name="vo['status']">
+                             <case value="0">待使用</case>
+                             <case value="1">已使用</case>
+                             <case value="2">过期</case>
+                         </switch>
+                     </td>
+                     <td style="background-color:#FFFFFF; text-align:left">{$vo.remark}</td>
+                     <td style="background-color:#FFFFFF; text-align:left">
+                         <if condition="$vo.status eq 0">
+                             <a class="menuBtn1" href="{:u('member/editCash', array('id'=>$vo['id'], 'menuid'=>$menuid))}">兑现</a>
+                         </if>
+                         <if condition="$vo.status eq 1">
+                             <a class="menuBtn2" href="{:u('member/editRevoke', array('id'=>$vo['id'], 'menuid'=>$menuid))}">撤销</a>
+                         </if>
+                     </td>
+
+                 </tr>
+               </volist>   
+            </tbody>
+          </table>         
+        </div>
+      		<div class="btn_wrap_fixed" style="margin-bottom:10px;">
+            	  <div id="pages">{$page}</div>
+            </div>	
+			</div>
+        </div>		
+	</div>
+</div>
+
+<include file="public:footer" />
+</body>
+</html>
+
+<script>
+    $(".menuBtn1").on("click",function(){
+       if(!confirm("此行为会直接影响到用户的可用购房基金数，确认使用此购房基金券?")){
+           return false;
+       }
+    });
+    $(".menuBtn2").on("click",function(){
+        if(!confirm("此行为会直接影响到用户的可用购房基金数，确认撤销之前的兑现记录?")){
+            return false;
+        }
+    });
+</script>

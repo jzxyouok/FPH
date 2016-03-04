@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/lottery.css">
+</head>
+
+<body>
+<!--加载遮罩层-->
+<div class="gray_cover"></div>
+<div class="loading">正在加载，请稍后......</div>
+<div class="share share_hide"><img src="__STATIC__/css/default/weixin/images_4_0/lottery/share.png"></div>
+<!--加载遮罩层-->
+
+<section class="TOPS"> <img src="__STATIC__/css/default/weixin/images_4_0/lottery/top_bg.jpg"></section>
+<section class="main_body">
+  <h5>抢完啦！微信红包马上到</h5>
+ 
+  <section class="form_frame">
+    <div class="top">棒棒哒！又抢到了
+      <mark>{$info.amount}</mark>
+      元！ </div>
+       <p>嗨翻没？</p>
+    <p>您已顺利完成房品汇疯狂抢钱活动！</p>
+   
+    <p class="mark">没有抢到100元怎么办？</p>
+    <table class="forms">
+      <tr>
+        <td><button class="btn_send share">分享给朋友</button></td>
+      </tr>
+    </table>
+  </section>
+  <p>据调查，100%的聪明人此时选择分享给朋友</p>
+</section>
+<footer>
+  <mark>本活动最终解释权归房品汇所有</mark>
+</footer>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+	$(window).load(function(){
+		$('.gray_cover').hide();
+		$('.loading').hide();
+		
+		//底部横底部
+		var $windowHeight = $(window).height()
+		var $bodyHeight = $('body').height();
+		if($bodyHeight < $windowHeight) {
+			$('body').height($windowHeight);
+			$('footer').css({
+				'position': 'fixed',
+				'bottom': '0'
+			});
+		}
+	});
+		
+	$('.share').click(function(e){
+		$('.gray_cover').show();
+		$('.share').show();
+	});
+
+//添加分享js
+wx.config({
+	debug: false,//这里是开启测试，如果设置为true，则打开每个步骤，都会有提示，是否成功或者失败
+	appId: 'wx3ce1eceec205c6c4',
+	timestamp: '{$time}',//这个一定要与上面的php代码里的一样。
+	nonceStr: '{$time}',//这个一定要与上面的php代码里的一样。
+	signature: '{$jssdk}',
+	jsApiList: [
+	  // 所有要调用的 API 都要加到这个列表中
+	    'onMenuShareTimeline',
+	    'onMenuShareAppMessage',
+	    'onMenuShareQQ',
+	    'onMenuShareWeibo'
+	]
+});
+var title = '百元微信红包,你也抢试试!';
+var desc  = '关注房品汇参与抢钱大战,最高100元,微信红包发给你!';
+var link = 'http://www.fangpinhui.com/weixin/lottery/index';
+var imgUrl = "{$url}/static/css/default/weixin/images_4_0/lottery/share.jpg";
+wx.ready(function () {
+	wx.onMenuShareTimeline({
+	    title: title, // 分享标题
+	//desc: "分享描述分享描述分享描述分享描述分享描述分享描述", // 分享描述
+	    link: link, // 分享链接
+	    imgUrl: imgUrl, // 分享图标
+	    success: function () { 
+	        // 用户确认分享后执行的回调函数
+	        $('.gray_cover').hide();
+			$('.share_hide').hide();
+	    },
+	    cancel: function () { 
+	        // 用户取消分享后执行的回调函数
+	        $('.gray_cover').hide();
+			$('.share_hide').hide();
+	    }
+	});
+	wx.onMenuShareAppMessage({
+	    title: title, // 分享标题
+	    desc: desc, // 分享描述
+	    link: link, // 分享链接
+	    imgUrl: imgUrl, // 分享图标
+	    type: '', // 分享类型,music、video或link，不填默认为link
+	    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+	    success: function () { 
+	        // 用户确认分享后执行的回调函数
+	        $('.gray_cover').hide();
+			$('.share_hide').hide();
+	    },
+	    cancel: function () { 
+	        // 用户取消分享后执行的回调函数
+	        $('.gray_cover').hide();
+			$('.share_hide').hide();
+	    }
+	});
+    wx.onMenuShareQQ({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+           $('.gray_cover').hide();
+			$('.share_hide').hide();
+        },
+        cancel: function () { 
+           // 用户取消分享后执行的回调函数
+           $('.gray_cover').hide();
+			$('.share_hide').hide();
+        }
+    });
+    wx.onMenuShareWeibo({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+           $('.gray_cover').hide();
+			$('.share').hide();
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+            $('.gray_cover').hide();
+			$('.share').hide();
+        }
+    });
+});
+</script>
+</body>
+</html>

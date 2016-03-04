@@ -1,0 +1,119 @@
+<include file="public:header" />
+<br>
+<form id="info_form" action="{:u('receive/edit')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+            <include file="receive:menu" />
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">姓名 :</th>
+						<td>{$info.username}</tr>
+					<tr>
+						<th>手机号码 :</th>
+						<td>{$info.mobile}</td>
+					</tr>
+					<tr>
+						<th>终端 :</th>
+						<td>
+                            <switch name="info['origin']">
+                                <case value="1">IOS</case>
+                                <case value="2">Android</case>
+                                <case value="3">PC</case>
+                                <case value="4">weixin</case>
+                                <case value="9">后台</case>
+                            </switch>
+                        </td>
+					</tr>
+					<tr>
+						<th width="120">是否有效客户 :</th>
+						<td>
+                            <label><input type="radio" name="result_status" class="radio_style" value="1" <if condition="$info.result_status eq '1'">checked="checked"</if>> 有效客户</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="result_status" class="radio_style" value="2" <if condition="$info.result_status eq '2'">checked="checked"</if>> 无效客户</label>
+                        </td>
+					</tr>
+                    <tbody class="J_time_info" <if condition="$info.result_status eq '1'">style="display: none"</if>>
+                        <tr>
+                            <th>报备时间 :</th>
+                            <td>
+                                <input type="text" name="report_time" id="report_time" class="input-text date" size="25" value="<if condition="$info.report_time neq '0'">{$info.report_time|date='Y-m-d H:i',###}</if>" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>备注 :</th>
+                            <td><textarea id="remark" style="width:68%;height:90px;" name="remark" maxlength="255">{$info.remark}</textarea></td>
+                        </tr>
+                    </tbody>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="button" value="{:L('submit')}" name="dosubmit" class="btn btn_submit J_submit" style="margin:0 0 10px 100px;"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+    Calendar.setup({
+        inputField : "report_time",
+        ifFormat   : "%Y-%m-%d %H:%M",
+        showsTime  : true,
+        timeFormat : "24"
+    });
+    $(function(){
+        $('input[name="result_status"]').click(function(){
+            var result_status = $(this).val();
+            if(result_status==1){
+                $('.J_time_info').hide();
+                //$('#report_time').val('');
+                //$('#remark').val('');
+            }else{
+                $('.J_time_info').show();
+            }
+        });
+
+        $('.J_submit').click(function(){
+            var result_status = $("input[name='result_status']:checked").val();
+            var report_time  = $('#report_time').val();
+            var remark         = $.trim($('#remark').val());
+            var id                  = $('#id').val();
+            var url                 = '{:U('receive/edit')}';
+
+            if(result_status!=1 && result_status!=2){
+                $.pinphp.tip({content:'请选择是否有效客户', icon:'error'});
+                return false;
+            }
+            if(result_status==2 && report_time==''){
+                $.pinphp.tip({content:'请选择报备时间', icon:'error'});
+                return false;
+            }
+            if(result_status==2 && remark==''){
+                $.pinphp.tip({content:'请填写备注', icon:'error'});
+                return false;
+            }
+            $.post(url,{result_status:result_status,report_time:report_time,remark:remark,id:id},function(result){
+                if(result.status == 1){
+                    $.pinphp.tip({content:result.msg});
+                    if(result_status==1){
+                        $('#report_time').val('');
+                        $('#remark').val('');
+                    }
+                    return false;
+                } else {
+                    $.pinphp.tip({content:result.msg, icon:'error'});
+                    return false;
+                }
+            },'json');
+
+        });
+
+    })
+</script>
+</body>
+</html>

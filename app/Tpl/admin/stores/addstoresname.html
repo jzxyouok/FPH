@@ -1,0 +1,117 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <if condition="$list['type'] eq 1 ">
+        <a href="/fangpinhui/index.php?g=admin&amp;m=stores&amp;a=index&amp;menuid=483&amp;store_type=1" class="on"><em>一手案场管理</em></a><span>|</span>
+    	<else/>
+        <a href="/fangpinhui/index.php?g=admin&amp;m=stores&amp;a=index&amp;menuid=513&amp;store_type=2" class="on"><em>二手门店管理</em></a><span>|</span>
+        </if>
+	<!--<a href="/fangpinhui/index.php?g=admin&amp;m=stores&amp;a=add&amp;menuid=513&amp;store_type=2" class=""><em>新建门店</em></a>-->
+    </div>
+</div>
+
+<div class="pad_lr_10">
+	<div class="col_tab">
+        <ul class="J_tabs tab_but cu_li">
+		<a href="{:U('stores/edit', array('id'=>$list['id'],'type'=>$list['type']))}"><li class="">门店信息</li></a>
+		<a href="{:u('stores/storesname', array('id'=>$list['id'],'type'=>$list['type']))}"><li class="current">人员管理</li></a>
+	</ul>
+        
+        <if condition="$bool neq '' ">
+            <div class="J_panes">
+            <div class="content_list pad_10">
+            <table width="100%" cellspacing="0" id='table_tr' class="table_form">
+              <tr>
+                <th width=100>导入成功</th>
+                <td>
+                    <if condition="$strmessagestrue eq '' ">无</if>
+                     {$strmessagestrue}
+                </td>
+              </tr>
+              <tr>
+                <th width=100>导入失败</th>
+                <td>
+                    <if condition="$strmessagesfalse eq '' ">无</if>
+                    {$strmessagesfalse}
+                </td>
+              </tr>
+    
+            </table>
+            </div>
+            </div>
+            </div>
+
+        <elseif condition="$bool eq '' "/>
+        
+            <form id="info_form" action="{:u('stores/addstoresname', array('id'=>$list['id'],'roleid'=>1))}" method="post" enctype="multipart/form-data">
+            <div class="J_panes">
+             <div class="content_list pad_10">
+            <table width="100%" cellspacing="0" id='table_tr' class="table_form">
+              <tr>
+                <th width=100>姓名 :</th>
+                <td>
+                    <input type="text" name="name[]"  class="input-text name"  >
+                    &nbsp;&nbsp;
+                    电话：<input type="text" name="mobile[]"  class="input-text mobile"  >
+                    &nbsp;&nbsp;<a href="javascript:;" onclick='addhtml()' >+</a>
+                </td>
+              </tr>
+    
+            </table>
+            </div>
+            </div>
+            <div class="mt10"><input type="button" onclick="sub()" value="保存" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+            </div>
+            </form>
+        </if>
+</div>
+
+<include file="public:footer" />
+<script>
+function addhtml()
+{
+    var html = '<tr><th width=100>姓名 :</th><td>';
+    html += '<input type="text" name="name[]" class="input-text name"  >&nbsp;&nbsp;';
+    html += '&nbsp;&nbsp;电话：<input type="text" name="mobile[]"  class="input-text mobile" >&nbsp;';
+    html += '&nbsp;&nbsp;<a href="javascript:;"  onclick="delhtml(this)">-</a>';
+    html += '</td></tr>';
+    $('#table_tr').append(html);
+}
+function delhtml(dela)
+{
+   $(dela).parent().parent().remove();
+}
+function sub()
+{
+    var status = 0;
+    $(".name").each(function () {
+            if($(this).val().length == 0)
+            {
+                    status = 1;
+            }
+    });
+    if(status == 1)
+    {
+        $.pinphp.tip({content:'姓名填写不完整', icon:'error'});
+    }
+    var boll = '';
+    $(".mobile").each(function () {
+            boll = $(this).val().match(/^(13|15)[0-9]{9}$/);
+            if(boll == null)
+            {
+                status = 2;
+            }
+
+    });
+    if(status == 2)
+    {
+        $.pinphp.tip({content:'手机填写不完整', icon:'error'});
+    }
+    if(status == 0)
+    {
+        $('#info_form').submit();
+    }
+}
+</script>
+</body>
+</html>

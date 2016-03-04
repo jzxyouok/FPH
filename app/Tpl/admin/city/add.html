@@ -1,0 +1,48 @@
+<!--添加栏目-->
+<div class="dialog_content">
+	<form id="info_form" action="{:U('city/add')}" method="post">
+	<table width="100%" class="table_form">
+		<tr> 
+			<th width="100">{:L('item_cate_parent')} :</th>
+			<td>
+				<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('city/ajax_getchilds',array('roleid'=>1))}" data-selected="{$spid}"></select>
+				<input type="hidden" name="pid" id="J_cate_id" />
+			</td>
+		</tr>
+		<tr>
+			<th>{:L('item_cate_name')} :</th>
+			<td>
+				<input type="text" name="name" id="J_name" class="input-text" size="30">
+		        <input type="hidden" value="" name="fcolor" id="J_color">
+		        <a href="javascript:;" class="color_picker_btn"><img class="J_color_picker" data-it="J_name" data-ic="J_color" src="__STATIC__/images/color.png"></a>
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+<script src="__STATIC__/js/jquery/plugins/colorpicker.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$('#J_name').formValidator({onshow:lang.please_input+'省市名称',onfocus:lang.please_input+'省市名称'}).inputValidator({min:1,onerror:lang.please_input+'省市名称'});
+	
+	$('#info_form').ajaxForm({success:complate, dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			//$.dialog.get(result.dialog).close();
+			$('#J_name').val('');
+			$.pinphp.tip({content:result.msg});
+			//window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+
+	//分类联动
+	$('.J_cate_select').cate_select();
+
+
+	
+});
+</script>

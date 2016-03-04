@@ -1,0 +1,4 @@
+<li <if condition="ACTION_NAME eq 'index'">class="current"</if>><a href="{:u('receive/index', array('menuid'=>$menuid))}">到访客户</a></li>
+<li <if condition="ACTION_NAME eq 'edit'">class="current"</if>><a href="{:u('receive/edit', array('id'=>$id, 'menuid'=>$menuid))}">基本资料</a></li>
+<li <if condition="ACTION_NAME eq 'receive_list'">class="current"</if>><a href="{:u('receive/receive_list', array('id'=>$id, 'menuid'=>$menuid))}">领取记录</a></li>
+<li <if condition="ACTION_NAME eq 'skim_through'">class="current"</if>><a href="{:u('receive/skim_through', array('id'=>$id, 'menuid'=>$menuid))}">浏览记录</a></li>

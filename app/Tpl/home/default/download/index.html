@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<include file="public:head" />
+</head>
+<body>
+<include file="public:header" />
+<!-- banner -->
+	<div class="download_center_header">
+	  <div class="download_center_header_bg">
+	    <div class="content">
+	      <div class="download_center_headline">
+	        <div class="download_center_crumbs">
+	          <ul>
+	            <li><a href="index.html">首页</a></li>
+	            <li><a href="javascript:;">下载中心</a></li>
+	          </ul>
+	        </div>
+	        <h2>下载中心</h2>
+	        <h5>中国新型房地产C2B看房服务平台</h5>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- banner_end -->
+	<!-- main -->
+	<div class="download_center_main">
+		<div class="content">
+			<!-- c端 -->
+			<div class="download_center_box">
+				<a href="{:C('c')}"><div class="download_img bg_c"></div></a>
+				<div class="download_box">
+					<div class="download_inner">
+						<img src="__STATIC__/css/default/home/images/download_img/c_code.png" alt="房品汇App" class="code">
+						<span class="tips">扫二维码进入下载</span>
+						<a href="{:C('C_IOS_URL')}" class="download_btn apple"></a>
+						<a href="{:C('C_ANDROID_URL')}" class="download_btn android"></a>
+					</div>
+				</div>
+			</div>
+			<!-- c端 end -->
+			<!-- 房品汇经纪人 -->
+			<div class="download_center_box">
+				<a href="{:C('d')}" target="_blank"><div class="download_img bg_b"></div></a>
+				<div class="download_box">
+					<div class="download_inner">
+						<img src="__STATIC__/css/default/home/images/download_img/b_code.png" alt="房品汇经纪人App" class="code">
+						<span class="tips">扫二维码进入下载</span>
+						<a href="{$ios['url']}" class="download_btn apple" target="_blank"></a>
+						<a href="{$android['url']}" class="download_btn android" target="_blank"></a>
+					</div>
+				</div>
+			</div>
+			<!-- 房品汇经纪人 end -->
+		</div>		
+	</div>
+	<!-- main_end -->
+<include file="public:index_footer" />
+<script type="text/javascript">
+	(function() {
+		var $backToTopTxt = " ", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+			.text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+				$("html,body").animate({ scrollTop: 0 }, 120);
+		}), $backToTopFun = function() {
+			var st = $(document).scrollTop(), winh = $(window).height();
+			(st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+			//IE6下的定位
+			if (!window.XMLHttpRequest) {
+				$backToTopEle.css("top", st + winh - 166);
+			}
+		};
+		$(window).bind("scroll", $backToTopFun);
+		$(function() { $backToTopFun(); });
+	})();
+</script>
+</body>
+</html>

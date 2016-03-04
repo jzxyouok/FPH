@@ -1,0 +1,87 @@
+<include file="public:header" />
+<style>
+#brokercontain{width:200px; border: solid 1px #ccc; min-height: 25px; border-top: none; border-bottom: none; display: none;}
+#brokercontain li{ padding-top: 5px; border-bottom: dashed 1px #ccc; padding-left: 5px; cursor: pointer;}
+#brokercontain li:hover{ background: #DEF7CE;}
+.pad_lr_10{margin-top:15px;}
+#levelfont{ color:#F00; font-size:15px; font-weight:600}
+.table_form td label{ cursor: pointer; margin-right:8px;};
+</style>
+<!--添加管理员-->
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="app_fkb_customer:classification" />
+		<div class="J_panes">
+			<div class="content_list pad_10">
+<div class="content_menu ib_a blue line_x">
+  <a <if condition="$isbak eq 0">class="on"</if> href="{:U('app_fkb_customer/brokersuggest',array('isbak'=>0,'id'=>$id))}"><em>未报备</em></a><span>|</span>
+ <a <if condition="$isbak eq 1">class="on"</if> href="{:U('app_fkb_customer/brokersuggest',array('isbak'=>1,'id'=>$id))}"><em>已报备</em></a>
+
+</div>           
+<div class="J_tablelist table_list" data-acturi="{:U('app_fkb_customer/brokersuggest')}" style="margin-bottom:0px;">           
+ <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th align="left">楼盘ID </th>
+                <th align="left">推荐楼盘 </th>
+                <th align="left">报备状态 </th>
+                <th align="left">报备时间 </th>
+                <th align="left">报备客户 </th>
+                <th align="left">报备人 </th>
+                <th align="center">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center" >
+               	 <b style="color:#F00; font-size:15px;">{$key+1}</b>                    
+                </td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.property_id}</td>
+                <td align="left">{$val.title}</td> 
+                <td align="left"><if condition="$val['isbak'] eq 1">已报备<else/>未报备</if></td> 
+                <td align="left"><if condition="$val['isbak'] eq 1">{$val.addtime|date="Y-m-d H:i:s",###}</if></td> 
+                <td align="left">{$val.customer} {$val.tel}</td> 
+                <td align="left">{$val.username} {$val.mobile}</td> 
+                <td align="center">
+                <if condition="$isbak eq 0">
+                <a data-height="" data-width="500" data-id="ajax_brokersuggest_bak" data-title="报备楼盘信息" data-uri="{:u('app_fkb_customer/ajax_brokersuggest_bak',array('id'=>$val['id']))}" class="J_showdialog" href="javascript:;">点击报备</a>
+                |
+                   
+                    <a href="javascript:;" class="J_confirmurl" data-acttype="ajax"  data-uri="{:U('app_fkb_customer/ajax_brokersuggest_delete', array('id'=>$val['id']))}" data-msg="确定要删除该推荐么?">删除</a>
+                </if>
+                </td>                     
+            </tr>
+            </volist>
+        </tbody>
+    </table>     
+
+</div> 
+<div id="pages" style=" width:100%; margin:10px auto; text-align:left">{$page}</div>	
+    <div class="mt10" style=" text-align:right">
+     <a data-height="" data-width="500" data-id="brokersuggest_add" data-title="添加顾问推荐" data-uri="{:u('app_fkb_customer/brokersuggest_add',array('customerid'=>$_GET['id']))}" href="javascript:void(0);" class="add fb J_showdialog btn btn_submit"><em>添加顾问推荐</em></a>
+    </div>
+
+			</div>
+        </div>		
+	</div>
+</div>
+<include file="public:footer" />
+<script>
+$(function(){	
+ 
+	 
+});
+function delHtmlTag(str)
+{
+        var str=str.replace(/<\/?[^>]*>/gim,"");//去掉所有的html标记
+        var result=str.replace(/(^\s+)|(\s+$)/g,"");//去掉前后空格
+        return  result.replace(/\s/g,"");//去除文章中间空格
+}
+</script>
+</body>
+</html>
+	

@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+<style>
+#dv_mydestiny { position:relative; background-color:#fff; border:1px solid #ccc; height:38px;}
+#dv_mydestiny span { width:100%; position:absolute; color:#999; text-indent:8px;}
+#dv_mydestiny select{ width:100%; opacity:0; width:100%; border:none; z-index:999;}
+.longSel_content { background-color:#fff; border:1px solid #ccc; border-top:none; line-height:40px; padding:0 10px; color:#666;}
+.nosel { border:1px solid #ccc!important;}
+#project_contact_add_one { color:#666; line-height:40px; display:block;}
+</style>
+</head>
+
+<body>
+<div class="steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>新建项目名称</label>
+            <input name="title" id='title' type="text" placeholder="请填写项目名称">
+          </li>
+          <li>
+            <label>项目类型</label>
+            <div id="dv_mydestiny" class="selcss longSel bg"> <span>物业类型</span>
+            <select id="sel_mydestiny" SIZE="1" MULTIPLE>
+              <volist name="property_cate" id="vo">
+                <option value="{$vo.id}" <in name="vo['id']" value="$info['property_cate_id']">selected="selected"</in>>{$vo.name}</option>
+              </volist>
+            </select>
+			<i class="ARROW_WEST"></i>
+            <input type="hidden" id="property_cate_id" value="">
+          </div>
+		  <div class="longSel_content" style="display:none"></div>
+          </li>
+          <li>
+            <label>最低单价</label>
+            <input name="item_price" id='item_price' type="text" placeholder="请填写最低单价">
+          </li>
+
+        <li>
+          <label>区域板块</label>
+          <select name="city_id" class="nosel" id="city_id"  onchange="city_stores_id_pid()">
+            <option value=''>请选择城市</option>
+            <volist name="citylist" id="vo">
+              <option  value="{$vo['id']}" >{$vo['name']}</option>
+            </volist>
+          </select>
+          <i class="ARROW_WEST" style="margin-top:10px;"></i> 
+		  </li>
+        <li style="display:none">
+          <select name="shai_city" class="nosel" id="shai_city" onChange="shai_stores_city_pid();">
+            <option value=''>请选择区域</option>
+          </select>
+          <i class="ARROW_WEST"></i> 
+		  </li>
+        <li style="display:none">
+          <select name="shai_ban" id="shai_ban" class="nosel" onChange="shai_stores_ban_pid();">
+            <option value=''>请选择板块</option>
+          </select>
+          <i class="ARROW_WEST"></i> 
+		  </li>
+          <input type='hidden'  name='get_city_id' id='get_city_id'>
+
+          <li>
+            <label>项目地址</label>
+            <input name="address" id='address' type="text" placeholder="请填写项目地址">
+          </li>
+          <li class='project_contact_one0'>
+            <label>项目联系人</label>
+            <input name="thework" class='thework several' type="text" placeholder="职位">
+            <input name="name"   class='name several' type="text" placeholder="姓名">
+            <input name="tel"  class='tel' type="tel" placeholder="电话">
+          </li>
+          
+          <a href="javascript:;" id='project_contact_add_one'>再加一个联系人</a>
+          <input type='hidden' value='1' id='project_contact_add_one_num'>
+        </ul>
+      </section>
+      <section class="se_btn"><a href="javascript:;" class="BTNs project_contact_add_arr">确定</a></section>
+    </section>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+  //项目物业类型
+  $('#sel_mydestiny').change(function(){
+      var wuyearr='';
+      $('.longSel_content').html('');
+    var name = '';
+    var ids = '';
+      $("#sel_mydestiny option:selected").each(function(){
+      name += $(this).text() + ',';
+      ids += $(this).val() + ',';
+      });
+    var len=name.length;
+    var wyarr=name.substring(0,len-1);
+    $('.longSel_content').html(wyarr).show();
+    var len_ids=ids.length;
+    var ids_id=ids.substring(0,len_ids-1);
+    $('#property_cate_id').val(ids_id);
+    if(wyarr==''){
+      $('.longSel_content').hide();
+      $('.property_cate_id').val('');
+      return false;
+    }
+  })
+  })
+</script>
+</body>
+</html>

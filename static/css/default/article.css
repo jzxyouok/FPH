@@ -1,0 +1,31 @@
+/*文章样式*/
+/*全局定义!important*/
+body{ margin:10px;padding:0px;font-size:12px;}
+img{ border:0;}
+*{padding:0;margin:0;}
+* li{list-style:none;}
+ul,li{padding:0;margin:0;}
+/*按钮虚线处理*/
+a:focus{outline:none;}
+a,area{blr:expression(this.onFocus=this.blur());}
+/*鼠标链接时显示下滑线*/
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:none;}
+a:active {text-decoration:none;}
+
+
+/*清除浮动*/
+.both{clear:both;}
+.articel_title{text-align:left;font-weight:bold;font-size:18px;}
+.articel_tip{margin:3px 0 0 0;color:#999999}
+.articel_site{padding-left:10px;}
+.articel_site a{color:#0066CC}
+.articel_content{margin:10px 0 0 0;font-size:14px;}
+
+
+
+
+
+
+

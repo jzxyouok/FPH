@@ -1,0 +1,258 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+/************************************************************************************************/
+html, body {
+	background-color: #eeeeee;
+}
+.ARROW_WEST {
+	right: 10px;
+}
+.TOP_FRAME .scroll_body .status_info {
+	line-height: 40px;
+	color: #999999;
+	font-size: 1.8rem;
+	text-align: center;
+	display: block;
+	padding:1rem 0;
+}
+.TOP_FRAME .scroll_body .qrcode {
+	background-color: #FFF;
+	padding: 20px 10px;
+	margin:0 10px;
+	border:1px solid #ccc;
+}
+.TOP_FRAME .scroll_body .qrcode .code_img {
+	width: 70%;
+	margin: 0 auto 10px auto;
+	border: solid 1px #ccc;
+	line-height: 1%;
+}
+.TOP_FRAME .scroll_body .qrcode .code_img img {
+	width: 100%;
+}
+.TOP_FRAME .scroll_body .qrcode span {
+	display: block;
+	text-align: center;
+	line-height: 150%;
+}
+.TOP_FRAME .scroll_body .qrcode .title {
+	font-size: 2rem;
+	color: #000;
+}
+.TOP_FRAME .scroll_body .qrcode .address {
+	font-size: 1.4rem;
+	color: #999999;
+}
+.TOP_FRAME .scroll_body .qrcode .serialnum {
+	font-size: 1.6rem;
+	color: #e5004f;
+	padding-top:1rem;
+}
+.TOP_FRAME .scroll_body .qrcode .serialnum_txt {
+	font-size: 1.2rem;
+	color: #999;
+}
+.TOP_FRAME .scroll_body .invitation_frm {
+	min-height: 200px;
+	margin: 10px 0;
+	background: #fff;
+	padding-bottom: 20px;
+}
+.TOP_FRAME .scroll_body .invitation_frm h1 {
+	color: #ff3c00;
+	display: block;
+	text-align: center;
+	line-height: 1.8;
+	font-size: 1.8rem;
+	padding: 10px 15px 5px 15px;
+}
+.TOP_FRAME .scroll_body .invitation_frm p {
+	font-size: 1.6rem;
+	display: block;
+	background: #FFF url(../images_4_0/invitation_bg.png) no-repeat center 0;
+	background-size: 100%;
+	padding: 50px 15px 15px 15px;
+}
+.TOP_FRAME .scroll_body .invitation_frm .btn {
+	text-align: center;
+	margin-top: 60px;
+	margin-bottom: 30px;
+	background-color: #fff;
+}
+.TOP_FRAME .scroll_body .invitation_frm .btn .btn_send {
+	color: #d61e42;
+	display: inline-block;
+	padding-top: 10px;
+	padding-right: 30px;
+	padding-bottom: 10px;
+	padding-left: 30px;
+	background-color: #f3b719;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 20px;
+	border-radius: 30px;
+	min-width: 160px;
+}
+.TOP_FRAME .scroll_body .invitation_bottom {
+	height: 54px;
+	background-image: url(../images_4_0/invitation_bottom_bg.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.TOP_FRAME .scroll_body .invitation_frm .reg {
+	margin-top: 30px;
+	padding: 0 10px;
+}
+.TOP_FRAME .scroll_body .invitation_frm .reg h4 {
+	font-size: 1.4rem;
+	color: #ff4f24;
+	height: 40px;
+	margin-bottom: 10px;
+}
+/************************************************************************************************/
+#TOP_FRAME .scroll_body .photo {
+	padding: 10px;
+	min-height: 100px;
+}
+#TOP_FRAME .scroll_body .photo a {
+	width: inherit;
+	min-height: inherit;
+	display: block;
+	position: relative;
+}
+#TOP_FRAME .scroll_body .photo a > i {
+	background: url(../images_4_0/arrow2.png) -17px -17px;
+	position: absolute;
+	right: 0;
+	width: 17px;
+	height: 17px;
+	top: 50%;
+	margin-top: -9px;
+}
+#TOP_FRAME .scroll_body .photo a figure {
+	height: 98px;
+	width: 98px;
+	overflow: hidden;
+	background: #eaeaea;
+	position: absolute;
+	border: solid 1px #ccc;
+}
+#TOP_FRAME .scroll_body .photo a figure img {
+	width: 100%;
+	height: 100%;
+}
+#TOP_FRAME .scroll_body .photo a .info {
+	position: absolute;
+	height: 80px;
+	display: inline-block;
+	padding-left: 110px;
+	padding-right: 15px;
+}
+#TOP_FRAME .scroll_body .photo a .info h2, #TOP_FRAME .scroll_body .photo a .info span {
+	display: block;
+	overflow: hidden;
+	line-height: 24px;
+}
+#TOP_FRAME .scroll_body .photo a .info h2 {
+	color: #ff4f24;
+	font-size: 1.6rem;
+}
+#TOP_FRAME .scroll_body .photo a .info h2 i {
+	margin-left: 5px;
+}
+#TOP_FRAME .scroll_body .photo a .info h2 b {
+	margin-left: 5px;
+}
+#TOP_FRAME .scroll_body .photo.inner {
+	background-color: #FFF;
+	margin-top: 10px;
+}
+#TOP_FRAME .scroll_body .photo.inner a .info h2 {
+	color: #2883b1;
+}
+#TOP_FRAME .scroll_body .photo a .info .mobile {
+	font-size: 1.6rem;
+	color: #666666;
+}
+#TOP_FRAME .scroll_body .photo a .info .address, #TOP_FRAME .scroll_body .photo a .info .store_code, #TOP_FRAME .scroll_body .photo a .info .contactor {
+	font-size: 1.2rem;
+	color: #666666;
+	line-height: 20px;
+	height: 20px;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#TOP_FRAME .scroll_body .photo a .info .address {
+	margin-top: 8px;
+}
+#TOP_FRAME .scroll_body .photo a .info .store_code {
+	color: #999999;
+}
+#TOP_FRAME .scroll_body .links_list.store_mgmt li span.store_code_r {
+	color: #ccc;
+	font-size:1.4rem;
+	width:auto!important;
+	position:absolute;
+	top:50%;
+	right:20px;
+	text-align:right;
+	margin-top:-15px;
+	line-height:30px;
+	
+}
+#TOP_FRAME .scroll_body .photo a .info .contactor {
+	font-size: 1.4rem;
+}
+#TOP_FRAME .scroll_body .photo a .info .contactor strong {
+	color: #8fbdd4;
+	font-weight: lighter;
+	padding-left: 5px;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li a .status {
+	right: 0;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li a .mobile {
+	padding-left: 8px;
+}
+#TOP_FRAME .scroll_body .links_list .blocks {
+	margin-top: 10px;
+}
+.TOP_FRAME .scroll_body .invitation_frm .reg .se_btn .go_login {
+	line-height: 50px;
+	color: #999999;
+}
+/************************************************************************************************/
+#TOP_FRAME .scroll_body .links_list.store_mgmt li h2 {
+	color: #000;
+	font-size: 1.6rem;
+}
+#TOP_FRAME .scroll_body .links_list.store_mgmt li h2 b { margin-left:5px;}
+#TOP_FRAME .scroll_body .links_list.store_mgmt li .address {
+	color: #666;
+	font-size: 1.2rem;
+}
+#TOP_FRAME .scroll_body .links_list.store_mgmt li .store_code {
+	color: #999;
+	font-size: 1.2rem;
+}
+#TOP_FRAME .scroll_body .links_list.store_mgmt li span {
+	display: block;
+	line-height: 20px;
+}
+#TOP_FRAME .scroll_body .comments {
+	color: #bbbbbb;
+	padding: 10px;
+	font-size: 1.2rem;
+	background-color: #FFF;
+	margin-top: 1px;
+}
+#TOP_FRAME .scroll_body .comments strong {
+	color: #e5004f;
+	font-size: 1.6rem;
+	padding-right: 5px;
+	display: block;
+}
+

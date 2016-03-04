@@ -1,0 +1,136 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+        <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property/property_prize_add',array('id'=>$id,'roleid'=>1))}">
+        <em>添加带看奖</em>
+        </a>
+    </div>
+</div>
+<script type="text/javascript">
+    var PINER = {
+        root: '__ROOT__',
+    };
+</script>
+<form id="info_form" action="{:U('property/property_prize_add')}" method="post">
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10 ">
+                <table width="100%" cellspacing="0"  class="table_form">
+                <tr>
+                    <th width="120">开始时间：</th>
+                    <td>
+                        <input type="text" name="time_start" id="time_start" <notempty name="info['time_start']">value="{$info.time_start|date='Y-m-d',###}"</notempty> class="date" size="12" readonly="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>结束时间：</th>
+                    <td>
+                        <input type="text" name="time_end" id="time_end" <notempty name="info['time_end']">value="{$info.time_end|date='Y-m-d',###}"</notempty> class="date" size="12" readonly="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>带看奖：</th>
+                    <td>
+                        <input class="input-text" type="text" size="20" name="prize" id="prize" >
+                        <span class="gray ml10">元/每客</span>
+                    </td>
+                </tr>
+                 <tr>
+                    <th>适用渠道</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th >渠道检索:</th>
+                    <td style="position:absolute;">
+                            <input type="text" id="stores_business" class="input-text"  autocomplete="off" size="30">
+                            <input type="hidden" id="stores_id" name="stores_id"/>
+                            <div id="J_stores_name"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>当前渠道:</th>
+                    <td id='stores_name'></td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+    </div>
+</div>
+<input type="hidden" name="menuid" value="{$menuid}" />
+<input type="hidden" name="id" value="{$id}" />
+<input type="hidden" name="roleid" value="1" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+$(function() {
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#time_start").formValidator({onshow:"",onfocus:"请选择合作开始时间"}).inputValidator({min:3,onerror:"请选择合作开始时间"});
+    $("#time_end").formValidator({onshow:"",onfocus:"请选择合作结束时间"}).inputValidator({min:3,onerror:"请选择合作结束时间"});
+    $("#prize").formValidator({onshow:"",onfocus:"请输入带看奖金额"}).inputValidator({min:1,onerror:"请输入带看奖金额"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+});
+//搜索楼盘
+$('#stores_business').keyup(function(){
+    var business = $.trim($('#stores_business').val());
+    var url   = PINER.root + '/?g=admin&m=property&a=stores_select&roleid=1';
+    if(business!=''){
+    $('#J_stores_name').show();
+    $.post(url,{business:business},function(result){
+        if(result.status == 1){
+            $('#J_stores_name').html(result.data);
+            return false;
+        }else{
+            $.pinphp.tip({content:result.msg, icon:'error'});
+            return false;
+        }
+    },'json');
+    }else{
+       $('#J_stores_name').hide();
+    }
+});
+//选择
+$('#J_stores_name > ul > li').live('click',function(){
+    var rel = $(this).attr('rel');
+    var business = $(this).text();
+    var st_id = $('#stores_id').val();
+    var stores_name = $('#stores_name').html();
+    if(st_id != '')
+    {
+        st_id = st_id+','+rel;
+        stores_name = stores_name+','+business;
+        
+    }
+    else
+    {
+        st_id = rel;
+        stores_name = business;
+    }
+    $('#stores_id').val(st_id);
+    $('#stores_name').html(stores_name);
+    $('#J_stores_name').hide();
+});
+</script>
+</body>
+</html>

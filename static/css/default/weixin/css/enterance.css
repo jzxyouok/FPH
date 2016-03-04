@@ -1,0 +1,40 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+html, body {
+	background-color: #00a0e9;
+}
+h1, h4 {
+	color: #FFF;
+	font-weight: lighter;
+	text-align: center;
+}
+h1 {
+	font-size: 40px;
+	margin-top: 20px;
+}
+h4 {
+	font-size: 14px;
+	line-height: 40px;
+}
+.big_bg {
+	height: 320px;
+	background-image: url(../images/lottery/entrance_bg.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-top: 20px;
+	margin-bottom: 25px;
+}
+.btn_next {
+	position: relative;
+	background-color: #FFF;
+	color: #333333;
+}
+.btn_next:hover {
+	background-color: #FFF;
+	color: #333333;
+}
+.btn_next:visited {
+	background-color: #F90;
+	color: #FFF;
+}

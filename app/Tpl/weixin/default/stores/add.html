@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+</head>
+<body>
+<div class="steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>输入门店名称</label>
+            <input name="stores_name" id='stores_name' type="text" placeholder="如：中原地产春申店">
+          </li>
+        </ul>
+      </section>
+      <section class="se_btn"><a href="javascript:;" class="BTNs stores_c">确定</a></section>
+    </section>
+  </div>
+</div>
+<!-------------------------------------------------------------------------------------------->
+<div class="HIDDEN_POPUP steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <label class="FORM_LABEL">区域板块</label>
+      <ul class="FORM_LISTS">
+        <li>
+          <select name="city_id" class="nosel" id="city_id"  onchange="city_stores_id_pid()">
+            <option value=''>请选择城市</option>
+            <volist name="citylist" id="vo">
+              <option  value="{$vo['id']}" >{$vo['name']}</option>
+            </volist>
+          </select>
+          <i class="ARROW_WEST"></i> </li>
+        <li>
+          <select name="shai_city" class="nosel" id="shai_city" onChange="shai_stores_city_pid();">
+            <option value=''>请选择区域</option>
+          </select>
+          <i class="ARROW_WEST"></i> </li>
+        <li>
+          <select name="shai_ban" id="shai_ban" class="nosel" onChange="shai_stores_ban_pid();">
+            <option value=''>请选择板块</option>
+          </select>
+          <i class="ARROW_WEST"></i> </li>
+          <input type='hidden'  name='get_city_id' id='get_city_id'>
+      </ul>
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>详细地址</label>
+            <input type='text'  name='stores_address' id='stores_address' placeholder="详细地址">
+          </li>
+          <li>
+            <label>联系方式</label>
+            <input name="contact" id='contact' type="text" placeholder="联系人姓名" class="several">
+            <input name='contact_tel' id='contact_tel'  type="text" placeholder="联系人电话">
+          </li>
+        </ul>
+      </section>
+      <section class="se_btn"><a href="javascript:;" class="BTNs stores_city_c half">确定</a><a href="javascript:;" class="BTNs stores_c cancel half">返回</a></section>
+    </section>
+  </div>
+</div>
+<!-------------------------------------------------------------------------------------------->
+<div class="HIDDEN_POPUP steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>门店所属公司</label>
+            <input name="company_name" id='company_name' type="text" placeholder="如：中原地产">
+          </li>
+        </ul>
+      </section>
+      <section class="se_btn"><a href="javascript:;" class="BTNs stores_c_c half">确定</a><a href="javascript:;" class="BTNs stores_c cancel half">返回</a></section>
+    </section>
+  </div>
+</div>
+<!-------------------------------------------------------------------------------------------->
+<div class="HIDDEN_POPUP steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <label class="FORM_LABEL">共有<span class='stores_count'>0</span>个结果</label>
+      <ul class="FORM_LISTS stores_c_s">
+      </ul>
+      <input type='hidden' value='' id='get_one_company'>
+      <section class="se_btn"><a href="javascript:;" class="BTNs stores_sc_b half">确定</a><a href="javascript:;" class="BTNs stores_c cancel half">返回</a></section>
+    </section>
+  </div>
+</div>
+<include file="public:footer_4_0" />
+<!--------------------------------------------------------------------------------------------> 
+<script type="text/javascript">
+
+	$('.nosel').live('change',function(e){
+		var $this = $(this);
+		if($this.get(0).selectedIndex>0){
+			$this.removeClass('nosel');
+		}else {
+			$this.addClass('nosel');
+		}
+	});
+$('#shai_city').parents('li').hide();
+$('#shai_ban').parents('li').hide();
+  
+</script>
+</body>
+</html>

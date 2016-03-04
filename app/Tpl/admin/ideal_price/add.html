@@ -1,0 +1,24 @@
+<form id="info_form" action="{:U('ideal_price/add')}" method="post">
+<table width="100%" cellspacing="0" class="table_form">
+	<tr>
+		<th width="120">输入价格 :</th>
+		<td><input type="text" name="title" id="title" class="input-text" size="20"> 万</td>
+	</tr>
+</table>
+</form>
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#title").formValidator({onshow:lang.please_input+'价格范围',onfocus:lang.please_input+'价格范围'}).inputValidator({min:1,onerror:lang.please_input+'价格范围'});
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+});
+</script>

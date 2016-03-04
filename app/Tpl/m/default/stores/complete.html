@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <include file='public:head' />
+  <link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+</head>
+<body>
+<div class="steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding"> <span class="status_info">
+      <if condition="$info.type_ok ==1 ">
+          门店详情页面
+          <else />
+          门店新建成功
+      </if>
+    </span>
+      <!--<section class="qrcode">
+        <div class="code_img"><img width="180" src="http://qr.liantu.com/api.php?bg=FFFFFF&fg=000000&gc=000000&pt=000000&inpt=000000&el=h&w=200&m=10&logo=http://www.fangpinhui.com/static/css/default/home/images/icons/eode_icon.png&text={$http_host}/index.php?g=weixin%26m=myshare%26a=register%26id={$info.id}"/>
+          </div>
+        <span class="title">{$info.name}</span> <span class="address">{$info.address}</span> <span class="serialnum">门店代码：{$info.code_id}</span>
+        <section class="se_btn"><a href="{:U('weixin/myshare/invitation',array('id'=>$info['id']))}" class="BTNs">邀请加入</a><a href="{:U('weixin/user/index')}" class="BTNs back">返回我的...</a></section>
+      </section>
+    </section>-->
+      <section class="qrcode">
+        <span class="title">{$info.name}</span>
+        <span class="address">{$info.address}</span>
+        <span class="serialnum">邀请码：{$info.code_id}</span>
+        <span class="serialnum_txt">使用门店代码可快速加入本门店</span>
+      </section>
+      <section class="se_btn">
+      <!--<a href="{:U('weixin/myshare/invitation',array('id'=>$info['id']))}" class="BTNs">邀请加入</a><a href="{:U('m/user/index')}" class="BTNs back">返回</a>-->
+      <a href="http://www.fangpinhui.com/?g=weixin&m=myshare&a=invitation&id={$info['id']}" class="BTNs">邀请加入</a><a href="{:U('m/user/index')}" class="BTNs back">返回</a>
+      
+      </section>
+    </section>
+  </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

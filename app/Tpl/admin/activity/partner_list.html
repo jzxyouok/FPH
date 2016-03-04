@@ -1,0 +1,59 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('activity/index',array('roleid'=>1,'menuid'=>636))}">
+        <em>活动管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('activity/partner_add',array('id'=>$id,'roleid'=>1))}">
+        <em>添加合作伙伴</em>
+        </a>
+    </div>
+</div>
+<form id="info_form" action="" method="post">
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="activity:classification" />
+    </div>
+    <div class="J_tablelist table_list" >
+        <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+        <thead>
+            <tr>
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th>合作伙伴名称</th>
+                <th>合作伙伴描述</th>
+                <th>红包金额/众筹基金</th>
+                <th>重复领取次数</th>
+                <th>是否启用</th>
+                <th width="120px;" align="center">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+                <tr class="collapsed">
+                    <td align="center">{$p*20-20+$i}</td>
+                    <td align="center">{$val.id}</td>
+                    <td align="center">{$val.name}</td>
+                    <td align="center">{$val.intro}</td>
+                    <td align="center">{$val.money}元</td>
+                    <td align="center">{$val.number}</td>
+                    <td align="center"><if condition="$val['status'] eq 1">启用<else/>未启用</if></td>
+                    <td align="center">
+                        <a href="{:U('activity/partner_edit',array('id'=>$id, 'p_id'=>$val['id'], 'roleid'=>1))}">编辑</a>&nbsp;|&nbsp;
+                        <a href="{:U('activity/verify_code_list',array('id'=>$val['id'], 'aid'=>$id, 'roleid'=>1))}">验证码</a>&nbsp;|&nbsp;
+                        <!--<a href="{:U('activity/partner_del',array('id'=>$val['id'],'roleid'=>1))}">删除</a>-->
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+</form>
+<include file="public:footer" />
+</body>
+</html>

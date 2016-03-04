@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+</head>
+<body>
+<div class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+  </header>
+  <section class="scroll_body noPadding">
+    <section class="PADDING_FRM">
+      <ul class="FORM_LISTS noborder">
+        <li>
+          <if condition="$info.id neq ''">
+            <label>修改项目联系人</label>
+          <else /> 
+            <label>增加项目联系人</label>
+          </if>
+          <input name="thework" id='thework' type="text" placeholder="联系人职位" value='{$info.thework}'>
+          <input name="name" id='name' type="text" placeholder="联系人姓名" value='{$info.name}'>
+          <input name="tel" id='tel' type="tel" placeholder="联系人电话" value='{$info.tel}'>
+          <input type='hidden' value="{$id}" id='project_contact_id'>
+          <input type='hidden' value="{$info.id}" id='project_contact_cid'>
+          
+        </li>
+      </ul>
+    </section>
+    <section class="se_btn"><a href="javascript:;" class="BTNs get_project_contact">保存</a></section>
+  </section>
+</div>
+</body>
+</html>

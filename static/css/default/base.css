@@ -1,0 +1,14 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+
+
+/*跳转提示*/
+.msg_wrap{ min-height: 320px; height: 320px;}
+.message_box{margin:60px auto;padding:20px;width:580px;border:3px solid #F2F2F2;background:#FFF;}
+.message_box a{ color: #369;}
+.msg_right,.msg_error,.msg_alert{padding:6px 0 6px 58px;min-height:40px;height:auto !important;height:40px;line-height:160%;background:url(images/msg_bg.png) no-repeat 10px -592px;font-size:14px;}
+.msg_error{ background-position: 10px -492px;}
+.msg_alert{ background-position: 10px -392px;}
+.msg_btnleft{margin-top:8px;}
+

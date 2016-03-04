@@ -1,0 +1,146 @@
+<!doctype html>
+<html style="background-color:#eee;">
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/team.css?v=1" rel="stylesheet" />
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+    <a href="javascript:history.go(-1)" class="gotolist nobg" style="right:40px">取消</a>
+    <a href="javascript:;" class="gotolist nobg J_submit_save">保存</a>
+  </header>
+  <section class="scroll_body">
+  	<div class="bg_eee p_tb_15">
+    <h2 class="all_title p_tb_10 p_l_10">您当前还没有驻守楼盘，请添加</h2>
+    <form action="" id="from" method="get">
+      <input type="hidden" name="g" value="weixin" />
+      <input type="hidden" name="m" value="garrison" />
+      <input type="hidden" name="a" value="edit" />
+      <input type="hidden" id="openid" name="openid" value="{$openid}">
+      <section class="search"> <a href="javascript:;" class="btn_search">搜索</a>
+        <div class="frm">
+          <input name="keyword" id="keyword" type="text" value="{$keyword}" placeholder="输入驻守楼盘名/地址关键字">
+        </div>
+      </section>
+    </form>
+    </div>
+    <h2 class="bg_eee all_title p_tb_15 p_l_10 gray">附近的楼盘/搜索结果</h2>
+    <section class="links_list myhouse">
+        <ul class="display_list">
+		<empty name="list"><li>没有搜索到相关楼盘</li></empty>
+          <volist name="list" id="vo">
+            <li rel="{$vo.id}">
+              <h2>{$vo.title} <if condition="$vo['distance'] neq '' "><span>&lt;{$vo['distance']}km</span></if></h2>
+              <span class="address">
+                <if condition="$vo['item_price'] neq '' ">均价{$vo['item_price']}/元平米</if>
+                <if condition="$vo.list_price neq ''">佣金{$vo['list_price']}元起</if>
+              </span>
+              <button <in name="vo['id']" value="$stat_property">class="J_select_add cur"<else/>class="J_select_remove"</in>>选择</button>
+            </li>
+          </volist>
+        </ul>
+        <if condition="$countlp egt 6 ">
+          <div id="loading" class="LOADING">正在加载...</div>          
+        </if>
+      </section>
+  </section>
+</div>
+
+<script type="text/javascript">
+$(function(){
+
+  $('.J_select_remove').live('click',function(){   
+    $(this).attr('class','J_select_add cur');
+  });
+  $('.J_select_add').live('click',function(){
+    $(this).children('button').removeClass('cur');
+    $(this).attr('class','J_select_remove');
+  });
+
+  $('.btn_search').click(function(){
+    $('#from').submit();
+    return false;
+  });
+
+//向下滑动加载
+  var winH       = $(window).height(); //页面可视区域高度 
+  var pagefirst  = 1; //设置当前页数
+  var stopstatus = true; 
+  var keyword    = $('#keyword').val();
+  var openid     = $('#openid').val();
+   //向下滑动加载
+  $(window).scroll(function () { 
+        var pageH     = $(document.body).height(); 
+        var scrollT   = $(window).scrollTop(); //滚动条top 
+        var lq_height = (pageH-winH-scrollT)/winH;
+        var url       = PINER.root + '/?g=weixin&m=garrison&a=ajax_edit_list';
+        if(lq_height<0.02 && stopstatus == true){ 
+            stopstatus = false;
+            $.post(url,{page:pagefirst,keyword:keyword,openid:openid},function(result){
+              if(result.status == 1){
+                $('.display_list').append(result.data);
+                $('#loading').html('正在加载...');
+                pagefirst++;
+                stopstatus = true;
+                return false; 
+              }else{
+                $('#loading').html('暂无数据');
+                //$(".bt-roading").html(result.msg); 
+                return false; 
+              }
+            },'json');
+          } 
+    });
+
+    //保存
+    $('.J_submit_save').live('click',function(){  
+		var return_url = PINER.root + '/?g=weixin&m=garrison&a=index'; 
+      var ids = '';
+      $('.cur').parent('li').each(function(){
+        ids += $(this).attr('rel') + ',';
+      });
+      ids = ids.substr(0, (ids.length - 1));
+      if(ids==''){
+        layer.open({
+          content: '请选择驻守楼盘',
+          style: '',
+          time: 1,
+          shade:true, //遮罩层 true,false
+          anim:true //是否动画弹出 true false
+        });
+        return false; 
+      }
+      var url = PINER.root + '/?g=weixin&m=garrison&a=submit_save';
+      $.post(url,{ids:ids},function(result){
+        if(result.status == 1){
+		layer.open({
+			content: result.msg,
+			btn: ['确认'],
+			shadeClose: true,
+			yes: function(){
+			window.location.href=return_url;
+			}
+		});
+          return false; 
+        }else{
+          layer.open({
+            content: result.msg,
+            style: '',
+            time: 1,
+            shade:true, //遮罩层 true,false
+            anim:true //是否动画弹出 true false
+          });
+          return false; 
+        }
+      },'json');
+    });
+
+
+})
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

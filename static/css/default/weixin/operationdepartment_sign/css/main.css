@@ -1,0 +1,352 @@
+移动端单页布局基本样式:Bear Cambridge*/
+/*reset*/
+html,body,div,section,img,div,h1,h2,h3,h4,h5,em,p{margin: 0;padding: 0;}
+img{vertical-align: middle;}
+html, body {width: 100%;height: 100%;-webkit-user-select: none;   /* 禁止选中文本（如无文本选中需求，此为必选项） */user-select: none;}
+body{font-size: 16px;font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;overflow: hidden;}
+a, img {-webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */}
+a,button,img{outline: none;}
+/*common*/
+section{width: 100%;height: 100%;position: absolute;left: 0;top: 0;overflow: hidden;}
+.page-wrap{width: 100%;height: 100%;position:relative;left: 0;top: 0;}
+.page{-webkit-animation-play-state: paused;-o-animation-play-state: paused;animation-play-state: paused;display: none;}
+.show{-webkit-animation-play-state: running;-o-animation-play-state: running;animation-play-state: running;display: block;}
+
+/*main*/
+section{
+	max-width: 768px;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+.fl{float: left;}
+.fr{float: right;}
+.cl{zoom: 1;}
+.cl:after{
+	content: '';
+	display: block;
+	width: 0;
+	height: 0;
+	clear: both;
+}
+h1,h2,h3,h4,p{margin: 0;padding: 0;}
+h1{
+	margin: 0;
+	padding: 0;
+	width: 50%;
+	margin: auto;
+	position: relative;
+	text-align: center;
+	font-size: 3.125em;
+	padding: 1em 0 0.5em;
+	color: #9c551c;
+	font-family: "微软雅黑";
+}
+h1 img{
+	position: absolute;
+	right: 1em;
+	top: 1em;
+	-webkit-transform: scale(1.2,1.2) rotateZ(60deg);
+	transform: scale(1.2,1.2) rotateZ(60deg);
+}
+body{
+	background: url("../img/bg_re.jpg") 0px 0px repeat;
+}
+.p-main{
+	background:url("../img/bg.png") 0px 0px no-repeat;
+	background-size: 100% 100%;
+}
+.box-wrap{
+	width: 90%;
+	margin:20px auto 0;
+	overflow: hidden;
+	zoom: 1;
+}
+.content{
+	width: 60%;
+	color: #b17e5d;
+}
+.reward{
+	width: 35%;
+}
+.content h4{
+	font-size: 1.6em;
+	padding: 1em 0.4em 0.3em;
+}
+.content p{
+	font-size:1em;
+	padding:0.3em 0.8em;
+}
+#checkBtn{width: 270px;height:80px;line-height:80px;border-radius: 8px;background-color: #9c551c;color: #fff;font-size: 2.18em;text-align: center;border: none;font-family: "微软雅黑";}
+#checkBtn.disabled{
+	background-color: #fff1e1;
+	color: #9c551c;
+}
+/*main end*/
+/*日历*/
+.calendar{
+	width: 93%;
+	height: 500px;
+	margin: auto;
+	position: relative;
+}
+.calendar:after{
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 22;
+	opacity: 0;
+}
+.ui-datepicker-title{display: none;}
+.ui-datepicker{
+	width: 100%;
+	height: 100%;
+}
+.ui-datepicker th{
+	background-color: #9c551c;
+	color: #cd840e;
+	height: 68px;
+	text-align: center;
+	font-size: 1.25em;
+	padding: 0;
+}
+.ui-datepicker td{
+	text-align: center;
+}
+.ui-datepicker td span, .ui-datepicker td a{
+	padding: 0;
+	text-align: center;
+	height: 80px;
+	line-height: 80px;
+	background-color: #fff1e1;
+	color: #c79a73;
+	font-size: 1.56em;
+}
+/*a.ui-state-default{color: #cdcd00;}*/
+/*span.ui-state-default{color: #ccc;}*/
+.ui-datepicker td a.ui-state-default{color: #cd0000;}
+.ui-datepicker td .ui-state-default.checked{
+	background: #f3dac0 url("../img/signer.png") 50% 50% no-repeat;
+	background-size: 70%;
+	-webkit-animation: checked 2s ease-out forwards;
+	/*-o-animation: checked 2s ease-out forwards;*/
+	animation: checked 2s ease-out forwards;
+}
+/*日历结束*/
+
+/*签到动画*/
+
+@-webkit-keyframes checked{
+	0%{
+		-webkit-transform:scale(1,1) rotateZ(0deg);
+	}
+	20%{
+		-webkit-transform:scale(1.2,1.2) rotateZ(45deg);
+	}
+	40%{
+		-webkit-transform:scale(1,1) rotateZ(-30deg);
+	}
+	60%{
+		-webkit-transform:scale(1.0,1.0) rotateZ(20deg);
+	}
+	80%{
+		-webkit-transform:scale(1.0,1.0) rotateZ(-8deg);
+	}
+	100%{
+		-webkit-transform:scale(1.0,1.0) rotateZ(0deg);
+	}
+}
+@keyframes checked{
+	0%{
+		transform:scale(1,1) rotateZ(0deg);
+	}
+	20%{
+		transform:scale(1.2,1.2) rotateZ(45deg);
+	}
+	40%{
+		transform:scale(1,1) rotateZ(-30deg);
+	}
+	60%{
+		transform:scale(1.0,1.0) rotateZ(20deg);
+	}
+	80%{
+		transform:scale(1.0,1.0) rotateZ(-8deg);
+	}
+	100%{
+		transform:scale(1.0,1.0) rotateZ(0deg);
+	}
+}
+
+/*media query*/
+@media screen and (max-width:768px){
+	h1{
+		padding: 0.5em 0 0.5em;
+	}
+	h1 img{
+		top: 0.5em;
+	}
+	.reward{
+		width: 30%;
+	}
+	.content{
+		margin-left: 2em;
+	}
+}
+@media screen and (max-width:640px){
+	h1{
+		font-size: 2.5em;
+	}
+}
+@media screen and (max-width:560px){
+	h1{
+		padding: 0.2em 0;
+	}
+	h1 img{
+		top: 0.4em;
+		right: 0.8em;
+		width: 15%;
+	}
+	.calendar{
+		width: 85%;
+		height: 380px;
+	}
+	.ui-datepicker td span, .ui-datepicker td a{
+		/*width: 60px;*/
+		height: 60px;
+	}
+	body{
+		font-size: 14px;
+	}
+	.content h4{
+		padding-top: 0.2em;
+	}
+	.content p{font-size: 1em;}
+	#checkBtn{
+		width: 230px;
+		height: 60px;
+		line-height: 60px;
+		font-size: 2em;
+	}
+	.reward{
+		width: 28%;
+		padding-left: 1em;
+	}
+}
+@media screen and (max-width:480px){
+	body{
+		font-size: 12px;
+	}
+	.ui-datepicker th{
+		height: 45px;
+	}
+	.ui-datepicker td span, .ui-datepicker td a{
+		height: 50px;
+		line-height: 50px;
+	}
+	.calendar{
+		height: 315px;
+	}
+	#checkBtn{
+		width: 200px;
+		height: 50px;
+		line-height: 50px;
+	}
+}
+@media screen and (max-width:414px){
+	body{
+		font-size: 10px;
+	}
+	h1 img{
+		top: 0.2em;
+		right: 1.2em;
+		width: 15%;
+	}
+	.box-wrap{
+		margin-top: 10px;
+	}
+	.content{
+		width: 68%;
+		margin-left: 0.2em;
+	}
+	#checkBtn{
+		width: 170px;
+		height: 40px;
+		line-height: 40px;
+		font-size: 1.8em;
+	}
+}
+@media screen and (max-width: 398px){
+	.content{width: 66%;}
+}
+@media screen and (max-width: 375px){
+	.content{
+		width: 67%;
+		margin-left: 0.2em;
+	}
+	.box-wrap{
+		width: 100%;
+	}
+	.calendar{
+		width: 95%;
+	}
+}
+@media screen and (max-width: 320px){
+	.ui-datepicker th{
+		height: 40px;
+	}
+	.ui-datepicker td span, .ui-datepicker td a{
+		height: 40px;
+		line-height: 40px;
+	}
+	.calendar{
+		height:260px;
+	}
+	.content{
+		width: 62%;
+		margin-left: 0.8em;
+	}
+	.content h4{
+		font-size: 1.2em;
+	}
+	.content p{
+		font-size: 0.85em;
+		padding: 0;
+	}
+	#checkBtn{
+		width: 150px;
+		margin-top: 0.5em;
+	}
+	h1 img{
+		top: 0.4em;
+		right: 0.5em;
+	}
+}
+@media screen and (max-width: 320px) and (max-height: 477px){
+	.ui-datepicker th{
+		height: 30px;
+	}
+	.ui-datepicker td span, .ui-datepicker td a{
+		height: 30px;
+		line-height: 30px;
+	}
+	.calendar{
+		height:200px;
+	}
+}
+@media screen and (max-width: 320px) and (max-height: 416px){
+
+	.ui-datepicker th{
+		height: 25px
+	}
+	.ui-datepicker td span, .ui-datepicker td a{
+		height: 25px
+		line-height: 25px
+	}
+	.calendar{
+		height:190px;
+	}
+
+}

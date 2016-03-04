@@ -1,0 +1,57 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property_group_buy/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加砍价</em>
+        </a>
+    </div>
+</div>
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <div class="J_tablelist table_list">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="60" align="center">序号</th>
+                            <th align="center">ID</th>
+                            <th align="left">姓名</th>
+                            <th align="center">手机号码</th>
+                            <th align="center">状态</th>
+                            <th align="center">参加时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="list" id="val">
+                            <tr class="collapsed">
+                                <td align="center">{$p*20-20+$i}</td>
+                                <td align="center">{$val.id}</td>
+                                <td align="left">{$val.username}</td>
+                                <td align="center">{$val.mobile}</td>
+                                <td align="center"><if condition="$val[status] eq 1">参团<else/>退团</if></td>
+                                <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+	

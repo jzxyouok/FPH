@@ -1,0 +1,56 @@
+<form id="info_form" action="{:U('hezuo_property_product/add')}" method="post">
+<div class="dialog_content">
+<table width="100%" cellspacing="0" class="table_form">
+	<tr>
+		<th>产品名称 :</th>
+		<td><input type="text" name="name" id="name" class="input-text" size="30"></td>
+	</tr>
+	<tr>
+		<th>优惠信息 :</th>
+		<td><input type="text" name="youhui" id="youhui" class="input-text" size="30"></td>
+	</tr>
+	<tr>
+		<th>开始时间 :</th>
+		<td><input type="text" name="start_time" id="start_time" class="date" size="20" readonly=""></td>
+	</tr>
+	<tr>
+		<th>结束时间 :</th>
+		<td><input type="text" name="end_time" id="end_time" class="date" size="20" readonly=""></td>
+	</tr>
+</table>
+</div>
+<input name="pid" id="pid" type="hidden" value="{$id}" />
+</form>
+
+<script>
+Calendar.setup({
+    inputField : "start_time",
+    ifFormat   : "%Y-%m-%d %H:%M:%S",
+    showsTime  : true,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "end_time",
+    ifFormat   : "%Y-%m-%d %H:%M:%S",
+    showsTime  : true,
+    timeFormat : "24"
+});
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#name").formValidator({onshow:"请输入产品名称",onfocus:"请输入产品名称"}).inputValidator({min:3,onerror:"请输入产品名称"});
+	$("#youhui").formValidator({onshow:"请输入优惠信息",onfocus:"请输入优惠信息"}).inputValidator({min:3,onerror:"请输入优惠信息"});
+	$("#start_time").formValidator({onshow:"请选择开始时间",onfocus:"请选择开始时间"}).inputValidator({min:3,onerror:"请选择开始时间"});
+	$("#end_time").formValidator({onshow:"请选择结束时间",onfocus:"请选择结束时间"}).inputValidator({min:3,onerror:"请选择结束时间"});
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+});
+</script>

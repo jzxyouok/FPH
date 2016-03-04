@@ -1,0 +1,47 @@
+<include file="public:header" />
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+			<li><a href="{:u('bluetooth/lists', array('id'=>$info['id'], 'menuid'=>$info['menuid']))}">楼盘绑定记录</a></li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">设备ID :</th>
+						<td>{$info.deviceID}</td>
+					</tr>
+					<tr>
+						<th>绑定楼盘 :</th>
+						<td>{$info.title}</td>
+					</tr>
+					<tr>
+						<th>绑定开始时间 :</th>
+						<td>{$info.time_start|date='Y-m-d',###}</td>
+					</tr>
+					<tr>
+						<th>绑定结束时间 :</th>
+						<td>{$info.time_end|date='Y-m-d',###}</td>
+					</tr>
+		            
+		            <tr>
+						<th>设备使用状态:</th>
+						<td><if condition="$info['status'] eq 1">已启用<else/><span style="color:#ff0000">未启用</span></if></td>
+					</tr>
+					<tr>
+						<th>添加时间 :</th>
+						<td>{$info.add_time|date='Y-m-d',###}</td>
+					</tr>
+
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="button" value="修 改" onClick="location.href='{:u('bluetooth/edit', array('id'=>$info['id'], 'menuid'=>$info['menuid']))}'" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+<include file="public:footer" />
+</body>
+</html>

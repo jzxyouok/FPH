@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<title>萌宝投票</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/vote_mengbao/css/vote.css"/>
+</head>
+<body>
+	<div class="wrap">
+		<form action="{:u('vote_mangbao/vote')}" method="get">
+			<input type="text" placeholder="请输入编号或名称进行搜索" id="search" name="search" <if condition="$search neq ''">value="{$search}"</if>>
+            <input type="hidden" name="g" value="weixin">
+            <input type="hidden" name="m" value="vote_mengbao">
+            <input type="hidden" name="a" value="vote">
+			<input type="submit" value="搜索" id="smt">
+		</form>
+		<ul class="rank-wrap cl" id="list_item">
+        <volist name="list" id="vo">
+			<li data-id="{$vo.id}">
+				<if condition="$vo.rank eq 1"><span class="r-number first">第{$vo.rank}名</span></if>
+                <if condition="$vo.rank eq 2"><span class="r-number second">第{$vo.rank}名</span></if>
+                <if condition="$vo.rank eq 3"><span class="r-number third">第{$vo.rank}名</span></if>
+                <if condition="$vo.rank eq 4"><span class="r-number">第{$vo.rank}名</span></if>
+				<div class="img-box {$vo.color}">
+					<div class="box">
+					<a href="{:u('vote_mengbao/view',array('id'=>$vo['id']))}"><img src="{$vo.avatar}"></a>
+					</div>
+				</div>
+				<button class="rank-state" id="votebtn_{$vo.id}">给Ta投票</button>
+				<div class="rank-state">
+					<span class="r-id">{$vo.vote_id}号</span>
+					<span class="r-name">{$vo.vote_personal}</span>
+					<span class="r-votes"><label id="fans_{$vo.id}">{$vo.clickfans}</label> 票</span>
+				</div>
+			</li>
+            </volist>
+			
+		</ul>
+	</div>
+	<input type="hidden" value="{$sshkey}" id="sshkey">
+     <if condition="$countlp egt 16 ">
+     <div id="loading" class="LOADING">正在加载...</div>                    
+	</if>
+	<script src="__STATIC__/js/jquery/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+	  $(function(){
+		   //向下滑动加载
+			var winH = $(window).height(); //页面可视区域高度 
+			var pagefirst = 1; //设置当前页数
+			var stopstatus = true; 
+			$(window).scroll(function () { 
+				var pageH = $(document.body).height(); 
+				var scrollT = $(window).scrollTop(); //滚动条top 
+				var lq_height = (pageH-winH-scrollT)/winH; 
+				var search_ = $('#search').val();
+				var url = "{:u('weixin/vote_mengbao/ajax_list')}";
+				if(lq_height<0.02 && stopstatus == true){ 
+				stopstatus = false;
+				$.post(url,{
+					page:pagefirst, search_:search_          
+					},function(result){
+					if(result.status == 1){
+						//alert(result.data)
+						$('#list_item').append(result.data);
+						$('#loading').html('正在加载...');
+						pagefirst++;
+						stopstatus = true;
+						return false; 
+					}
+					else
+					{
+						$('#loading').html('暂无数据');
+						//$(".bt-roading").html(result.msg); 
+						return false; 
+					}
+				},'json');
+				} 
+			});
+		  
+		  //投票
+		  	$('button').live('click',function(){
+				  	var id = $(this).parents('li').attr('data-id');
+					var url = "{:u('vote_mengbao/addvote')}"
+					var sshkey = $('#sshkey').val();
+					$.post(url,{id:id,sshkey:sshkey},function(data){
+						//alert(data.data);
+							if(data.status == 1){
+									$(this).addClass('disabled');
+									$("#votebtn_"+id).attr('disabled','disabled').addClass('disabled').text('今日已投');
+									$('#fans_'+id).text(data.msg)
+								}else{
+									alert(data.msg)
+									window.location.href = data.url;
+									}							
+						},'json')
+				  });
+				  
+		
+						  
+	})
+</script> 
+	<script type="text/javascript" src="__STATIC__/css/default/weixin/vote_mengbao/js/vote.js"></script>   
+    
+</body>
+</html>

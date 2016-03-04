@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/team.css?v=1" rel="stylesheet" />
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+  </header>
+  <section class="scroll_body noPadding">
+    <div class="invite_code">
+    <h2>{$admin_info.username}邀请你加入房品汇</h2>
+    <div class="code_txt">
+    <span>注册邀请码：{$admin_info.code_id}</span>
+    <p>(注册时输入即可)</p>    
+    </div>
+    <figure><img src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={$admin_info['ticket']}"><p>长按二维码立即加入</p></figure>
+    </div>
+  </section> 
+</div>
+<include file="public:footer" />
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+</head>
+
+<body>
+<div class="steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>新建项目名称</label>
+            <input name="" type="text" placeholder="如：河畔艺墅,项目名称与楼盘名称一致">
+          </li>
+          <li>
+            <label>项目地址</label>
+            <input name="" type="text" placeholder="如：虹梅路1901号">
+          </li>
+          <li>
+            <label>项目联系人</label>
+            <input name="" type="text" placeholder="职位">
+            <input name="" type="text" placeholder="姓名">
+            <input name="" type="tel" placeholder="电话">
+          </li>
+
+          <a href="#">再加一个联系人</a>
+        </ul>
+      </section>
+      <section class="se_btn"><a href="#" class="BTNs">确定</a></section>
+    </section>
+  </div>
+</div>
+<!-------------------------------------------------------------------------------------------->
+<div class="HIDDEN_POPUP steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <label class="FORM_LABEL">区域模板</label>
+      <ul class="FORM_LISTS">
+        <li>
+          <select name="" class="nosel">
+            <option>请选择城市</option>
+            <option>上海</option>
+            <option>北京</option>
+          </select>
+          <i class="ARROW_WEST"></i> </li>
+        <li>
+          <select name="" class="nosel">
+            <option>请选择区域</option>
+            <option>闸北区</option>
+            <option>徐汇区</option>
+          </select>
+          <i class="ARROW_WEST"></i> </li>
+        <li>
+          <select name="" class="nosel">
+            <option>请选择板块</option>
+            <option>板块1</option>
+            <option>板块2</option>
+          </select>
+          <i class="ARROW_WEST"></i> </li>
+      </ul>
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>详细地址</label>
+            <textarea name="" cols="" rows=""></textarea>
+          </li>
+          <li>
+            <label>联系方式</label>
+            <input name="" type="text" placeholder="联系人姓名" class="several">
+            <input name="" type="text" placeholder="联系人电话">
+          </li>
+        </ul>
+      </section>
+      <!--<label class="FORM_LABEL">详细地址</label>
+      <section class="PADDING_FRM">
+        <textarea name="" cols="" rows=""></textarea>
+      </section>-->
+      <section class="se_btn"><a href="#" class="BTNs half">确定</a><a href="#" class="BTNs cancel half">返回</a></section>
+    </section>
+  </div>
+</div>
+<!-------------------------------------------------------------------------------------------->
+<div class="HIDDEN_POPUP steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <ul class="FORM_LISTS noborder">
+          <li>
+            <label>门店所属公司</label>
+            <input name="" type="text" placeholder="如：中原地产">
+          </li>
+        </ul>
+      </section>
+      <section class="se_btn"><a href="#" class="BTNs half">确定</a><a href="#" class="BTNs cancel half">返回</a></section>
+    </section>
+  </div>
+</div>
+<!-------------------------------------------------------------------------------------------->
+<div class="HIDDEN_POPUP steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <label class="FORM_LABEL">共有3个结果</label>
+      <ul class="FORM_LISTS">
+        <li><a href="javascript:;" class="checked">中原地产</a></li>
+        <li><a href="javascript:;">中原地产</a></li>
+        <li><a href="javascript:;">中原地产</a></li>
+      </ul>
+      <section class="se_btn"><a href="#" class="BTNs half">确定</a><a href="#" class="BTNs cancel half">返回</a></section>
+    </section>
+  </div>
+</div>
+<!--------------------------------------------------------------------------------------------> 
+<script type="text/javascript" src="js_4_0/jquery.js"></script> 
+<script type="text/javascript">
+	$('.nosel').live('change',function(e){
+		var $this = $(this);
+		if($this.get(0).selectedIndex>0){
+			$this.removeClass('nosel');
+		}else {
+			$this.addClass('nosel');
+		}
+	});
+	
+	
+	
+	var $BTNs_OK = $('.BTNs').not('.cancel');
+	var $BTNs_Cancel = $('.BTNs.cancel');
+	
+	$BTNs_OK.click(function(e){
+		var $this = $(this);
+		var $parent = $this.parents('.steps');
+		$parent.hide();
+		$parent.next('.steps').fadeIn(300);
+	});
+	
+	$BTNs_Cancel.click(function(e){
+		var $this = $(this);
+		var $parent = $this.parents('.steps');
+		$parent.hide();
+		$parent.prev('.steps').fadeIn(300);
+	});
+	
+</script>
+</body>
+</html>

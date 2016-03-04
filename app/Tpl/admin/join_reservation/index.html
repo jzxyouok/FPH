@@ -1,0 +1,130 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('reservation/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加预约</em>
+        </a>
+    </div>
+</div>
+
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+
+                <div class="content_menu ib_a blue line_x">
+                    <a  href="{:U('reservation/index',array('id'=>$id))}">
+                        <em>预约奖励金</em>
+                    </a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a class="on" href="{:U('join_reservation/index',array('id'=>$id,'roleid'=>1))}">
+                        <em>客户预约列表</em>
+                    </a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="{:U('join_reservation/analysis',array('id'=>$id,'roleid'=>1))}">
+                        <em>预约报表统计</em>
+                    </a>
+                </div>
+
+                <form name="searchform" method="get" >
+                    <table width="100%" cellspacing="0" class="search_form">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="explain_col">
+                                    <input type="hidden" name="g" value="admin" />
+                                    <input type="hidden" name="m" value="join_reservation" />
+                                    <input type="hidden" name="a" value="index" />
+                                    预约日期：
+                                    <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$date}" readonly>
+                                    预约时间：
+                                    <select name="getTime">
+                                        <option value="0">-{:L('all')}-</option>
+                                        <volist name="select_time" id="vo">
+                                        <option value="{$vo}" <if condition="$getTime eq $vo">selected="selected"</if>>{$vo}</option>
+                                        </volist>
+                                    </select>
+                                    &nbsp;&nbsp;领取情况：
+                                    <select name="status">
+                                        <option value="2">-{:L('all')}-</option>
+                                        <option value="1" <if condition="$status eq '1'">selected="selected"</if>>已领取</option>
+                                        <option value="3" <if condition="$status eq '3'">selected="selected"</if>>未领取</option>
+                                    </select>
+                                    &nbsp;&nbsp;客户手机：
+                                    <input name="mobile" type="text" class="input-text" size="20" value="{$mobile}" maxlength="11" />
+                                    <input type="hidden" name="id" value="{$id}" />
+                                    <input type="submit" name="search" class="btn" value="{:L('search')}" />
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+
+                <div class="J_tablelist table_list" data-acturi="" style="margin-bottom:0px;">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="100px;" align="center">ID</th>
+                            <th width="100px;" align="center">预约时间</th>
+                            <th width="100px;" align="center">预约奖励金</th>
+                            <th width="100px;" align="center">客户手机</th>
+                            <th width="80px;" align="center">领取情况</th>
+                            <th width="80px;" align="center">预约到达情况</th>
+                            <th width="80px;" align="center">实际到访时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="list" id="val">
+                            <tr class="collapsed">
+                                <td align="center">{$val.id}</td>
+                                <td align="center">{$val.order_time}</td>
+                                <td align="center">{$val.money} 元</td>
+                                <td align="center">{$val.mobile}</td>
+                                <td align="center">
+                                    <if condition="$val.arrived_time gt 0">
+                                        <span style="color: #03b301; font-weight: bold">已领取</span>
+                                        <else />
+                                        <span style=" font-weight: bold">未领取</span>
+                                    </if>
+                                </td>
+                                <td align="center">{$val.arriveStatus}</td>
+                                <td align="center">
+                                    <if condition="$val.arrived_time gt 0">
+                                    {$val.arrived_time|date='Y-m-d H:i:s',###}
+                                    </if>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+ </script>
+</body>
+</html>
+	

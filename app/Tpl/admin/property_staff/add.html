@@ -1,0 +1,112 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property_staff/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加人员</em>
+        </a>
+    </div>
+</div>
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <form id="info_form" action="{:u('property_staff/add')}" method="post">
+                <table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">用户 :</th>
+                        <td>
+                            <select id="uid" name="uid" class="J_uid">
+                                <option value="0">请选择</option>
+                                <volist name="admin_list" id="vo">
+                                    <option value="{$vo.id}">{$vo.username}</option>
+                                </volist>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>置业咨询师 :</th>
+                        <td>
+                            <label><input type="radio" name="garrison" class="garrison" value="1"> 是</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="garrison" class="garrison2" value="0" checked="checked"> 否</label>
+                        </td>
+                    </tr>
+                    <!--<tr>
+                        <th>砍价师 :</th>
+                        <td>
+                            <label><input type="radio" name="bargain" class="bargain" value="1"> 是 </label>&nbsp;&nbsp;
+                            <label><input type="radio" name="bargain" class="bargain2" value="0" checked="checked"> 否</label>
+                        </td>
+                    </tr>-->
+                    <tr>
+                         <th>案场管理 :</th>
+                         <td>
+                             <label><input type="radio" name="principal" class="principal" value="1"> 是 </label>&nbsp;&nbsp;
+                             <label><input type="radio" name="principal" class="principal2" value="0" checked="checked"> 否</label>
+                         </td>
+                    </tr>
+                    <!--<tr>
+                        <th>状态 :</th>
+                        <td>
+                            <label><input type="radio" name="status" class="radio_style" value="1" checked="checked"> 有效 </label>&nbsp;&nbsp;
+                            <label><input type="radio" name="status" class="radio_style" value="0"> 无效</label>
+                        </td>
+                    </tr>-->
+                </table>
+                <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+                <input type="hidden" name="menuid"  value="{$menuid}"/>
+                <input type="hidden" name="id" id="id" value="0" />
+                <input type="hidden" name="pid" id="pid" value="{$id}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+$(function(){
+    //选择
+    $('.J_uid').change(function(){
+        var uid = $(this).val();
+        var pid = $('#pid').val();
+        $('.radio_style1').attr("checked","checked");
+        var url = '{:U('property_staff/ajaxStaffInfo')}';
+        if(uid == '' || pid == ''){
+            $.pinphp.tip({content:'参数出错', icon:'error'});
+        }
+        $.post(url,{uid:uid,pid:pid},function(result){
+            if(result.status == 1){
+                if(result.data['garrison'] == 1){
+                    $('.garrison').attr("checked","checked");
+                }
+                /*if(result.data['bargain'] == 1){
+                    $('.bargain').attr("checked","checked");
+                }*/
+                if(result.data['principal'] == 1){
+                    $('.principal').attr("checked","checked");
+                }
+                $('#id').val(result.data['id']);
+                return false;
+            }else{
+                $('#id').val(0);
+                $('.garrison2').attr("checked","checked");
+                //$('.bargain2').attr("checked","checked");
+                $('.principal2').attr("checked","checked");
+            }
+        },'json');
+        //return false;
+    });
+    //$.formValidator.initConfig({formid:"info_form",autotip:true});
+    //$("#uid").formValidator({onshow:"请选择用户",onfocus:"请选择用户"}).inputValidator({min:1,onerror:"请选择用户"});
+
+
+})
+</script>
+</body>
+</html>
+	

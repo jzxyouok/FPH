@@ -1,0 +1,111 @@
+<include file="public:header" />
+<!--路费报表-->
+<div class="pad_lr_10" >
+    <div class="col_tab">
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <form name="searchform" method="get" >
+                <table width="100%" cellspacing="0" class="search_form">
+                    <tbody>
+                    <tr>
+                        <td>
+                        <div class="explain_col">
+                            <input type="hidden" name="g" value="admin" />
+                            <input type="hidden" name="m" value="monitoring" />
+                            <input type="hidden" name="a" value="trip" />
+                            <input type="hidden" name="menuid" value="{$menuid}" />
+                            开始时间：
+                            <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束时间：
+                            <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}">
+                            &nbsp;&nbsp;&nbsp;
+                            <input type="submit" name="search" class="btn" value="{:L('search')}" />
+                            &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" style="color: #0099CC;" id="export">导出数据</a>
+                            <br/><br/>
+                            所在城市：
+                            <select class="J_city_select mr10" data-pid="0" data-uri="{:U('monitoring/ajax_city',array('roleid'=>1))}" data-selected="{$search['city_spid']}">
+                            </select>
+                            <input type="hidden" name="city_id" id="J_city_id" value="{$search['city_id']}" />
+                        </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </form>
+
+                <div class="J_tablelist table_list" >
+                <table width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>楼盘名</th>
+                            <th>区域</th>
+                            <th>城市</th>
+                            <th>当前路费</th>
+                            <th>总份数</th>
+                            <th>预计总金额</th>
+                            <th>到访客户数</th>
+                            <th>已领取用户数</th>
+                            <th>已领取金额</th>
+                            <th>时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <volist name="list" id="val" >
+                        <tr>
+                            <td align="center">{$key+1}</td>
+                            <td align="left">{$val.title}</td>
+                            <td align="center">{$val.area_name}</td>
+                            <td align="center">{$val.city_name}</td>
+                            <td align="center">{$val.trip}</td>
+                            <td align="center">{$val.total}</td>
+                            <td align="center">{$val.eta_total}元</td>
+                            <td align="center">{$val.visit}</td>
+                            <td align="center">{$val.actual}</td>
+                            <td align="center">{$val.amount}元</td>
+                            <td align="center">{$val.time|date='Y-m-d',###}</td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                </table>
+
+                <div class="btn_wrap_fixed">
+                    <div id="pages">{$page}</div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+    $('.J_city_select').city_select('请选择');
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    // export
+    $('#export').click(function(){
+        var time_start  = $('#time_start').val();
+        var time_end    = $('#time_end').val();
+        var city_id     = $.trim($('#city_id').val());
+        var url = "/?g=admin&m=monitoring&a=tripExport&time_start="+time_start+"&time_end="+time_end+"&city_id="+city_id;
+        if(confirm('确定导出数据?'))
+        {
+            window.location.href = url;
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <!--<form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        <input type="hidden" name="g" value="admin" />
+                        <input type="hidden" name="m" value="activity_coupon" />
+                        <input type="hidden" name="a" value="lists" />
+                        <input type="hidden" name="menuid" value="{$menuid}" />
+                        类型:
+                        <select name="type">
+                            <option value="">-{:L('all')}-</option>
+                            <option value="1" <if condition="$search.type eq '1'">selected="selected"</if>>新人奖励</option>
+                            <option value="2" <if condition="$search.type eq '2'">selected="selected"</if>>首次看房</option>
+                        </select>
+                        <input type="submit" name="search" class="btn" value="{:L('search')}" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>-->
+    <div>领取记录 (<if condition="$info['type'] eq 1">新人奖励<elseif condition="$info['type'] eq 2"/>首次看房</if>)</div>
+    <div><if condition="$info['type'] eq 1">新人奖励礼包<elseif condition="$info['type'] eq 2"/>首次看房礼包</if>, 共{$count}人领取</div>
+    <div class="J_tablelist table_list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <!--<th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>-->
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th align="left">姓名</th>
+                <th align="center">手机号码</th>
+                <if condition="$info['type'] eq 2"><th align="left">首看楼盘</th></if>
+				<th align="center">领取时间</th>
+                <th align="center">终端</th>
+                <th align="center">领取金额</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <!--<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>-->
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.username}</td>
+                <td align="center">{$val.mobile}</td>
+                <if condition="$info['type'] eq 2"><td align="left">{$val.title}</td></if>
+                <td align="center">{$val.add_time|date='Y-m-d H:i:s',###}</td>
+                <td align="center">
+                    <switch name="val['origin']">
+                        <case value="1">IOS</case>
+                        <case value="2">Android</case>
+                        <case value="3">PC</case>
+                        <case value="4">weixin</case>
+                        <case value="9">后台</case>
+                    </switch>
+                </td>
+                <td align="center">{$val.money}元</td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><!--<input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete_baoming')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />-->
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

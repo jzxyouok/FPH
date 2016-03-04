@@ -1,0 +1,389 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/profile.css" rel="stylesheet" />
+<style type="text/css">
+#sel_province, #sel_city, #sel_district, #sel_mydestiny {
+  border: none;
+  width: 100%;
+  opacity: 0;
+}
+#dv_mydestiny { position:relative; background-color:#fff; border:1px solid #ccc; height:38px;}
+#dv_mydestiny span { width:100%; position:absolute; color:#999; text-indent:8px;}
+#dv_mydestiny select{ width:100%; opacity:0; width:100%; border:none; z-index:999;}
+.longSel_content { background-color:#fff; border:1px solid #ccc; border-top:none; line-height:40px; padding:0 10px; color:#666;}
+.nosel { border:1px solid #ccc!important;}
+#project_contact_add_one { color:#666; line-height:40px; display:block;}
+
+</style>
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+    <a href="javascript:;" class="gotolist nobg J_edit_user">保存</a> </header>
+  <section class="scroll_body noPadding">
+    <section class="PADDING_FRM">
+      <ul class="FORM_LISTS noborder">
+        <if condition="$info['type'] eq 1">
+        <li>
+          <label>我的姓名</label>
+          <input name="username" id="user_info" type="text" value="{$info.username}" placeholder="请输入您的真实姓名">
+        </li>
+        </if>
+        <if condition="$info['type'] eq 2">
+        <li class="filters">
+          <label>选择性别</label>
+          <div class="dv_sel">
+            <select name="get_gender" id='get_gender' class="nosel">
+              <option value="2">请选择</option>
+              <option value="1" <eq name='info.gender' value="1"> selected </eq>>男</option>
+              <option value="0" <eq name='info.gender' value="0"> selected </eq>>女</option>
+            </select>
+            <i></i> <a href="javascript:;" class="get_gender">
+            <eq name='info.gender' value="1">男</eq>
+            <eq name='info.gender' value="0">女</eq>
+            <eq name='info.gender' value="2">请选择</eq>
+          </a> </div>
+          <input name="user_info" id="user_info" type="hidden" value="{$info.gender}">
+        </li>
+        </if>
+        <if condition="$info['type'] eq 3">
+        <li>
+          <label>修改手机</label>
+          <input name="mobile" id="mobile" value="{$info.mobile}" type="tel" placeholder="新手机号码" class="several">
+          <input name="mobile_code" id="mobile_code" type="tel" placeholder="收到的验证码" class="short">
+          <input type="button" class="BTN_GETCODE" onClick="get_mobile_code_user();" id='zphone' value="获取验证码">
+        </li>
+        </if>
+        <if condition="$info['type'] eq 4">
+        <li class="filters">
+          <label>我的地区</label>
+          <div class="dv_sel several" id="dv_province">
+            <select  class="nosel several" id='sel_province'>
+             <option value="">--请选择--</option>
+              <volist name="province_data" id="vo">
+                <option value="{$vo.id}">{$vo.name}</option>
+              </volist>
+            </select>
+            <i></i>  <if condition="$data[0]['cityname'] eq ''">
+            <a href="javascript:;"><span>选择省份</span></a><else/><span>{$data[0]['cityname']}</span> </if> 
+          </div>
+
+          <div class="dv_sel" id="dv_city" >
+            <select id="sel_city" class="nosel" <empty name="data[0]['cityid']"> style='display:none;'</empty>>
+          </select>
+            <i></i> <if condition="$data[1]['cityname'] eq ''">
+            <a href="javascript:;"><span>选择城市</span><else/><span>{$data[1]['cityname']}</span> </if></a>
+            
+          </div> <input type="hidden" id="cityid" value="{$data[0]['cityid']}">
+
+            <div class="dv_sel" id="dv_district">
+             <select id="sel_district" class="nosel"  <empty name="data[1]['cityid']">style='display:none;'</empty>>
+            </select>
+            <i></i> 
+            <if condition="$citylist['name'] eq ''"><a href="javascript:;"><span>选择区/县</span><else/><span>{$citylist['name']}</span></if></a>
+        <input type="hidden" id="districtid" value="{$data[1]['cityid']}">
+       
+        </div>
+         <input type="hidden"  id="get_city_id" name="get_city_id" value="{$citylist['id']}"/>
+        </li>
+        </if>
+        <if condition="$info['type'] eq 5">
+        <li>
+          <label>我的地址</label>
+          <textarea name="address" id='user_info' cols="" rows="">{$info.address}</textarea>
+        </li>
+        </if>
+        <if condition="$info['type'] eq 6">
+        <li>
+         <label>项目类型</label>
+            <div id="dv_mydestiny" class="selcss longSel bg"> <span>物业类型</span>
+            <select id="sel_mydestiny" SIZE="1" MULTIPLE>
+              <volist name="property_cate" id="vo">
+                <option value="{$vo.id}" <in name="vo['id']" value="$info['property_cate_id']">selected="selected"</in>>{$vo.name}</option>
+              </volist>
+            </select>
+          <i class="ARROW_WEST"></i>
+
+            <input type="hidden" id="property_cate_id" value="{$info.property_cate_id}">
+          </div>
+      <div class="longSel_content" <empty name="property_cate_arr">style="display:none"</empty>>
+        <volist name="property_cate_arr" id="vo">
+        <if condition="$key neq 0">,</if>{$vo.name}
+        </volist>
+      </div>
+     
+        </li>
+        </if>
+        <input type='hidden' value="{$info.type}" id='user_type'>
+        <input type='hidden' value="{$info.uid}" id='id' name='id'>
+      </ul>
+    </section>
+  </section>
+</div>
+<pin:load type="js" href="__STATIC__/js/fileuploader.js,__STATIC__/js/pinphp.js" />
+<script src="__STATIC__/js/setting.js"></script>
+
+<script type="text/javascript">
+$('#dv_city').hide();
+$('#dv_district').hide(); 
+$('#sel_province').change(function(){
+
+      $('#dv_city span').html('选择城市');
+      $('#dv_district span').html('选择区/县');
+      $("#sel_district").empty();
+      var id = $(this).val();
+
+      $('#cityid').val(id);
+      var name =  $('#sel_province option:selected').text();
+      $('#dv_province span').html(name);
+      if(id==''){
+        $('#get_city_id').val('');
+        $("#sel_city").hide();
+        $("#sel_district").hide();
+        $('#dv_city').hide();
+        $('#dv_district').hide();
+        return false;
+      }
+      var url = PINER.root + '/?g=weixin&m=user&a=ajax_selcity';
+    $.post(url,{id:id},function(result){
+      if(result.status==1){
+        $('#dv_city').show();
+        $("#sel_city").empty();   
+        $("#sel_city").show();
+        $("#sel_district").hide();
+        $('#sel_city').append(result.data);
+        $('#get_city_id').val('');
+        return false;
+      }else{
+        layer.open({
+          content: result.msg,
+          style: '',
+          time: 1,
+          shade:false,
+          anim:true
+        });
+        return false; 
+      }
+    },'json');
+  })
+var cityid = $('#cityid').val();
+    var url = PINER.root + '/?g=weixin&m=user&a=ajax_selcity';
+  $.post(url,{id:cityid},function(result){
+    if(result.status==1){
+      $("#sel_city").empty();  
+      $('#sel_city').append(result.data);
+      $('#dv_city').show();
+      if($('#get_city_id').val() == ''){
+        $("#sel_city").empty();
+        $('#dv_city').hide();
+        $('#dv_district').hide();   
+      }
+      return false;
+    }else{
+      $.layer({
+        shade : [0.4 , '#000' , false],
+        area : ['auto','auto'],
+        title : false,
+        closeBtn:false,
+        time : 2,
+        dialog : {msg:result.msg,type : 3}  
+      });
+      return false; 
+    }
+  },'json');
+  var districtid = $('#districtid').val();
+    var url = PINER.root + '/?g=weixin&m=user&a=ajax_selcity';
+  $.post(url,{id:districtid},function(result){
+    if(result.status==1){
+            $("#sel_district").empty();  
+            $('#sel_district').append(result.data);
+            $('#dv_district').show();
+            if($('#get_city_id').val() == ''){
+              $("#sel_district").empty(); 
+              $('#dv_city').hide();
+              $('#dv_district').hide(); 
+            }
+      return false;
+    }else{
+      $.layer({
+        shade : [0.4 , '#000' , false],
+        area : ['auto','auto'],
+        title : false,
+        closeBtn:false,
+        time : 2,
+        dialog : {msg:result.msg,type : 3}  
+      });
+      return false; 
+    }
+  },'json');
+  $('#sel_city').change(function(){
+       
+      $('#dv_district span').html('选择区/县');
+      var id = $(this).val();
+      $('#districtid').val(id);
+      var name =  $('#sel_city option:selected').text();
+      $('#dv_city span').html(name);
+      if(id==''){
+        $("#sel_district").hide();
+        $('#dv_district').hide(); 
+      return false;
+      }
+      var url = PINER.root + '/?g=weixin&m=user&a=ajax_selcity';
+    $.post(url,{id:id},function(result){
+      if(result.status==1){
+        // 6.清空下拉列表 
+        $('#dv_district').show();
+        $("#sel_district").empty();
+        $("#sel_district").show();
+        $('#sel_district').append(result.data);
+        $('#get_city_id').val('');
+        return false;
+      }else{
+        $.layer({
+          shade : [0.4 , '#000' , false],
+          area : ['auto','auto'],
+          title : false,
+          closeBtn:false,
+          time : 2,
+          dialog : {msg:result.msg,type : 3}  
+        });
+        return false; 
+      }
+    },'json');
+  })
+  $('#sel_district').change(function(){
+      var id = $(this).val();
+      var name =  $('#sel_district option:selected').text();
+      $('#dv_district span').html(name);
+      $('#get_city_id').val(id);
+  })
+//擅长物业类型
+  $('#sel_mydestiny').change(function(){
+      var wuyearr='';
+      $('.longSel_content').html('');
+    var name = '';
+    var ids = '';
+      $("#sel_mydestiny option:selected").each(function(){
+      name += $(this).text() + ',';
+      ids += $(this).val() + ',';
+      });
+    var len=name.length;
+    var wyarr=name.substring(0,len-1);
+    $('.longSel_content').html(wyarr).show();
+    var len_ids=ids.length;
+    var ids_id=ids.substring(0,len_ids-1);
+
+    $('#property_cate_id').val(ids_id);
+    if(wyarr==''){
+      $('.longSel_content').hide();
+      $('.property_cate_id').val('');
+      return false;
+    }
+  })
+
+var send_url = '{:U('weixin/user/send_sms')}';
+    var send_code = {$send_code};
+    function get_mobile_code_user(){
+      var id     = $.trim($('#id').val());
+      if(id==''){
+        $.layer({
+          shade : [0.4 , '#000' , false],
+          area : ['auto','auto'],
+          title : false,
+          closeBtn:false,
+          time : 2,
+          dialog : {msg:'非法参数',type : 3}  
+        });
+        return false;
+      }
+      var mobile = $.trim($('#mobile').val());
+      if(mobile==''){
+        $.layer({
+          shade : [0.4 , '#000' , false],
+          area : ['auto','auto'],
+          title : false,
+          closeBtn:false,
+          time : 2,
+          dialog : {msg:'请输入手机号码',type : 3} 
+        });
+        return false;
+      }
+      if(!mobile.match(/^13[0-9]{1}[0-9]{8}$|15[012356789]{1}[0-9]{8}$|18[0123456789]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|17[0123456789]{1}[0-9]{8}$/)){
+        $.layer({
+          shade : [0.4 , '#000' , false],
+          area : ['auto','auto'],
+          title : false,
+          closeBtn:false,
+          time : 2,
+          dialog : {msg:'手机号码格式不正确！请重新输入！',type : 3}  
+        });
+        return false; 
+      } 
+      $.post(send_url, {mobile:mobile,send_code:send_code,id:id}, function(msg) {
+        if(msg=='提交成功'){
+          RemainTime();
+        }else{
+          layer.open({
+            content: jQuery.trim(unescape(msg)),
+            style: '',
+            time: 1,
+            shade:true,
+            anim:true
+          });
+        }
+      });
+    };
+    var iTime = 59;
+    var Account;
+    function RemainTime(){
+      document.getElementById('zphone').disabled = true;
+      var iSecond,sSecond="",sTime="";
+      if (iTime >= 0){
+        iSecond = parseInt(iTime%60);
+        iMinute = parseInt(iTime/60)
+        if (iSecond >= 0){
+          if(iMinute>0){
+            sSecond = iMinute + "分" + iSecond + "秒";
+          }else{
+            sSecond =  iSecond + "秒后重新发送";
+          }
+        }
+        sTime=sSecond;
+        if(iTime==0){
+          clearTimeout(Account);
+          sTime='获取手机验证码';
+          iTime = 59;
+          document.getElementById('zphone').disabled = false;
+        }else{
+            Account = setTimeout("RemainTime()",1000);
+            iTime=iTime-1;
+        }
+      }else{
+          sTime='没有倒计时';
+      }
+      $('#zphone').val(sTime);
+    }
+  $(function(){
+
+    $('#get_gender').change(function(){
+      $('#user_info').val($(this).val());
+      $('.get_gender').html($('#get_gender option:selected').text());
+    })
+
+  });
+	$('.nosel').live('change',function(e){
+		var $this = $(this);
+		if($this.get(0).selectedIndex>0){
+			$this.removeClass('nosel');
+		}else {
+			$this.addClass('nosel');
+		}
+	});
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

@@ -1,0 +1,121 @@
+@charset "utf-8";
+/* CSS Document */
+
+html.screen{
+	height:100%;
+	font-size:12px\9;
+	font-size: 62.5%;/*10 ÷ 16 × 100% = 62.5%*/
+	font-family:"微软雅黑",Arial, Helvetica, sans-serif;
+	}
+html.screen body{width:100%;height:100%;background:#fffae7}
+html.screen body>*{position:absolute;top:0;left:0;width:100%;height:100%;}
+body{margin:0;background:#fffae7}
+a{-webkit-tap-highlight-color:transparent}
+h1,h2,h3,h4,ul,li,p,dl,dt,dd{margin:0; padding:0; }
+ul li {list-style:none;}
+/* 版权 */
+footer { width:100%; padding:30px 0 15px 0;background:url(../images/bg_footer.png) no-repeat center top; background-size:cover; overflow:hidden; }
+footer a{color:#333;text-decoration:none;font-size:1.2rem;color:#fff;text-align:center; font-family:"微软雅黑"; text-shadow:0px 1px 0px #666; }
+.copyright { text-align:center; width:100%; position:absolute;bottom:10px; color:#fff;}
+
+.wrap { width:100%; text-align:center;}
+header { width:100%;}
+header img{ width:100%;}
+.content { padding:0 15px; }
+.part { width:100%; background:url(../images/bg_box.png) no-repeat bottom center; background-size:320px 20px; padding-bottom:15px; margin-bottom:15px;}
+.part .hongbao { background:url(../images/bg_hongbao.png) no-repeat left top; height:76px; background-size:100% 76px;}
+dl{ text-align:left; position:relative;}
+dt { position:absolute; left:0; display:inline-block; width:50px; height:50px; background:url(../images/icon_num.png) no-repeat left top; background-size:50px 150px; text-indent:-999px; overflow:hidden;}
+dt.two { background-position:left -50px;}
+dt.three { background-position:left -100px;}
+dd { display:inline-block; }
+dd { padding:0 40px;}
+dd h2 { padding:1.5rem 0 0.5rem 0; font-size:2.4rem; font-weight:normal; color:#ffeb97;}
+dd p { font-size:1.2rem; color:#fff;}
+dd.btn { position:absolute; right:0px; top:0px; padding:0; text-align:center; overflow:hidden;} 
+dd a { display:block;font-size:1.6rem; text-decoration:none;width:40px; height:36px; padding:20px 15px; color:#bb1a00;text-shadow:0px 1px 0px #fff5c9;  }
+dd a:hover { opacity:0.7;}
+dd a.sel { color:#999;}
+.part.three { width:100%; background:none; margin-bottom:15px;}
+.part.three .hongbao { background:#fa5135; background-image:none; height:88px; border-top-left-radius:12px; border-top-right-radius:12px;}
+.part.three dd.btn { right:10px; top:15px;} 
+.part.three dd a { background-color:#ffe67c; border-radius:60px; width:40px; height:40px; padding:10px; margin:0; font-size:1.8rem; line-height:40px;}
+dl:after {
+	display:block;
+	content:'';
+	clear:both;
+	visibility:hidden
+}
+.yaoqing_list { background-color:#fff;border-bottom-left-radius:12px; border-bottom-right-radius:12px; border:1px solid #e8c7c2; border-top:none; padding-bottom:15px;}
+.yaoqing_list h3 { background:url(../images/bg_list.png) no-repeat top center; background-size:100% 70px; height:50px; padding-top:20px;}
+.yaoqing_list h3 span { display:inline-block; padding:0rem 1rem; border-radius:15px; height:30px; line-height:30px; font-weight:normal;font-size:1.4rem; background-color:#a22b17; color:#fff;}
+.yaoqing_list p { padding:1rem 0; color:#999; font-size:1.6rem;}
+.yaoqing_list .list { padding:0 15px;}
+.yaoqing_list .list a { display:block; width:100%; position:relative; min-height:50px; margin-bottom:15px; text-align:left; text-decoration:none; color:#333;}
+.yaoqing_list .list a img { width:50px; height:50px; border-radius:50px; position:absolute; left:0;}
+.yaoqing_list .list ul { padding-left:60px; padding-top:8px;}
+.yaoqing_list .list li { font-size:1.4rem; padding-bottom:0.5rem; }
+.yaoqing_list .list li:last-child { color:#999;}
+.yaoqing_list .list a span { display:inline-block; position:absolute; right:0; top:9px; height:32px; line-height:32px; background-color:#fa5135; border-radius:8px; padding:0 1rem; color:#fff;}
+.yaoqing_list .list a span.sel { color:#666; background-color:#ccc;}
+button { border:1px solid #ccc; background-color:#fff; padding:0.5rem 1rem; font-size:1.2rem; border-radius:8px; outline:none;}
+.info { text-align:left; font-size:1.2rem; color:#d9462e; }
+.info h3 {display:inline-block; padding:0rem 1rem; border-radius:15px; height:30px; line-height:30px; font-weight:normal;font-size:1.4rem; background-color:#a22b17; color:#fff;}
+.info > div { line-height:180%; padding:15px 0;}
+.notic h2{ font-weight:normal; font-size:2rem; text-align:center; color:#fa5135; border:1px #ccc solid; background-color:#fff; padding:30px 20px; margin:0 0 15px 0;}
+.notic p { font-size:1.4rem; color:#999; padding:1rem 0;}
+@media all and (min-width: 640px) {
+html.screen body .wrap { width:600px; margin:0 auto;}
+html.screen body>* { position:inherit;}
+}
+.sharebox { font-size:1.2rem;}
+.sharebox h3{ font-size:2rem; color:#333; font-weight:normal; padding:1rem 0;}
+.sharebox div { width:50%; margin:15px auto; background-color:#fff; line-height:1%; padding:8px;}
+.sharebox div img { width:100%;}
+.sharebox a { display:inline-block; background-color:#fa5135; border-radius:12px; color:#fff; text-decoration:none; width:50%; padding:10px 8px;}
+
+.loginbox {}
+.loginbox h4{ display:block; color:#fff; padding:15% 0% 0 0; font-size:1.6rem; line-height:180%;}
+.loginbox h4 span { font-size:1.4rem; display:block;}
+.loginbox ul { width:84%; margin:10% auto 5% auto; text-align:left; padding:0 10px 0 10px; background-color:#fff; border:1px solid #eee; border-radius:8px; overflow:hidden; }
+.loginbox li { border-bottom:1px solid #eee; height:28px; padding:6px 0 12px 0;}
+.loginbox li:last-child { border:none}
+.loginbox input { border:none; outline:none; padding:8px 0;font-size:1.4rem;}
+.loginbox input.getcode{ font-size:1.2rem; padding:8px 0px; background-color:#00aacc; color:#fff; border:none; border-radius:4px; width:28%; float:right;}
+.loginbox input.moble { width:70%;}
+.loginbox input.code { width:100%; border-bottom:none;}
+.loginbox button {width:90%; margin:1% auto; text-align:left; padding:10px; text-align:center; font-size:1.6rem; border:none; background-color:#ffe67c; color:#a22b17}
+/************************************************************************************************/
+.gray_cover {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: rgba(0,0,0,0.9);
+	z-index: 998;
+	text-align: center;
+}
+.loading {
+	width: 80%!important;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	top: 50%!important;
+	left: 50%!important;
+	margin-left: -40%;
+	margin-top: -20px;
+	color: #FFF;
+	position: fixed;
+	font-size: 1.6rem;
+	z-index: 999;
+}
+.share {
+	width: 100%;
+	position: fixed;
+	z-index: 999;
+	display: none;
+}
+.share img {
+	width: 90%;
+	float: right;
+}
+/************************************************************************************************/

@@ -1,0 +1,63 @@
+<!--添加栏目-->
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('app_fkb_customer/partner_edit')}" method="post">
+	<table width="100%" class="table_form">
+    	<tr>
+			<th width="120">陪同者姓名 :</th>
+			<td  class="">
+				 <input type="text" name="name" class="input-text"  value="{$info.name}" id="name"/>
+				
+			</td>
+		</tr> 
+		<tr> 
+	      <th width="80">性别 :</th>
+	      <td>
+          	<select class=" mr10" name="sexy" id="sexy">
+						<option value="1" <if condition="$info['sexy'] eq 1"> selected ="selected"</if>>男</option>
+						<option value="2" <if condition="$info['sexy'] eq 2"> selected ="selected"</if>>女</option>
+                     
+			</select>
+          </td>
+	    </tr>       
+		<tr>
+			<th width="120">手机号码 :</th>
+			<td id="" class="">
+            <input type="text" name="tel" class="input-text" id="tel" value="{$info.tel}"/>
+           </td>
+		</tr>
+        <tr> 
+	      <th width="80">双方关系 :</th>
+	      <td>
+          	<select class=" mr10" name="relationship" id="relationship">
+            			<option value="" <if condition="$info['relationship'] eq 0"> selected ="selected"</if>>--请选择--</option>						
+						<option value="配偶" <if condition="$info['relationship'] eq '配偶'"> selected ="selected"</if>>配偶</option>
+                        <option value="父母" <if condition="$info['relationship'] eq '父母'"> selected ="selected"</if>>父母</option>
+                        <option value="子女" <if condition="$info['relationship'] eq '子女'"> selected ="selected"</if>>子女</option>
+                        <option value="其他" <if condition="$info['relationship'] eq '其他'"> selected ="selected"</if>>其他</option>
+			</select>
+          </td>
+	    </tr>	   
+	</table>
+	<input type="hidden" name="id" id="customerid" value="{$id}" />	
+	</form>
+</div>
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#name").formValidator({onshow:lang.please_input+'陪同者姓名',onfocus:lang.please_input+'陪同者姓名'}).inputValidator({min:1,onerror:lang.please_input+'陪同者姓名'}).defaultPassed();
+	$('#tel').formValidator({onshow:'请输入手机号码',onfocus:'请输入手机号码', oncorrect: '输入正确'})
+	.inputValidator({min:11,onerror:'请输入正确的手机号码'})
+	.inputValidator({max:11,onerror:'请输入正确的手机号码'})
+	.regexValidator({regexp:'mobile',datatype:'enum',onerror:'请输入正确的手机号码'}).defaultPassed();
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+});
+</script>

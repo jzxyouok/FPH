@@ -1,0 +1,8 @@
+
+<ul class="J_tabs tab_but cu_li">
+	<a href="{:u('member/edit', array('id'=>$id,'menuid'=>$menuid))}"><li <if condition="ACTION_NAME eq edit">class="current"</if>>基本信息</li></a>
+	<a href="{:u('member/cash', array('id'=>$id,'menuid'=>$menuid))}"><li <if condition="ACTION_NAME eq cash">class="current"</if>>现金记录</li></a>
+    <a href="{:u('member/fund', array('id'=>$id,'menuid'=>$menuid))}"><li <if condition="ACTION_NAME eq fund">class="current"</if>>基金记录</li></a>
+    <a href="{:u('member/withdraw', array('id'=>$id,'menuid'=>$menuid))}"><li <if condition="ACTION_NAME eq withdraw">class="current"</if>>提现记录</li></a>
+    <a href="{:u('member/activity_record', array('id'=>$id,'menuid'=>$menuid))}"><li <if condition="ACTION_NAME eq activity_record">class="current"</if>>活动记录</li></a>
+</ul>

@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<include file="public:head" />
+<script type="text/javascript" src="__STATIC__/css/default/home/js/tab.js"></script>
+</head>
+<body>
+<include file="public:header" /> 
+<!-- js_banner -->
+<div id="js_banner" class="fx_banner">
+  <ul id="js_banner_img" class="fx_banner_img clear"><a href="{:C('c')}">
+
+    <li style="background:url(__STATIC__/css/default/home/tianjin/images/bg1.jpg) no-repeat center center">
+      <div class="fx_banner_inner fx_grid_c1">
+        <div class="child child0" data-z="1"></div>
+        <div class="child" data-z="2" style="left:50px;top:0;">
+          <a href="{:C('c')}">
+            <img src="__STATIC__/css/default/home/tianjin/images/bg11.png" alt="">
+          </a>
+        </div>
+        <div class="child" data-z="3" style="left:570px;top:0;">
+          <a href="{:C('c')}">
+            <img src="__STATIC__/css/default/home/tianjin/images/bg12.png" alt="">
+          </a>
+        </div>
+      </div>
+    </li>
+
+    <li style="background:url(__STATIC__/css/default/home/images/bg3.jpg) no-repeat center center;"> <a href="http://d.fangpinhui.com">
+      <div class="fx_banner_inner fx_grid_c1">
+        <div class="child child0" data-z="1"></div>
+        <div class="child" data-z="2" style="left:80px;top:0;"><img src="__STATIC__/css/default/home/images/bg32.png" alt=""></div>
+        <div class="child" data-z="3" style="left:615px;top:0;"><img src="__STATIC__/css/default/home/images/bg31.png" alt=""></div>
+      </div>
+      </a> </li>
+    <li style="background:url(__STATIC__/css/default/home/images/bg0.jpg) no-repeat center center;">
+      <div class="fx_banner_inner fx_grid_c1">
+        <div class="child child0" data-z="1"></div>
+        <div class="child" data-z="2" style="left:0;top:0;"><img src="__STATIC__/css/default/home/images/bg02.png" alt=""></div>
+        <div class="child" data-z="3" style="left:650px;top:0;"><img src="__STATIC__/css/default/home/images/bg01.png" alt=""></div>
+      </div>
+    </li>
+    <li style="background:url(__STATIC__/css/default/home/images/bg2.jpg) no-repeat center center;">
+      <div class="fx_banner_inner fx_grid_c1">
+        <div class="child child0" data-z="1"></div>
+        <div class="child" data-z="2" style="left:0;top:0;"><img src="__STATIC__/css/default/home/images/bg22.png" alt=""></div>
+        <div class="child" data-z="3" style=""></div>
+      </div>
+    </li>
+  </ul>
+  <div class="fx_banner_common fx_grid_c1"> <a ytag="30000" id="js_banner_pre" href="javascript:;" class="fx_banner_pre"></a> <a ytag="30010" id="js_banner_next" href="javascript:;" class="fx_banner_next"></a> </div>
+</div>
+<!-- js_banner -->
+<div class="hot_box">
+  <div class="content">
+    <h3>手指点点 轻松赚佣金</h3>
+    <ul>
+      <li><a href="javascript:;"><i class="icons_weixin"></i><span>关注"房品汇"微信号</span></a></li>
+      <li><a href="javascript:;"><i class="icons_locating"></i><span>为客户查询合适的楼盘</span></a></li>
+      <li><a href="javascript:;"><i class="icons_write"></i><span>推介或报备客户</span></a></li>
+      <li><a href="javascript:;"><i class="icons_synchronization"></i><span>手机跟进交易状态</span></a></li>
+      <li><a href="javascript:;"><i class="icons_triumph"></i><span>7天结算高额佣金</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="advantage_box">
+  <div class="content2">
+    <h2>房品汇四大优势</h2>
+    <h6>中国新型房地产C2B看房服务平台</h6>
+    <ul>
+      <li> <a href="javascript:;" class="iconsb_house"></a>
+        <h3>房源易售</h3>
+        <p>汇集优质楼盘</p>
+        <p>独家特惠活动</p>
+      </li>
+      <li> <a href="javascript:;" class="iconsb_time"></a>
+        <h3>操作简单</h3>
+        <p>专业服务团队</p>
+        <p>快速报备 是否带看随你选</p>
+      </li>
+      <li> <a href="javascript:;" class="iconsb_shield"></a>
+        <h3>高额佣金</h3>
+        <p>业内最高佣金回报</p>
+        <p>让经纪人"赚"起来</p>
+      </li>
+      <li> <a href="javascript:;" class="iconsb_brokerage"></a>
+        <h3>安全保障</h3>
+        <p>客户信息严格保密</p>
+        <p>7日结算佣金</p>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="selling_real_estate_box">
+  <div class="content">
+    <h2><a href="{:U('property/index')}">热销合作楼盘</a></h2>
+    <h6>汇聚热销好盘 确保快速成交 高效安全分佣</h6>
+    <div class="anythingSlider">
+      <div class="tWrapper" style="overflow: hidden; ">
+        <ul>
+          <volist name="list" id="vo" >
+            <li>
+              <dl>
+                <dt><i class="iconsh_hot{$vo.simgtype} pa"></i><a href="{$vo.url}" title="{$vo.title}{$vo.offer}"> <img width="990" height="450" src="{:get_fdfs_image($vo['img'], '')}" alt="{$vo.title}{$vo.offer}"></a></dt>
+                <dd>
+                  <h3><a href="{$vo.url}" title="{$vo.title}{$vo.offer}">{$vo.title}</a><span>{$vo.offer}</span></h3>
+                </dd>
+              </dl>
+            </li>
+          </volist>
+        </ul>
+      </div>
+    </div>
+    <div class="houses_nav">
+      <ul>
+        <li class="more"><a href="{:U('property/index')}">更多</a></li>
+        <li><a href="javascript:;">学区房</a></li>
+        <li><a href="javascript:;">特惠房</a></li>
+        <li><a href="javascript:;">轨交房</a></li>
+        <li><a href="javascript:;">精装房</a></li>
+        <li><a href="javascript:;">刚需婚房</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="brand_collection_box">
+  <h2><a href="{:U('brand/index')}">品牌汇</a></h2>
+  <h6>知名房企品牌 国际居家理念 热销置业项目</h6>
+  <div class="brand_all pa">
+    <div class="s-mod" style=" height:410px;">
+      <div class="s-mod-loding"><img src="__STATIC__/css/default/home/images/loading_d.gif"></div>
+      <ul>
+        <li class="s-mod-item" w="390" h="270" l="0" t="0" bg="#8179b7" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def" style="padding:0;"><img src="__STATIC__/css/default/home/images/pph_1.jpg" width="390"></div>
+            <div class="s-mod-cur"><a href="http://www.fangpinhui.com/property/s/55.html"><span>万科时一区
+              <p>在售 | 项目报价40000元/㎡</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="400" t="0" bg="#30385f" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def"><span>龙湖地产</span></div>
+            <div class="s-mod-cur"><a href="http://www.fangpinhui.com/brand/s/4.html"><span>龙湖地产
+              <p>在售6个 | 待售2个</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="600" t="0" bg="#aa5096" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def" style="padding:0px;"><img src="__STATIC__/css/default/home/images/pph_xuhui.jpg" width="190"></div>
+            <div class="s-mod-cur"><a href="javascript:;"><span>新城旭辉府
+              <p>在售 | 项目报价10000元/㎡</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="800" t="0" bg="#225ba8" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def"><span>旭辉集团</span></div>
+            <div class="s-mod-cur"><a href="http://www.fangpinhui.com/brand/s/11.html"><span>旭辉集团
+              <p>在售14个 | 待售1个</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="400" t="140" bg="#aa5096" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def" style="padding:0px;"><img src="__STATIC__/css/default/home/images/pph_longhu.jpg" width="190"></div>
+            <div class="s-mod-cur"><a href="javascript:;"><span>龙湖紫都城
+              <p>在售 | 项目报价22000元/㎡</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="600" t="140" bg="#00a0e9" cbg="#00a0e9">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def"><img src="__STATIC__/css/default/home/images/btn_pinpai_all.png"></div>
+            <div class="s-mod-cur"><span><a href="{:U('brand/index')}" style="color:#fff; text-decoration:none;">查看全部品牌</a></span></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="800" t="140" bg="#cfa972" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def"><span>保利地产</span></div>
+            <div class="s-mod-cur"><a href="http://www.fangpinhui.com/brand/s/5.html"><span>保利地产
+              <p>在售11个 | 待售3个</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="0" t="280" bg="#ec6941" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def"><span>万科集团</span></div>
+            <div class="s-mod-cur"><a href="http://www.fangpinhui.com/brand/s/3.html"><span>万科集团
+              <p>在售16个 | 待售8个</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="200" t="280" bg="#aa5096" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def" style="padding:0px;"><img src="__STATIC__/css/default/home/images/pph_xincheng.jpg" width="190"></div>
+            <div class="s-mod-cur"><a href="javascript:;"><span>新城昱翠湾
+              <p>在售 | 项目报价14000元/㎡</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="400" t="280" bg="#80c269" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def"><span>新城地产</span></div>
+            <div class="s-mod-cur"><a href="http://www.fangpinhui.com/brand/s/7.html"><span>新城地产
+              <p>在售10个 | 待售9个</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="600" t="280" bg="#aa5096" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def" style="padding:0px;"><img src="__STATIC__/css/default/home/images/pph_lvdi.jpg" width="190"></div>
+            <div class="s-mod-cur"><a href="javascript:;"><span>绿地海域苏河源
+              <p>在售 | 项目报价17500元/㎡</p>
+              </span></a></div>
+          </div>
+        </li>
+        <li class="s-mod-item" w="190" h="130" l="800" t="280" bg="#007130" cbg="#333">
+          <div class="s-mod-wrap">
+            <div class="s-mod-def"><span>绿地集团</span></div>
+            <div class="s-mod-cur"><a href="http://www.fangpinhui.com/brand/s/1.html"><span>绿地集团
+              <p>在售46个 | 待售11个</p>
+              </span></a></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="brand_bg pa"></div>
+</div>
+<div class="casebox"></div>
+<include file="public:index_footer" /> 
+<script type="text/javascript" src="__STATIC__/css/default/home/js/loupan_tag.js"></script> 
+<script type="text/javascript" src="__STATIC__/css/default/home/js/jquery.easing.js"></script> 
+<script type="text/javascript" src="__STATIC__/css/default/home/js/base.js"></script>
+</body>
+</html>

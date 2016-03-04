@@ -1,0 +1,165 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+html, body {
+	height: 100%;
+	background-color: #eeeeee;
+}
+.LRCP_top_frm {
+	height: 36%;
+	min-height: 220px;
+	background-color: #006699;
+	background-image: url(../images_4_0/logo.png);
+	background-repeat: no-repeat;
+	background-position: center 18%;
+	background-size: 50%;
+	position: relative;
+}
+@media all and (min-width:1080px) {
+.LRCP_top_frm {
+	background-size: 20%;
+}
+}
+.LRCP_bottom_frm {
+	min-height: 50%;
+	/*min-height: 350px;*/
+	background-color: #eeeeee;
+	position: relative;
+}
+.LRCP_bottom_frm .form_frm {
+	width: 86%;
+	position: absolute;
+	left: 50%;
+	margin-left: -43%;
+	margin-top: -115px;
+}
+@media all and (min-width:1080px) {
+.LRCP_bottom_frm .form_frm {
+	width: 640px;
+	margin-left: -320px;
+}
+}
+.LRCP_bottom_frm .form_frm .title {
+	color: #FFF;
+	line-height: 60px;
+	text-align: center;
+	display: block;
+}
+.LRCP_bottom_frm .form_frm .input_frm {
+	background-color: #FFF;
+	min-height: 90px;
+	/*width: 100%;*/
+	border: solid 1px #cccccc;
+}
+.LRCP_bottom_frm .form_frm .input_frm.v2 {
+	margin-top: 12px;
+	min-height: 28px;
+	/*display: none;*/
+}
+.LRCP_bottom_frm .form_frm .input_frm ul {
+	display: block;
+	padding-left: 4%;
+	padding-right: 4%;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li {
+	display: block;
+	padding: 0.5em 0;
+	width: 100%;
+	border-bottom: solid 1px #cccccc;
+	position: relative;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li.noborder {
+	border: none;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li:last-child {
+	border: none;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li label {
+	display: inline-block;
+	padding-right: 5px;
+	color: #666666;
+	width: 28%;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li input[type=text], .LRCP_bottom_frm .form_frm .input_frm ul li input[type=tel], .LRCP_bottom_frm .form_frm .input_frm ul li input[type=password], .LRCP_bottom_frm .form_frm .input_frm ul li input[type=number], .LRCP_bottom_frm .form_frm .input_frm ul li select {
+	display: inline-block;
+	/*width: 67%;*/
+	width: 100%;
+	height: 28px;
+	border: none;
+	outline: none;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li input[type=text].short, .LRCP_bottom_frm .form_frm .input_frm ul li input[type=tel].short, .LRCP_bottom_frm .form_frm .input_frm ul li input[type=password].short, .LRCP_bottom_frm .form_frm .input_frm ul li input[type=number].short, .LRCP_bottom_frm .form_frm .input_frm ul li select {
+	width: 55%;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li select {
+	background-color: #FFF;
+	display: block;
+	width: 100%;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li select.nosel {
+	color: #959595;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li i {
+	display: block;
+	position: absolute;
+	width: 17px;
+	height: 17px;
+	background: url(../images_4_0/arrow2.png);
+	top: 50%;
+	margin-top: -9px;
+	right: 0;
+}
+.LRCP_bottom_frm .form_frm .input_frm ul li .getcode {
+	font-size: 0.8em;
+	display: inline-block;
+	float: right;
+	height: 32px;
+	border: none;
+	color: #0ea13f;
+	border-radius: 8px;
+	background: #eeeeee;
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	margin-top: -16px;
+	right: 0;
+	padding: 0 5px;
+}
+.LRCP_bottom_frm .form_frm > .btn {
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 1.3em;
+	font-weight: lighter;
+	color: #FFF;
+	margin-top: 24px;
+	border-radius: 8px;
+	background: #1aa83b;
+	background: gradient(linear, center bottom, center top, from(#009944), to(#22ac38));
+	background: -webkit-gradient(linear, center bottom, center top, from(#009944), to(#22ac38));
+	background: -moz-gradient(linear, center bottom, center top, from(#009944), to(#22ac38));
+}
+.LRCP_bottom_frm .form_frm > .btn:hover {
+	background: #1aa83b;
+	opacity:0.8;
+}
+.LRCP_bottom_frm .form_frm .other_link {
+	color: #666666;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	line-height: 50px;
+	text-decoration: underline;
+}
+.LRCP_bottom_frm .form_frm .forHelp {
+	text-align: center;
+	color: #999;
+	font-size: 1.2rem;
+}
+.LRCP_bottom_frm .bottom_links .title {
+	color: #666666;
+	height: 40px;
+	line-height: 40px;
+	display: block;
+	font-size: 0.8em;
+}

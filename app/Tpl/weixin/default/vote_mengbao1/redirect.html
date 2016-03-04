@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<title>萌宝投票</title>
+	<style type="text/css">
+		html,body,div,a,p{margin: 0;padding: 0;}
+		html,body{width: 100%;height: 90%;}
+		body{font-size: 16px;font-family: "微软雅黑";padding-top: 10%;}
+		a{color:#AD42EC;text-decoration: none;}
+		a:hover{text-decoration: underline;}
+
+		.box{width: 70%;margin:0 auto;padding: 10px 10px 5px 20%;border-radius: 8px;background-color:#F7F0D4;}
+		p{font-size: 0.85em;padding-bottom: 20px;}
+		a{font-size: 1em;display: block;padding-bottom: 10px;}
+		.copy{text-align: center;font-size: 0.95em;position: absolute;left: 0;right: 0;margin: auto;top: 0;bottom: 0;height: 30px;line-height: 30px;}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<p>请先关注,点击关键字回复进入,然后再提交</p>
+		<a href="index.html"><span id="sec">3</span>秒后跳转至首页</a>
+	</div>
+	<div class="copy">
+		©上海房品汇网络信息技术有限公司
+	</div>
+	<script type="text/javascript">
+			var delay=3;
+			var oS=document.getElementById('sec');
+			redirectTo("index.html",delay);
+
+			var timer=setInterval(function(){
+				delay--;
+				if(delay<=0){
+					delay=0;
+					clearInterval(timer);
+				}
+				oS.innerHTML=delay;
+				
+			},1e3);
+			/*
+			url:跳转的链接地址
+			sec:多少秒后跳转,单位:s
+			*/
+			function redirectTo(url,sec){
+				setTimeout(function(){
+					window.location.href=url;
+				},sec*1000);
+			}
+
+	</script>
+</body>
+</html>

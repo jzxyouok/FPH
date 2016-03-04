@@ -1,0 +1,195 @@
+<include file="public:header" />
+<br>
+<style>
+    .popup {position:absolute;width:193px;left:490px;top:31px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto; z-index:100}
+    .popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+    .popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" id="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col" style="position:relative;">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="receive" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                用户电话：
+                <input name="mobile" type="text" class="input-text" size="25" value="{$search.mobile}" maxlength="11" />
+                &nbsp;&nbsp;姓名：
+                <input name="username" type="text" class="input-text" size="25" value="{$search.username}" maxlength="30" />
+                &nbsp;&nbsp;楼盘:
+                <input autocomplete="off" type="text" name="title" id="title" class="input-text input_loupan_search" size="30" maxlength="30" value="{$search.title}"/>
+                <div id="J_loupan_name" style="display:none;position: absolute;top: 0;left: 0;"></div>
+                <input name="pid" id="pid" type="hidden" value="{$search.pid}" />
+                &nbsp;&nbsp;楼盘区域：
+                <select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected="{$search['city_spid']}">
+                </select>
+                <input type="hidden" name="city_id" id="J_city_id" value="{$search['city_id']}" />
+                领取时间：
+                <input type="text" name="time_start" id="time_start" class="date" size="18" value="{$search.time_start}">
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="18" value="{$search.time_end}">
+                &nbsp;&nbsp;领取{:L('status')}:
+                <select name="status">
+                    <option value="">-{:L('all')}-</option>
+                    <option value="1" <if condition="$search.status eq '1'">selected="selected"</if>>已领取</option>
+                    <option value="0" <if condition="$search.status eq '0'">selected="selected"</if>>未领取</option>
+                </select>
+                <input type="button" name="search" class="btn" value="{:L('search')}" />
+                <input type="button" name="import" class="btn" value="导出" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th align="center" width="30">序号</th>
+                <th align="center">ID</th>
+                <th align="left">客户姓名</th>
+                <th>手机号码</th>
+                <th align="left">楼盘</th>
+                <th>申领时间</th>
+                <th>领取时间</th>
+				<th>领取状态</th>
+				<th>领取方式</th>
+				<th>审核状态</th>
+				<th>广告机</th>
+				<th>现场图</th>
+                <th>客户有效性</th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center">{$p*20-20+$i}</td>
+                    <td align="center">{$val.id}</td>
+                    <td align="left">{$val.username}</td>
+                    <td align="center">{$val.mobile}</td>
+                    <td align="left">{$val.title}</td>
+                    <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                    <td align="center"><notempty name="val['receive_time']">{$val.receive_time|date='Y-m-d H:i',###}<else/>-</notempty></td>
+                    <td align="center"><if condition="$val['status'] eq 0"><span style="color:#ff0000">未领取</span><else/>已领取</if></td>
+                    <td align="center">
+                    	<if condition="$val['type'] eq 0">-</if>
+                    	<if condition="$val['type'] eq 1">人工领取码</if>
+                    	<if condition="$val['type'] eq 2">蓝牙摇一摇</if>
+                    	<if condition="$val['type'] eq 3">签到领路费</if>
+                    </td>
+                    <td align="center">
+						<if condition="$val['check_status'] eq 0">待审核</if>
+						<if condition="$val['check_status'] eq 1">审核通过</if>
+						<if condition="$val['check_status'] eq 2">打款审核不通过</if>
+						<if condition="$val['check_status'] eq 3">审核不通过</if>
+                    </td>
+                    <td align="center">{$val.machine_code}</td>
+                    <td align="center" onmouseover="doDisplayPhotoBig('{$val.id}')" onmouseout="doHidePhotoBig('{$val.id}')">
+	                    	<div id="photo_{$val.id}" style="position:absolute;"></div>
+	                    	<notempty name="val['photo']">
+ 	                    		<img src="{:U('ossimage/index')}&image={$val.photo}@property@480*600" height="40" width="32" id="photo_image_{$val.id}"/>
+ 							</notempty>
+                    </td>
+                    <td align="center"><if condition="$val['result_status'] eq 1">有效客户<elseif condition="$val['result_status'] eq 2"/>无效客户<elseif condition="$val['result_status'] eq 0"/>-</if></td>
+                    <td align="center"><a href="{:u('receive/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">客户资料</a></td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+
+var doDisplayPhotoBig	= function(id){
+	if($('#photo_image_'+id).size() == 0 )	return;
+	if($('#photo_'+id).find('img').size() == 0 )	$('#photo_'+id).append('<img src="'+$('#photo_image_'+id).prop('src')+'" />');
+	$('#photo_'+id).show();
+	$('#photo_'+id).css({
+		'position'	:'absolute',
+		'border'	: '1px solid',
+		'left'		: $('#photo_'+id).parent().position().left - $('#photo_'+id).width(),
+		'top'		: $('#photo_'+id).parent().position().top - $(window).scrollTop() > $('#photo_'+id).height() + $('#photo_image_'+id).height() 
+					? $('#photo_'+id).parent().position().top - $('#photo_'+id).height() + $('#photo_image_'+id).height() 
+					: $('#photo_'+id).parent().position().top - $('#photo_'+id).height() + ($('#photo_'+id).height() - $('#photo_'+id).parent().position().top + $(window).scrollTop()),
+	});
+}
+
+var doHidePhotoBig		= function(id){
+	$('#photo_'+id).hide();
+}
+
+$('.J_city_select').city_select('请选择');
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d %H:%M",
+    showsTime  : true,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d %H:%M",
+    showsTime  : true,
+    timeFormat : "24"
+});
+$(function(){
+    $('input[name="search"]').click(function(){
+        $('input[name="a"]').val('index');
+        $('#searchform').submit();
+        return false;
+    });
+    $('input[name="import"]').click(function(){
+        $('input[name="a"]').val('import');
+        $('#searchform').submit();
+        return false;
+    });
+
+    //搜索楼盘
+    $('.input_loupan_search').on('input',function(){
+        var title = $.trim($('#title').val());
+        var url   = '{:U('property/propertyList',array('roleid'=>1))}';
+        if(title!=''){
+            $('#J_loupan_name').show();
+            $.post(url,{title:title},function(result){
+                if(result.status == 1){
+                    $('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+                    $('#J_loupan_name').html(result.data);
+                    return false;
+                }else{
+                    $.pinphp.tip({content:result.msg, icon:'error'});
+                    return false;
+                }
+            },'json');
+        }else{
+            $('#pid').val('').blur();
+            $('#J_loupan_name').hide();
+        }
+    });
+
+//选择
+    $('#J_loupan_name > ul > li').live('click',function(){
+        var rel = $(this).attr('rel');
+        var title = $(this).text();
+        $('#pid').val(rel).blur();
+        $('#title').val(title);
+        $('#J_loupan_name').hide();
+    });
+});
+</script>
+</body>
+</html>

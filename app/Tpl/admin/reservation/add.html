@@ -1,0 +1,81 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+        <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('reservation/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加预约</em>
+        </a>
+    </div>
+</div>
+<script type="text/javascript">
+    var PINER = {
+        root: '__ROOT__',
+    };
+</script>
+<form id="info_form" action="{:U('reservation/add')}" method="post">
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10 ">
+                <table width="100%" cellspacing="0"  class="table_form">
+                <tr>
+                    <th width="120">开始时间：</th>
+                    <td>
+                        <input type="text" name="time_start" id="time_start" class="date" size="12" readonly="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>结束时间：</th>
+                    <td>
+                        <input type="text" name="time_end" id="time_end"  class="date" size="12" readonly="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>奖励金额：</th>
+                    <td>
+                        <input class="input-text" type="text" size="20" name="money" id="money" maxlength="8">
+                        <span class="gray ml10">元/份</span>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+    </div>
+</div>
+<input type="hidden" name="menuid" value="{$menuid}" />
+<input type="hidden" name="id" value="{$id}" />
+<input type="hidden" name="roleid" value="1" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+$(function() {
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#time_start").formValidator({onshow:"请选择开始时间",onfocus:"请选择开始时间"}).inputValidator({min:3,onerror:"请选择开始时间"});
+    $("#time_end").formValidator({onshow:"请选择结束时间",onfocus:"请选择结束时间"}).inputValidator({min:3,onerror:"请选择结束时间"});
+    $("#money").formValidator({onshow:"请输入奖励金额",onfocus:"请输入奖励金额"}).inputValidator({min:1,onerror:"请输入奖励金额"}).regexValidator({regexp:"num3",datatype:"enum",onerror:"只能填写正整数"});
+});
+
+</script>
+</body>
+</html>

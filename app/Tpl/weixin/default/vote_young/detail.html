@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+<title>{$info.vote_id}号选手{$info.vote_personal}：{$info.hopeless}</title>
+<link href="__STATIC__/css/default/weixin/vote_young/css/young.css" rel="stylesheet" type="text/css">
+<script src="__STATIC__/js/jquery/jquery-1.7.2.min.js"></script>
+
+<style>
+
+</style>
+</head>
+<body>
+<!--加载遮罩层-->
+<div class="gray_cover"></div>
+<div class="share"><img src="__STATIC__/css/default/weixin/vote_young/images/share.png"></div>
+<!--加载遮罩层-->
+<div class="wrap">
+    <header><a href="{:u('vote_young/index')}">返回首页</a><a href="#" class="JS_share">分享</a></header>
+    <figure class="photo" ><img src="{:get_fdfs_image($info['avatar'], '')}" alt="{$info.vote_personal}"></figure>
+    <section class="info">
+        <div class="left">
+        <p><span>{$info.vote_id}号</span></p>
+        <h2>{$info.vote_personal}</h2>
+        </div>
+        <div class="right">
+        <p><font id="clickfans">{$info.clickfans}</font>个赞</p>
+        <a href="javascript:;" class='btn_zan <if condition="$isclick neq ''">cur</if>'>赞TA一下</a>
+        <p style="font-size:1.2rem;color:#999;">每10分钟可赞一次</p>
+        </div>
+        <div class="wish">{$info.hopeless}</div>
+        <i>点击右上角分享，叫你的小伙伴一起看围观</i>
+    </section>
+    <section class="page">
+     <if condition="$pre neq ''">
+    <a href="{:u('vote_young/detail',array('id'=>$pre))}" class="">上一个</a>
+    </if>
+    <if condition="$pre eq ''">
+    <a href="javascript:;" class="invalid">没有上一个</a>
+    </if>
+    
+    <if condition="$next neq ''">
+    <a href="{:u('vote_young/detail',array('id'=>$next))}" class="">下一个</a>
+    </if>
+    <if condition="$next eq ''">
+    <a href="javascript:;" class="invalid">没有下一个</a>
+    </if>
+    </section>
+    
+</div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    $('.JS_share').click(function(e){
+        $('.gray_cover').show();
+        $('.share').show();
+    });
+    $('.share,.gray_cover').click(function(){
+        $('.share').hide();
+        $('.gray_cover').hide();
+    })
+$(function() {
+        $(".btn_zan").click(function() {
+            var flag = 1;
+            var zan_obj = $(this);            
+             var url = "{:u('vote_young/addfans')}"
+             var vid = "{$info.id}"
+              $.post(url,{vid:vid},function(data){
+                   if(data.status ==1){
+                            $('#clickfans').text(data.msg);
+                            //alert(data.msg);
+                            $.tipsBox({
+                                obj: zan_obj,
+                                str: "赞+1",
+                                callback: function() {
+                                        zan_obj.addClass('cur');
+                                }
+                            });   
+                   }else{
+                           flag = 2;
+                   }
+              },'json')              
+              if(flag ==1){
+                $.extend({
+                tipsBox: function(options) {
+                options = $.extend({
+                    obj: null,  //jq对象，要在那个html标签上显示
+                    str: "+1",  //字符串，要显示的内容;也可以传一段html，如: "<b style='font-family:Microsoft YaHei;'>+1</b>"
+                    startSize: "12px",  //动画开始的文字大小
+                    endSize: "30px",    //动画结束的文字大小
+                    interval: 600,  //动画时间间隔
+                    color: "red",    //文字颜色
+                    callback: function() {}    //回调函数
+                }, options);
+                $("body").append("<span class='num'>"+ options.str +"</span>");
+                var box = $(".num");
+                var left = options.obj.offset().left + options.obj.width() / 2;
+                var top = options.obj.offset().top - options.obj.height();
+                box.css({
+                    "position": "absolute",
+                    "left": left + "px",
+                    "top": top + "px",
+                    "z-index": 9999,
+                    "font-size": options.startSize,
+                    "line-height": options.endSize,
+                    "color": options.color
+                });
+                box.animate({
+                    "font-size": options.endSize,
+                    "opacity": "0",
+                    "top": top - parseInt(options.endSize) + "px"
+                }, options.interval , function() {
+                    box.remove();
+                    options.callback();
+                });
+            }
+        });        
+      }
+  });
+});
+
+//添加分享js
+wx.config({
+    debug: false,
+    appId: '{$jssdk.appId}',
+    timestamp: {$jssdk.timestamp},
+    nonceStr: '{$jssdk.nonceStr}',
+    signature: '{$jssdk.signature}',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+    ]
+});
+var title = '花young时代，不一样又怎样！';
+var desc  = "{$info.vote_personal}参加了房品汇首届经纪人创意自拍活动，快给ta点赞吧！";
+var link = 'http://www.fangpinhui.com/?g=weixin&m=vote_young&a=detail&id={$info.id}';
+var imgUrl = "{$url}/static/css/default/weixin/vote_young/images/share.jpg";
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: title, // 分享标题
+    //desc: "分享描述分享描述分享描述分享描述分享描述分享描述", // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+             $('.share').hide();
+             $('.gray_cover').hide();
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+             $('.share').hide();
+             $('.gray_cover').hide();
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        type: '', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+    wx.onMenuShareQQ({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+            $('.share').hide();
+            $('.gray_cover').hide();
+        },
+        cancel: function () { 
+           // 用户取消分享后执行的回调函数
+           $('.share').hide();
+           $('.gray_cover').hide();
+        }
+    });
+    wx.onMenuShareWeibo({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+});
+
+
+</script>
+</body>
+</html>

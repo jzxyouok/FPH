@@ -1,0 +1,79 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">共{$count_people}个自有经纪人</div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="30">序号</th>
+                <th width="80">ID</th>
+                <th align="left">姓名</th>
+                <th>电话</th>
+                <th align="left">驻守</th>
+                <th>注册时间</th>
+                <th>终端</th>
+				<th>带看</th>
+				<th>成交</th>
+				<th>佣金</th>
+                <th width="100">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.username}</td>
+                <td align="center">{$val.mobile}</td>
+                <td align="left">{$val.property_title}</td>
+                <td align="center"><if condition="$val['reg_time'] eq 0">-<else/>{$val.reg_time|date='Y-m-d H:i',###}</if></td>
+				<td align="center">
+					<switch name="val['origin']" >
+						<case value="1">微信</case>
+						<case value="2">IOS</case>
+						<case value="3">Android</case>
+						<case value="4">PC</case>
+                    </switch> 
+				</td>
+				<td align="center">{$val.daikan}</td>				
+                <td align="center">{$val.chengjiao}</td>
+                <td align="center">{$val.yongjin}</td>
+                <td align="center">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('channel/move', array('uid'=>$id,'id'=>$val['id']))}" data-title="一键转移所属人"  data-id="edit" data-acttype="ajax" data-width="550">转移</a>
+                </td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn btn_submit" data-tdtype="user_batch_action" data-acttype="ajax_form" data-id="move" data-width="600" data-uri="{:U('channel/move',array('uid'=>$id))}" data-name="id" data-title="一键转移所属人" data-msg="转移" value="一键转移所属人" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<script src="__STATIC__/js/jquery/plugins/listTable.js"></script>
+<script>
+$(function(){
+    $('.J_tablelist').listTable();
+});
+</script>
+</body>
+</html>

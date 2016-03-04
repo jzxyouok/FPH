@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:new_head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/profile.css" rel="stylesheet" />
+<style type="text/css">
+.bgdiv{background-color:#fff;position:absolute;z-index:10;left:0;top:0;display:none;width:100%;height:100%;opacity:0.1;filter:alpha(opacity=10);-moz-opacity: 0.1;}
+</style>
+</head>
+
+<body>
+<div class="bgdiv"></div>
+<div class="info_frm nobg paddingLR" style="background-color:#FFF;padding-top:0;">
+  <div class="cus_topinfo">
+    <div class="inforight">
+      <div class="infobar bottomLine"> <span class="title">累积中奖次数</span> <span class="num">
+        <label>{$win_sum}</label>
+        次</span> </div>
+      <div class="infobar bottomLine"> <span class="title">尚未领取话费</span> <span class="num">
+        <label>
+                  <if condition="$win_totol eq '' ">
+                  0
+                  <else />
+                  {$win_totol}
+                 </if>
+          </label>
+        元</span> </div>
+    </div>
+    <div class="mypic"> <img src="__STATIC__/css/default/weixin/images/prize.jpg" width="80" height="80" /> </div>
+  </div>
+</div>
+<div class="info_frm paddingLR">
+  <label>需充值的手机号码</label>
+  <input name="mobile" type="text" id="mobile" />
+  <label>充值金额</label>
+  <input type="hidden" value="{$the_phone}" id="the_phone" >
+  <input type="text" readonly class="bg J_select_price"/>
+  <label>当前登录密码</label>
+  <input  type="password" id="password" />
+  <a href="{:U('weixin/password/index')}" class="label_east">忘记密码？</a>
+  <div class="recharge_detail">
+    <label>充值说明：</label>
+    <ol>
+      <li>10元起可申请提现</li>
+      <li>单次充值面额可选10、20、30、50、100元五种</li>
+      <li>提现金额将以话费形式充值到填写的手机中</li>
+      <li>提现手机话费一经充值，不予退换</li>
+      <li>充值到账时间约3-5个工作日（节假日顺延）</li>
+      <li>其他问题可在fangpinhui2014微信平台咨询。</li>
+    </ol>
+  </div>
+</div>
+     <a href="javascript:;" id="confirm" class="btn_next bc_007fd4">确认申请</a>
+<div class="mobilePopup bottom">
+  <h2><a href="javascript:close_tc();" class="close">X</a>请选择充值金额</h2>
+  <ul>
+    <li><a href="javascript:;" rel="10" >10元</a></li>
+    <li><a href="javascript:;" rel="20" >20元</a></li>
+    <li><a href="javascript:;" rel="30" >30元</a></li>
+    <li><a href="javascript:;" rel="50" >50元</a></li>
+    <li><a href="javascript:;" rel="100" >100元</a></li>
+  </ul>
+</div>
+<script type="text/javascript">
+	function close_tc(){
+		$('.mobilePopup').fadeOut();
+		$(".bgdiv").css({ display: "none"});
+	}
+   $(function(){
+	//选择充值金额
+	$('.J_select_price').click(function(){
+		$(".bgdiv").css({ display: "block", height: $(document).height() });
+		$('.mobilePopup').fadeIn();
+	});
+	$('.bgdiv').click(function(){
+		$('.mobilePopup').fadeOut(100);
+		$(".bgdiv").css({ display: "none"});
+	});
+	$('.mobilePopup ul li a').live('click',function(){
+		var rel = $(this).attr('rel')
+		$('.J_select_price').val(rel);
+		close_tc();
+	});	
+		
+ 	$('#confirm').click(function(){
+ 		var mobile      = $.trim($('#mobile').val());
+ 		var password    = $.trim($('#password').val());
+ 		var the_phone   = $.trim($(".J_select_price ").val());
+ 		
+ 		var the_phone2    = parseInt($("#the_phone").val());
+ 		var recharge_url  = PINER.root + '/?g=weixin&m=guaguaka&a=recharge';
+ 		var dzp_url       = PINER.root + '/?g=weixin&m=guaguaka&a=recharge_confirm&mobile='+mobile+'&the_phone='+the_phone;
+ 		if(mobile==''){
+			layer.open({
+				content: '请输入手机号码',
+				style: '',
+				time: 1,
+				shade:false,
+				anim:true
+			});
+ 			return false;
+ 		}
+ 		 if(!mobile.match(/^13[0-9]{1}[0-9]{8}$|15[012356789]{1}[0-9]{8}$|18[0123456789]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|17[0123456789]{1}[0-9]{8}$/)){ 
+			layer.open({
+				content: '手机号码格式不正确！请重新输入！',
+				style: '',
+				time: 1,
+				shade:false,
+				anim:true
+			});
+ 			return false; 
+ 		 } 
+  		if(the_phone==''){
+			layer.open({
+				content: '请选择充值面值',
+				style: '',
+				time: 1,
+				shade:false,
+				anim:true
+			});
+ 			return false;
+ 		}
+ 		if(password==''){
+			layer.open({
+				content: '请输入密码',
+				style: '',
+				time: 1,
+				shade:false,
+				anim:true
+			});
+   			return false;
+ 		}
+  		if(the_phone > the_phone2 ){
+			layer.open({
+				content: '当前余额不足',
+				style: '',
+				time: 1,
+				shade:false,
+				anim:true
+			});
+   			return false;
+ 		}
+ 		$.post(recharge_url,{password:password},function(result){
+ 			if(result.status == 1){
+ 				window.location.href=dzp_url; 
+ 				return false;
+             } else {
+				layer.open({
+					content: result.msg,
+					style: '',
+					time: 1,
+					shade:false,
+					anim:true
+				});
+ 				return false;
+             }
+ 		},'json');
+ 	});
+     })
+     
+     </script>
+</body>
+</html>

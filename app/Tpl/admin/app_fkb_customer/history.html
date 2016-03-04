@@ -1,0 +1,199 @@
+<include file="public:header" />
+<style>
+#brokercontain{width:194px; border: solid 1px #ccc; min-height: 25px; border-top: none; border-bottom: none; display: none;}
+#brokercontain li{ padding-top: 5px; border-bottom: dashed 1px #ccc; padding-left: 5px; cursor: pointer;}
+#brokercontain li:hover{ background: #DEF7CE;}
+.pad_lr_10{margin-top:15px;}
+#levelfont{ color:#F00; font-size:15px; font-weight:600}
+.table_form td label{ cursor: pointer; margin-right:8px;};
+#search_field{ min-height:50px; border:solid 1px red;}
+#search_field label{ float:left;margin-right:15px; cursor:pointer}
+.fieldarea{text-align:right; font-size:15px; color:#39F; font-weight:600;}
+</style>
+<!--添加管理员-->
+<div class="pad_lr_10">
+        <div class="col_tab">
+        <include file="app_fkb_customer:classification" />        
+        <div class="J_panes">        
+        	<div class="content_list pad_10">
+        <div id="search_field" style="line-height:50px;">
+            <form name="searchform" method="get" action="{:u(app_fkb_customer/history)}">
+            <label><input type="checkbox" name="area" value="area" <if condition="$area eq 'area'">checked="checked"</if>/> 区域</label>
+            <label><input type="checkbox" name="sumprice" value="sumprice" <if condition="$sumprice eq 'sumprice'">checked="checked"</if>/> 总价</label>
+            <label><input type="checkbox" name="average_price" value="average_price" <if condition="$average_price eq 'average_price'">checked="checked"</if>/> 单价</label>
+            <label><input type="checkbox" name="type" value="type" <if condition="$type eq 'type'">checked="checked"</if>/> 类型</label>
+            <label><input type="checkbox" name="housetype" value="housetype" <if condition="$housetype eq 'housetype'">checked="checked"</if>/> 户型</label>
+            <label><input type="checkbox" name="feature" value="feature" <if condition="$feature eq 'feature'">checked="checked"</if>/> 特色</label>    
+            <input type="hidden" value="admin" name="g" />
+            <input type="hidden" value="app_fkb_customer" name="m" />
+            <input type="hidden" value="history" name="a" />
+            <input type="hidden" value="{$_GET['id']}" name="id" />
+            <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </form>
+        </div>
+
+<div class="J_tablelist table_list" >        
+
+<table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+  <tr>
+    <td width="6%">&nbsp;</td>
+    <td width="25%" align="left" class="treeTable" style="background-color:#FFFFFF;"><span style="background-color:#FFFFFF;text-align:left; font-weight:600;">筛选条件</span></td>
+    <th width="28%" align="left" class="treeTable" style="background-color:#FFFFFF;"><span style="background-color:#FFFFFF;text-align:left">点击次数</span></th>
+    <th width="41%" class="treeTable" style="background-color:#FFFFFF;text-align:left">最后点击时间</th>
+    </tr>
+ <notempty name="list.result_city_id">     
+      <tr>
+        <td class="fieldarea">区域</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="4">
+         <volist name="list.result_city_id" id="vo">          
+            <table width="100%">
+              <tr>
+                <td width="6%"  <if condition="$key eq 0">style="border-top:none;"</if>></td>
+                <td width="25%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.city_name}</td>
+                <td width="28%" <if condition="$key eq 0">style="border-top:none;"</if>> <b style="color:#F00; font-size:14px;">{$vo.tp_count}</b> 次</td>
+                <td width="41%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+              </tr>
+            </table>
+         </volist>
+        </td>
+        </tr>    
+ </notempty> 
+  <notempty name="list.result_sumprice">     
+      <tr>
+        <td class="fieldarea">总价</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="4">
+         <volist name="list.result_sumprice" id="vo"> 
+            <table width="100%">
+              <tr>
+                <td width="6%" <if condition="$key eq 0">style="border-top:none;"</if>></td>
+                <td width="25%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.sumprice}</td>
+                <td width="28%" <if condition="$key eq 0">style="border-top:none;"</if>> <b style="color:#F00; font-size:14px;">{$vo.tp_count}</b> 次</td>
+                <td width="41%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+              </tr>
+            </table>
+         </volist>
+        </td>
+        </tr>    
+ </notempty>  
+ <notempty name="list.result_average_price">     
+      <tr>
+        <td class="fieldarea">单价</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="4">
+         <volist name="list.result_average_price" id="vo"> 
+            <table width="100%" >
+              <tr>
+                <td width="6%" <if condition="$key eq 0">style="border-top:none;"</if>></td>
+                <td width="25%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.average_price}</td>
+                <td width="28%" <if condition="$key eq 0">style="border-top:none;"</if>> <b style="color:#F00; font-size:14px;">{$vo.tp_count}</b> 次</td>
+                <td width="41%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+              </tr>
+            </table>
+         </volist>
+        </td>
+        </tr>    
+ </notempty> 
+<notempty name="list.result_property_type">     
+      <tr>
+        <td class="fieldarea">类型</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="4">
+         <volist name="list.result_property_type" id="vo"> 
+            <table width="100%">
+              <tr>
+                <td width="6%" <if condition="$key eq 0">style="border-top:none;"</if>></td>
+                <td width="25%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.property_type}</td>
+                <td width="28%" <if condition="$key eq 0">style="border-top:none;"</if>> <b style="color:#F00; font-size:14px;">{$vo.tp_count}</b> 次</td>
+                <td width="41%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+              </tr>
+            </table>
+         </volist>
+        </td>
+        </tr>    
+ </notempty> 
+ <notempty name="list.result_housetype">     
+      <tr>
+        <td class="fieldarea">户型</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="4">
+         <volist name="list.result_housetype" id="vo"> 
+            <table width="100%">
+              <tr>
+                <td width="6%" <if condition="$key eq 0">style="border-top:none;"</if>></td>
+                <td width="25%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.housetype}</td>
+                <td width="28%" <if condition="$key eq 0">style="border-top:none;"</if>> <b style="color:#F00; font-size:14px;">{$vo.tp_count}</b> 次</td>
+                <td width="41%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+              </tr>
+            </table>
+         </volist>
+        </td>
+        </tr>    
+ </notempty>
+ 
+
+ <notempty name="list.result_property_feature">     
+      <tr>
+        <td class="fieldarea">特色</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="4">
+         <volist name="list.result_property_feature" id="vo"> 
+            <table width="100%" >
+              <tr>
+                <td width="6%" <if condition="$key eq 0">style="border-top:none;"</if>></td>
+                <td width="25%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.property_feature}</td>
+                <td width="28%" <if condition="$key eq 0">style="border-top:none;"</if>> <b style="color:#F00; font-size:14px;">{$vo.tp_count}</b> 次</td>
+                <td width="41%" <if condition="$key eq 0">style="border-top:none;"</if>>{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+              </tr>
+            </table>
+         </volist>
+        </td>
+        </tr>    
+ </notempty>      
+</table>
+   
+        </div>
+
+			</div>
+        </div>		
+	</div>
+</div>
+
+<include file="public:footer" />
+<script>
+$(function(){
+	/*	var len = $('#newlist').find('tr').length;
+		for(var i =0; i<len; i++){
+				 $('#newlist').find('tr').eq(i).find('td').eq(0).text(i+1);
+			}
+			*/
+		
+	})
+</script>
+</body>
+</html>

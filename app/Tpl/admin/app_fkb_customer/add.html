@@ -1,0 +1,82 @@
+<include file="public:header" />
+<!--添加管理员-->
+<div class="pad_lr_10">
+	<form id="info_form" name="info_form" action="{:u('app_visitor_staff/add')}" method="post">
+	<table width="100%" class="table_form">
+		<tr> 
+	      <th width="80">{:L('staff_username')} :</th>
+	      <td><input type="text" name="username" id="username" class="input-text" size="25"></td>
+	    </tr>
+	    <tr> 
+	      <th>手机号码 :</th>
+	      <td><input type="text" name="mobile" id="mobile" class="input-text" size="25"></td>
+	    </tr>
+	    <tr> 
+	      <th>{:L('password')} :</th>
+	      <td><input type="password" name="password" id="J_password" class="input-text" size="25"></td>
+	    </tr>
+	    <tr>
+	      <th>{:L('cofirmpwd')} :</th>
+	      <td><input type="password" name="repassword" id="J_repassword" class="input-text" size="25"></td>
+	    </tr>
+		<tr>
+			<th width="120">工作城市 :</th>
+			<td id="select_area" class="select_area"><select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected=""></select><input type="hidden" name="location" id="J_city_id" value="" /></td>
+		</tr>   
+	   
+	</table>
+	<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</form>
+</div>
+<include file="public:footer" />
+<script>
+$('.J_city_select').city_select('请选择');
+var check_name_url = "{:U('admin/app_visitor_staff/ajax_check_name')}";
+var check_mobile_url = "{:U('admin/app_visitor_staff/ajax_check_mobile')}";
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#username").formValidator({onshow:lang.staff_username,onfocus:lang.staff_username}).inputValidator({min:1,onerror:lang.staff_username}).ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '该账号已经存在',
+		onwait : '正在检测'
+	});
+	
+	$('#mobile').formValidator({onshow:lang.staff_tel,onfocus:lang.staff_tel, oncorrect: '输入正确'})
+	.inputValidator({min:11,onerror:'请输入正确的手机号码'})
+	.inputValidator({max:11,onerror:'请输入正确的手机号码'})
+	.regexValidator({regexp:'mobile',datatype:'enum',onerror:'请输入正确的手机号码'}).ajaxValidator({
+	    type : "get",
+		url : check_mobile_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '该手机号码已经存在',
+		onwait : '正在检测'
+	});
+	$("#J_password").formValidator({ onshow:lang.password, onfocus:lang.password+lang.between_6_to_20}).inputValidator({ min:6, max:20, onerror:lang.password+lang.between_6_to_20});
+	$("#J_repassword").formValidator({ onshow:lang.cofirmpwd, onfocus:lang.cofirmpwd}).compareValidator({desid:"J_password",operateor:"=",onerror:lang.passwords_not_match});	
+		
+		
+	
+
+});
+</script>
+</body>
+</html>
+	

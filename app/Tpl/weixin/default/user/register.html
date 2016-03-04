@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/lrcp.css">
+<script type="text/javascript">
+var send_url = '{:U('weixin/user/send_sms')}';
+var send_code = {$send_code};
+var iTime = 59;
+var Account;
+</script>
+</head>
+<body>
+<div class="LRCP_top_frm"> </div>
+<div class="LRCP_bottom_frm">
+  <div class="form_frm">
+    <label class="title">加入房品汇，高额佣金等你来拿</label>
+    <div class="input_frm">
+      <ul>
+        <li>
+          <input type="tel" name="mobile" id="mobile" placeholder="您的手机号">
+        </li>
+        <li>
+          <input type="tel" class="short" name="mobile_code" id="mobile_code" placeholder="输入验证码">
+          <input class="getcode" id="zphone" type="button" value="获取手机验证码 " onClick="get_mobile_code();">
+        </li>
+        <li>
+          <input type="password" name="password" id="password" placeholder="您的密码">
+        </li>
+        <li>
+          <input type="password" name="password2" id="password2" placeholder="重复密码">
+        </li>
+      </ul>
+    </div>
+	<div class="tabs" style="display:block">
+      <div class="input_frm v2">
+        <ul>
+          <li>
+            <input name="code_id" id="code_id" type="tel" placeholder="输入邀请码（加入门店专用，非必填）">
+          </li>
+        </ul>
+      </div>
+      <!--<a href="javascript:;" class="new_link back">&lt; 返回门店选择</a></div>
+    <div class="tabs" style="display:block;">
+      <div class="input_frm v2" >
+        <ul>
+          <li class="noborder">
+            <select class="nosel J_company" id="company">
+              <option value="0">选择公司</option>
+			  <volist name="company_list" id="vo">
+              	<option value="{$vo.id}">{$vo.short_name}</option>
+			  </volist>
+            </select>
+            <i></i>
+		  </li>
+          <li class="J_stores" style="display:none">
+            <select class="nosel J_stores_option" id="stores">
+              <option value="0">选择门店</option>
+            </select>
+            <i></i>
+		  </li>
+        </ul>
+      </div>
+      <a href="javascript:;" class="new_link goto">直接输入门店代码 &gt;</a>
+      <p class="forHelp">如未找到公司信息，请联系房品汇<a href="tel:4008869058">4008869058</a></p>-->
+    </div>
+    <input name="url" id="url" type="hidden" value="{$url}">
+    <input name="origin" id="origin" type="hidden" value="1">
+    <a href="javascript:;" class="btn J_sub_register">注册</a>
+    <div class="bottom_links"> <span class="title">如您已有房品汇账号，请直接登录</span> <a href="{:U('weixin/user/login',array('url'=>$url))}" class="btn">登录</a> </div>
+  </div>
+</div>
+<include file="public:footer_4_0" />
+<script type="text/javascript">
+	$('.nosel').change(function(e){
+		var $this = $(this);
+		if($this.get(0).selectedIndex>0){
+			$this.removeClass('nosel');
+		}else {
+			$this.addClass('nosel');
+		}
+	});
+	var $tabs = $('.tabs');
+	$('.new_link.goto').click(function(){
+		$tabs.eq(1).hide();
+		$tabs.eq(0).fadeIn();
+		$(".J_company").find("option[value='0']").attr("selected",true); 
+		$('#code_id').val('');
+		$('.J_stores').hide();
+		$('.J_stores_option').html('<option value="0">选择门店</option>');
+	});
+	$('.new_link.back').click(function(){
+		$tabs.eq(0).hide();
+		$tabs.eq(1).fadeIn();
+		$(".J_company").addClass('nosel'); 
+		$(".J_stores_option").addClass('nosel');
+		$(".J_company").parent('li').addClass('noborder');
+		$('#code_id').val('');
+	});
+</script>
+</body>
+</html>

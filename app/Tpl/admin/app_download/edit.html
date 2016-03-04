@@ -1,0 +1,55 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('app_download/edit')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">添加版本</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">所属机型 :</th>
+						<td>
+						 	<select name="type" id="type">
+						    	<option value="0">请选择</option>
+								<option value="1" <if condition="$info['type'] eq 1">selected="selected"</if>>IOS</option>
+								<option value="2" <if condition="$info['type'] eq 2">selected="selected"</if>>Android</option>
+					      	</select>
+					    </td>
+					</tr>
+		            <tr>
+						<th>版本号 :</th>
+						<td><input type="text" name="title" id="title" class="input-text" size="30" value="{$info.title}"></td>
+					</tr>
+		            <tr>
+						<th>软件大小 :</th>
+						<td><input type="text" name="size" id="size" class="input-text" size="10" value="{$info.size}"> M</td>
+					</tr>
+					<tr>
+						<th>下载地址 :</th>
+						<td><input type="text" name="url" id="url" class="input-text" size="40" value="{$info.url}"></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#type").formValidator({onshow:"请选择所属机型",onfocus:"请选择所属机型"}).inputValidator({min:1,onerror:"请选择所属机型"});
+	$("#title").formValidator({onshow:"请填写版本号",onfocus:"请填写版本号"}).inputValidator({min:1,onerror:"请填写版本号"});
+	$("#size").formValidator({onshow:lang.please_input+"软件大小",onfocus:lang.please_input+"软件大小"}).inputValidator({min:1,onerror:lang.please_input+"软件大小"});
+	$("#url").formValidator({onshow:lang.please_input+"下载地址",onfocus:lang.please_input+"下载地址"})
+	.inputValidator({min:1,onerror:lang.please_input+"下载地址"})
+	.regexValidator({regexp:'url',datatype:'enum',onerror:'请输入正确的下载地址,必须以http://开头'});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<include file="public:header" />
+<br/>
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="propertycode" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                &nbsp;&nbsp;楼盘名称 :
+                <input name="title" type="text" class="input-text" size="25" value="{$title}" maxlength="20" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="20">序号</th>
+                <th align="left" width="20">ID</th>
+                <th align="left" width="300">楼盘名称</th>
+                <th align="left" width="100">验证码</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="left">{$val.pid}</td>
+                <td align="left">{$val.title}</td>
+                <td align="left">
+                    <if condition="$val['code'] neq ''">
+                        <span style="color:#ff6600;font-weight:bold;font-size:16px;">{$val['code']}</span>
+                    <else/>
+                        <input type="button" class="btn code" rel="{$val.pid}" value="点击生成" />
+                    </if>
+                </td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $(function(){
+        $('.code').click(function(){
+            var pid = $(this).attr('rel');
+            var url = '{:U('propertycode/updatecode')}';
+            var th  = $(this);
+            if(pid == ''){
+                $.pinphp.tip({content:'系统参数出错', icon:'error'});
+                return false;
+            }
+            $.post(url,{pid:pid},function(result){
+                if(result.status == 1){
+                    th.parent('td').html('<span style="color:#ff6600;font-weight:bold;font-size:16px;">'+result.data+'</span>');
+                    return false;
+                } else {
+                    $.pinphp.tip({content:result.msg, icon:'error'});
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</body>
+</html>

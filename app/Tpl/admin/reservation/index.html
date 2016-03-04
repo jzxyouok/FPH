@@ -1,0 +1,83 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('reservation/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加预约</em>
+        </a>
+    </div>
+</div>
+
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+
+                    <div class="content_menu ib_a blue line_x">
+                        <a class="on" href="{:U('reservation/index',array('id'=>$id))}">
+                            <em>预约奖励金</em>
+                        </a>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a href="{:U('join_reservation/index',array('id'=>$id,'roleid'=>1))}">
+                            <em>客户预约列表</em>
+                        </a>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a href="{:U('join_reservation/analysis',array('id'=>$id,'roleid'=>1))}">
+                            <em>预约报表统计</em>
+                        </a>
+                    </div>
+
+                <div class="J_tablelist table_list" data-acturi="" style="margin-bottom:0px;">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="100px;" align="center">ID</th>
+                            <th width="100px;" align="center">预约奖励金</th>
+                            <th width="100px;" align="center">有效期</th>
+                            <th width="80px;" align="center">领取用户</th>
+                            <th width="80px;" align="center">支出金额</th>
+                            <th width="80px;" align="center">使用情况</th>
+                            <th width="120px;" align="center">{:L('operations_manage')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="list" id="vo">
+                            <tr class="collapsed">
+                                <td align="center">{$vo.id}</td>
+                                <td align="center">{$vo.money}元/人</td>
+                                <td align="center">{$vo.time_start|date='Y-m-d',###}至{$vo.time_end|date='Y-m-d',###}</td>
+                                <td align="center">{$vo.num} 人</td>
+                                <td align="center">{$vo.account} 元</td>
+                                <td align="center">
+                                   {$vo.statustTips}
+                                </td>
+                                <td align="center">
+                                    <if condition="$vo['time_end'] gt $time AND $vo['status'] eq 1">
+                                        <a href="{:U('reservation/edit',array('pid'=>$id,'id'=>$vo['id']))}">编辑</a>&nbsp;|&nbsp;
+                                    </if>
+                                    <if condition="$vo['status'] neq 2">
+                                     <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('reservation/delete', array('id'=>$vo['id'],'pid'=>$id))}" data-msg="确定要删除?">删除</a>
+                                    </if>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

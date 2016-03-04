@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<include file="public:head" />
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
+<link href="__STATIC__/css/default/css/index.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/css/default/css/base.css" rel="stylesheet" type="text/css" media="all">
+<link href="__STATIC__/css/default/css/common.css" rel="stylesheet" type="text/css" media="all">
+<style type="text/css">
+.bgdiv {background-color: #fff;position: absolute;z-index: 10;left: 0;display: none;width: 100%;height: 100%;opacity: 0.1;filter: alpha(opacity=10);-moz-opacity: 0.1;}
+nav { position: relative;z-index: 999;}
+</style>
+</head>
+<body>
+<header class="addcity">
+<a href="#" class="logoimg">房品汇</a>
+<div class="city">
+<a href="#"><span>
+<if condition="$fcity eq ''"> 所有城市<else />{$fcity_name}</if></span><b class="caret"></b></a>
+<select onChange="MM_jumpMenu('parent',this,0)">
+  <option value="{:U('weixin/loupan/hz_loupan')}" <if condition="$fcity eq ''"> selected </if>>所有城市</option>
+<option value="{:U('weixin/loupan/hz_loupan',array('fcity'=>803,'city'=>803))}" <if condition="$fcity eq 803"> selected </if>>上海</option>
+<option value="{:U('weixin/loupan/hz_loupan',array('fcity'=>878,'city'=>878))}"  <if condition="$fcity eq 878"> selected </if>>太仓</option>
+</select>
+</div>
+</header>
+<div class="bgdiv"></div>
+<nav class="addcity">
+<a href="javascript:void(0);" class="" id='a_city' style="overflow: hidden">
+<span>
+<if condition="$city_name eq $fcity_name">
+	区域筛选
+<else />
+	{$city_name}
+</if>
+</span>
+<b class="caret"></b> </a>
+<a href="javascript:void(0);" class="" id='a_kaipan' style="overflow: hidden">
+<span>
+	<if condition="$huxin eq ''">房型筛选</if>
+	<if condition="$huxin eq 1">一室</if>
+	<if condition="$huxin eq 2">二室</if>
+	<if condition="$huxin eq 3">三室</if>
+	<if condition="$huxin eq 4">四室</if>
+	<if condition="$huxin eq 5">五室以上</if>
+</span>
+<b class="caret"></b></a>
+<a href="javascript:void(0);" class="" id='a_order' style="overflow: hidden">
+<span>
+	<if condition="$leixing_name eq ''">
+		物业类型
+	<else />
+		{$leixing_name}
+	</if>
+	
+</span>
+<b class="caret"></b> </a>
+</nav>
+<!--筛选隐藏-->
+<div class="nav_popup pa j_show1" id="j_show1" style="display:none;">
+  <ul>
+    <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$fcity,'huxin'=>$huxin,'leixing'=>$leixing))}">
+    <li>不限</li>
+    </a>
+    <volist name="citylist" id="vo"> <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$vo['id'],'huxin'=>$huxin,'leixing'=>$leixing))}">
+      <li>{$vo.name}</li>
+      </a> </volist>
+  </ul>
+</div>
+<div class="nav_popup pa j_show2" id="j_show2" style="display:none;">
+  <ul>
+    <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$city,'leixing'=>$leixing))}">
+    <li>不限</li>
+    </a> <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$city,'huxin'=>1,'leixing'=>$leixing))}">
+    <li>一室</li>
+    </a> <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$city,'huxin'=>2,'leixing'=>$leixing))}">
+    <li>二室</li>
+    </a> <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$city,'huxin'=>3,'leixing'=>$leixing))}">
+    <li>三室</li>
+    </a> <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$city,'huxin'=>4,'leixing'=>$leixing))}">
+    <li>四室</li>
+    </a> <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$city,'huxin'=>5,'leixing'=>$leixing))}">
+    <li>五室以上</li>
+    </a>
+  </ul>
+</div>
+<div class="nav_popup pa j_show3" id="j_show3" style="display:none;">
+  <ul>
+    <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$city,'huxin'=>$huxin))}">
+    <li>不限</li>
+    </a>
+    <volist name="leixinglist" id="vo"> <a href= "{:U('weixin/loupan/hz_loupan',array('fcity'=>$fcity,'city'=>$city,'huxin'=>$huxin,'leixing'=>$vo['id']))}">
+      <li>{$vo.name}</li>
+      </a> </volist>
+  </ul>
+</div>
+<div class="hous-list">
+  <div id="container">
+    <volist name="list" id="vo">
+      <div>
+        <h2 class="loupan_name"><a href="{:U('weixin/loupan/detail',array('id'=>$vo['id']))}" >{$vo.title}</a></h2>
+        <div class="hous-item"><a href="{:U('weixin/loupan/detail',array('id'=>$vo['id']))}" ><img src="{:attach(get_thumb($vo['img_thumb'], '_weixin_thumb'), 'property/thumbnail')}"  onerror="this.src='__STATIC__/css/default/images/no_img.gif';" /></a>
+          <ul class="item-info">
+            <li class="item-yongjin break-word"><span>{$vo.list_price}/套</span></li>
+            <li class="item-addr break-word"><span>{$vo.city}</span></li>
+            <li class="item-addr">
+              <if condition="is_numeric(trim($vo['item_price'])) eq FALSE ">{:trim($vo['item_price'])}
+                <else />
+                {:trim($vo['item_price'])}元/㎡</if>
+            </li>
+          </ul>
+          <span class="item-btn break-word"><a href="{:U('weixin/baobei/index',array('id'=>$vo['id']))}" class="btn_right_bb">带看报备</a></span></div>
+      </div>
+    </volist>
+  </div>
+</div>
+<empty name="list">
+  <div class="nodate_msg">
+    <h1>抱歉，没有找到符合您要求的楼盘</h1>
+  </div>
+</empty>
+
+<!--  <div class="bt-roading"><span>加载中</span></div>-->
+
+<div id="J_returntop" class="return_top"></div>
+<script src="__STATIC__/css/default/weixin/js/iscroll.js"></script> 
+<script type="text/javascript">
+	/*var $nav_popup = $('.nav_popup');
+	$(window).load(function(e) {
+        $nav_popup.css('z-index','0');
+		window.setTimeout(function(){
+			$nav_popup.css('z-index','998').hide();
+		},200);
+    });*/
+	
+	var myScroll1, myScroll2, myScroll3;
+	function loaded() {
+		myScroll1 = new iScroll('j_show1');
+		myScroll2 = new iScroll('j_show2');
+		myScroll3 = new iScroll('j_show3');
+		window.setInterval(function(){
+			myScroll1.refresh();
+			myScroll2.refresh();
+			myScroll3.refresh();
+		},1000);
+	}
+	
+	document.addEventListener('touchmove', function (e) { /*e.preventDefault();*/ }, false);
+	document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script> 
+<script type="text/javascript">
+//$(function(){
+//	//向下滑动加载
+//	var winH = $(window).height(); //页面可视区域高度 
+//	var pagefirst = 1; //设置当前页数
+//	var stopstatus = true; 
+//	$(window).scroll(function () { 
+//        var pageH = $(document.body).height(); 
+//        var scrollT = $(window).scrollTop(); //滚动条top 
+//        var lq_height = (pageH-winH-scrollT)/winH; 
+//		var url = PINER.root + '/?g=weixin&m=loupan&a=ajax_hzlist&{$citystr}&{$open_timestr}&{$item_pricestr}';
+//        if(lq_height<0.02 && stopstatus == true){ 
+//			stopstatus = false;
+//			$.post(url,{page:pagefirst},function(result){
+//				if(result.status == 1){
+//					$('#container').append(result.data);
+//					pagefirst++;
+//					stopstatus = true;
+//					return false; 
+//				} else {
+//					$(".bt-roading").html(result.msg); 
+//                    return false; 
+//				}
+//			},'json');
+//        } 
+//    });
+//})
+
+;(function($){
+ $.pinphp = $.pinphp || {version: "v1.0.0"},
+    //把对象调整到中心位置
+    $.fn.setmiddle = function() {
+        var dl = $(document).scrollLeft(),
+            dt = $(document).scrollTop(),
+            ww = $(window).width(),
+            wh = $(window).height(),
+            ow = $(this).width(),
+            oh = $(this).height(),
+            left = (ww - ow) / 2 + dl,
+            top = (oh < 4 * wh / 7 ? wh * 0.382 - oh / 2 : (wh - oh) / 2) + dt;
+                
+        $(this).css({left:Math.max(left, dl) + 'px',top:Math.max(top, dt) + 'px'});             
+        return this;
+    }
+    //返回顶部
+    $.fn.returntop = function() {
+        var self = $(this);
+        self.live({
+            mouseover: function() {
+                $(this).addClass('return_top_hover');
+            },
+            mouseout: function() {
+                $(this).removeClass('return_top_hover');
+            },
+            click: function() {
+                $("html, body").animate({scrollTop: 0}, 120);
+            }
+        });
+        $(window).bind("scroll", function() {
+            $(document).scrollTop() > 0 ? self.fadeIn() : self.fadeOut();
+        });
+    }
+	
+	$('.hous-item').live('click',function(e){
+		var hh = true;
+		var $nav_popup = $('.nav_popup');
+		$.each($nav_popup,function(index,value){
+			var $this = $(this);
+			if($this.css('display')=='block'){
+				hh = false;
+				$nav_popup.hide();
+				return;
+			}
+		});
+		
+		if(hh){
+			var url = $(this).children('a').attr('href');
+			window.location.href = url;
+			return false;
+		}
+	});
+	
+	$('.btn_right_bb').live('click',function(e){
+		e.stopPropagation();
+	});
+	
+	
+})(jQuery);
+
+
+</script>
+<pin:load type="js" href="__STATIC__/js/front.js" />
+</body>
+</html>

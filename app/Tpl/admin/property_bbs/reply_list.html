@@ -1,0 +1,63 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property_bbs/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加评论</em>
+        </a>
+    </div>
+</div>
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <div style="margin-bottom: 10px;color:#ff6600;font-weight:bold;">对 “{$comment_info}” 的回复</div>
+                <div class="J_tablelist table_list" data-acturi="{:U('app_fkb_customer/brokersuggest')}">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="60" align="center">序号</th>
+                            <th align="center">ID</th>
+                            <th align="left">回复人</th>
+                            <th align="left">手机号码</th>
+                            <th align="left">回复内容</th>
+                            <th align="center">回复时间</th>
+                            <th align="center">状态</th>
+                            <th width="100" align="center">{:L('operations_manage')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="list" id="val">
+                            <tr class="collapsed">
+                                <td align="center">{$p*20-20+$i}</td>
+                                <td align="center">{$val.id}</td>
+                                <td align="left">{$val.username}</td>
+                                <td align="left">{$val.mobile}</td>
+                                <td align="left">{$val.info|msubstr=0,25,'utf-8',true}</td>
+                                <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                                <td align="center"><img src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+                                <td align="center">
+                                    <a href="{:U('property_bbs/reply_list_edit',array('id'=>$id,'pid'=>$val['id']))}">编辑</a>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+	

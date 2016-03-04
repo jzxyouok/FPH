@@ -1,0 +1,96 @@
+<include file="public:header" />
+<div style="padding:10px;">已发放红包：{$amount_total}元</div>
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="hongbao" />
+                <input type="hidden" name="a" value="index" />
+                抽奖时间：
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$time_start}">
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$time_end}">
+                手机号码 ：
+                <input class="input-text" type="text" value="{$mobile}" size="25" name="mobile">
+                &nbsp;&nbsp;金额 :
+                <input name="amount" type="text" class="input-text" size="25" placeholder="大于等于" value="{$amount}"/>
+                &nbsp;&nbsp;领取状态 :
+                <select name="status">
+                <option value="">-{:L('all')}-</option>
+                <option value="1" <if condition="$status eq '1'">selected="selected"</if>>已领取</option>
+                <option value="0" <if condition="$status eq '0'">selected="selected"</if>>未领取</option>
+                </select>
+                &nbsp;&nbsp;
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('weixin_guaguaka_total/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <!--<th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>-->
+                <th width="30">序号</th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="center">手机号</th>
+                <th><span data-tdtype="order_by" data-field="amount">中奖金额 </span></th>
+                <th width=150>中奖时间</th>
+                <th width=150>是否领取</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+               <!--<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>-->
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+				<td align="center">{$val.mobile}</td>
+				<td align="center">{$val.amount}元</td>
+                <td align="center">{$val.add_time|date='Y-m-d H:i:s',###}</td>
+                <td align="center">
+                    <if condition="$val['status'] eq 1">
+                        <span title="{$val['intro']}">已领取</span>
+                    <else/>
+                        <span style="color:#ff0000" title="{$val['intro']}">未领取</span>
+                    </if>
+                </td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$('.J_cate_select').cate_select({top_option:lang.all});
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</body>
+</html>

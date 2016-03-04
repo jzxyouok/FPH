@@ -1,0 +1,78 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property_groupon/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加团购</em>
+        </a>
+    </div>
+</div>
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+
+                <div class="J_tablelist table_list" data-acturi="{:U('app_fkb_customer/brokersuggest')}" style="margin-bottom:0px;">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="60" align="center">序号</th>
+                            <th align="center">ID</th>
+                            <th align="left">有效期</th>
+                            <th align="left">要求</th>
+                            <th align="left">优惠</th>
+                            <th align="center">参与人数</th>
+                            <th align="center">团购进度</th>
+                            <th align="center">状态</th>
+                            <th align="center">添加时间</th>
+                            <th width="100" align="center">{:L('operations_manage')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="list" id="val">
+                            <tr class="collapsed">
+                                <td align="center">{$p*20-20+$i}</td>
+                                <td align="center">{$val.id}</td>
+                                <td align="left">{$val.time_start|date='Y-m-d',###} - {$val.time_end|date='Y-m-d',###}</td>
+                                <td align="left">{$val.demand}人起团</td>
+                                <td align="left">{$val.preferential}</td>
+                                <td align="center">{$val.count}人</td>
+                                <td align="center">
+                                    <if condition="$val['schedule'] eq 1">
+                                        组团中
+                                    <elseif condition="$val['schedule'] eq 2"/>
+                                        组团确认中
+                                    <elseif condition="$val['schedule'] eq 3"/>
+                                        组团成功
+                                    <elseif condition="$val['schedule'] eq 4"/>
+                                        组团失败
+                                    </if>
+                                </td>
+                                <td align="center"><img src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+                                <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                                <td align="center">
+                                    <a href="{:U('property_groupon/edit',array('id'=>$id,'pid'=>$val['id']))}">编辑</a>&nbsp;|&nbsp;
+                                    <a href="{:U('property_groupon/lists',array('id'=>$id,'pid'=>$val['id']))}">查看</a>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+	

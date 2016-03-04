@@ -1,0 +1,46 @@
+/* CSS Document */
+@import url("core.css");
+/************************************************************************************************/
+html, body {
+	background-color: #676c72;
+}
+.popupFrame {
+	padding-top: 0px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	width: 450px;
+	margin: 80px auto;
+	position: relative;
+}
+.logo2 {
+	width: 178px;
+	height: 60px;
+	left: 50%;
+	margin-left: -89px;
+	margin-top: -30px;
+	position: absolute;
+	background: url(../images/logo2.jpg);
+}
+.popupFrame .register_frm {
+	background-color: #FFF;
+	height: 600px;
+	border-radius: 10px;
+}
+.popupFrame .register_frm .info_text {
+	font-size: 1.8rem;
+	color: #666;
+	padding-top: 80px;
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+.popupFrame .register_frm .info_tel {
+	font-size: 3.2rem;
+	color: #666;
+	display: block;
+	width: 100%;
+	text-align: center;
+	padding:1rem 0;
+}
+.black { display:block; text-align:center; margin-top:50px; font-size:1.4rem;}

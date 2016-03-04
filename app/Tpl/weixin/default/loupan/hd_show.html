@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/info.css">
+</head>
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+    <section class="dropdown">
+     </section>
+    <if condition="$info['cooperation'] !='' ">
+      <a href="tel:{$info['cooperation']['tel']}" class="gotolist nobg"><span>电话咨询</span></a>
+    <else /> 
+      <a href="tel:{:C('pin_kefu_tel')}" class="gotolist nobg"><span>电话咨询</span></a>
+     </if>
+     </header>
+  <section class="scroll_body">
+    <section class="PADDING_FRM">
+      <div class="info_details">
+        <h2>{$info.title}</h2>
+        <figure>
+ <if condition="$info['img'] neq ''"> <img src="{:get_fdfs_image($info['img'], '_720x540')}"> </if> </figure>
+        <ul class="info_list">
+          <li><i class="bg"></i><label>活动楼盘</label>
+          <if condition="$protitle neq ''">
+           <a href="{:U('weixin/loupan/detail',array('id'=>$info['pid'],'select_city'=>$info['select_city'],'select_name'=>$info['select_name']))}">{$protitle} </a>
+          <else />
+          暂无
+          </if>
+           </li>
+          <li><label>开始时间</label><span>{$info.time_start|date='Y.m.d H',###}:00</span></li>
+          <li><label>截止时间</label><span>{$info.time_end|date='Y.m.d H',###}:00<if condition="$info['get_time_end'] eq '1'">（已过期）</if></span></li>
+        </ul>
+        {$info.info}
+      </div>
+    </section>
+    <if condition="$info['get_time_end'] eq ''">
+      <div class="bottom_btns">
+      <section class="se_btn"><a href="javascript:;" class="BTNs J_huodong_baoming">我要报名</a></section>
+      </div>
+    
+     </if>
+	<input name="pid" id="pid" type="hidden" value="{$info.id}">
+  </section>
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

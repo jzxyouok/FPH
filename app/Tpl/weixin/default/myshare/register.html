@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css">
+<script type="text/javascript">
+var send_url = '{:U('weixin/user/send_sms')}';
+var send_code = {$send_code};
+var iTime = 59;
+var Account;
+</script>
+</head>
+
+<body>
+<div class="steps">
+  <div class="TOP_FRAME">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+    </header>
+    <section class="scroll_body noPadding">
+      <section class="PADDING_FRM">
+        <section class="invitation_frm">
+          <h1>{$info.name}邀请您的加入</h1>
+          <p>现我店与房品汇已达成战略合作，在斩获佣金的道路上我们将越走越远。而你作为我店不容小觑的中坚力量，将正式获得房品汇会员资格。赶快注册吧！</p>
+          <section class="reg">
+            <h4>你可以通过以下注册成为房品汇的会员，赶快加入我们吧</h4>
+            <div class="FORM_FRM">
+              <ul>
+                <li>
+                  <input type="tel" name="mobile" id="mobile" placeholder="您的手机号">
+                </li>
+                <li>
+                  <input type="tel" name="mobile_code" id="mobile_code" class="short" placeholder="输入验证码">
+                  <input type="button" onClick="get_mobile_code();" id='zphone' class="getcode" value="免费获取验证码">
+                </li>
+                <li>
+                  <input type="password" name="password" id="password" placeholder="您的密码">
+                </li>
+                <li>
+                  <input type="password" name="password2" id="password2" placeholder="重复密码">
+                </li>
+              </ul>
+            </div>
+			<input name="url" id="url" type="hidden" value="{$url}">
+			<input name="origin" id="origin" type="hidden" value="1">
+			<input name="code_id" id="code_id" type="hidden" value="{$info.code_id}">
+            <section class="se_btn"><a href="javascript:;" class="BTNs J_sub_register">注册</a><a href="{:U('weixin/user/login')}" class="go_login">已有账号马上登录&gt;&gt;</a></section>
+          </section>
+        </section>
+      </section>
+      <div class="invitation_bottom"></div>
+    </section>
+  </div>
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

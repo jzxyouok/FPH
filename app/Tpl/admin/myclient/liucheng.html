@@ -1,0 +1,1032 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="javascript:history.go(-1);">
+        <em>返回</em>
+        </a>
+    </div>
+</div>
+<div class="pad_lr_10">
+  <div class="col_tab">
+    <ul class="J_tabs tab_but cu_li">
+      <li class="current">{:L('article_basic')}</li>
+    </ul>
+    <div class="J_panes">
+      <div class="content_list pad_10 js_content">
+        <div  class="J_tablelist table_list sMarginBottom">
+          <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+            <thead>
+              <tr>
+                <th align="left" style="background-color:#FFFFFF;">时间</th>
+                <th align="left" style="background-color:#FFFFFF;">阶段</th>
+                <th align="left" style="background-color:#FFFFFF;">详情</th>
+                <th style="background-color:#FFFFFF;">操作人</th>
+                <th style="background-color:#FFFFFF;">操作</th>
+              </tr>
+            </thead>
+            <tbody id='newlist'>
+              <volist name="list" id="val" >
+                <tr class="collapsed">
+                  <td width="100px;" align="left">{$val.add_time|date='Y-m-d H:i',###}</td>
+                  <td width="100px;" align="left">
+                      <if condition="$val['status'] eq 1">
+                          <if condition="$val['with_look'] eq 1">
+                          带看申请
+                          <else/>
+                          委托申请
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 2">
+                          <if condition="$val['status_cid'] eq 1">
+                          邀约成功
+                           <else/>
+                          邀约失败
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 3">
+                          <if condition="$val['status_cid'] eq 1">
+                          开发商确认
+                           <else/>
+                          开发商拒绝
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 4">
+                          <if condition="$val['status_cid'] eq 1">
+                          已带看
+                           <else/>
+                          未带看
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 5">
+                          <if condition="$val['status_cid'] eq 1">
+                          支付意向金
+                          <elseif condition="$val['status_cid'] eq 2"/>
+                          支付团购费
+                          <else /> 
+                          意向终止
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 6">
+                          <if condition="$val['status_cid'] eq 1">
+                          支付定金
+                          <else /> 
+                               <if condition="$list[4]['status_cid'] eq 1">
+                                退回意向金
+                                 <else/>
+                                退回团购费
+                                </if>
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 7">
+                          签约成交
+                      </if>
+                      <if condition="$val['status'] eq 8">
+                          违约
+                      </if>
+                      <if condition="$val['status'] eq 9">
+                          无效
+                      </if>
+                  </td>
+                  <if condition="$val['status'] eq 1">
+                      <td  align="left"><if condition="$val['with_look'] eq 1"><!-- 到访时间：{$val.visit_time|date='Y-m-d',###}&nbsp;&nbsp;&nbsp; --></if>楼盘名称：{$val.title}　　客户电话：{$val.myclient_mobile} </td>
+                      <td  align="center">
+                         <if condition="$val['name'] eq ''">
+                          {$val.user_name} 
+                          <else/>
+                          {$val.name}  
+                          </if>
+                      </td>
+                  </if>
+                  <if condition="$val['status'] eq 2">
+                      <if condition="$val['status_cid'] eq 1">
+                          <td align="left"> 
+                            到访时间：{$val.visit_time|date='Y-m-d',###}
+                             <if condition="$val['info'] neq ''">
+                              &nbsp;&nbsp;备注：{$val.info}
+                            </if>
+                          </td>
+                        <else/>
+                         <td align="left">
+                          <if condition="$val['info'] neq ''">
+                             备注：{$val.info}
+                          </if>
+                        </td>
+                      </if>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 3">
+                      <td align="left">
+                        <if condition="$val['info'] neq ''">
+                           备注：{$val.info}
+                        </if>
+                      </td>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 4">
+                      <td align="left">
+                        <if condition="$val['status_cid'] eq 1">
+                            带看确认单：{$val.affirm_one}
+                        </if>
+                        <if condition="$val['info'] neq ''">
+                           备注：{$val.info}
+                        </if>
+                      </td>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 5">
+                      <if condition="$val['status_cid'] eq 0">
+                      <td align="left"> 
+                        <if condition="$val['info'] neq ''">
+                        备注：{$val.info}
+                        </if>
+                      </td>
+                      </if>
+                      <if condition="$val['status_cid'] eq 1">
+                      <td align="left">
+                        票据编号：{$val.counterfoil}
+                         金额：{$val.intention_price}元
+                         <if condition="$val['info'] neq ''">
+                          &nbsp;&nbsp;备注：{$val.info}
+                          </if>
+                       </td>
+                      </if>
+                      <if condition="$val['status_cid'] eq 2">
+                      <td align="left">
+                        票据编号：{$val.counterfoil}
+                        团购费：{$val.intention_price}
+                        <if condition="$val['info'] neq ''">
+                         &nbsp;&nbsp;备注：{$val.info}
+                        </if>
+                      </td>
+                      </if>
+                      
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 6">
+                      <if condition="$val['status_cid'] eq 0">
+                          <td align="left"> 
+                            <if condition="$val['info'] neq ''">
+                               备注：{$val.info}
+                            </if>
+                          </td>
+                       <else/>
+                      <td align="left"> 
+                         <volist name="listliu['deposit']" key='k' id="v" >
+                            金额：{$v}&nbsp;元&nbsp;&nbsp;签约时间：{$listliu['signing_time'][$k-1]|date='Y-m-d',###}
+                            <if condition="$listliu['info'][$k-1] neq ''">
+                             &nbsp;&nbsp;备注：{$listliu['info'][$k-1]}
+                            </if>
+                            <br>
+                          </volist>
+                      </td>
+                      </if>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 7">
+                      <td align="left">
+                           {$endlist['info']}
+                      </td>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 8">
+                      <td align="left">
+                           备注：{$endlist['info']}
+                      </td>
+                      <td align="center"> {$val.name} </td>
+                  </if>
+                  <if condition="$val['status'] eq 9">
+                      <td align="left">
+                           无效
+                      </td>
+                      <td align="center"> 系统 </td>
+                  </if>
+                  <td  align="center">
+                      <!--<if condition="$val['status'] neq 1">
+                      <a href="{:u('myclient/lingshi_del', array('id'=>$val['id'],'with_look'=>$val['with_look'],'roleid'=>1))}">删除</a>
+                      </if>-->
+                  </td>
+                </tr>
+              </volist>
+            </tbody>
+          </table>
+        </div>
+        <if condition="$endlist['status_cid'] neq 0">
+        <div id='tianjia' class="addNew"><a href="javascript:void(0);" onclick="addnew({$endlist['status']})">+添加跟进</a></div>
+        </if>
+        <table id='addnew' width="100%" cellspacing="0" class="table_form new"></table>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="hidden" name="mpid" id="mpid" value="{$mpid}" />
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+
+//js 调用方法
+function addnew(status)
+{
+    if(status == 2)
+    {
+        statusinfo1(status);
+        $("input[type='radio']").click(function(){
+            if($('input[name="select"]:checked').val() == 1)
+            {
+                $('#daofang').show();
+                $('.tsbeizhu').html('备注 :');
+            }
+            else
+            {
+                $('#daofang').hide();
+                $('.tsbeizhu').html('*备注 :');
+            }
+        });
+    }
+    if(status == 4)
+    {
+        statusinfo2(status);
+        $("input[type='radio']").click(function(){
+            if($('input[name="select"]:checked').val() == 1)
+            {
+                $('.tsbeizhu').html('备注 :');
+            }
+            else
+            {
+                $('.tsbeizhu').html('*备注 :');
+            }
+        });
+    }
+    if(status == 1)
+    {
+        statusinfo3(status);
+        $("input[type='radio']").click(function(){
+            if($('input[name="select"]:checked').val() == 1)
+            {
+                    $('#dan').show();
+            }
+            else
+            {
+                    $('#dan').hide();
+            }
+        });
+    }
+    if(status == 3)
+    {
+        statusinfo4(status);
+        $("input[type='radio']").click(function(){
+            if($('input[name="select"]:checked').val() == 1)
+            {
+                $('#jine').show();
+                $('#tuangou').hide();
+                $('#yixiangbeizhu').show();
+                $('#piaoju').show();
+                $('.tsbeizhu').html('备注 :');
+            }
+            else if($('input[name="select"]:checked').val() == 2)
+            {
+                $('#tuangou').show();
+                $('#jine').hide();
+                $('#yixiangbeizhu').show();
+                $('#piaoju').show();
+                $('.tsbeizhu').html('备注 :');
+            }
+            else if($('input[name="select"]:checked').val() == 0)
+            {
+                $('#yixiangbeizhu').show();
+                $('#tuangou').hide();
+                $('#jine').hide();
+                $('#piaoju').hide();
+                $('.tsbeizhu').html('*备注 :');
+            }
+            else
+            {
+                $('#yixiangbeizhu').hide();
+                $('#tuangou').hide();
+                $('#piaoju').hide();
+                $('#jine').hide();
+            }
+        });
+    }
+    if(status == 5)
+    {
+        statusinfo5(status);
+        $("input[type='radio']").click(function(){
+            if($('input[name="select"]:checked').val() == 1)
+            {
+                $('.dajine').show();
+                $('.qianyueshijian').show();
+                $('.xiadingbeizhu').show();
+                $('#addprice').show();
+                $('.tsbeizhu').html('备注 :');
+            }
+            else if($('input[name="select"]:checked').val() == 0)
+            {
+                $('.dajine').hide();
+                $('.qianyueshijian').hide();
+                $('.xiadingbeizhu').show();
+                $('#addprice').hide();
+                $('.tsbeizhu').html('*备注 :');
+            }
+            else
+            {
+                $('.dajine').hide();
+                $('.qianyueshijian').hide();
+                $('.xiadingbeizhu').hide();
+                $('#addprice').hide();
+
+            }
+        });
+    }
+    if(status == 6)
+    {
+        statusinfo6(status);
+         $("input[type='radio']").click(function(){
+            if($('input[name="select"]:checked').val() == 1)
+            {
+                $('.wuye').show();
+                $('.mianji').show();
+                $('.chengjiao').show();
+                $('.goufang').show();
+                $('.daikuan').show();
+                $('.shoufu').show();
+                $('.weikuan').show();
+                $('.kehu').show();
+                $('.beizhu').hide();
+                $('.xinchengjiao').show();
+            }
+            else if($('input[name="select"]:checked').val() == 0)
+            {
+                $('.beizhu').show();
+                $('.wuye').hide();
+                $('.mianji').hide();
+                $('.chengjiao').hide();
+                $('.goufang').hide();
+                $('.daikuan').hide();
+                $('.shoufu').hide();
+                $('.weikuan').hide();
+                $('.kehu').hide();
+                $('.xinchengjiao').hide();
+            }
+        });
+    }
+
+}
+//邀约流程
+function statusinfo1(status)
+{      
+
+    var visit_time = "{$endlist['visit_time']|date='Y-m-d',###}";
+    if(visit_time == '1970-01-01')
+    {
+        visit_time = '';
+    }
+    html ='<tr><th>带看邀约 :</th>';
+    html +='<td><label><input type="radio" checked="checked" name="select" value="1" >邀约成功</label>';
+    html +='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    html +='<label><input type="radio" name="select" value="0">邀约失败</label></td></td></tr>';
+
+    html +='<tr id="daofang"><th>*到访时间 :</th>';
+    html +='<td><input type="text" name="visit_time" id="visit_time" class="date" value="'+visit_time+'" size="12" readonly ></td></tr>';
+
+    html +='<tr><th class="tsbeizhu">备注 :</th>';
+    html +='<td><textarea id="info" style="width:67%;height:50px;resize:none;"></textarea></td></tr>';
+
+    html +='<tr><td colspan="2"><div class="mt10" style="margin-left:0">';
+    html +='<input type="submit" value="确定" onclick="queding('+status+')" class="btn btn_submit" style="margin:0 0 10px 100px;">';
+    html +='<input type="button" value="取消" onclick="quxiao('+status+')" class="btn" style="margin:0 0 10px 10px;">';
+    html +='</div></td></tr>';
+
+    $('#tianjia').remove();
+    $('#addnew').html(html);
+
+    Calendar.setup({
+      inputField : "visit_time",
+      ifFormat   : "%Y-%m-%d",
+      showsTime  : false,
+      timeFormat : "24"
+    });
+}
+
+//开放商流程
+function statusinfo2(status)
+{
+    html ='<tr><th>开发商验证 :</th>';
+    html +='<td><label><input type="radio" checked="checked" name="select" value="1" >通过</label>';
+    html +='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    html +='<label><input type="radio" name="select" value="0">拒绝</label></td></td></tr>';
+
+    html +='<tr><th class="tsbeizhu">备注 :</th>';
+    html +='<td><textarea id="info" style="width:67%;height:50px;resize:none;"></textarea></td></tr>';
+
+    html +='<tr><td colspan="2"><div class="mt10" style="margin-left:0">';
+    html +='<input type="submit" value="确定" onclick="queding('+status+')" class="btn btn_submit" style="margin:0 0 10px 100px;">';
+    html +='<input type="button" value="取消" onclick="quxiao('+status+')" class="btn" style="margin:0 0 10px 10px;">';
+    html +='</div></td></tr>';
+
+    $('#tianjia').remove();
+    $('#addnew').html(html);
+
+}
+
+//带看流程
+function statusinfo3(status)
+{
+    html ='<tr><th>是否带看 :</th>';
+    html +='<td><label><input type="radio" checked="checked" name="select" value="1" >已带看</label>';
+    html +='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    html +='<label><input type="radio" name="select" value="0">未带看</label></td></td></tr>';
+
+    html +='<tr id="dan"><th>*带看确认单:</th>';
+    html +='<td><input type="text" class="input-text" id="affirm_one"  name="affirm_one" size="30"> </td></tr>';
+    
+    html +='<tr><th>*备注 :</th>';
+    html +='<td><textarea id="info" style="width:67%;height:50px;resize:none;"></textarea></td></tr>';
+
+    html +='<tr><td colspan="2"><div class="mt10" style="margin-left:0">';
+    html +='<input type="submit" value="确定" onclick="queding('+status+')" class="btn btn_submit" style="margin:0 0 10px 100px;">';
+    html +='<input type="button" value="取消" onclick="quxiao('+status+')" class="btn" style="margin:0 0 10px 10px;">';
+    html +='</div></td></tr>';
+
+    $('#tianjia').remove();
+    $('#addnew').html(html);
+}
+
+//意向阶段
+function statusinfo4(status)
+{
+    var prefer = "{$endlist['prefer']}";
+    html ='<tr><th>意向阶段 :</th>';
+    html +='<td><label><input type="radio" checked="checked" name="select" value="1" >支付意向金</label>';
+    html +='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    html +='<label><input type="radio" name="select" value="2">支付团购费</label>';
+    html +='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    html +='<label><input type="radio" name="select" value="0">意向终止</label>';
+    html +='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    html +='<label><input type="radio" name="select" value="3">跳过</label></td></td></tr>';
+
+    html +='<tr id="jine"><th>*意向金额 :</th>';
+    html +='<td><input type="text" class="input-text" id="intention_price" size="30"> 元</td></tr>';
+    
+    
+
+    html +='<tr style="display:none" id="tuangou"><th>*团购费 :</th><td>';
+    var arr=prefer.split(',');
+    for(var i=0;i<arr.length;i++)
+    {
+        if(i == 0)
+        {
+            html += '<label><input type="radio" name="intention" checked="checked" value="'+arr[i]+'">'+arr[i]+'</label>';
+        }
+        else
+        {
+            html += '&nbsp;&nbsp;&nbsp;<label><input type="radio" name="intention" value="'+arr[i]+'">'+arr[i]+'</label>';
+        }
+    }
+    html +='</td></tr>';
+    
+    html +='<tr id="piaoju"><th>*票据编号:</th>';
+    html +='<td><input type="text" class="input-text" id="counterfoil"  name="counterfoil" size="30"> </td></tr>';
+
+    html +='<tr id="yixiangbeizhu"><th class="tsbeizhu">备注 :</th>';
+    html +='<td><textarea id="info" style="width:67%;height:50px;resize:none;"></textarea></td></tr>';
+
+    html +='<tr><td colspan="2"><div class="mt10" style="margin-left:0">';
+    html +='<input type="submit" value="确定" onclick="queding('+status+')" class="btn btn_submit" style="margin:0 0 10px 100px;">';
+    html +='<input type="button" value="取消" onclick="quxiao('+status+')" class="btn" style="margin:0 0 10px 10px;">';
+    html +='</div></td></tr>';
+
+    $('#tianjia').remove();
+    $('#addnew').html(html);
+}
+
+//下定阶段
+function statusinfo5(status)
+{
+    html ='<tr><th>是否下定 :</th>';
+    html +='<td><label><input type="radio" checked="checked" name="select" value="1" >支付定金</label>';
+    html +='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    html +='<label><input type="radio" name="select" value="0">退回意向金，团购费</label>';
+    html +='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    html +='<label><input type="radio" name="select" value="3">跳过</label></td></td></tr>';
+
+    html +='<tr class="dajine"><th>*大定金额 :</th>';
+    html +='<td><input type="text" class="input-text deposit" size="30">元</td></tr>';
+
+    html +='<tr class="qianyueshijian"><th>*签约时间 :</th>';
+    html +='<td><input type="text" name="signing_time" id="signing_time" class="date signing_time" size="12" readonly ></td></tr>';
+
+    html +='<tr class="xiadingbeizhu"><th class="tsbeizhu">备注 :</th>';
+    html +='<td><textarea class="info" style="width:67%;height:50px;resize:none;"></textarea></td></tr>';
+
+    html +='<tr id="addprice"><th></th>';
+    html +='<td><a href="javascript:void(0);" onclick="addhtml('+status+')">+添加新定金</a></td></tr>';
+
+    html +='<tr id="sub"><td colspan="2"><div class="mt10" style="margin-left:0">';
+    html +='<input type="submit" value="确定" onclick="queding('+status+')" class="btn btn_submit" style="margin:0 0 10px 100px;">';
+    html +='<input type="button" value="取消" onclick="quxiao('+status+')" class="btn" style="margin:0 0 10px 10px;">';
+    html +='</div></td></tr>';
+
+    $('#tianjia').remove();
+    $('#addnew').html(html);
+
+    Calendar.setup({
+      inputField : "signing_time",
+      ifFormat   : "%Y-%m-%d",
+      showsTime  : false,
+      timeFormat : "24"
+    });
+
+}
+var numlength = 0;
+//成交阶段
+function statusinfo6(status)
+{
+    html ='<tr><th>当前阶段 :</th>';
+    html +='<td><label><input type="radio" checked="checked" name="select" value="1" >成交</label>';
+    html +='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    html +='<label><input type="radio" name="select" value="0">违约</label>';
+
+    html +='<tr style="display:none" class="beizhu"><th class="tsbeizhu">*备注 :</th>';
+    html +='<td><textarea id="info" style="width:67%;height:50px;resize:none;"></textarea></td></tr>';
+
+    var numchengjiao = "{:count($listliu['deposit'])}";
+    var property_id = "{$property_id}";
+    var property_name = "{$property_name}";
+
+    if(numchengjiao == 0)
+        numchengjiao = numlength;
+
+    for(var i=1;i<=numchengjiao;i++)
+    {
+        
+        html +='<tr class="wuye"><th>物业类型 :</th><td>';
+        var id=property_id.split(',');
+        var name=property_name.split(',');
+        for(var j=0;j<id.length;j++)
+        {
+            if(j == 0)
+            {
+                html += '<label><input type="radio" name="cate_id'+i+'" checked="checked" value="'+id[j]+'">'+name[j]+'</label>';
+            }
+            else
+            {
+                html += '&nbsp;&nbsp;&nbsp;<label><input type="radio" name="cate_id'+i+'" value="'+id[j]+'">'+name[j]+'</label>';
+            }
+        }
+        html +='</tr></td>';
+
+        html +='<tr class="mianji"><th>*面积 :</th>';
+        html +='<td><input type="text" class="input-text measure" size="30">㎡</td></tr>';
+
+        html +='<tr class="chengjiao"><th>*成交房号 :</th>';
+        html +='<td><input type="text" class="input-text number" size="30"></td></tr>';
+
+        html +='<tr class="goufang"><th>*购房总价 :</th>';
+        html +='<td><input type="text" class="input-text total_price" size="30">元</td></tr>';
+
+        html +='<tr class="shoufu"><th>*首　付 :</th>';
+        html +='<td><input type="text" class="input-text first_price" size="30">元</td></tr>';
+
+        html +='<tr class="daikuan"><th>*贷　款 :</th>';
+        html +='<td><input type="text" class="input-text loan" size="30">元</td></tr>';
+
+        html +='<tr class="weikuan"><th>*尾　款 :</th>';
+        html +='<td><input type="text" class="input-text tail_price" size="30">元</td></tr>';
+
+        html +='<tr class="kehu"><th>*客　户 :</th>';
+        html +='<td id="chengjiaokehu'+i+'"><input type="text" class="input-text username'+i+'" size="10">&nbsp;&nbsp;&nbsp;';
+        html +='电话&nbsp;<input type="text" class="input-text mobile'+i+'" size="20">&nbsp;&nbsp;&nbsp;';
+        html +='身份证&nbsp;<input type="text" class="input-text identity'+i+'" size="30">&nbsp;&nbsp;&nbsp;';
+        html +='<a href="javascript:void(0);" onclick="addkehu('+status+','+i+')">+添加</a>';
+        html +='</td></tr>';
+    }
+    html +='<tr class="xinchengjiao" id="addprice"><th></th>';
+    html +='<td><a href="javascript:void(0);" onclick="addchengjiao('+status+','+numchengjiao+')">+添加新成交</a></td></tr>';
+
+    html +='<tr id="sub"><td colspan="2"><div class="mt10" style="margin-left:0">';
+    html +='<input type="submit" value="确定" onclick="queding('+status+','+numchengjiao+')" class="btn btn_submit" style="margin:0 0 10px 100px;">';
+    html +='<input type="button" value="取消" onclick="quxiao('+status+')" class="btn" style="margin:0 0 10px 10px;">';
+    html +='</div></td></tr>';
+
+    $('#tianjia').remove();
+    $('#addnew').html(html);
+
+}
+
+var num = 1;
+
+//添加客户
+function addkehu(status,key)
+{
+    num++;
+    html ='<div id="newkuhu'+num+'"><br>';
+    html +='<input type="text" class="input-text username'+key+'" size="10">&nbsp;&nbsp;&nbsp;';
+    html +='电话&nbsp;<input type="text" class="input-text mobile'+key+'" size="20">&nbsp;&nbsp;&nbsp;';
+    html +='身份证&nbsp;<input type="text" class="input-text identity'+key+'" size="30">&nbsp;&nbsp;&nbsp;';
+    html +='<a href="javascript:void(0);" onclick="delkehu('+num+')">删除</a>';
+    html +='</div>';
+    $('#chengjiaokehu'+key).append(html);
+}
+
+//删除客户
+function delkehu(num)
+{
+    $('#newkuhu'+num).remove();
+}
+
+//添加成交
+function addchengjiao(status,key)
+{
+    if(status == 6)
+    {
+        key = key+1;
+        $('#addprice').remove();
+        $('#sub').remove();
+
+        var property_id = "{$property_id}";
+        var property_name = "{$property_name}";
+        
+        html ='<tr class="wuye"><th>物业类型 :</th><td>';
+        var id=property_id.split(',');
+        var name=property_name.split(',');
+        for(var i=0;i<id.length;i++)
+        {
+            if(i == 0)
+            {
+                html += '<label><input type="radio" name="cate_id'+key+'" checked="checked" value="'+id[i]+'">'+name[i]+'</label>';
+            }
+            else
+            {
+                html += '&nbsp;&nbsp;&nbsp;<label><input type="radio" name="cate_id'+key+'" value="'+id[i]+'">'+name[i]+'</label>';
+            }
+        }
+        html +='</tr></td>';
+
+        html +='<tr class="mianji"><th>*面积 :</th>';
+        html +='<td><input type="text" class="input-text measure" size="30">㎡</td></tr>';
+
+        html +='<tr class="chengjiao"><th>*成交房号 :</th>';
+        html +='<td><input type="text" class="input-text number" size="30"></td></tr>';
+
+        html +='<tr class="goufang"><th>*购房总价 :</th>';
+        html +='<td><input type="text" class="input-text total_price" size="30">元</td></tr>';
+
+        html +='<tr class="shoufu"><th>*首　付 :</th>';
+        html +='<td><input type="text" class="input-text first_price" size="30">元</td></tr>';
+
+        html +='<tr class="daikuan"><th>*贷　款 :</th>';
+        html +='<td><input type="text" class="input-text loan" size="30">元</td></tr>';
+
+        html +='<tr class="weikuan"><th>*尾　款 :</th>';
+        html +='<td><input type="text" class="input-text tail_price" size="30">元</td></tr>';
+
+        html +='<tr class="kehu"><th>*客　户1 :</th>';
+        html +='<td id="chengjiaokehu'+key+'"><input type="text" class="input-text username'+key+'" size="10">&nbsp;&nbsp;&nbsp;';
+        html +='电话&nbsp;<input type="text" class="input-text mobile'+key+'" size="20">&nbsp;&nbsp;&nbsp;';
+        html +='身份证&nbsp;<input type="text" class="input-text identity'+key+'" size="30">&nbsp;&nbsp;&nbsp;';
+        html +='<a href="javascript:void(0);" onclick="addkehu('+status+','+key+')">+添加</a>';
+        html +='</td></tr>';
+
+        html +='<tr class="xinchengjiao" id="addprice"><th></th>';
+        html +='<td><a href="javascript:void(0);" onclick="addchengjiao('+status+','+key+')">+添加新成交</a></td></tr>';
+
+        html +='<tr id="sub"><td colspan="2"><div class="mt10" style="margin-left:0">';
+        html +='<input type="submit" value="确定" onclick="queding('+status+','+key+')" class="btn btn_submit" style="margin:0 0 10px 100px;">';
+        html +='<input type="button" value="取消" onclick="quxiao('+status+')" class="btn" style="margin:0 0 10px 10px;">';
+        html +='</div></td></tr>';
+
+        $('#addnew').append(html);
+    }
+
+}
+
+//添加hmtl
+function addhtml(status)
+{
+    if(status == 5)
+    {
+        num ++;
+        $('#addprice').remove();
+        $('#sub').remove();
+        html ='<tr class="dajine"><th>*大定金额 :</th>';
+        html +='<td><input type="text" class="input-text deposit" size="30">元</td></tr>';
+
+        html +='<tr class="qianyueshijian"><th>*签约时间 :</th>';
+        html +='<td><input type="text" name="signing_time" id="signing_time'+num+'" class="date signing_time" size="12" readonly ></td></tr>';
+
+        html +='<tr class="xiadingbeizhu"><th>备注 :</th>';
+        html +='<td><textarea class="info" style="width:67%;height:50px;resize:none;"></textarea></td></tr>';
+
+        html +='<tr id="addprice"><th></th>';
+        html +='<td><a href="javascript:void(0);" onclick="addhtml('+status+')">+添加新定金</a></td></tr>';
+
+        html +='<tr id="sub"><td colspan="2"><div class="mt10" style="margin-left:0">';
+        html +='<input type="submit" value="确定" onclick="queding('+status+')" class="btn btn_submit" style="margin:0 0 10px 100px;">';
+        html +='<input type="button" value="取消" onclick="quxiao('+status+')" class="btn" style="margin:0 0 10px 10px;">';
+        html +='</div></td></tr>';
+
+        $('#addnew').append(html);
+
+        Calendar.setup({
+          inputField : "signing_time"+num,
+          ifFormat   : "%Y-%m-%d",
+          showsTime  : false,
+          timeFormat : "24"
+        });
+    }
+
+}
+
+function queding(status,key)
+{
+    var url = "{:U('myclient/ajax_addnew',array('roleid'=>1))}";
+    var mpid = $('#mpid').val();
+    if(status == 2)
+    {
+        $.post(url,{mpid:mpid
+          ,select:$('input[name="select"]:checked').val()
+          ,visit_time:$('#visit_time').val()
+          ,info:$('#info').val()
+          ,status:status},
+          function(result){
+              
+              if(result.status == 0)
+              {
+                  $.pinphp.tip({content:result.msg, icon:'error'});
+              }
+              else
+              {
+                  $('#newlist').append(result.data);
+                  if(result.msg == 1)
+                  {
+                      quxiao(2);
+                  }
+                  else
+                  {
+                      $('#addnew').empty();
+                  }
+              }
+        },'json');
+    }
+    if(status == 4)
+    {
+        $.post(url,{mpid:mpid
+          ,select:$('input[name="select"]:checked').val()
+          ,info:$('#info').val()
+          ,status:status},
+          function(result){
+              if(result.status == 0)
+              {
+                  $.pinphp.tip({content:result.msg, icon:'error'});
+              }
+              else
+              {
+                  $('#newlist').append(result.data);
+                  if(result.msg == 1)
+                  {
+                      quxiao(3);
+                  }
+                  else
+                  {
+                      $('#addnew').empty();
+                  }
+              }
+        },'json');
+    }
+    if(status == 1)
+    {
+        $.post(url,{mpid:mpid
+          ,select:$('input[name="select"]:checked').val()
+          ,info:$('#info').val()
+          ,status:status
+          ,affirm_one:$('#affirm_one').val()
+          },
+          function(result){
+              
+              if(result.status == 0)
+              {
+                  $.pinphp.tip({content:result.msg, icon:'error'});
+              }
+              else
+              {
+                  $('#newlist').append(result.data);
+                  if(result.msg == 1)
+                  {
+                      quxiao(4);
+                  }
+                  else
+                  {
+                      $('#addnew').empty();
+                  }
+              }
+        },'json');
+    }
+    if(status == 3)
+    {
+        if($('input[name="select"]:checked').val() == 3)
+        {
+            addnew(5);
+        }
+        else
+        {
+            $.post(url,{mpid:mpid
+                ,select:$('input[name="select"]:checked').val()
+                ,info:$('#info').val()
+                ,intention_price:$('#intention_price').val()
+                ,intention:$('input[name="intention"]:checked').val()
+                ,status:status
+                ,counterfoil:$('#counterfoil').val()
+                },
+                function(result){
+                    if(result.status == 0)
+                    {
+                        $.pinphp.tip({content:result.msg, icon:'error'});
+                    }
+                    else
+                    {
+                        $('#newlist').append(result.data);
+                        if(result.msg == 1 || result.msg == 2)
+                        {
+                            quxiao(5);
+                        }
+                        else
+                        {
+                            $('#addnew').empty();
+                        }
+                    }
+              },'json');
+        }
+        
+    }
+    if(status == 5)
+    {
+        if($('input[name="select"]:checked').val() == 3)
+        {
+            numlength++;
+            addnew(6);
+        }
+        else
+        {
+            numlength = 0;
+            var signing_time = '';
+            $('.signing_time').each(function(k,v){
+                signing_time += $(v).val() + ',';
+                numlength++;
+            });
+
+            var deposit = '';
+            $('.deposit').each(function(k,v){
+                deposit += $(v).val() + ',';
+            });
+
+            var info = '';
+            $('.info').each(function(k,v){
+                info += $(v).val() + ',';
+            });
+            $.post(url,{mpid:mpid
+              ,select:$('input[name="select"]:checked').val()
+              ,signing_time:signing_time
+              ,deposit:deposit
+              ,info:info
+              ,status:status
+              },
+              function(result){
+                  if(result.status == 0)
+                  {
+                      $.pinphp.tip({content:result.msg, icon:'error'});
+                  }
+                  else
+                  {
+                      $('#newlist').append(result.data);
+                      if(result.msg == 1)
+                      {
+                          quxiao(6);
+                      }
+                      else
+                      {
+                          $('#addnew').empty();
+                      }
+                  }
+            },'json');
+
+        }
+       
+    }
+
+    if(status == 6)
+    {   
+        if($('input[name="select"]:checked').val() == 1)
+        {
+            var measure = '';
+            $('.measure').each(function(k,v){
+                measure += $(v).val() + ',';
+            });
+
+            var number = '';
+            $('.number').each(function(k,v){
+                number += $(v).val() + ',';
+            });
+
+            var total_price = '';
+            $('.total_price').each(function(k,v){
+                total_price += $(v).val() + ',';
+            });
+
+            var first_price = '';
+            $('.first_price').each(function(k,v){
+                first_price += $(v).val() + ',';
+            });
+
+            var loan = '';
+            $('.loan').each(function(k,v){
+                loan += $(v).val() + ',';
+            });
+
+            var tail_price = '';
+            $('.tail_price').each(function(k,v){
+                tail_price += $(v).val() + ',';
+            });
+
+            var username = '';
+            var mobile = '';
+            var identity = '';
+            var cate_id = '';
+            for(var i =1;i<=key;i++)
+            {   
+                $('.username'+i).each(function(k,v){
+                      username += $(v).val() + ',';
+                });
+
+                $('.mobile'+i).each(function(k,v){
+                      mobile += $(v).val() + ',';
+                });
+
+                $('.identity'+i).each(function(k,v){
+                      identity += $(v).val() + ',';
+                });
+
+                cate_id += $('input[name="cate_id'+i+'"]:checked').val()+',';
+                username +=  '&';
+                mobile +=  '&';
+                identity +=  '&';
+            }      
+            $.post(url,{mpid:mpid
+              ,select:$('input[name="select"]:checked').val()
+              ,measure:measure
+              ,cate_id:cate_id
+              ,number:number
+              ,total_price:total_price
+              ,first_price:first_price
+              ,loan:loan
+              ,tail_price:tail_price
+              ,username:username
+              ,mobile:mobile
+              ,identity:identity
+              ,status:status},
+              function(result){
+                 
+                  if(result.status == 0)
+                  {
+                      $.pinphp.tip({content:result.msg, icon:'error'});
+                  }
+                  else
+                  {
+                      $('#newlist').append(result.data);
+                      $('#addnew').empty();
+                  }
+            },'json');
+        }
+        else
+        {
+            $.post(url,{mpid:mpid
+              ,select:$('input[name="select"]:checked').val()
+              ,info:$('#info').val()
+              ,status:status},
+              function(result){
+                  if(result.status == 0)
+                  {
+                      $.pinphp.tip({content:result.msg, icon:'error'});
+                  }
+                  else
+                  {
+                      $('#newlist').append(result.data);
+                      $('#addnew').empty();
+                  }
+            },'json');
+        }
+        
+    }
+
+}
+
+function quxiao(status)
+{
+    html = '<div id="tianjia" class="addNew"><a href="javascript:void(0);" onclick="addnew('+status+')">+添加跟进</a></div>';
+    $('#addnew').empty();
+    $('.js_content').append(html);
+}
+
+</script>
+</body>
+</html>

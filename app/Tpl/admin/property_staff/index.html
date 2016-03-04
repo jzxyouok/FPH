@@ -1,0 +1,128 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property_staff/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加人员</em>
+        </a>
+    </div>
+</div>
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <div style="font-weight: bold">置业咨询师</div>
+                <div class="J_tablelist table_list" style="margin-bottom:0px;">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="60" align="center">序号</th>
+                            <th width="150" align="center">ID</th>
+                            <th width="300" align="left">姓名</th>
+                            <th align="left">手机</th>
+                            <!--<th align="center">状态</th>-->
+                            <th width="100" align="center">{:L('operations_manage')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="garrison" id="val">
+                            <tr class="collapsed">
+                                <td align="center">{$p*20-20+$i}</td>
+                                <td align="center">{$val.id}</td>
+                                <td align="left">{$val.username}</td>
+                                <td align="left">{$val.mobile}</td>
+                                <!--<td align="center">
+                                    <img src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" />
+                                </td>-->
+                                <td align="center">
+                                    <!--<a href="{:U('property_staff/edit',array('id'=>$id,'pid'=>$val['id']))}">编辑</a>&nbsp;|&nbsp;-->
+                                    <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('property_staff/delete', array('id'=>$val['id'],'type'=>1))}" data-msg="确定要删除?">删除</a>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--<div style="font-weight: bold;margin-top: 10px;">砍价师</div>
+                <div class="J_tablelist table_list" style="margin-bottom:0px;">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="60" align="center">序号</th>
+                            <th width="150" align="center">ID</th>
+                            <th width="300" align="left">姓名</th>
+                            <th align="left">手机</th>
+                            &lt;!&ndash;<th align="center">状态</th>&ndash;&gt;
+                            <th width="100" align="center">{:L('operations_manage')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="bargain" id="val">
+                            <tr class="collapsed">
+                                <td align="center">{$p*20-20+$i}</td>
+                                <td align="center">{$val.id}</td>
+                                <td align="left">{$val.username}</td>
+                                <td align="left">{$val.mobile}</td>
+                                &lt;!&ndash;<td align="center">
+                                    <img src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" />
+                                </td>&ndash;&gt;
+                                <td align="center">
+                                    &lt;!&ndash;<a href="{:U('property_staff/edit',array('id'=>$id,'pid'=>$val['id']))}">编辑</a>&nbsp;|&nbsp;&ndash;&gt;
+                                    <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('property_staff/delete', array('id'=>$val['id'],'type'=>2))}" data-msg="确定要删除?">删除</a>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>-->
+
+                <div style="font-weight: bold;margin-top: 10px;">案场管理</div>
+                <div class="J_tablelist table_list" style="margin-bottom:0px;">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="60" align="center">序号</th>
+                            <th width="150" align="center">ID</th>
+                            <th width="300" align="left">姓名</th>
+                            <th align="left">手机</th>
+                            <!--<th align="center">状态</th>-->
+                            <th width="100" align="center">{:L('operations_manage')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="principal" id="val">
+                            <tr class="collapsed">
+                                <td align="center">{$p*20-20+$i}</td>
+                                <td align="center">{$val.id}</td>
+                                <td align="left">{$val.username}</td>
+                                <td align="left">{$val.mobile}</td>
+                                <!--<td align="center">
+                                    <img src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" />
+                                </td>-->
+                                <td align="center">
+                                    <!--<a href="{:U('property_staff/edit',array('id'=>$id,'pid'=>$val['id']))}">编辑</a>&nbsp;|&nbsp;-->
+                                    <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('property_staff/delete', array('id'=>$val['id'],'type'=>3))}" data-msg="确定要删除?">删除</a>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+	

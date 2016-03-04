@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+<style type="text/css">
+#TOP_FRAME .scroll_body .links_list .display_list li.photo {
+	min-height: 100px;
+	padding: 0;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li a .address {
+  max-width: 60%;
+  text-align: right;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li.photo > a {
+	min-height: inherit;
+	padding: 0;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li.photo > a .title {
+	position: absolute;
+	height: 30px;
+	top: 50%;
+	margin-top: -15px;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li.photo a figure {
+	display: inline-block;
+	width: 80px;
+	height: 80px;
+	position: absolute;
+	top: 50%;
+	margin-top: -40px;
+	right: 20px;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li.photo a figure img {
+	width: inherit;
+	height: inherit;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li.photo a figure * {
+  width: inherit;
+  height: inherit;
+}
+
+</style>
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <include file="public:user_head" />
+  <section class="scroll_body hasResults">
+    <section class="links_list">
+      <section class="blocks">
+        <ul class="display_list">
+          <li class="photo"><a href="javascript:;"><span class="title">门店形象照片</span>
+            <figure>
+              <table width="100" height="100" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" id="J_upload_store" valign="middle">
+                  <span id="J_upload_store" >
+                  <img id="J_store_avatar" src="{:get_fdfs_image($stores_info['img'], '_100x70')}" onerror="this.src='./data/upload/avatar/default_100.jpg'" /></span>                </td>
+              </tr>
+            </table>
+            </figure>
+          <i></i></a></li>
+          <li><a href="javascript:;"><span class="title">门店名称</span><span class="status">{$stores_info.name}</span></a></li>
+          <li><a href="javascript:;"><span class="title">门店邀请码</span><span class="status">{$stores_info.code_id}</span></a></li>
+          <li><a href="javascript:;"><span class="title">认证状态</span><span class="status">
+            <eq name="stores_info['status']" value="1"><span class="LBL_STATUS sc_a1">已认证</span></eq>
+            <eq name="stores_info['status']" value="0"><span class="LBL_STATUS sc_a1">未认证</span></eq>
+          </span></a>
+          </li>
+          <li><a href="javascript:;"><span class="title">所属公司</span><span class="status">{$stores_info.company}</span></a></li>
+        </ul>
+      </section>
+      <section class="blocks">
+        <ul class="display_list">
+          <li><a href="javascript:;"><span class="title">城市区域板块</span><span class="status">{$stores_info.city_names}</span></a></li>
+          <li><a href="javascript:;"><span class="title">详细地址</span><span class="address">{$stores_info.address}</span></a></li>
+        </ul>
+        <input type='hidden' value="{$id}" id='store_id' name='store_id' >
+      </section>
+      <section class="blocks">
+        <ul class="display_list">
+          <li><a href="{:U('m/stores/edit_store',array('id'=>$id,'type'=>1))}"><span class="title">门店联系人</span><span class="status PR">{$stores_info.contact}</span><i></i></a></li>
+          <li><a href="{:U('m/stores/edit_store',array('id'=>$id,'type'=>2))}"><span class="title">联系人手机</span><span class="status PR">{$stores_info.contact_tel}</span><i></i></a></li>
+        </ul>
+      </section>
+    </section>
+  </section>
+</div>
+<include file="public:footer" />
+<pin:load type="js" href="__STATIC__/js/fileuploader.js,__STATIC__/js/pinphp.js" />
+<script src="__STATIC__/js/setting.js"></script>
+</body>
+</html>

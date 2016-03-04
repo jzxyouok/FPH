@@ -1,0 +1,53 @@
+<include file="public:header" />
+<!--添加用户-->
+<form id="info_form" action="{:U('member/import')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">import file :</th>
+						<td><input type="file" id="import" name="import">文件格式: .txt</td>
+					</tr>
+                    <tr>
+                        <th width="120">上传TXT文件内容示例(每行一个姓名) :</th>
+                        <td>沧海蝴蝶<br/>
+                            小米<br/>
+                            颜真卿<br/>
+                            海涛<br/>
+                            舒晴<br/>
+                            肖玲<br/>
+                            梦工厂<br/>
+                            海燕<br/>
+                            敏敏<br/>
+                            海棠花<br/>
+                            卧三生<br/>
+                            静子<br/>
+                            段玉<br/>
+                            花千骨</td>
+                    </tr>
+
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script>
+$('.J_city_select').city_select('请选择');
+
+$(function() {
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#username").formValidator({onshow:"请填写客户姓名",onfocus:"请填写客户姓名"}).inputValidator({min:2,max:15,empty:{leftempty:false,rightempty:false,emptyerror:"不能输入空格"},onerror:"请填写客户姓名,必须是中文或字母"}).regexValidator({regexp:"username",datatype:"enum",onerror:"姓名必须是中文或字母"});
+    $("#mobile").formValidator({onshow:"请填写手机号码",onfocus:"请填写手机号码"}).inputValidator({min:11,max:11,empty:{leftempty:false,rightempty:false,emptyerror:"不能输入空格"},onerror:"手机号码格式错误"}).regexValidator({regexp:"mobile",datatype:"enum",onerror:"手机号码格式错误"});
+    $("#J_city_id").formValidator({onshow:"请选择所属城市",onfocus:"请选择所属城市"}).inputValidator({min:1,onerror:"请选择所属城市"});
+});
+</script>
+</body>
+</html>

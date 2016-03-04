@@ -1,0 +1,141 @@
+<include file="public:header" />
+<style>
+.popup {position:absolute;width:193px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto; z-index:100}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<form id="info_form" action="{:u('bluetooth/edit')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+			<li><a href="{:u('bluetooth/lists', array('id'=>$info['id'], 'menuid'=>$info['menuid']))}">楼盘绑定记录</a></li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">设备ID :</th>
+						<td>{$info.deviceID}</td>
+					</tr>
+					<tr>
+						<th>绑定楼盘 :</th>
+						<td style="position:relative;">
+						<input autocomplete="off" type="text" name="title" id="title" class="input-text input_loupan_search" size="30" maxlength="30" value="{$info.title}"/>
+						<div id="J_loupan_name" style="display:none"></div>
+						<input name="pid" id="pid" type="hidden" value="{$info.pid}" />
+						</td>
+					</tr>
+					<tr>
+						<th>绑定开始时间 :</th>
+						<td><input id="time_start" class="date" type="text" size="27" name="time_start" <if condition="$info['time_start'] neq 0">value="{$info.time_start|date='Y-m-d',###}"</if> readonly></td>
+					</tr>
+					<tr>
+						<th width="120">绑定结束时间 :</th>
+						<td><input id="time_end" class="date" type="text" size="27" name="time_end" <if condition="$info['time_end'] neq 0">value="{$info.time_end|date='Y-m-d',###}"</if> readonly></td>
+					</tr>
+					<tr>
+						<th>使用状态 :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> 启用</label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> 停用</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="button" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+<input type="hidden" name="editPid" id="editPid" value="{$info.pid}" />
+<input type="hidden" name="major" id="major" value="{$info.major_id}" />
+<input type="hidden" name="minor" id="minor" value="{$info.minor}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor-min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#pid").formValidator({onshow:"",onfocus:"请选择所属楼盘"}).inputValidator({min:1,onerror:"请选择所属楼盘"});
+	$("#time_start").formValidator({onshow:"",onfocus:"请输入开始时间"}).inputValidator({min:3,onerror:"请输入开始时间"});
+    $("#time_end").formValidator({onshow:"",onfocus:"请输入结束时间"}).inputValidator({min:3,onerror:"请输入结束时间"});
+
+	//搜索楼盘
+	$('.input_loupan_search').on('input',function(){
+		var title = $.trim($('#title').val());
+		var url   = '{:U('hezuo_property/input_search',array('roleid'=>1))}';
+		if(title!=''){
+			$('#J_loupan_name').show();
+			$.post(url,{title:title},function(result){
+				if(result.status == 1){
+					$('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+					$('#J_loupan_name').html(result.data);
+					return false;
+				}else{
+					$.pinphp.tip({content:result.msg, icon:'error'});
+					return false;
+				}
+			},'json');
+		}else{
+			$('#pid').val('').blur();
+			$('#J_loupan_name').hide();
+		}
+	});
+
+	//选择
+	$('#J_loupan_name > ul > li').live('click',function(){
+		var rel = $(this).attr('rel');
+		var title = $(this).text();
+		$('#pid').val(rel).blur();
+		$('#title').val(title);
+		$('#J_loupan_name').hide();
+	});;
+
+	//提交
+	$('.btn_submit').click(function(){
+		var pid        = $('#pid').val();
+		var time_start = $('#time_start').val();
+		var time_end   = $('#time_end').val();
+		var editPid = $('#editPid').val();
+		if(pid == 0){
+			$('#pid').focus();
+			return false;
+		}
+		if(time_start == ''){
+			$('#time_start').focus();
+			return false;
+		}
+		if(time_end == ''){
+			$('#time_end').focus();
+			return false;
+		}
+		if(pid != editPid){
+			if(confirm("您已修改设备的当前绑定楼盘,之前到楼盘绑定关系将解除.")){
+				$('#info_form').submit();
+				return false;
+			}
+		}else{
+			$('#info_form').submit();
+			return false;
+		}
+	});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('giftbag/edit')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+                <table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">优惠券类型 :</th>
+                        <td>{$info.name}</td>
+                    </tr>
+                    <tr>
+                        <th>基金补贴 :</th>
+                        <td>{$info.trip} 元/人</td>
+                    </tr>
+                    <tr>
+                        <th>购房基金 :</th>
+                        <td>{$info.fund} 元/人</td>
+                    </tr>
+                    <tr>
+                        <th>相关楼盘 :</th>
+                        <td>{$info.pid}</td>
+                    </tr>
+                    <if condition="$info['tid'] eq 2">
+                    <tr>
+                        <th>邀请人数 :</th>
+                        <td><input type="text" name="invitation" id="invitation" class="input-text" size="30" maxlength="8" value="{$info.invitation}"></td>
+                    </tr>
+                    </if>
+                    <tr>
+                        <th>计划发放份数 :</th>
+                        <td><input type="text" name="planissue" id="planissue" class="input-text" size="30" maxlength="8" value="{$info.planissue}"></td>
+                    </tr>
+                    <tr>
+                        <th>开始时间 :</th>
+                        <td><input type="text" name="time_start" id="time_start" class="date" size="20" readonly="" value="{$info.time_start|date='Y-m-d',###}"></td>
+                    </tr>
+                    <tr>
+                        <th>结束时间 :</th>
+                        <td><input type="text" name="time_end" id="time_end" class="date" size="20" readonly="" value="{$info.time_end|date='Y-m-d',###}"></td>
+                    </tr>
+                    <tr>
+                        <th>状态 :</th>
+                        <td>
+                            <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info['status'] eq 1">checked="checked"</if>> 有效</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info['status'] eq 0">checked="checked"</if>> 无效</label>
+                        </td>
+                    </tr>
+                </table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+    <input type="hidden" name="tid" id="tid" value="{$info.tid}" />
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d %H:%M:%S",
+        showsTime  : true,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d %H:%M:%S",
+        showsTime  : true,
+        timeFormat : "24"
+    });
+    $(function() {
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#planissue").formValidator({onshow:"请输入计划发放数量",onfocus:"请输入计划发放数量"}).inputValidator({min:0,onerror:"请输入计划发放数量"}).regexValidator({regexp:"num6",datatype:"enum",onerror:"只能填写大于等于0的数字"});
+        $("#time_start").formValidator({onshow:"请输入开始时间",onfocus:"请输入开始时间"}).inputValidator({min:3,onerror:"请输入开始时间"});
+        $("#time_end").formValidator({onshow:"请输入结束时间",onfocus:"请输入结束时间"}).inputValidator({min:3,onerror:"请输入结束时间"});
+    });
+</script>
+</body>
+</html>

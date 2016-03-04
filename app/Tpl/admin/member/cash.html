@@ -1,0 +1,48 @@
+<include file="public:header" />
+<style>
+#brokercontain li{ padding-top: 5px; border-bottom: dashed 1px #ccc; padding-left: 5px; cursor: pointer;}
+#brokercontain li:hover{ background: #DEF7CE;}
+.pad_lr_10{margin-top:15px;}
+.table_form td label{ cursor: pointer; margin-right:8px;}
+</style>
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="member:classification" />
+		<div class="J_panes">
+			<div class="content_list pad_10">
+        <div class="J_tablelist table_list" style="margin-bottom:0px;">
+          <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+            <thead>
+              <tr>
+                  <th width="50" align="left">序号</th>
+                  <th>ID</th>
+                  <th>路费来源</th>
+                  <th>领取总额</th>
+                  <th>城市</th>
+                  <th>领取时间</th>
+             </tr>
+            </thead>
+                <tbody>
+                    <volist name="list" id="vo">
+                        <tr>
+                           <td align="center">{$key+1}</td>
+                           <td align="center">{$vo.id}</td>
+                           <td align="center">{$vo.title}</td>
+                           <td align="center">{$vo.journal_account}</td>
+                           <td align="center">{$vo.province_name} {$vo.city_name}</td>
+                           <td align="center">{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                        </tr>
+                   </volist>
+                </tbody>
+          </table>         
+        </div>
+      		<div class="btn_wrap_fixed" style="margin-bottom:10px;">
+            	  <div id="pages">{$page}</div>
+            </div>	
+			</div>
+        </div>		
+	</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

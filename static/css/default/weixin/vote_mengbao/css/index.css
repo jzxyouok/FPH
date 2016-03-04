@@ -1,0 +1,33 @@
+/*reset*/
+html,body,div,img,a{margin: 0;padding: 0;}
+html,body{width: 100%;height: 100%;}
+/*main*/
+.fl{float: left;}
+.fr{float: right;}
+.wrap{max-width: 768px;width: 100%;height: 100%;margin: auto;background: url("../img/index-bg.jpg") 0px 0px no-repeat;background-size: 100% 100%;position: relative;}
+.center{position: absolute;width: 78%;height: 42px;top: 0;bottom: 84px;left: 0;right: 0;margin: auto;}
+.bottom{position: absolute;width: 53%;height: 146px;bottom: 10px;left: 0;right: 0;margin: auto;}
+
+@media screen and (max-width: 320px){
+	.bottom{width: 60%;}
+}
+
+@media screen and (max-width: 480px){
+	.center img{width: 80px;}
+	.bottom img{width: 100px;}
+}
+
+@media screen and (max-width: 414px){
+	.bottom{height: 102px;bottom: 35px;}
+	.center img{width: 60px;}
+	.bottom img{width: 80px;}
+}
+
+@media screen and (max-height: 568px){
+	.center{bottom: 45px;}
+}
+
+@media screen and (max-height: 667px){
+	.center{bottom: 55px;}
+	.bottom{bottom: 25px;}
+}

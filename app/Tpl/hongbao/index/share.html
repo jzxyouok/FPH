@@ -1,0 +1,38 @@
+<!doctype html>
+<html class="screen">
+<head>
+    <include file="head" />
+<style>
+
+</style>
+</head>
+
+<body>
+<!--加载遮罩层-->
+<div class="gray_cover"></div>
+<div class="loading">正在加载，请稍后......</div>
+<div class="share"><img src="__STATIC__/css/default/weixin/hongbao/images/share.png"></div>
+<!--加载遮罩层-->
+<div class="wrap">
+	<header><h1><img src="__STATIC__/css/default/weixin/hongbao/images/banner_top.png" title="房品汇新老用户转运红包"></h1></header>
+    <div class="content">
+    	<div class="sharebox">
+        <h3>一大波转运红包来袭！</h3>
+        <p>关注红包、注册红包、邀请注册送红包，邀请越多，红包越多。小伙伴们，速来！</p>
+        <div><img src="__STATIC__/css/default/weixin/hongbao/images/code.png"></div>
+        <a href="#" class="btn_share">发送邀请</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	$(window).load(function(){
+		$('.gray_cover').hide();
+		$('.loading').hide();
+		});
+	$('.btn_share').click(function(e){
+		$('.gray_cover').show();
+		$('.share').show();
+	});
+</script>
+</body>
+</html>

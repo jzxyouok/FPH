@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+.body{ padding:5px;  }
+.list_house { list-style:none;  padding:0px;  }
+.list_house a { display:block; float:left; width:94%; padding:10px 3% 10px 3%; border-bottom:#CCC dashed 1px;}
+.list_house h2{ font-size:18px; margin:0px;   color:#F00; display:block;}
+.list_house p {	font-size: 14px;color:#999;  float:left; display:block; margin:10px 0px 0px 0px;  }
+.list_house img { float:left;  margin-right:10px;width:120px;height:90px;}
+.search { width:94%; height:40px; border:#CCC 1px solid; margin:3%; }
+.search img { width:24px; height:24px; margin:8px; float:left; }
+.search input{ float:left;height:34px; margin:3px; width:80%; border:none; font-size:16px; }
+
+.tab{ width:32.4%; height:40px; display:block; float:left; text-align:center; border:#CCC solid 1px; background:#F3F3F3; color:#333; }
+
+
+

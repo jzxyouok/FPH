@@ -1,0 +1,114 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a href="{:u('expenditure/index', array('id'=>$id,'menuid'=>453))}"><em>支出管理</em></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="{:u('expenditure/add', array('id'=>$id,'menuid'=>461))}" class='on'><em>添加支出</em></a>
+    </div>
+</div>
+<form id="info_form" action="" method="post" >
+<div class="pad_lr_10">
+	<div class="col_tab">
+        <include file="commission:classification" />
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+		<!--            <tr>-->
+		<!--				<th width="150">支出名称 :</th>-->
+		<!--				<td>-->
+		<!--				<select name='name'>-->
+		<!--					<option value=1>服务费</option>-->
+		<!--					<option value=2>平台服务费</option>-->
+		<!--					<option value=3>代理费</option>-->
+		<!--					<option value=4>佣金</option>-->
+		<!--				</select>-->
+		<!--			</td>-->
+		<!--			</tr>-->
+                    <tr>
+						<th>金　额 :</th>
+						<td><input type='text' name='price' id='price' class="input-text" > 剩余支出:<span id='s_price'>{$surplus}</span></td>
+						
+					</tr>
+					<tr>
+						<th>支出时间 :</th>
+						<td>
+							<input type="text" name="expenditure_time" id="expenditure_time" class="date" size="12" readonly="">
+						</td>
+					</tr>
+					<tr style='display: none;'>
+						<th>是否开票 :</th>
+						<td>
+							<label><input type="radio" name="is_invoice" class="radio_style" value="1" checked="checked"> {:L('yes')} </label>&nbsp;&nbsp;
+							<!--<label><input type="radio" name="is_invoice" class="radio_style" value="0" > {:L('no')}</label>-->
+						</td>
+						
+					</tr>
+					<tr  class='is_show'>
+						<th>发票抬头 :</th>
+						<td><input type='text' name='invoice_up' id='invoice_up' class="input-text" ></td>
+					</tr>
+					<tr  >
+						<th>发票号 :</th>
+						<td><input type='text' name='invoice_count' id='invoice_count' class="input-text" ></td>
+					</tr>
+                    <tr>
+						<th>收款方明细 :</th>
+						<td><textarea  rows="6" cols="50" name='expenditure_info' id='expenditure_info'></textarea></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="surplus"  value="{$surplus}"/>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="pid" id="pid" value="{$id}" />
+</form>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$(function() {
+	var check_price_url = "{:U('expenditure/ajax_check_price',array('id'=>$id))}";
+	Calendar.setup({
+	    inputField : "expenditure_time",
+	    ifFormat   : "%Y-%m-%d",
+	    showsTime  : false,
+	    timeFormat : "24"
+	});
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	/*$("#price").formValidator({onshow: "请输入数字", oncorrect: "输入正确" }).regexValidator({ regexp: "num", datatype: "enum", onerror: "请输入数字" }).ajaxValidator({
+	    type : "get",
+		url : check_price_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){
+            if(result.status == false){
+            	$('#s_price').html('');
+                return false;
+			}else{
+				if($('#price').val() ==0){
+					return false;
+				}
+				$('#s_price').html(result.msg);
+                return true;
+			}
+		},
+		onerror : '输入金额不能为0',
+		onwait : '正在检测'
+	});*/
+	$("#expenditure_time").formValidator({onshow: "请输入日期", oncorrect: "输入正确" }).inputValidator({min:1,onerror:"请输入日期"});
+	$("#invoice_up").formValidator({onshow: "请输入内容",oncorrect: "输入正确" }).inputValidator({min:1,onerror:"请输入内容"});
+	$("#invoice_count").formValidator({onshow: "请输入内容",oncorrect: "输入正确" }).inputValidator({min:1,onerror:"请输入内容"});
+	$("input[name='is_invoice']").click(function(){
+		if($("input[name='is_invoice']:checked").val()==0){
+			$('.is_show').hide();
+			$("#invoice_up").val('暂无开票');
+		}else{
+			$('.is_show').show();
+			$("#invoice_up").val('');
+		}
+	})
+});
+</script>
+</body>
+</html>

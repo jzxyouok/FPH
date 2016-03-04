@@ -1,0 +1,557 @@
+<include file="public:header" />
+<script type="text/javascript">
+	var PINER = {
+		root: '__ROOT__',
+	};
+</script>
+<!--添加文章-->
+<form id="info_form" action="{:U('property/add')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">楼盘名称 :</th>
+						<td>
+							<input type="text" name="title" id="title" class="input-text" size="30">
+						</td>
+					</tr>
+					<tr>
+						<th>副标题 :</th>
+						<td>
+							<input type="text" name="sub_title" id="sub_title" class="input-text" size="30">
+						</td>
+					</tr>
+					<tr>
+						<th>发布 :</th>
+						<td>
+							<label><input type="radio" name="status" id="status" value='1' class="input-text" size="30">&nbsp;是&nbsp;</label>
+							<label><input type="radio" name="status" checked="checked" id="status" value='0' class="input-text" size="30">&nbsp;否&nbsp;</label>
+						</td>
+					</tr>
+					<tr>
+						<th>推荐 :</th>
+						<td>
+							<label><input type="radio" name="suggest" id="suggest" value='1' class="input-text" size="30">&nbsp;推荐&nbsp;</label>
+							<label><input type="radio" name="suggest" id="suggest" checked="checked" value='0' class="input-text" size="30">&nbsp;不推荐&nbsp;</label>
+						</td>
+					</tr>
+					<tr>
+						<th>排序 :</th>
+						<td>
+							<input type="text" name="ordid" id="ordid" class="input-text" size="30" value="255"></td>
+					</tr>
+					<tr>
+						<th>楼盘单价 :</th>
+						<td>
+							<input type="text" name="item_price" id="item_price" class="input-text" size="30">
+							<span class="gray ml5">元/㎡</span>
+						</td>
+					</tr>
+					<tr>
+						<th>楼盘总价 :</th>
+						<td>
+							<input type="text" name="total_price" id="total_price" class="input-text" size="30">
+							<span class="gray ml5">万/套</span>
+						</td>
+					</tr>
+					<tr>
+						<th>报备保护期 :</th>
+						<td>
+							<input type="checkbox" name="protection_time_status" id="protection_time_status" value="1"/>
+							<input type="text" name="protection_time" id="protection_time" class="input-text" size="27">
+							<span class="gray ml5">天</span>
+						</td>
+					</tr>
+					<tr>
+						<th>带看保护期 :</th>
+						<td>
+							<input type="checkbox" name="look_time_status" id="look_time_status" value="1"/>
+							<input type="text" name="look_time" id="look_time" class="input-text" size="27">
+							<span class="gray ml5">天</span>
+						</td>
+					</tr>
+					<tr>
+						<th>物业类型 :</th>
+						<td>
+							<volist name="catelist['property_type']" id="v">
+								<label><input type="checkbox" name="property_type[]" id="property_type_{$v['id']}" value="{$v['id']}" class="input-text" size="30">&nbsp;{$v['name']}&nbsp;&nbsp;</label>
+							</volist>
+							<div id="property_type_2Tip" ></div>
+						</td>
+					</tr>
+					<tr>
+						<th>楼盘特点 :</th>
+						<td>
+							<volist name="catelist['property_feature']" id="v">
+								<label><input type="checkbox" name="property_feature[]" id="property_feature" value="{$v['id']}" class="input-text" size="30">&nbsp;{$v['name']}&nbsp;&nbsp;</label>
+							</volist>
+						</td>
+					</tr>
+					<tr>
+						<th>开发商 :</th>
+						<td>
+							<input type="text" name="business" id="business"  class="input-text" size="30">
+						</td>
+					</tr>
+					<tr>
+					 	<th width="120">品牌关联 :</th>
+					 	<td style="position:relative;">
+					 		<input type="text" id="pin_business" class="input-text"  autocomplete="off" size="30">
+					 		<input type="hidden" id="pin_id" name="pin_id"/>
+					 		<a href="javascript:;" class="J_pinpai_add">添加品牌</a>
+					 		<div id="J_pinpai_name"></div>
+					 	</td>
+					</tr>
+					<tr>
+						<th width="120">所属区域 :</th>
+						<td id="select_area" class="select_area"><select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected=""></select>
+							<input type="hidden" name="city_id" id="J_city_id" value="" />
+							<input type="hidden" id="J_city_buffer" value="">
+						</td>
+					</tr>
+					<tr>
+						<th>详细地址 :</th>
+						<td><input type="text" name="address" id="address" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>地图坐标 :</th>
+						<td><input type="text" name="latitude" id="latitude" class="input-text" size="30" readonly="">
+						<a id="J_latitude" href="javascript:void(0);">选择经纬度</a>
+						</td>
+					</tr>
+					<tr>
+						<th>地址图片 :</th>
+						<td>
+							<input name="map_img" id="map_img" type="hidden" />
+							<div class="img_border" id="img_data"></div>
+							<div id="J_map_img" class="upload_btn"><span>{:L('upload')}</span></div>
+							<span class="gray ml10">图片最佳尺寸为300*130px</span>
+						</td>
+					</tr>
+					<tr>
+						<th>咨询电话 :</th>
+						<td>
+							<input type="text" name="tel" id="tel"  value="4008869058" class="input-text" size="30">
+						</td>
+					</tr>
+					<tr>
+						<th>项目描述 :</th>
+						<td>
+							<textarea name="info" id="info" style="width:68%;height:250px;"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>客户保护 :</th>
+						<td>
+							<label><input type="radio" name="protection" id="protection" checked="checked"  value='1' class="input-text" size="30">&nbsp;显示全号&nbsp;</label>
+							<label><input type="radio" name="protection" id="protection" value='2' class="input-text" size="30">&nbsp;前三后四&nbsp;</label>
+						</td>
+					</tr>
+					<tr>
+						<th>列表佣金 :</th>
+						<td>
+							<font color="#999999">每套&nbsp;</font><input type="text" name="list_price" id="list_price"  class="input-text" size="30"><font color="#999999">&nbsp;元起</font>
+						</td>
+					</tr>
+					<tr>
+						<th>结佣细则 :</th>
+						<td>
+							<textarea name="commission_info" id="commission_info" style="width:68%;height:100px;">客户支付首付款      日内结佣       ，客户尾款到账     日内结佣        。</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>报备规则 :</th>
+						<td>
+							<textarea name="report_info" id="report_info" style="width:68%;height:100px;">1、客户需在抵达案场前     小时内报备，否则视为无效带看；
+2、自报备之时起      小时内，客户需带抵案场，过时需要重新报备；
+3、自签订《带看确认单》之日起      天之内成交，均可结佣；
+4、报备客户需要全手机号码报备</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>最低首付 :</th>
+						<td>
+							<input type="text" name="payment" id="payment"  class="input-text" size="30"><font color="#999999">&nbsp;万</font>
+						</td>
+					</tr>
+					<tr>
+						<th>销售情况 :</th>
+						<td>
+							<select id="sales" name="sales">
+								<option value='0'>未知</option>
+								<option value='1'>在售</option>
+								<option value='2'>待售</option>
+								<option value='3'>售罄</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+					 	<th>开盘时间 :</th>
+					 	<td><input type="text" name="open_time" id="open_time" class="date" size="12" readonly=""></td>
+					</tr>
+					<tr>
+					 	<th>入住时间 :</th>
+					 	<td><input type="text" name="check_time" id="check_time" class="date" size="12" readonly=""></td>
+					</tr>
+					<tr>
+						<th>楼盘优惠 :</th>
+						<td>
+							<input type="text" name="prefer" id="prefer"  class="input-text" size="30">
+						</td>
+					</tr>
+					<tr>
+						<th>优惠开始时间 :</th>
+						<td>
+							<input type="text" name="preferential_time_start" id="preferential_time_start"  class="date" size="12" readonly="">
+						</td>
+					</tr>
+					<tr>
+						<th>优惠结束时间 :</th>
+						<td>
+							<input type="text" name="preferential_time_end" id="preferential_time_end"  class="date" size="12" readonly="">
+						</td>
+					</tr>
+					<tr>
+						<th>售楼地址 :</th>
+						<td>
+							<input type="text" name="sales_address" id="sales_address"  class="input-text" size="30">
+						</td>
+					</tr>
+					<tr>
+						<th>项目卖点 :</th>
+						<td>
+							<textarea name="feature" id="feature" style="width:68%;height:250px;"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>建筑类型 :</th>
+						<td>
+							<volist name="catelist['building_type']" id="v">
+								<label><input type="checkbox" name="building_type[]" id="building_type" value="{$v['id']}" class="input-text" size="30">
+								&nbsp;{$v['name']}&nbsp;&nbsp;</label>
+							</volist>
+						</td>
+					</tr>
+					<tr>
+						<th>产权年限 :</th>
+						<td>
+							<select id="property_age" name="property_age">
+								<option value='0'>未知</option>
+								<option value='1'>70年产权</option>
+								<option value='2'>50年产权</option>
+								<option value='3'>40年产权</option>
+								<option value='4'>永久产权</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>装修情况 :</th>
+						<td>
+							<volist name="catelist['decoration']" id="v">
+								<label><input type="checkbox" name="decoration[]" id="decoration" value="{$v['id']}" class="input-text" size="30">
+								&nbsp;{$v['name']}&nbsp;&nbsp;</label>
+							</volist>
+						</td>
+					</tr>
+					<tr>
+					 	<th>容积率 :</th>
+					 	<td><input type="text" name="volume_rate" id="volume_rate" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+					 	<th>绿化率 :</th>
+					 	<td><input type="text" name="green_rate" id="green_rate" class="input-text" size="30"><font color="#999999">&nbsp;%</font></td>
+					</tr>
+					<tr>
+					 	<th>规划户数 :</th>
+					 	<td><input type="text" name="gouseholds" id="gouseholds" class="input-text" size="30"><font color="#999999">&nbsp;户</font></td>
+					</tr>
+					<tr>
+					 	<th>楼层状况 :</th>
+					 	<td><input type="text" name="floors" id="floors" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>工程进度 :</th>
+						<td>
+							<select id="progress" name="progress">
+								<option value='1'>在建中</option>
+								<option value='2'>已竣工</option>
+								<option value='3'>未动工</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+					 	<th>竣工时间 :</th>
+					 	<td><input type="text" name="comp_time" id="comp_time" class="date" size="12" readonly=""></td>
+					</tr>
+					<tr>
+					 	<th>物业费 :</th>
+					 	<td><input type="text" name="property_costs" id="property_costs" class="input-text" size="30"><font color="#999999">&nbsp;元/㎡/月</font></td>
+					</tr>
+					<tr>
+					 	<th>物业公司 :</th>
+					 	<td><input type="text" name="propert_company" id="propert_company" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+					 	<th>车位数 :</th>
+					 	<td><input type="text" name="parking" id="parking" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+					 	<th>车位比 :</th>
+					 	<td><input type="text" name="parking_ratio" id="parking_ratio" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>车位信息 :</th>
+						<td><input type="text" name="parking_info" id="parking_info" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>占地面积 :</th>
+						<td>
+							<input type="text" name="covers_area" id="covers_area" class="input-text" size="30">
+							<span class="gray ml5">㎡</span>
+						</td>
+					</tr>
+					<tr>
+						<th>建筑面积 :</th>
+						<td>
+							<input type="text" name="construction_area" id="construction_area" class="input-text" size="30">
+							<span class="gray ml5">㎡</span>
+						</td>
+					</tr>
+					<tr>
+						<th>楼盘动态 :</th>
+						<td>
+							<textarea name="news" id="news" style="width:68%;height:100px;"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>交通状况 :</th>
+						<td>
+							<textarea name="traffic_condition" id="traffic_condition" style="width:68%;height:100px;"></textarea>
+						</td>
+					</tr>
+					<tr>
+					 	<th>关联地铁 :</th>
+					 	<td>
+					 		<div><a href="javascript:;" class="J_showdialog" data-uri="{:u('property/metro',array('roleid'=>1))}" data-title="周边地图" data-id="edit" data-width="700" data-height="">添加关联</a></div>
+					 		<input type="hidden" id="hidden_metro" name="metro">
+							<textarea readonly="readonly" id="metro" style="width:67%;height:90px;resize:none;" ></textarea>
+					 	</td>
+					</tr>
+					<tr>
+						<th>项目配套 :</th>
+						<td>
+							<textarea name="project" id="project" style="width:68%;height:100px;"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>周边公交 :</th>
+						<td>
+							<textarea name="bus" id="bus" style="width:68%;height:100px;"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>高速高架 :</th>
+						<td>
+							<textarea name="elevated" id="elevated" style="width:68%;height:100px;"></textarea>
+						</td>
+					</tr>
+
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="author" value="{$author}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<script src="__STATIC__/css/admin/js/comment.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$('.J_city_select').city_select('请选择');
+
+Calendar.setup({
+    inputField : "open_time",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "check_time",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "comp_time",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+	inputField : "preferential_time_start",
+	ifFormat   : "%Y-%m-%d",
+	showsTime  : false,
+	timeFormat : "24"
+});
+Calendar.setup({
+	inputField : "preferential_time_end",
+	ifFormat   : "%Y-%m-%d",
+	showsTime  : false,
+	timeFormat : "24"
+});
+
+
+
+$(function() {
+	$('#J_latitude').click(function(){
+		var city_id = $('#J_city_id').val();
+		var address = $('#address').val();
+		if(city_id==0 || address==''){
+			$.pinphp.tip({content:'请选择所属区域和详细地址', icon:'error'});
+			return false;
+		}
+		var delimg_url = "{:U('property/latitude',array('roleid'=>1,'city_id'=>'"+city_id+"','address'=>'"+address+"'))}";
+		var i = $.layer({
+			type:2,
+			area: ['950px', '636px'],
+			title: '选择经纬度',
+			//closeBtn: false,//是否显示关闭按钮
+			iframe:{src: delimg_url},
+			moveOut: true,
+			fix: false,
+			offset : ['100px','']
+		});
+	});
+
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#title").formValidator({onshow:lang.please_input+"楼盘标题",onfocus:lang.please_input+"楼盘标题",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,onerror:"请认真输入楼盘标题"});
+
+	$("#item_price").formValidator({empty:true,onshow:"请输入楼盘单价，可以不输入"}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+	$("#total_price").formValidator({empty:true,onshow:"请输入楼盘总价，可以不输入"}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+
+	//绑定checkbox与input
+	bindCheck({
+		checkId:'#protection_time_status',
+		validInputId:'#protection_time',
+		checkValid:function(){
+			$(this).formValidator({onshow:"请输入保护期，可以不输入"}).inputValidator({min:1,onerror:"只能填写大于或等于０的整数"}).regexValidator({regexp:"num7",datatype:"enum",onerror:"只能填写大于或等于０的整数"});
+		},
+		passValid:function(){
+			$(this).formValidator({empty:true,onshow:""}).inputValidator({min:1,onerror:"只能填写大于或等于０的整数"}).regexValidator({regexp:"num7",datatype:"enum",onerror:"只能填写大于或等于０的整数"});
+		}
+	});
+
+	//绑定checkbox与input
+	bindCheck({
+		checkId:'#look_time_status',
+		validInputId:'#look_time',
+		checkValid:function(){
+			$(this).formValidator({onshow:"请输入保护期，可以不输入"}).inputValidator({min:1,onerror:"只能填写大于或等于０的整数"}).regexValidator({regexp:"num7",datatype:"enum",onerror:"只能填写大于或等于０的整数"});
+		},
+		passValid:function(){
+			$(this).formValidator({empty:true,onshow:""}).inputValidator({min:1,onerror:"只能填写大于或等于０的整数"}).regexValidator({regexp:"num7",datatype:"enum",onerror:"只能填写大于或等于０的整数"});
+		}
+	});
+
+
+	$(":checkbox[name='property_type[]']").formValidator({tipID:"property_type_2Tip",onshow:"请选择物业类型",onfocus:"请选择物业类型",oncorrect:"输入正确"}).inputValidator({min:1,onerror:"请选择物业类型"});
+	$("#business").formValidator({onshow:lang.please_input+"开发商",onfocus:lang.please_input+"开发商",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:1,onerror:"请输入开发商"});
+
+	$("#J_city_buffer").formValidator({onshow:"请选择所属区域",onfocus:"请选择所属区域"}).inputValidator({min:1,onerror:"请选择所属区域"}).regexValidator({regexp:"gtTwo",datatype:"enum",onerror:"请选择所属区域"});
+	$(document).click(function(){
+		$("#J_city_buffer").blur();
+	});
+	$("#address").formValidator({onshow:lang.please_input+"详细地址",onfocus:lang.please_input+"详细地址"}).inputValidator({min:3,onerror:"请输入详细地址"});
+	$("#latitude").formValidator({onshow:lang.please_input+"经纬度",onfocus:lang.please_input+"经纬度"}).inputValidator({min:3,onerror:"请输入经纬度"});
+
+	$("#payment").formValidator({empty:true,onshow:"请输入最低价格，可以不输入"}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+
+	$("#green_rate").formValidator({empty:true,onshow:"请输入绿化率，可以不输入"}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"price2",datatype:"enum",onerror:"只能填写数字"});
+
+	$("#gouseholds").formValidator({empty:true,onshow:"请输入规划户数，可以不输入"}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+
+	$("#property_costs").formValidator({empty:true,onshow:"请输入物业费，可以不输入"}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"price2",datatype:"enum",onerror:"只能填写数字"});
+
+	$("#parking").formValidator({empty:true,onshow:"请输入车位数，可以不输入"}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+
+	$("#parking_ratio").formValidator({empty:true,onshow:""}).inputValidator({min:1,onerror:"请输入车位比"});
+
+	$("#info").formValidator({onshow:lang.please_input+"项目描述",onfocus:lang.please_input+"项目描述",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,onerror:"请认真输入项目描述"});
+
+	$("#feature").formValidator({onshow:lang.please_input+"项目卖点",onfocus:lang.please_input+"项目卖点",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,onerror:"请认真输入项目卖点"});
+
+	$("#commission_info").formValidator({onshow:lang.please_input+"佣金细则",onfocus:lang.please_input+"佣金细则",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,onerror:"请认真输入佣金细则"});
+
+	$("#report_info").formValidator({onshow:lang.please_input+"报备规则",onfocus:lang.please_input+"报备规则",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,onerror:"请认真输入报备规则"});
+
+
+	//上传图片 logo
+	var img_uploader = new qq.FileUploaderBasic({
+		allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+		button: document.getElementById('J_map_img'),
+		multiple: false,
+		action: "{:U('property/ajax_upload_img',array('roleid'=>1))}",
+		inputName: 'img',
+		forceMultipart: true, //用$_FILES
+		messages: {
+			typeError: lang.upload_type_error,
+			sizeError: lang.upload_size_error,
+			minSizeError: lang.upload_minsize_error,
+			emptyError: lang.upload_empty_error,
+			noFilesError: lang.upload_nofile_error,
+			onLeave: lang.upload_onLeave
+		},
+		showMessage: function(message){
+			$.pinphp.tip({content:message, icon:'error'});
+		},
+		onSubmit: function(id, fileName){
+			$('#J_map_img').addClass('btn_disabled').find('span').text(lang.uploading);
+		},
+		onComplete: function(id, fileName, result){
+			$('#J_map_img').removeClass('btn_disabled').find('span').text(lang.upload);
+			if(result.status == '1'){
+				$('#J_map_img').hide();
+				$('#map_img').val(result.data);
+				$('#map_img').blur();
+				$('#img_data').html('<ul class="J_img"><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" rel="J_map_img" class="del_img">删除</a></li></ul>');
+			} else {
+				$.pinphp.tip({content:result.msg, icon:'error'});
+			}
+		}
+	});
+
+	//删除图片
+	$('.del_img').live('click',function(){
+		var img_path = $(this).parents('.img_border').prev('input').val();
+		var delimg_url = "{:U('property/del_map_img',array('roleid'=>1))}";
+		var th = $(this);
+		$.post(delimg_url,{img_path:img_path},function(result){
+			if(result.status == 1){
+				var parentUl = th.parents('ul');
+				parentUl.prev().remove();
+				parentUl.remove();
+				$('#'+th.attr('rel')).show();
+				$('#'+parentUl.attr('class')).val('');
+				return false;
+			} else {
+				$.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+			}
+		},'json');
+	});
+
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<style>
+.input_loupan_search {height:25px;line-height:25px;width:240px;}
+.popup {position:absolute;width:245px;left:8px;top:38px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+.tiaodian_inp{ width:70px; height:19px; line-height:19px;border: 1px solid #d0d0d0;}
+</style>
+<form id="info_form" action="{:U('hezuo_yongjin/add')}" method="post">
+<div class="dialog_content">
+<table width="100%" cellspacing="0" class="table_form">
+	<tr>
+		<th>楼盘名称 :</th>
+		<td style="position:relative;"><input type="text" name="title" id="title" class="input-text input_loupan_search"><div id="pidTip" class="onShow">请选择楼盘名称</div>
+		<div id="J_loupan_name"></div>
+		</td>
+	</tr>
+	<tr>
+		<th>跳点模式 :</th>
+		<td>
+			  <label><input type="radio" name="tiaodian" value="1" checked="checked" />   全盘跳点</label>&nbsp;&nbsp;
+			  <label><input type="radio" name="tiaodian" value="2" /> 单产品跳点</label>&nbsp;&nbsp;
+			  <label><input type="radio" name="tiaodian" value="3" /> 无跳点</label>
+		</td>
+	</tr>
+	<tr class="tiaodian_ms">
+		<th>跳点模式 :</th>
+		<td>
+			  <div style="padding-bottom:10px;">超过<input id="set_num" name="set_num" class="tiaodian_inp" type="text"/>套&nbsp;&nbsp;跳点<input id="tiaodian_price" name="tiaodian_price" class="tiaodian_inp" type="text"/>元</div>
+			  超过<input id="set_num2" name="set_num2" class="tiaodian_inp" type="text"/>套&nbsp;&nbsp;跳点<input id="tiaodian_price2" name="tiaodian_price2" class="tiaodian_inp" type="text"/>元
+		</td>
+	</tr>
+</table>
+</div>
+<input name="pid" id="pid" type="text" value="" style="width:0px;height:0px;border:0px;" />
+</form>
+<script>
+var check_name_url = "{:U('hezuo_yongjin/ajax_check_name')}";
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#pid").formValidator({onshow:"请选择楼盘名称",onfocus:"请选择楼盘名称"}).inputValidator({min:1,onerror:"请选择楼盘名称"}).ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '该楼盘已经存在',
+		onwait : '正在检测'
+	});
+	$("#set_num,#tiaodian_price").formValidator({tipid:"set_numTip",onshow:"请填写跳点模式",onfocus:"跳点模式必须成组填写",oncorrect:"输入正确！"}).functionValidator({fun:allEmpty});
+	function allEmpty(val,elem){
+		var tiaodian = $('input[name="tiaodian"]:checked').val();
+		if(tiaodian==1){
+			return ($("#set_num").val()=="" || $("#tiaodian_price").val()=="")?'跳点模式必须成组填写！':true; 
+		}
+	}
+	$("#set_num2,#tiaodian_price2").formValidator({empty:true,tipid:"set_num2Tip",onshow:"可以为空",onfocus:"跳点模式必须成组填写",oncorrect:"输入正确！"}).functionValidator({fun:allEmpty2});
+	function allEmpty2(val,elem){ 
+		return ($("#set_num2").val()!="" && $("#tiaodian_price2").val()=="" || $("#set_num2").val()=="" && $("#tiaodian_price2").val()!="")?'跳点模式必须成组填写！':true;
+	}
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	
+	//搜索楼盘
+	$('.input_loupan_search').keyup(function(){
+		var title = $.trim($('#title').val());
+        var url   = '{:U('hezuo_yongjin/input_search',array('roleid'=>1))}';
+	    if(title!=''){
+			$('#J_loupan_name').show();
+	    	$.post(url,{title:title},function(result){
+				if(result.status == 1){
+					$('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+					$('#J_loupan_name').html(result.data);
+					return false;
+				}else{
+					$.pinphp.tip({content:result.msg, icon:'error'});
+					return false;
+				}
+			},'json');
+	    }else{
+			$('#pid').val('').blur();
+			$('#J_loupan_name').hide();
+		}
+	});
+	
+	//选择
+	$('#J_loupan_name > ul > li').live('click',function(){
+		var rel = $(this).attr('rel');
+		var title = $(this).text();
+		$('#pid').val(rel).blur();
+		$('#title').val(title);
+		$('#J_loupan_name').hide();
+	});
+	
+	//选择跳点方式
+	$('input[name="tiaodian"]').click(function(){
+		var tiaodian = $('input[name="tiaodian"]:checked').val();
+		if(tiaodian==1){
+			$('.tiaodian_ms').show();
+		}else{
+			$('.tiaodian_ms').hide();
+		}
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+});
+</script>

@@ -1,0 +1,194 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+/************************************************************************************************/
+/*楼盘列表*/
+.TOP_FRAME .scroll_body.noPadding {
+	/*padding-top: 50px;*/
+}
+.TOP_FRAME .scroll_body.hasResults {
+	/*padding-top: 98px;*/
+}
+.TOP_FRAME .scroll_body .premises_list {
+	padding: 0 10px 10px 10px;
+	background-color:#FFF;
+}
+.TOP_FRAME .scroll_body .premises_list li {
+	width: 100%;
+	min-height: 100px;
+	border-bottom: solid 1px #eeeeee;
+	position: relative;
+}
+.TOP_FRAME .scroll_body .premises_list li:last-child {
+	border: none;
+}
+.TOP_FRAME .scroll_body .premises_list li a {
+	display: block;
+	width: inherit;
+	min-height: inherit;
+	position: relative;
+}
+.TOP_FRAME .scroll_body .premises_list li a figure {
+	height: 74px;
+	width: 100px;
+	margin: 0;
+	position: absolute;
+	background: #eeeeee;
+	top: 50%;
+	margin-top: -37px;
+}
+.TOP_FRAME .scroll_body .premises_list li a figure img {
+	width: inherit;
+	height: inherit;
+}
+.TOP_FRAME .scroll_body .premises_list li a figure i {
+	height: 44px;
+	width: 44px;
+	background: url(../images_4_0/coop_tip.png) no-repeat;
+	background-size: 44px 44px;
+	position: absolute;
+}
+.TOP_FRAME .scroll_body .premises_list li a .detail {
+	height: 74px;
+	position: absolute;
+	padding-left: 110px;
+	/*padding-right: 60px;*/
+	top: 50%;
+	margin-top: -37px;
+	z-index: 997;
+}
+.TOP_FRAME .scroll_body .premises_list li a .detail h3 {
+	color: #333333;
+	font-size: 1.6rem;
+	font-weight: bold;
+}
+.TOP_FRAME .scroll_body .premises_list li a .region {
+	color: #999;
+	display: block;
+	padding: 8px 0;
+	font-size: 1.4rem;
+}
+.TOP_FRAME .scroll_body .premises_list li a .price {
+	color: #666;
+	font-size: 1.4rem;
+}
+.TOP_FRAME .scroll_body .premises_list li a .status {
+	position: absolute;
+	right: 0;
+	max-width: 80px;
+	height: 74px;
+	top: 50%;
+	margin-top: -37px;
+	z-index: 997;
+}
+.TOP_FRAME .scroll_body .premises_list li a .links {
+	position: absolute;
+	right: 0;
+	width: 65px;
+	height: 30px;
+	padding: 20px 0;
+	top: 50%;
+	margin-top: -30px;
+	z-index: 997;
+}
+.TOP_FRAME .scroll_body .premises_list li a .links i.bg {
+	display: inline-block;
+	margin-top: 4px;
+	position: absolute;
+	right: 0;
+	width: 17px;
+	height: 17px;
+	background: url(../images_4_0/arrow2.png) no-repeat -17px -17px;
+}
+.TOP_FRAME .scroll_body .premises_list li a .links .LBL_STATUS {
+	float: left;
+}
+.TOP_FRAME .scroll_body .premises_list li a .status .PREMISES_STATUS {
+	margin-top: 4px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	float: right;
+}
+.TOP_FRAME .scroll_body .premises_list li a .status .deposit {
+	display: block;
+	color: #fbad25;
+	width: 100%;
+	clear:both;
+}
+.TOP_FRAME .scroll_body .premises_list li a .status .unit {
+	color: #999999;
+	font-size: 0.9em;
+	width: 100%;
+	display: block;
+	text-align: right;
+}
+.TOP_FRAME .scroll_body .premises_list li a .status .no_brokerage {
+	position: absolute;
+	height: 40px;
+	width: 80px;
+	display: block;
+	line-height: 40px;
+	top: 50%;
+	margin-top: -20px;
+	right: 0;
+	text-align: right;
+	color: #cccccc;
+}
+/************************************************************************************************/
+/*楼盘搜索*/
+.TOP_FRAME .scroll_body.noPadding .filters {
+	margin-top: 13px;
+}
+.TOP_FRAME .scroll_body .PADDING_FRM .info_list li:last-child {
+	border: none;
+}
+/************************************************************************************************/
+/*楼盘详情*/
+.TOP_FRAME .scroll_body .top_sample {
+	width: 100%;
+	position: relative;
+}
+.TOP_FRAME .scroll_body .top_sample a {
+	width: inherit;
+	display: block;
+}
+.TOP_FRAME .scroll_body .top_sample a img {
+	width:100%;
+	height:220px;
+}
+.TOP_FRAME .scroll_body .top_sample .lbl_status {
+	position: absolute;
+	bottom: 15px;
+	padding: 0 10px;
+}
+.TOP_FRAME .scroll_body .top_sample .lbl_status label {
+	border: 1px solid #FFF;
+	color: #FFF;
+	background-color: #CCC;
+	display: inline-block;
+	line-height: 1;
+	padding: 3px 8px;
+	border-radius: 3px;
+	font-size: 1.2rem;
+}
+.TOP_FRAME .scroll_body .top_sample .lbl_status label.green {
+	background-color: #22ac38;
+}
+.TOP_FRAME .scroll_body .top_sample .lbl_status label.red {
+	background-color: #ef2d48;
+}
+.TOP_FRAME .scroll_body .top_sample .lbl_status label.orange {
+	background-color: #f39800;
+}
+.TOP_FRAME .scroll_body.noPadding .PADDING_FRM .maps {
+	width: 100%;
+	height: 200px;
+	margin: 15px 0;
+	background: #eaeaea;
+	overflow: hidden;
+}
+.TOP_FRAME .scroll_body.noPadding .PADDING_FRM p {
+	color: #666666;
+	line-height: 22px;
+	padding:10px 0;
+}

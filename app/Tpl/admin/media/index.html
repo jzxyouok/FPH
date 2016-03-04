@@ -1,0 +1,93 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="media" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                {:L('publish_time')}：
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}">
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}">
+                &nbsp;&nbsp;渠道名称 :
+                <input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('media/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="30">序号</th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left">渠道名称</th>
+                <th align="left">联系人</th>
+                <th align="left">联系电话</th>
+                <th align="left">覆盖城市</th>
+				<th align="left">渠道类型</th>
+				<th width=200><span data-tdtype="order_by" data-field="add_time">{:L('publish_time')}</span></th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+                <td align="left">
+					<span data-tdtype="edit" data-field="name" data-id="{$val.id}" class="tdedit" style="color:{$val.colors};">{$val.name}</span>
+					<notempty name="val['img']">
+						<span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:get_fdfs_image($val['img'], '')}"><img src="__STATIC__/images/filetype/image_s.gif" /></span>
+					</notempty>
+				</td>
+                <td align="left">{$val.contact}</td>
+                <td align="left">{$val.tel}</td>
+                <td align="left">{$city_name_list[$val[id]]|msubstr=0,30,'utf-8',true}</td>
+                <td align="left">{$media_name_list[$val[id]]} - {$media_name_list_b[$val[id]]}</td>
+                <td align="center">{$val.add_time|date='Y-m-d',###}</td>
+                <td align="center"><a href="{:u('media/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">{:L('edit')}</a> | <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('media/delete', array('id'=>$val['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a></td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('media/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</body>
+</html>

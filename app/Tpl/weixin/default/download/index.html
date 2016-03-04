@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{$setTitle}</title>
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/download.css" rel="stylesheet" />
+<script src="__STATIC__/js/jquery/jquery-1.7.2.min.js"></script>
+<script>
+function is_weixn(){
+    var ua = navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i)=="micromessenger") {
+    	$('.tips').show();
+		$(".bgdiv").css({ display: "block", height: $(document).height() });
+        return false;
+    } else {
+        return false;
+    }
+}
+$(function(){
+	is_weixn();
+});
+</script>
+<style type="text/css">
+.bgdiv{background-color:#000000;position:absolute;z-index:100;left:0;top:0;display:none;width:100%;height:100%;opacity:0.5;filter:alpha(opacity=50);-moz-opacity: 0.5;}
+</style>
+</head>
+
+<body>
+<div class="bgdiv"></div>
+<div class="tips" style="display:none">
+<p>微信扫描后无法下载，请点击<span>右上角</span>菜单</p>
+<p>并选择在<span>浏览器</span>中或在<span>Safari</span>中打开</p>
+</div>
+<h1><img src="__STATIC__/css/default/weixin/images/downpage/bg_font.png" alt="房品汇,中国第一房地产经纪服务平台" width="100%"></h1>
+<div class="btns">
+<a href="{$ios.url}"><img src="__STATIC__/css/default/weixin/images/downpage/btn_ios.png"></a>
+<a href="{$android.url}"><img src="__STATIC__/css/default/weixin/images/downpage/btn_android.png"></a>
+</div>
+<h2>房品汇，让一切变得更简单...</h2>
+<div class="bg"><img src="__STATIC__/css/default/weixin/images/downpage/bg_down.jpg"></div>
+<include file="public:footer_4_0" />
+</body>
+</html>

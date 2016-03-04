@@ -1,0 +1,62 @@
+<include file="public:header" />
+<style type="text/css">
+body{font-size:12px;}
+#allmap{width:100%;height:500px;margin:0 auto; margin-top:20px;}
+#l-map{height:100%;float:left;border-right:2px solid #bcbcbc;}
+#r-result{height:100%;width:20%;float:left;}
+#jw{font-size:12px; background-color:#666666; color:#fff; padding:10px;}
+#jw span { font-size:14px; padding-right:15px;}
+.so{width:350px; height:22px; line-height:22px;}
+.but{ width:50px; height:25px;}
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+</head>
+
+<body>
+<div style="margin:10px;">
+<a id="aab" href="javascript:;">输入</a>小区名、大厦名、路名、门牌号等：<input type="text" id="districtName" class="so" value="{$address}">
+<input id="dosubmit" class="btn btn_submit" type="button" name="dosubmit" onClick="getBoundary()" value="搜索" style=" height:24px; border:none;">
+<font color="#999999">注：搜索请加城市名称 如:上海市···</font>
+</div>
+<div id="allmap"></div>
+<div id="jw"><span>点击地图获取经纬度,获取坐标后点确定完成录入！</span><input class="btn submit_jw" type="button" value="确定" ></div>
+</body>
+</html>
+<script src="__STATIC__/js/jquery/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+getBoundary();
+$(function(){
+	$('.submit_jw').click(function(){
+		var text = $('#jw span').text();
+		$("body",parent.document).find('#latitude').val(text); 
+		var i = parent.layer.getFrameIndex();
+		parent.layer.close(i);
+	});
+})
+var map = new BMap.Map("allmap");
+map.centerAndZoom(new BMap.Point(103.673071, 35.713522), 5);
+map.enableScrollWheelZoom();    //启用滚轮放大缩小，默认禁用
+map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
+map.addControl(new BMap.NavigationControl({type: BMAP_NAVIGATION_CONTROL_SMALL}));
+map.enableScrollWheelZoom();
+function showInfo(e){
+ $('#jw span').html(''+e.point.lng + "," + e.point.lat);
+}
+map.addEventListener("click", showInfo);
+
+function getBoundary(){       
+   var bdary = new BMap.Boundary();
+   var name = document.getElementById("districtName").value;
+    // 创建地址解析器实例
+	var myGeo = new BMap.Geocoder();
+	// 将地址解析结果显示在地图上,并调整地图视野
+	myGeo.getPoint(name, function(point){
+	  if (point) {
+		map.centerAndZoom(point, 18);
+		map.addOverlay(new BMap.Marker(point));
+	  }
+	  map.addEventListener("click", showInfo);
+	}, "");
+}
+</script>

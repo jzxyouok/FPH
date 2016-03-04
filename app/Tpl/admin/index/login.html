@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<link href="__STATIC__/css/admin/style.css" rel="stylesheet"/>
+	<title>管理中心</title>
+</head>
+
+<body scroll="no" class="login_body">
+ 	<div class="login_top">
+    	<div>
+        <img src="__STATIC__/css/admin/bgimg/logo_login.gif" class="logo">
+        <img src="__STATIC__/css/admin/bgimg/bg_sogin.gif" class="sogin">
+        </div>
+    </div>
+    <div class="logininput">
+    <h1>后台管理系统登录</h1>
+    <form action="" method="post" id="myform">
+    	<ul>
+        <li><span>{$Think.lang.login_username}/手机号码</span><input class="text user" type="text" name="username" id="username"  /></li>
+        <li><span>{$Think.lang.login_password}</span><input class="text pass" type="password" name="password" id="password"  /></li>
+        <li><span>{$Think.lang.verify_code}</span><input class="text vifity" type="text" name="verify_code" id="verify_code" /><img title="{$Think.lang.refresh_verify_code}" class="verify_img" src="{:U('index/verify_code', array('t'=>time()))}" /></li>
+        <li><input type="submit" name="do" value="确认登录" class="login_btn" /></li>
+        </ul>
+    </form>
+    </div>
+    <div class="login_bottom"></div>
+<script language="javascript" type="text/javascript" src="__STATIC__/js/jquery/jquery.js"></script>
+<script>
+$(function(){
+    if(self != top){
+        top.location = self.location;
+    }
+    
+    $(".verify_img").click(function(){
+        var timenow = new Date().getTime();
+        $(this).attr("src","{:U('index/verify_code')}&"+timenow)
+    });
+});
+</script>
+</body>
+</html>

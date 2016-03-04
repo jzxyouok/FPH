@@ -1,0 +1,137 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="member" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                用户电话：
+                <input name="mobile" type="text" class="input-text" size="25" value="{$search.mobile}" maxlength="11" />
+                &nbsp;&nbsp;姓名：
+                <input name="username" type="text" class="input-text" size="25" value="{$search.username}" maxlength="30" />
+                &nbsp;&nbsp;邀请人手机号：
+                <input name="broker_mobile" type="text" class="input-text" size="25" value="{$search.broker_mobile}" maxlength="11" />
+                &nbsp;&nbsp;注册时间：
+                <input type="text" name="start_time" id="start_time" value="{$search.start_time}" class="date" size="12" readonly="">-
+                <input type="text" name="end_time" id="end_time" value="{$search.end_time}" class="date" size="12" readonly="">
+                &nbsp;&nbsp;注册情况：
+                <select name="status">
+                    <option value="">-{:L('all')}-</option>
+                    <option value="1" <if condition="$search.status eq '1'">selected="selected"</if>>已注册</option>
+                    <option value="3" <if condition="$search.status eq '3'">selected="selected"</if>>预注册</option>
+                    <option value="0" <if condition="$search.status eq '0'">selected="selected"</if>>禁用</option>
+                </select>
+                &nbsp;&nbsp;所属城市 :
+                <select class="J_city_select mr10" data-pid="0" data-uri="{:U('user/ajax_city',array('roleid'=>1))}" data-selected="{$selected_ids_city}"></select>
+                <input type="hidden" name="city_id" id="J_city_id" value="{$search.city_id}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <div>
+        <span style="color: darkgreen">正常：{$MemberCount[0]}人</span>
+        <span style="color: #009944">预注册：{$MemberCount[3]}人</span>
+        <span style="color: #FF0000">已删除：{$MemberCount[2]}人</span>
+        <span style="color: #d35605">异常：{$MemberCount[4]}人</span>
+        今天注册会员：{$MemberCount[1]}人
+    </div>
+    <div class="J_tablelist table_list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th>终端</th>
+                <th align="left">客户姓名</span></th>
+                <th>手机号码</span></th>
+                <th align="left">所属城市</th>
+                <th>注册时间</th>
+				<th>最后登陆</th>
+                <th>邀请人手机号</th>
+                <th>状态</th>
+                <!--<th>删除</th>-->
+				<th width="100">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                    <td align="center">{$p*20-20+$i}</td>
+                    <td align="center">{$val.id}</td>
+                    <td align="center">
+                        <switch name="val['origin']">
+                            <case value="1">IOS</case>
+                            <case value="2">Android</case>
+                            <case value="3">PC</case>
+                            <case value="4">weixin</case>
+                            <case value="5">推广</case>
+                            <case value="9">后台</case>
+                        </switch>
+                    </td>
+                    <td align="left">{$val.username}</td>
+                    <td align="center">{$val.mobile}</td>
+                    <td align="left">{$val.city_name}</td>
+                    <td align="center">
+                        <if condition="$val.reg_time neq 0">
+                            {$val.reg_time|date='Y-m-d H:i',###}
+                        <else/>
+                            -
+                        </if>
+                    </td>
+                    <td align="center"><notempty name="val['last_time']">{$val.last_time|date='Y-m-d H:i',###}<else/>-</notempty></td>
+                    <td align="center">
+                        <if condition="$val.broker_mobile neq ''">
+                            {$val.broker_mobile}
+                        <else/>
+                            -
+                        </if>
+                    </td>
+                    <td align="center"><img  src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0 OR $val.status eq 2">disabled<elseif condition="$val.status eq 1"/>enabled<elseif condition="$val.status eq 3"/>exabled</if>.gif" /></td>
+                    <!--<td align="center"><if condition="$val.status eq 2"><span style="color:#ff0000">是</span><else/>否</if></td>-->
+                    <td align="center"><a href="{:u('member/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">客户资料</a> | <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('member/delete', array('id'=>$val['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$val['username'])}">{:L('delete')}</a></td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('member/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+
+    $('.J_city_select').city_select('请选择');
+
+    Calendar.setup({
+        inputField : "start_time",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "end_time",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>

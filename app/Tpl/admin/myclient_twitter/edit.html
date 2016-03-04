@@ -1,0 +1,105 @@
+<form id="info_form" action="{:u('myclient_twitter/edit',array('roleid'=>1))}" method="post">
+<table width="100%" cellspacing="0" class="table_form">
+	<tr>
+		<th width="21%">购买意向 :</th>
+		<td width="79%">意向区域：{$info_data.area}&nbsp;&nbsp;意向价格：{$info_data.price}</if></td>
+	</tr>
+	<tr>
+		<th>经纪人 :</th>
+		<td>{$user_info.username}</td>
+	</tr>
+	<tr>
+		<th>手机号码 :</th>
+		<td>{$user_info.mobile}</td>
+	</tr>
+	<tr>
+		<th>用户 :</th>
+		<td>{$info_data.name}</td>
+	</tr>
+	<tr>
+		<th>手机号码 :</th>
+		<td>{$info_data.mobile}</td>
+	</tr>
+	<tr>
+			<th>报备时间 :</th>
+			<td>{$info_data['add_time']|date='Y-m-d',###}</td>
+		</tr>
+	<tr>
+		<th>上传状态更新时间 :</th>
+		<td>{$info_data['update_time']|date='Y-m-d H:i',###}</td>
+	</tr>
+	<tr>
+		<th>状态 :</th>
+		<td>
+			<if condition="$info['status'] eq 1">
+				<label><input type="radio" name="status" id="status1" value="2" /> 电话拜访</label>
+			<elseif condition="$info['status'] eq 2"/>
+				<label><input type="radio" name="status" id="status1" value="3" /> 到访带看</label>
+			<elseif condition="$info['status'] eq 3"/>
+				<label><input type="radio" name="status" id="status1" value="4" /> 支付定金 </label>
+			<elseif condition="$info['status'] eq 4"/>
+				<label><input type="radio" name="status" id="status2" value="5" /> 成交</label>
+			<elseif condition="$info['status'] eq 5"/>
+				已成交
+			</if>
+		    </td>
+	</tr>
+</table>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<script src="__STATIC__/js/jquery/plugins/formValidatorRegex.js"></script>
+<if condition="($info['status'] eq 3 OR $info['status'] eq 4) AND $info['buy_time'] eq 0 AND $product_count neq 0">
+<script type="text/javascript">
+Calendar.setup({
+    inputField : "expects_rime",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "buy_time",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</if>
+<script>
+var check_name_url = "{:U('case_field/ajax_check_name')}";
+var youhui_url = "{:U('hezuo_yongjin_rule/ajax_youhui')}";
+$(function() {
+	$('.buy_product').change(function(){
+		var buy_product = $('#buy_product').val();
+		if(buy_product != 0){
+			$.post(youhui_url,{id:buy_product},function(result){
+				if(result.status == 1){
+					$('.youhui_txt').text(result.data);
+					return false;
+				} else {
+					$.pinphp.tip({content:result.msg, icon:'alert'});
+					return false;
+				}
+			},'json');
+		}else{
+			$('.youhui_txt').text('');
+			return false;
+		}
+		
+	});
+	
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$(":radio[name='status']").formValidator({onshow:"请选择状态",onfocus:"请选择状态",oncorrect:"请选择状态"}).inputValidator({min:1,max:1,onerror:"请选择状态"});
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+});
+</script>

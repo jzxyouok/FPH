@@ -1,0 +1,56 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+.img_show {
+	height: 180px;
+	width: 100%;
+	background-color: #efefef;
+}
+.img_show img {
+	width: inherit;
+	height: inherit;
+}
+.act_detail .list {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #e5e5e5;
+	padding-left: 10px;
+	padding-right: 10px;
+	min-height: 42px;
+	line-height: 42px;
+}
+.act_detail .list h2 {
+	font-size: 18px;
+	font-weight: normal;
+	height: 51px;
+	line-height: 51px;
+}
+.act_detail .list label {
+	margin-right: 10px;
+}
+.act_detail .list span {
+	color: #666666;
+}
+.act_detail .list .link {
+	color: #4171b8;
+}
+.act_detail .list a {
+	display: block;
+	height: 42px;
+	width: 95%;
+	position: absolute;
+	background-image: url(../images/common/btn_more.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.info_frm {
+	padding-top: 25px;
+	padding-bottom: 80px;
+	min-height: 80px;
+}
+.info_frm .text {
+	padding: 10px;
+	background-color: #FFF;
+	border: solid 1px #e5e5e5;
+	line-height: 25px;
+}

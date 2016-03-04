@@ -1,0 +1,137 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('home_flo/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">修改热门合作楼盘信息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+		            <tr>
+						<th width="120">楼盘标题 :</th>
+						<td><input type="text" name="title" id="title" class="input-text" size="30" value="{$info.title}"> </td>
+					</tr>
+                    <tr>
+                        <th>楼盘链接 :</th>
+                        <td><input type="text" name="url" id="url" class="input-text" size="30" value="{$info.url}"> </td>
+                    </tr>
+		            <tr>
+						<th>优惠信息 :</th>
+						<td><input type="text" name="offer" id="offer" class="input-text" size="30" value="{$info.offer}"></td>
+					</tr>
+                                         <tr>
+						<th>图片标识 :</th>
+						<td>
+							<select name="simgtype" id="simgtype"> 
+								<option value=''>请选择</option> 
+								<option value=''>选项为空</option> 
+								<option value='1' <if condition="$info.simgtype eq 1"> selected </if> >最高折扣</option>
+								<option value='2' <if condition="$info.simgtype eq 2"> selected </if> >热门新房</option>
+								<option value='3' <if condition="$info.simgtype eq 3"> selected </if> >热门二手房</option>
+							</select>
+						</td>
+					</tr>
+		            <tr>
+						<th>图片 :</th>
+						<td>
+                           <input name="img" id="J_img" type="hidden" value="{$info.img}" />
+                            <div class="img_border" id="img_data">
+                                <notempty name="info['img']">
+                                    <ul>
+                                        <li><img src="{:get_fdfs_image($info['img'], '')}" width="100"></li>
+                                        <li><a href="javascript:;" class="del_img">删除</a></li>
+                                    </ul>
+                                </notempty>
+                            </div>
+                             <div id="J_upload_img" class="upload_btn" <notempty name="info['img']">style="display:none"</notempty>><span>{:L('upload')}</span></div>
+                        </td>
+		 			</tr>
+		 			<tr>
+						<th>排序 :</th>
+						<td><input type="text" name="ordid" id="ordid" class="input-text" size="30" value="{$info.ordid}"></td>
+					</tr>
+					<tr>
+						<th>显示状态 :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> {:L('no')}</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor-min.js"></script>
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#title").formValidator({onshow:lang.please_input+"信息标题",onfocus:lang.please_input+"信息标题"}).inputValidator({min:1,onerror:lang.please_input+"信息标题"});
+    $("#url").formValidator({onshow:"请填写链接地址",onfocus:"请填写链接地址"}).inputValidator({min:1,onerror:"请填写链接地址"}).regexValidator({regexp:'url',datatype:'enum',onerror:'请输入正确的链接地址'});
+    $("#offer").formValidator({onshow:lang.please_input+"优惠信息",onfocus:lang.please_input+"优惠信息"}).inputValidator({min:1,onerror:lang.please_input+"优惠信息"});
+	$("#J_img").formValidator({onshow:' ',onfocus:'请上传图片'}).inputValidator({min:1,onerror:'请上传图片'});
+	$("#title").blur();
+    $("#J_img").blur();
+
+	 //上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('home_flo/ajax_upload_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_upload_img').hide();
+                $('#J_img').val(result.data);
+                $('#J_img').blur();
+                $('#img_data').html('<ul><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+	//删除图片
+    $('.del_img').live('click',function(){
+       var img_path = $('#J_img').val();
+        var delimg_url = '{:U('home_flo/del_img',array('roleid'=>1))}';
+        $.post(delimg_url,{img_path:img_path},function(result){
+            if(result.status == 1){
+                $('#img_data').html('');
+                $('#J_img').val('');
+                $('#J_upload_img').show();
+                $('#J_img').focus();
+                return false;
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+                return false;
+            }
+        },'json');
+    });
+});
+</script>
+</body>
+</html>

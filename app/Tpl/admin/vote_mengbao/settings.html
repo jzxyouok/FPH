@@ -1,0 +1,91 @@
+<include file="public:header" />
+<style type="text/css">
+	#vote_activity_info{ width: 500px; height: 180px;}
+	#vote_activity_name{ width:500px;}
+</style>
+<!--添加管理员-->
+<div class="pad_lr_10">
+	<form id="info_form" name="info_form" action="{:u('vote_young/settings')}" method="post">
+	<table width="100%" class="table_form">
+		<tr> 
+	      <th width="80">活动名称 :</th>
+	      <td><input type="text" name="vote_activity_name" id="vote_activity_name" class="input-text" size="" value="{$list['vote_activity_name']}"></td>
+	    </tr>	    
+	    <tr> 
+	      <th>活动开始时间 :</th>
+	      <td>
+	      	<input type="text" name="time_start" id="time_start" class="date"  readonly="readonly"  size="12" value="{$list['vote_activity_time'][0]|date='Y-m-d',###}">
+	      	<!-- <div id="time_startTip" class="onShow">请选择活动开始时间</div> -->
+	      </td>
+	    </tr>
+	    <tr> 
+	      <th>活动截止时间 :</th>
+	      <td>
+            <input type="text" name="time_end" id="time_end" class="date"  readonly="readonly"  size="12" value="{$list['vote_activity_time'][1]|date='Y-m-d',###}">
+         <!--    <div id="time_endTip" class="onShow">请选择活动截止时间</div> -->
+	      </td>
+	    </tr>
+	     <tr> 
+	      <th>活动说明 :</th>
+	      <td><textarea name="vote_activity_info" id="vote_activity_info">{$list['vote_activity_info']}</textarea></td>
+	    </tr>
+	     
+		
+	   
+	</table>
+	<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</form>
+</div>
+<include file="public:footer" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+$(function(){
+	
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	var vote_activity_name = $('#vote_activity_name').val();
+	var time_start = $('#time_start').val();
+	var time_end = $('#time_end').val();
+	var vote_activity_info = $('#vote_activity_info').val();
+	if( vote_activity_name ==''){
+		$("#vote_activity_name").formValidator({onshow:lang.please_input+lang.vote_activity_name,onfocus:lang.please_input+lang.vote_activity_name}).inputValidator({min:1,onerror:lang.please_input+lang.vote_activity_name});	
+	}else{
+		$("#vote_activity_name").formValidator({onshow:lang.please_input+lang.vote_activity_name,onfocus:lang.please_input+lang.vote_activity_name}).inputValidator({min:1,onerror:lang.please_input+lang.vote_activity_name}).defaultPassed();	
+	}
+	if( time_start ==''){
+		$("#time_start").formValidator({onshow:lang.please_input+lang.time_start,onfocus:lang.please_input+lang.time_start}).inputValidator({min:1,onerror:lang.please_input+lang.time_start});
+	}else{
+		$("#time_start").formValidator({onshow:lang.please_input+lang.time_start,onfocus:lang.please_input+lang.time_start}).inputValidator({min:1,onerror:lang.please_input+lang.time_start}).defaultPassed();	
+	}
+	if( time_end ==''){
+		$("#time_end").formValidator({onshow:lang.please_input+lang.time_end,onfocus:lang.please_input+lang.time_end}).inputValidator({min:1,onerror:lang.please_input+lang.time_end});
+	}else{
+		$("#time_end").formValidator({onshow:lang.please_input+lang.time_end,onfocus:lang.please_input+lang.time_end}).inputValidator({min:1,onerror:lang.please_input+lang.time_end}).defaultPassed();	
+	}
+
+	if( vote_activity_info ==''){
+		$("#vote_activity_info").formValidator({onshow:lang.please_input+lang.vote_activity_info,onfocus:lang.please_input+lang.vote_activity_info}).inputValidator({min:1,onerror:lang.please_input+lang.vote_activity_info});	
+	}else{
+		$("#vote_activity_info").formValidator({onshow:lang.please_input+lang.vote_activity_info,onfocus:lang.please_input+lang.vote_activity_info}).inputValidator({min:1,onerror:lang.please_input+lang.vote_activity_info}).defaultPassed();	
+	}
+
+	
+});
+
+</script>
+</body>
+</html>
+	

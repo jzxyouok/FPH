@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/lottery.css">
+</head>
+<body>
+<!--加载遮罩层-->
+<div class="gray_cover"></div>
+<div class="loading">正在加载，请稍后......</div>
+<div class="share share_hide"><img src="__STATIC__/css/default/weixin/images_4_0/lottery/share.png"></div>
+<!--加载遮罩层-->
+
+<section class="TOPS"> <img src="__STATIC__/css/default/weixin/images_4_0/lottery/top_bg.jpg"></section>
+<section class="main_body">
+  <section class="form_frame">
+  	<if condition="$money eq 1">
+	<div class="top">来的太晚了,钱被抢光了</div>
+    <p>找客服女神问问下次红包时间</p>
+  		<else />
+	 	<div class="top">抢了2次还不够？</div>
+	    <p>下一波红包马上来！</p>
+  	</if>
+	<table class="forms"> 
+	<if condition="$money eq 1">
+	  <tr>
+        <td><a class="btn_send guanzhu" href="http://mp.weixin.qq.com/s?__biz=MzA3MjY2MTkyNw==&mid=204123876&idx=1&sn=7acd844f35e87d6ee2bd9b8c6d5aea3d#rd">关注微信号</a></td>
+      </tr>
+  		<else />
+	 	 <tr>
+        <td><button class="btn_send share">找朋友来抢</button></td>
+      </tr>
+  	</if>     
+
+    </table>
+  </section>
+  <p>据调查，100%的聪明人此时选择分享给朋友</p>
+</section>
+<footer>
+  <mark>本活动最终解释权归房品汇所有</mark>
+</footer>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+	$(window).load(function(){
+		$('.gray_cover').hide();
+		$('.loading').hide();
+		
+		//底部横底部
+		var $windowHeight = $(window).height()
+		var $bodyHeight = $('body').height();
+		if($bodyHeight < $windowHeight) {
+			$('body').height($windowHeight);
+			$('footer').css({
+				'position': 'fixed',
+				'bottom': '0'
+			});
+		}
+	});
+
+	$('.share').click(function(e){
+		$('.gray_cover').show();
+		$('.share').show();
+	});
+
+
+//添加分享js
+wx.config({
+	debug: false,//这里是开启测试，如果设置为true，则打开每个步骤，都会有提示，是否成功或者失败
+	appId: 'wx3ce1eceec205c6c4',
+	timestamp: '{$time}',//这个一定要与上面的php代码里的一样。
+	nonceStr: '{$time}',//这个一定要与上面的php代码里的一样。
+	signature: '{$jssdk}',
+	jsApiList: [
+	  // 所有要调用的 API 都要加到这个列表中
+	    'onMenuShareTimeline',
+	    'onMenuShareAppMessage',
+	    'onMenuShareQQ',
+	    'onMenuShareWeibo'
+	]
+});
+var title = '百元微信红包,你也抢试试!';
+var desc  = '关注房品汇参与抢钱大战,最高100元,微信红包发给你!';
+var link = 'http://www.fangpinhui.com/weixin/lottery/index';
+var imgUrl = "{$url}/static/css/default/weixin/images_4_0/lottery/share.jpg";
+wx.ready(function () {
+	wx.onMenuShareTimeline({
+	    title: title, // 分享标题
+	//desc: "分享描述分享描述分享描述分享描述分享描述分享描述", // 分享描述
+	    link: link, // 分享链接
+	    imgUrl: imgUrl, // 分享图标
+	    success: function () { 
+	        // 用户确认分享后执行的回调函数
+	        $('.gray_cover').hide();
+			$('.share_hide').hide();
+	    },
+	    cancel: function () { 
+	        // 用户取消分享后执行的回调函数
+	        $('.gray_cover').hide();
+			$('.share_hide').hide();
+	    }
+	});
+	wx.onMenuShareAppMessage({
+	    title: title, // 分享标题
+	    desc: desc, // 分享描述
+	    link: link, // 分享链接
+	    imgUrl: imgUrl, // 分享图标
+	    type: '', // 分享类型,music、video或link，不填默认为link
+	    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+	    success: function () { 
+	        // 用户确认分享后执行的回调函数
+	        $('.gray_cover').hide();
+			$('.share_hide').hide();
+	    },
+	    cancel: function () { 
+	        // 用户取消分享后执行的回调函数
+	        $('.gray_cover').hide();
+			$('.share_hide').hide();
+	    }
+	});
+    wx.onMenuShareQQ({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+           $('.gray_cover').hide();
+		   $('.share_hide').hide();
+        },
+        cancel: function () { 
+           // 用户取消分享后执行的回调函数
+           $('.gray_cover').hide();
+		   $('.share_hide').hide();
+        }
+    });
+    wx.onMenuShareWeibo({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+           $('.gray_cover').hide();
+			$('.share_hide').hide();
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+            $('.gray_cover').hide();
+			$('.share_hide').hide();
+        }
+    });
+});
+</script>
+</body>
+</html>

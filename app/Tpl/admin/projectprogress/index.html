@@ -1,0 +1,35 @@
+<include file="public:header" />
+
+<!--文章列表-->
+<div class="pad_lr_10" >
+
+    <div class="J_tablelist table_list" data-acturi="{:U(' projectprogress/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th align="center">楼盘名称</th>
+                <th align="center">上线天数</th>               
+                <th align="center">报备经纪人数</th>
+                <th align="center">报备客户人数</th>
+                <th align="center">带看人数</th>
+                <th align="center">成交套数</th>
+            </tr>
+        </thead>
+        <tbody>
+			<volist name="hezuo_list" id="val">
+				<tr>
+                    <td align="center">{$val['title']}</td>
+                    <td align="center">{$val['shangxiantianshu']}</td>                    
+                    <td align="center">{$val['baobeijinjirenshu']}</td>
+                    <td align="center">{$val['baobeikehushu']}</td>
+                    <td align="center">{$val['daikanrenshu']}</td>
+                    <td align="center">{$val['chengjiaoshu']}</td>
+				</tr>
+			</volist>
+        </tbody>
+    </table>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

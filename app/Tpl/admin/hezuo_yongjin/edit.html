@@ -1,0 +1,101 @@
+<!--添加文章-->
+<style>
+.input_loupan_search {height:25px;line-height:25px;width:240px;}
+.popup {position:absolute;width:245px;left:8px;top:38px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+.tiaodian_inp{ width:70px; height:19px; line-height:19px;border: 1px solid #d0d0d0;}
+</style>
+<form id="info_form" action="{:U('hezuo_yongjin/edit')}" method="post">
+<div class="dialog_content">
+<table width="100%" cellspacing="0" class="table_form">
+	<tr>
+		<th>楼盘名称 :</th>
+		<td>
+			{$product}
+			<span style="padding-left:15px;color:#999999;">
+				<switch name="info_list['tiaodian']" >
+					<case value="1">全盘跳点</case>
+					<case value="2">单产品跳点</case>
+					<case value="3">无跳点</case>
+				</switch>
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<th>佣金来源 :</th>
+		<td>
+			  <select name="source" id="source">
+			  	<option <if condition="$info_list['source'] eq 1">selected='selected'</if> value="1">开发商结佣</option>
+				<option <if condition="$info_list['source'] eq 2">selected='selected'</if> value="2">房品汇结佣</option>
+			  </select>
+		</td>
+	</tr>
+	<tr>
+		<th>佣金金额 :</th>
+		<td><input class="input-text" type="text" size="12" name="total_price" id="total_price" value="{$info_list.total_price}"> 元</td>
+	</tr>
+	<tr>
+		<th>佣金分成 :</th>
+		<td>
+			信息分成<input class="input-text" type="text" value="{$info_list.share_price}" size="12" name="share_price" id="share_price"> 元&nbsp;&nbsp;/ 带看分成：<span class="minus_num">0</span>元
+		</td>
+	</tr>
+</table>
+</div>
+<input name="id" type="hidden" value="{$id}" />
+</form>
+<script>
+var minus_url = "{:U('hezuo_yongjin/minus',array('roleid'=>1))}";
+$(function() {
+
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	
+	$('#total_price').formValidator({onshow:'请输入佣金金额',onfocus:'请输入佣金金额', oncorrect: '输入正确'})
+	.inputValidator({min:1,onerror:'请输入佣金金额'})
+	.inputValidator({max:10,onerror:'请输入佣金金额'})
+	.regexValidator({regexp:'price1',datatype:'enum',onerror:'只能填写大于或等于1的，支持两位小数'});
+	
+	$("#share_price").formValidator({onshow:"请输入信息分成",onfocus:"请输入信息分成",oncorrect:"输入正确"})
+	.inputValidator({min:1,onerror:'请输入信息分成'})
+	.inputValidator({max:10,onerror:'请输入信息分成'})
+	.regexValidator({regexp:'price1',datatype:'enum',onerror:'只能填写大于或等于1的，支持两位小数'}).functionValidator({fun:youhuiEmpty});
+	function youhuiEmpty(val,elem){
+		var total_price = parseInt($('#total_price').val());
+		//alert(total_price);
+		var share_price = parseInt($('#share_price').val());
+		return (share_price > total_price)?'信息分成必须小于佣金金额！':true; 
+	}
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	$('.minus_num').text($('#total_price').val()-$('#share_price').val());
+	$('#share_price').keyup(function(){
+		var total_price = $('#total_price').val();
+		var share_price = $('#share_price').val();
+		if(total_price==''){
+			$.pinphp.tip({content:'请先输入佣金金额', icon:'alert'});
+			$('#share_price').val('');
+			$('#total_price').focus();
+			return false;
+		}
+		$.post(minus_url,{total_price:total_price,share_price:share_price},function(result){
+			if(result.status == 1){
+				$('.minus_num').text(result.data);
+				return false;
+			} else {
+				$.pinphp.tip({content:result.msg, icon:'alert'});
+				return false;
+			}
+		},'json');
+	});	
+});
+</script>

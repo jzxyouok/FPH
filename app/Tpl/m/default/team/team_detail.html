@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/team.css?v=1" rel="stylesheet" />
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+  </header>
+  <section class="scroll_body noPadding">
+    <div class="customer_info">
+      <a href="tel:{$user_info.mobile}" class="tel_img"></a>
+      <span class="name">{$user_info.username}</span> <span class="info">{$user_info.mobile}</span> </div>
+      
+      <section class="links_list">
+      <section class="blocks" style="margin-top:0;">
+        <ul class="display_list team">
+          <li><a href="{:U('m/team/index')}"><span class="title">所属团队</span><span class="status">{$admin_info.username}的自有经纪人</span></a></li>
+          <li><a href="javascript:;"><span class="title">驻守楼盘</span><span class="status">{$user_info['property_title']}</span></a></li>
+          <li><a href="javascript:;"><span class="title">注册时间</span><span class="status">{$user_info.reg_time|date='Y-m-d H:i:s',###}</span></a></li>
+          <li><a href="javascript:;"><span class="title">带看数</span><span class="status">{$user_info['daikan']}次</span></a></li>
+          <li><a href="javascript:;"><span class="title">成交数</span><span class="status">{$user_info['chengjiao']}套</span></a></li>
+          <li><a href="javascript:;"><span class="title">佣金</span><span class="status">{$user_info['yongjin']}元</span></a></li>
+        </ul>
+      </section>
+  </section>
+  
+  </section>
+  
+</div>
+<include file="public:footer" />
+</body>
+</html>

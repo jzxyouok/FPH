@@ -1,0 +1,109 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" action="{:U('bluetooth_cate/add')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">选择城市 :</th>
+						<td>
+							<select id="province" name="province">
+								<option value="0">请选择</option>
+								<volist name="provinceList" id="vo">
+									<option value="{$vo.id}">{$vo.name}</option>
+								</volist>
+							</select>
+							<select id="city" name="city" style="display: none">
+
+							</select>
+						</td>
+					</tr>
+					 <tr>
+						<th>major :</th>
+						<td>
+							<input type="text" name="major" id="major" class="input-text" size="30" maxlength="5">
+							<span class="gray ml10">取值范围,1-65532</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10">
+			<input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;">
+			<br /><br /><br />
+		</div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script>
+var city_url = "{:U('admin/city/ajax_city')}";
+var url = "{:U('admin/bluetooth_cate/add')}";
+//var url_index = "{:U('admin/bluetooth_cate/index')}";
+$(function() {
+	$('#dosubmit').click(function(){
+		var province = $('#province').val();
+		var city     = $('#city').val();
+		var major    = $('#major').val();
+		var num      = /^[1-9]\d{0,3}$|^[1-5]\d{4}$|^6[0-4]\d{3}$|^65[0-4]\d{2}$|^655[0-2]\d{1}$|^6553[0-2]$/i;
+		if(province == 0){
+			$.pinphp.tip({content:'请选择省', icon:'error'});
+			return false;
+		}
+		if(city == null){
+			$.pinphp.tip({content:'请选择城市', icon:'error'});
+			return false;
+		}
+		if(major == ''){
+			$.pinphp.tip({content:'请输入major', icon:'error'});
+			return false;
+		}
+		if(major!=''){
+			if(!major.match(num)){
+				$.pinphp.tip({content:'major取值范围,1-65532！', icon:'error'});
+				return false;
+			}
+		}
+		/*$.post(url,{city:city,major:major},function(result){
+			if(result.status == 1){
+				window.location.href = url_index;
+				return false;
+			} else {
+				$.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+			}
+		},'json');*/
+
+	});
+
+	$('#province').change(function(){
+		var province = $('#province').val();
+		if(province != 0){
+			$.post(city_url,{province:province},function(result){
+				if(result.status == 1){
+					$('#city').show();
+					var html = '';
+					$.each(result.data,function(i,n){
+						html += '<option value="' + n['id'] + '">' + n['name'] + '</option>';
+					});
+					$('#city').html(html);
+					return false;
+				} else {
+					$.pinphp.tip({content:result.msg, icon:'error'});
+					return false;
+				}
+			},'json');
+		}else{
+			$('#city').html('');
+			$('#city').hide();
+		}
+	});
+});
+</script>
+</body>
+</html>

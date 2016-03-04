@@ -1,0 +1,57 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('company/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">公司信息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width=100>联系人 :</th>
+						<td><input type="text" name="contact" id="contact" class="input-text" > </td>
+					</tr>
+					<tr>
+						<th width=100>联系人电话 :</th>
+						<td><input type="text" name="contact_tel" id="contact_tel" class="input-text" > </td>
+					</tr>
+		            <tr>
+						<th width=100>公司简称 :</th>
+						<td><input type="text" name="short_name" id="short_name" class="input-text" > </td>
+					</tr>
+					<tr>
+						<th>公司全称 :</th>
+						<td><input type="text" name="name" id="name" class="input-text"  > </td>
+					</tr>
+		            <tr>
+						<th>所在地区 :</th>
+						<td id="select_area" class="select_area"><select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected=""></select><input type="hidden" name="city_id" id="J_city_id" value="" /></td>
+					</tr>
+                    <tr>
+						<th>详细地址 :</th>
+						<td><input type="text" name="address" id="address" class="input-text"  ></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="保存" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script>
+$('.J_city_select').city_select('请选择');
+$(function() {
+	var check_mobile_url = "{:U('admin/company/ajax_check_mobile',array('roleid'=>1))}";
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#contact").formValidator({onshow:lang.please_input+"联系人",onfocus:lang.please_input+"联系人"}).inputValidator({min:1,onerror:lang.please_input+"联系人"});
+	$("#contact_tel").formValidator({onshow:lang.please_input+"联系人电话",onfocus:lang.please_input+"联系人电话"}).inputValidator({min:1,onerror:lang.please_input+"联系人电话"});
+	$("#short_name").formValidator({onshow:lang.please_input+"公司简称",onfocus:lang.please_input+"公司简称"}).inputValidator({min:1,onerror:lang.please_input+"公司简称"});
+	$("#name").formValidator({onshow:lang.please_input+"公司全称",onfocus:lang.please_input+"公司全称"}).inputValidator({min:1,onerror:lang.please_input+"公司全称"});
+	$("#J_city_id").formValidator({onshow:lang.please_input+"所在地区",onfocus:lang.please_input+"所在地区"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:''}).inputValidator({min:1,onerror:lang.please_input+"所在地区"});
+   $("#address").formValidator({onshow:lang.please_input+"详细地址",onfocus:lang.please_input+"详细地址"}).inputValidator({min:1,onerror:lang.please_input+"详细地址"});
+});
+</script>
+</body>
+</html>

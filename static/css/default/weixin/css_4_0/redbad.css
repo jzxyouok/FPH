@@ -1,0 +1,86 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+/************************************************************************************************/
+html, body {
+	background: #eee;
+}
+#TOP_FRAME .banner {
+	width: 100%;
+	margin-bottom: 5px;
+}
+#TOP_FRAME .banner img {
+	width: inherit;
+}
+#TOP_FRAME .scroll_body .bag_details {
+	width: 100%;
+	position: relative;
+	background: #fff;
+	margin-bottom: 15px;
+	box-shadow: 1px 1px 1px #ccc;
+	min-height:150px;
+}
+#TOP_FRAME .scroll_body .bag_details .tops {
+	background:#ff6d52 url(../images_4_0/arrow_bg_l.png) repeat-x bottom left;
+	background-size:4px 2px;
+	padding: 10px;
+}
+#TOP_FRAME .scroll_body .bag_details .tops * {
+	color: #fff;
+}
+#TOP_FRAME .scroll_body .bag_details .tops h2, #TOP_FRAME .scroll_body .bag_details .tops h2 a {
+	font-size: 1.6rem;
+	display:block;
+	margin-bottom:3px;
+}
+#TOP_FRAME .scroll_body .bag_details .tops h2 a i {
+	display: inline-block;
+	background: url(../images_4_0/arrow.png) no-repeat right bottom;
+	width: 17px;
+	height: 17px;
+	vertical-align:middle;
+	margin-left:0.5rem;
+	}
+#TOP_FRAME .scroll_body .bag_details .tops span {
+	font-size: 1.2rem;
+}
+#TOP_FRAME .scroll_body .bag_details .tops span i {
+	color: #ffea00;
+	font-size: 1.4rem;
+	font-style: normal;
+	padding: 0 3px;
+}
+#TOP_FRAME .scroll_body .bag_details .infos {
+	padding: 10px;
+	width: 70%;
+}
+#TOP_FRAME .scroll_body .bag_details .infos h2 {
+	font-size: 1.6rem;
+	margin-bottom:3px;
+}
+#TOP_FRAME .scroll_body .bag_details .infos time {
+	color: #666;
+	font-size: 1.2rem;
+}
+#TOP_FRAME .scroll_body .bag_details .infos p {
+	font-size: 1.2rem;
+	line-height:150%;
+	color: #999;
+	margin:0.5rem 0;
+}
+#TOP_FRAME .scroll_body .bag_details .qrcode {
+	width: 90px;
+	position: absolute;
+	right: 12px;
+	top: 40px;
+}
+#TOP_FRAME .scroll_body .bag_details .qrcode img {
+	width: 90px;
+	height: 90px;
+}
+#TOP_FRAME .scroll_body .bag_details .qrcode span {
+	color: #00b7ee;
+	font-size: 1.2rem;
+	text-align: center;
+	display: block;
+}

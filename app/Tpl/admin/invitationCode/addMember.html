@@ -1,0 +1,158 @@
+<include file="public:header" />
+<style>
+.inputclear {margin: 0;}
+.clearimg { display: none; position: absolute; width: 16px; height: 16px; margin: 6px 0 0 -20px; background: url(__STATIC__/css/admin/bgimg/clear.png) no-repeat; outline: none; }
+.inputclear::-ms-clear { display: none; }
+.inputclear:valid + .clearimg { display: none; }
+</style>
+<!--添加版本-->
+<form id="info_form" action="{:U('invitationCode/addMember')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">添加人员</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list" style="padding: 10px;">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">推广人员电话 :</th>
+						<td class="search_wrap_tb">
+							<input type="text" name="option" id="option" class="input-text inputclear" size="30">
+							<a href="javascript:" class="clearimg" style="display: none;"></a>
+							<input type="button" value="快速添加" id="fastsubtn" name="fastsubtn" class="btn btn_submit">
+							<ul class="search_content_wrap">
+								<li>
+									<span class="search_content_name">xxx</span>
+									<span class="search_content_phone">13313232321</span>
+								</li>
+							</ul>
+					    </td>
+					</tr>
+
+				</table>
+				<a id = "showtables" style="display:block;margin-top: 10px; margin-left: 20px; cursor: pointer; color: #004499">点击新增人员</a>
+				<table width="100%" cellspacing="0" class="table_form addtable" style="display: none;">
+				<tr>
+					<th width="120">新增推广人员姓名 :</th>
+					<td><input type="text" name="name" id="name" class="input-text" size="30"></td>
+				</tr>
+				<tr>
+					<th width="120">新增推广人员电话 :</th>
+					<td><input type="text" name="mobile" id="mobile" class="input-text" size="30"></td>
+				</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10">
+			<input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<input type="hidden" value="" id="systemUid" name="systemUid">
+<input type="hidden" value="" id="systemType" name="systemType">
+<input type="hidden" value="" id="systemMobile" name="systemMobile">
+<include file="public:footer" />
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#name").formValidator({onshow:"请输入姓名",onfocus:"请输入姓名"}).inputValidator({min:1,max:10,empty:{leftempty:false,rightempty:false,emptyerror:"不能输入空格"},onerror:"姓名长度在1～10个字符之间"});
+	$("#mobile").formValidator({onshow:lang.please_input+"手机号码",onfocus:lang.please_input+"手机号码"})
+	.inputValidator({min:1,onerror:lang.please_input+"手机号码"})
+	.regexValidator({regexp:'mobile',datatype:'enum',onerror:'请输入正确的手机号码'});
+
+
+	$('#showtables').click(function(){
+		$('.addtable').show();
+	})
+
+	/**
+	 *即时搜索
+	 */
+	$('#option').on('input',function(){
+		var url = "{:u('invitationCode/systemMember')}"
+		var option = $('#option').val();
+		//console.log(trim(option));
+		if(trim(option).length >=4) {
+			$('.clearimg').show();
+			$.post(url,{option:option},function(data){
+				if(data.status ==1)
+				{
+					$('.search_content_wrap').html(data.data).show();
+				}
+			},'json')
+		} else {
+			$('.clearimg').hide();
+			$('#systemUid').val('');
+			$('#systemType').val('');
+			$('#systemMobile').val('');
+			$('.search_content_wrap').html('').hide();
+
+		}
+	});
+
+	/**
+	 *点击删除
+	 */
+	$('.clearimg').click(function(){
+		$('.clearimg').hide();
+		$('#option').val('').attr("readonly",false);
+		$('#systemUid').val('');
+		$('#systemType').val('');
+		$('#systemMobile').val('');
+		$('.search_content_wrap').html('').hide();
+	});
+
+	$('.search_content_wrap li').live('click',function(){
+		var uid = $(this).attr('data-uid');
+		var type = $(this).attr('data-type');
+		var username = $(this).find('.search_content_name').text();
+		var mobile = $(this).find('.search_content_phone').text();
+		var str = username + '   '+ mobile;
+		//$('input').attr("readonly",true)/
+		$('#option').val(str).attr("readonly",true);
+		$('#systemUid').val(uid);
+		$('#systemType').val(type);
+		$('#systemMobile').val(trim(mobile));
+		$('.search_content_wrap').hide();
+
+	})
+
+	/*
+	* 快速添加
+	* */
+	$('#fastsubtn').click(function(){
+		var type = $('#systemType').val();
+		var uid = $('#systemUid').val();
+		var mobile = $('#systemMobile').val();
+		if(trim(type) == '' || trim(uid)== '')
+		{
+			alert('请先选择员工！');
+		} else {
+			var url = "{:u('invitationCode/addMemberAjax')}"
+			$.post(url,{mobile:mobile, type:type},function(data){
+				if(data.status == 1)
+				{
+					$.pinphp.tip({content:data.msg, icon:'success'});
+				} else
+				{
+					$.pinphp.tip({content:data.msg, icon:'error'});
+				}
+				$('#systemUid').val('');
+				$('#systemType').val('');
+				$('#systemMobile').val('');
+				$('#option').val('');
+			},'json');
+		}
+	})
+
+
+
+	function trim (obj)
+	{
+		return obj.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+	}
+});
+</script>
+</body>
+</html>

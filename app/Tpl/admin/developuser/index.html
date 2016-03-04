@@ -1,0 +1,109 @@
+<include file="public:header" />
+<!--栏目列表-->
+<div class="subnav">
+    <div class="title_2 line_x">发展会员&nbsp;&nbsp;&nbsp;共有会员：{$user_count}人&nbsp;&nbsp;&nbsp;今天注册用户：{$time_count}人 : 请进行搜索查看</div>
+</div>
+<div class="pad_lr_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="developuser" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    &nbsp;用户名 :
+                    <input name="username" type="text" class="input-text" size="25" value="{$username}" />
+		    &nbsp;手机号码 :
+                    <input name="mobile" type="text" class="input-text" size="25" value="{$mobile}" />
+                    <select name="type">
+                        <option value="1" <if condition="$type eq 1"> selected </if> >内部</option>
+                        <option value="2" <if condition="$type eq 2"> selected </if>>全部</option>
+                    </select>
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" >
+    <table width="100%" cellspacing="0" id="J_cate_tree">
+        <thead>
+            <tr>
+		<th width="30"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left">用户名</th>
+				<th align="left">最后登录时间</th>
+            </tr>
+        </thead>
+    	<tbody id='tbody_id'>
+	    {$list}
+    	</tbody>
+    </table>
+        <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('weixin_article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+<script src="__STATIC__/js/jquery/plugins/jquery.treetable.js"></script>
+<script>
+function ajax_user(id)
+{
+    if($('#collapsed'+id).attr('class') == 'collapsed')
+    {
+	if(!$('#truserid_'+id).attr('class'))
+	{
+	    $('.no').remove();
+	    $('.expandedselect').attr('class','collapsed');
+	    $('#truserid_'+id).prependTo('#tbody_id');
+	}
+	var padding = $('#padding'+id).val();
+	$('#collapsed'+id).attr('class','expanded expandedselect');
+	    //展开
+	    var url = '{:U("developuser/ajax_user",array("roleid"=>1))}';
+	    $.post(url,{id:id,padding:padding},function(result){
+		    if(result.status == 1){
+			$('#truserid_'+id).after(result.data);
+			$('#truserid_'+id).attr('rel',id);
+			return false;
+		    }
+		    else
+		    {
+			return false;
+		    }
+	    },'json');
+    }else
+    {
+	$('#collapsed'+id).attr('class','collapsed');
+	digui(id);
+	if(!$('#truserid_'+id).attr('class'))
+	{
+	    $('.no').remove();
+	    $('.expandedselect').attr('class','collapsed');
+	}
+    }
+}
+function digui(id)
+{
+    var pid = '';
+    $('.trrmo_'+id).each(function(){
+	if($(this).attr("rel"))
+	{
+	    
+	    pid = $(this).attr("rel")
+	}
+    });
+    $('.trrmo_'+id).remove();
+    if(pid)
+    {
+	 digui(pid);
+    }
+}
+</script> 
+</body>
+</html>

@@ -1,0 +1,150 @@
+<include file="public:header" />
+<style type="text/css">
+	#touxian{ width: 500px;}
+	#hopeless{ width: 500px; height: 180px;}
+	.load-img-wrap {
+    margin: 5px 0;
+    position: relative;
+    z-index: 99;
+	}
+	.load-img-wrap img {
+		height: 80px;
+		margin: 2px;
+		width: 80px;
+	}
+
+</style>
+<!--添加管理员-->
+<div class="pad_lr_10">
+	<form id="info_form" name="info_form" action="{:u('vote_mengbao/edit')}" method="post">
+	<table width="100%" class="table_form">
+		<tr> 
+	      <th width="80">参加编号 :</th>
+	      <td>{$info.vote_id}号</td>
+	    </tr>
+	    <tr> 
+	      <th>萌宝姓名 :</th>
+	      <td><input type="text" name="vote_personal" id="vote_personal" class="input-text" size="25" value="{$info.vote_personal}"></td>
+	    </tr>
+        <tr> 
+	      <th>电话 :</th>
+	      <td><input type="text" name="tel" id="tel" class="input-text" size="25" value="{$info.tel}"></td>
+	    </tr>
+	    <tr> 
+	      <th>年龄 :</th>
+	      <td><input type="text" name="age" id="age" class="input-text" size="25" maxlength="2" value="{$info.age}"> 3-16岁之间</td>
+	    </tr>
+	    <tr> 
+	      <th>性别 :</th>
+	      <td>
+			<select name="gender">
+				<option value="1" <if condition="$info.gender eq 1"> selected="selected"</if>>男</option>
+				<option value="2" <if condition="$info.gender eq 2"> selected="selected"</if>>女</option>
+			</select>	
+	      	</td>
+	    </tr>
+         <tr> 
+	      <th>简介 :</th>
+	      <td><textarea name="description" id="description" value="" style="width:400px;">{$info.description}</textarea></td>
+	    </tr>
+
+	    <tr> 
+	      <th>形象照片 :</th>
+	      <td>
+          <!--
+				<input name="avatar" id="J_img" type="hidden" value="" />
+				<div class="img_border" id="img_data"></div>
+				<div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+                -->
+			<p>上传照片最多为5张,第一张默认为头像</p>
+			<p id="loadCont">还可以上传<span id="totalLoadNumber">5</span>张(每张图限制大小5M以内)</p>
+			<input type="file" id="imgLoad" name="imgLoad">
+			<div class="load-img-wrap"></div>
+            <input type="hidden" name="avatar" value="" id="imgs_1">
+            <input type="hidden" name="imgs[]" value="" id="imgs_2">
+            <input type="hidden" name="imgs[]" value="" id="imgs_3">
+            <input type="hidden" name="imgs[]" value="" id="imgs_4">
+            <input type="hidden" name="imgs[]" value="" id="imgs_5">
+	      </td>
+	    </tr>
+
+	    <tr>	
+ 
+	    
+	     
+		
+	   
+	</table>
+	<input type="hidden" name="vote_item" value="2">
+    <input type="hidden" name="id" value="{$info.id}">
+	<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</form>
+</div>
+<include file="public:footer" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script src="__STATIC__/css/default/weixin/vote_mengbao/js/lib/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="__STATIC__/css/default/weixin/vote_mengbao/js/join.js"></script>
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});	
+	$("#vote_personal").formValidator({onshow:lang.please_input+'萌宝姓名',onfocus:lang.please_input+'萌宝姓名'}).inputValidator({min:1,onerror:lang.please_input+'萌宝姓名'}).defaultPassed();
+	$("#J_img").formValidator({onshow:lang.upload+'照片',onfocus:lang.upload+'照片'}).inputValidator({min:1,onerror:lang.upload+'照片'});
+		
+//上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('vote_young/ajax_upload_img')}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+            	$('#J_upload_img').hide();
+                $('#J_img').val(result.data);
+                $('#J_img').blur();
+                $('#img_data').html('<ul><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+    //删除图片
+	$('.del_img').live('click',function(){
+		var img_path = $(this).parents('.img_border').prev('input').val();
+		var delimg_url = '{:U('media/del_img',array('roleid'=>1))}';
+		$.post(delimg_url,{img_path:img_path},function(result){
+			if(result.status == 1){
+				$('#img_data').html('');
+				$('#J_img').val('');
+				$('#J_upload_img').show();
+				$('#J_img').focus();
+				return false;
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+            }
+		},'json');
+	});		
+	
+
+});
+</script>
+</body>
+</html>
+	

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="public:new_head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/sugto.css" rel="stylesheet" />
+</head>
+<body>
+
+<div class="info_frm nobg paddingLR">
+  <label>客户姓名</label>
+  <input name="name" id="name" type="text">
+  <label>客户电话</label>
+  <input name="mobile" id="mobile" type="number">
+  <label>意向区域</label>
+  <input type="text" readonly class="select J_select_city" id="testTXT1">
+  <input type="hidden" name="area" id="area"/>
+  <label>意向价格</label>
+  <input type="text" readonly class="select J_select_price" id="testTXT2">
+  <input type="hidden" name="price" id="price"/>
+</div>
+<a href="#" class="btn_next bc_007fd4" id="J_kehu_add_submit">推荐</a>
+<div  class="mobilePopup bottom">
+  <h2 ><a href="javascript:;" class="close">X</a><label id='J_title'>客户选择意向区</label></h2>
+  <ul id='J_list_data'>
+  </ul>
+</div>
+<script type="text/javascript">
+var $mobilePopup = $('.mobilePopup');
+$mobilePopup.find('.close').click(function(){
+	$mobilePopup.fadeOut();
+});
+$mobilePopup.find('li a').live('click',function(){
+    if($('#J_title').attr('class') == 'area')
+    {
+       $('#testTXT1').val($(this).text());
+       $('#area').val($(this).attr('rel'));
+    }
+    if($('#J_title').attr('class') == 'price')
+    {
+       $('#testTXT2').val($(this).text());
+       $('#price').val($(this).attr('rel'));
+    }
+    $mobilePopup.fadeOut(250);
+    //alert($(this).text());
+});
+
+	var isOn = false;
+	$mobilePopup
+	.live('hover',function(){
+		isOn = true;
+	},function(){
+		isOn = false;
+	})
+	$(document).click(function(){
+		if(!isOn){
+			$mobilePopup.hide();
+		}
+	});
+
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

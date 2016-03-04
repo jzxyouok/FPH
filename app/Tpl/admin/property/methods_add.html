@@ -1,0 +1,101 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('menuid'=>298,'roleid'=>1))}">
+        <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a  href="javascript:history.go(-1);">
+        <em>返回</em>
+        </a>
+    </div>
+</div>
+<form id="info_form" action="{:U('property/methods_add',array('id'=>$id,'roleid'=>1))}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10 ">
+                <table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">适用物业：</th>
+                        <td>
+                            <volist name="catelist['property_type']" id="v">
+				    <label><input type="checkbox" name="property_type[]" id="property_type_{$v['id']}" value="{$v['id']}" class="input-text" size="30">&nbsp;{$v['name']}&nbsp;&nbsp;</label>
+			    </volist>
+			    <div id="property_type_2Tip" ></div>
+                        </td>
+                    </tr>
+		    
+		    <tr>
+                        <th width="120">有效期：</th>
+                        <td>
+                            <input type="text" id="term_start" name="term_start" class="date" size="10">
+			    到
+			    <input type="text" id="term_end" name="term_end" class="date" size="10">
+                        </td>
+                    </tr>
+		    
+		    <tr>
+                        <th width="120">合作方式：</th>
+                        <td>
+                        </td>
+                    </tr>
+		    
+		    <tr>
+			<th >服务佣金：</th>
+		       <td>
+			    <input type="text" name="service_money" id="service_money"  class="input-text" size="8"><font color="#999999">&nbsp;%</font>
+			</td>
+		    </tr>
+		    
+		    <tr>
+			<th >平台使用费：</th>
+		       <td>
+			    <input type="text" name="platform_money" id="platform_money"  class="input-text" size="8"><font color="#999999">&nbsp;元</font>
+			</td>
+		    </tr>
+		    
+    
+                    
+                </table>
+            </div>
+            <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+        </div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$(function() {
+    
+    Calendar.setup({
+    inputField : "term_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+    });
+    
+    Calendar.setup({
+	inputField : "term_end",
+	ifFormat   : "%Y-%m-%d",
+	showsTime  : false,
+	timeFormat : "24"
+    });
+
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    
+    $(":checkbox[name='property_type[]']").formValidator({tipID:"property_type_2Tip",onshow:"请选择适用物业",onfocus:"请选择适用物业",oncorrect:"输入正确"}).inputValidator({min:1,onerror:"请选择适用物业"});
+    
+    $("#term_start").formValidator({onshow:"",onfocus:"请输入合作开始时间"}).inputValidator({min:3,onerror:"请输入合作开始时间"});
+    $("#term_end").formValidator({onshow:"",onfocus:"请输入合作结束时间"}).inputValidator({min:3,onerror:"请输入合作结束时间"});
+
+});
+</script>
+</body>
+</html>

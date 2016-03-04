@@ -1,0 +1,72 @@
+<header >
+  <div class="content">
+    <div class="logo"><a href="__ROOT__/" title="房品汇"><img src="__STATIC__/css/default/home/images/logo.png" alt=""/></a></div>
+     <div class="regions">
+      <div class="DropDowns">
+        <ul>
+          <li> <span class="titles">热门</span>
+            <ul>
+              <volist name="city_list" id="vo">
+              <li><a href="{:U('home/index/index',array('city'=>$vo['id']))}">{$vo['name']}</a></li>
+              </volist>
+            </ul>
+            <div class="clearfix"></div>
+          </li>
+        </ul>
+      </div>
+    <span>{$city_list[0]['name']}</span> <a href="javascript:;">[切换城市]</a> </div>
+    <div class="reminders" <if condition="$_COOKIE['head_select'] eq '' "> style="display: none;" </if>>
+      <a href="javascript:;" class="btn_close"></a>
+      <a href="javascript:;" class="btn_selcity">切换城市看看</a>
+    </div>
+    <div class="nav">
+      <ul>
+        <li 
+        <if condition="MODULE_NAME eq 'index'">class="cur"</if>
+        > <a href="__ROOT__/">首页</a>
+        </li>
+        <li 
+        <if condition="MODULE_NAME eq 'property'">class="cur"</if>
+        > <a href="{:U('property/index')}">热销楼盘</a>
+        </li>
+        <li 
+        <if condition="MODULE_NAME eq 'brand'">class="cur"</if>
+        > <a href="{:U('brand/index')}">品牌汇</a>
+        </li>
+        <li 
+        <if condition="MODULE_NAME eq 'joinus'">class="cur"</if>
+        > <a href="{:U('joinus/index')}">加入我们</a>
+        </li>
+        <li 
+        <if condition="ACTION_NAME eq 'contact'">class="cur"</if>
+        > <a href="{:U('article/contact')}">联系我们</a>
+        </li>
+        <li class="download">
+                  <a href="{:U('download/index')}">下载中心</a>
+                </li>
+      </ul>
+    </div>
+  </div>
+</header>
+<script>
+	var $DropDowns = $('.DropDowns');
+	var $reminders = $('.reminders');
+	$('.regions').find('a').live('click',function(e){
+		OPR(e);
+	});
+	$(document).click(function(){
+		$DropDowns.hide();
+	});
+	$('.btn_close').click(function(e) {
+        $reminders.hide();
+    });
+	$('.btn_selcity').live('click',function(e) {
+		OPR(e);
+    });
+	
+	function OPR(e){
+		e.stopPropagation();
+		$DropDowns.fadeIn();
+		$reminders.hide();
+	}
+</script>

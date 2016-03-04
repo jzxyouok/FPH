@@ -1,0 +1,181 @@
+<include file="public:header" />
+<style>
+.popup {position:absolute;width:193px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto; z-index:100}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<!--添加文章-->
+<form id="info_form" action="{:U('bluetooth/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">当前使用的uuid :</th>
+						<td>{$uuid}</td>
+					</tr>
+					<tr>
+						<th width="120">选择城市 :</th>
+						<td>
+							<select id="province" name="province">
+								<option value="0">请选择</option>
+								<volist name="provinceList" id="vo">
+									<option value="{$vo.id}">{$vo.name}</option>
+								</volist>
+							</select>
+							<select id="city" name="city" style="display: none">
+
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>Major:</th>
+						<td>
+							<select id="major" name="major">
+								<option value="0">请选择</option>
+							</select>
+					</tr>
+					<tbody class="Binding_property" style="display:none">
+						<tr>
+							<th>绑定楼盘 :</th>
+							 <td style="position:relative;">
+								 <input autocomplete="off" type="text" name="title" id="title" class="input-text input_loupan_search" size="30" maxlength="30"/>
+								 <div id="J_loupan_name" style="display:none"></div>
+								 <input name="pid" id="pid" type="hidden" />
+								 <span class="gray ml10">选填</span>
+							 </td>
+						</tr>
+						<tr>
+							<th>绑定开始时间 :</th>
+							<td><input id="time_start" class="date" type="text" size="27" name="time_start" readonly></td>
+						</tr>
+						<tr>
+							<th width="120">绑定结束时间 :</th>
+							<td><input id="time_end" class="date" type="text" size="27" name="time_end" readonly></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+var city_url = "{:U('admin/city/ajax_city')}";
+var major_url = "{:U('admin/bluetooth_cate/ajax_major')}";
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#city").formValidator({onshow:"请选择城市",onfocus:"请选择城市"}).inputValidator({min:1,onerror:"请选择城市"});
+	$("#major").formValidator({onshow:"请选择major",onfocus:"请选择major"}).inputValidator({min:1,onerror:"请选择major"});
+	//$("#time_start").formValidator({onshow:"请输入开始时间",onfocus:"请输入开始时间"}).inputValidator({min:3,onerror:"请输入开始时间"});
+    //$("#time_end").formValidator({onshow:"请输入结束时间",onfocus:"请输入结束时间"}).inputValidator({min:3,onerror:"请输入结束时间"});
+});
+
+//搜索楼盘
+$('.input_loupan_search').on('input',function(){
+	var title = $.trim($('#title').val());
+    var url   = '{:U('hezuo_property/input_search',array('roleid'=>1))}';
+    if(title!=''){
+		$('#J_loupan_name').show();
+    	$.post(url,{title:title},function(result){
+			if(result.status == 1){
+				$('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+				$('#J_loupan_name').html(result.data);
+				return false;
+			}else{
+				$.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+			}
+		},'json');
+    }else{
+		$('#pid').val('').blur();
+		$('#J_loupan_name').hide();
+	}
+});
+
+//选择
+$('#J_loupan_name > ul > li').live('click',function(){
+	var rel = $(this).attr('rel');
+	var title = $(this).text();
+	$('#pid').val(rel).blur();
+	$('#title').val(title);
+	$('#J_loupan_name').hide();
+});
+
+$('#province').change(function(){
+	var province = $('#province').val();
+	if(province != 0){
+		$.post(city_url,{province:province},function(result){
+			if(result.status == 1){
+				$('#city').show();
+				var html = '<option value="0">请选择</option>';
+				$.each(result.data,function(i,n){
+					html += '<option value="' + n['id'] + '">' + n['name'] + '</option>';
+				});
+				$('#city').html(html);
+				return false;
+			} else {
+				$.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+			}
+		},'json');
+	}else{
+		$('#city').html('');
+		$('#city').hide();
+		$('#major').html('<option value="0">请选择</option>');
+		$('.Binding_property').hide();
+	}
+});
+
+$('#city').change(function(){
+	var city = $('#city').val();
+	if(city != 0){
+		$.post(major_url,{city_id:city},function(result){
+			if(result.status == 1){
+				var html = '<option value="0">请选择</option>';
+				$.each(result.data,function(i,n){
+					html += '<option value="' + n['id'] + '">' + n['major'] + '</option>';
+				});
+				$('#major').html(html);
+				return false;
+			} else {
+				$('#major').html('<option value="0">该城市无major</option>');
+				return false;
+			}
+		},'json');
+	}else{
+		$('#major').html('<option value="0">请选择</option>');
+	}
+});
+
+$('#major').change(function(){
+	var major = $('#major').val();
+	if(major == 0){
+		$('.Binding_property').hide();
+	}else{
+		$('.Binding_property').show();
+	}
+});
+</script>
+</body>
+</html>

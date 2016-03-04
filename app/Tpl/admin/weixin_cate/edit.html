@@ -1,0 +1,73 @@
+<!--编辑栏目-->
+<div class="dialog_content">
+	<form id="info_form" action="{:u('weixin_cate/edit')}" method="post">
+	<table width="100%" class="table_form">
+		<tr>
+			<th width="100">{:L('item_cate_parent')} :</th>
+			<td>
+				<select name="pid" id="pid">
+				  <option value="0">--顶级分类--</option>
+				  <volist name="weixin_cate" id="vo">
+				  <option value="{$vo.id}" <if condition="$pid eq $vo['id']">selected="selected"</if>>{$vo.name}</option>
+				  </volist>
+				</select>	
+			</td>
+		</tr>
+		<tr>
+			<th>菜单类型 :</th>
+            <td>
+                <label><input type="radio" name="menu_type" value="1" <if condition="$info.menu_type eq 1">checked</if>> 链接地址</label>&nbsp;&nbsp;
+                <label><input type="radio" name="menu_type" value="2" <if condition="$info.menu_type eq 2">checked</if>> 弹出消息</label>
+			</td>
+        </tr>
+		<tr>
+			<th>{:L('item_cate_name')} :</th>
+			<td><input type="text" name="name" id="J_name" class="input-text" value="{$info.name}" size="30"></td>
+		</tr>
+		<tr class="url_none"<if condition="$info.menu_type eq 2"> style="display:none"</if>>
+			<th>链接地址 :</th>
+			<td><input type="text" name="link" id="link" class="input-text" value="{$info.link}" size="30"><font color="#CCCCCC">&nbsp;链接地址必须以http://开头</font></td>
+		</tr>
+	    <tr>
+			<th>审核状态 :</th>
+			<td>
+				<label><input type="radio" name="status" value="1" <if condition="$info.status eq 1">checked</if>> 已审核</label>&nbsp;&nbsp;
+				<label><input type="radio" name="status" value="0" <if condition="$info.status eq 0">checked</if>> 未审核</label>
+		    </td>
+		</tr>
+	</table>
+	<input type="hidden" name="id" value="{$info.id}" />
+</form>
+</div>
+<script src="__STATIC__/js/jquery/plugins/colorpicker.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+var check_name_url = "{:U('weixin_cate/ajax_check_name', array('id'=>$info['id'],'roleid'=>1))}";
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	lang.item_cate_name = '菜单名称';
+	$("#J_name").formValidator({onshow:lang.please_input+lang.item_cate_name,onfocus:lang.please_input+lang.item_cate_name}).inputValidator({min:1,onerror:lang.please_input+lang.item_cate_name}).defaultPassed();
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	
+	$('input[name="menu_type"]').click(function(){
+		var menu_type = $(this).val();
+		if(menu_type==1){
+			$('.url_none').show();
+		}else if(menu_type==2){
+			$('.url_none').hide();
+			$('#link').val('');
+		}
+	});
+	
+});
+</script>

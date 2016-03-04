@@ -1,0 +1,102 @@
+<include file="public:header" />
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="activity:classification" />
+    </div>
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        <input type="hidden" name="g" value="admin" />
+                        <input type="hidden" name="m" value="activity" />
+                        <input type="hidden" name="a" value="sign_list" />
+                        <input type="hidden" name="menuid" value="{$menuid}" />
+                        <input type="hidden" name="id" value="{$id}" />
+                        开始时间：
+                        <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}">
+                        &nbsp;&nbsp;结束时间：
+                        <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}">
+                        &nbsp;&nbsp;手机号:
+                        <input id="mobile" name="mobile" type="text" class="input-text" size="20" value="{$search.mobile}" maxlength="20" />
+                        &nbsp;&nbsp;&nbsp;<input type="submit" name="search" class="btn" value="{:L('search')}" />
+                        &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" style="color: #0099CC;" id="export">导出数据</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="J_tablelist table_list" >
+        <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+            <if condition="$isExistTable eq 1">
+        <thead>
+            <tr>
+                <th width="30">序号</th>
+                <th>活动ID</th>
+                <th>活动名称</th>
+                <th>姓名</th>
+                <th>电话</th>
+                <th>状态</th>
+                <th>提交时间</th>
+                <!--<th width="120px;" align="center">{:L('operations_manage')}</th>-->
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+                <tr class="collapsed">
+                    <td align="center">{$p*20-20+$i}</td>
+                    <td align="center">{$aid}</td>
+                    <td align="center">{$title}</td>
+                    <td align="center">{$val.name}</td>
+                    <td align="center">{$val.mobile}</td>
+                    <td align="center"><if condition="$val['status'] eq 1">已报名<elseif condition="$val['status'] eq 2"/>报名失败<else/>预报名</if></td>
+                    <td align="center">{$val.add_time|date='Y-m-d H:i:s',###}</td>
+                    <!--<td align="center">
+                        <a href="{:U('property/sign_del',array('id'=>$id,'p_id'=>$val['id'],'roleid'=>1))}">删除</a>
+                    </td>-->
+                </tr>
+            </volist>
+        </tbody>
+                <else/>
+                <tbody>
+                <tr><td>报名信息不存在，请联系技术支持！</td></tr>
+                </tbody>
+            </if>
+        </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    // export
+    $('#export').click(function(){
+        var mobile  = $('#mobile').val();
+        var time_start  = $('#time_start').val();
+        var time_end    = $('#time_end').val();
+        var url = "/?g=admin&m=activity&a=signExport&time_start="+time_start+"&time_end="+time_end+"&mobile="+mobile+"&id={$id}";
+        if(confirm('确定导出数据?'))
+        {
+            window.location.href = url;
+        }
+    });
+</script>
+</body>
+</html>

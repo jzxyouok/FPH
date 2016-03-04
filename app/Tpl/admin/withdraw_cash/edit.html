@@ -1,0 +1,216 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('withdraw_cash/edit')}" method="post" onsubmit="return false;">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+			<a href="{:u('withdraw_cash/check',array('uid'=>$info['uid'],'withdraw_cash_id'=>$info['id'],'menuid'=>$menuid))}"><li>现金记录</li></a>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">客户姓名 :</th>
+						<td>{$info.username}</td>
+					</tr>
+					<tr>
+						<th>手机号码 :</th>
+						<td>{$info.mobile}</td>
+					</tr>
+                    <tr>
+                        <th width="120">客户状态 :</th>
+                        <td>
+                            <switch name="info['member_status']">
+                                <case value="0"><span style="color: #ff0000">禁用</span></case>
+                                <case value="1">正常</case>
+                                <case value="2"><span style="color: #ff0000">删除</span></case>
+                                <case value="3"><span style="color: #006600">预注册</span></case>
+                            </switch>
+                        </td>
+                    </tr>
+                    <if condition="$info['disable_reasons'] neq ''">
+                        <tr>
+                            <th>禁用理由 :</th>
+                            <td>{$info['disable_reasons']}</td>
+                        </tr>
+                    </if>
+					<tr>
+						<th>申请时间 :</th>
+						<td>{$info.add_time|date='Y-m-d H:i',###}</td>
+					</tr>
+					<tr>
+						<th>帐号类型 :</th>
+						<td><if condition="$info['account_type'] eq 1">支付宝<else/>银行卡</if></td>
+					</tr>
+		            <tr>
+						<th><if condition="$info['account_type'] eq 1">支付宝<else/>银行卡</if>帐号 :</th>
+						<td>{$info.account}</td>
+					</tr>
+                    <if condition="$info['status'] eq 1 OR $info['status'] eq 4">
+                        <tr>
+                            <th>票据单号</th>
+                            <td><input id="bill_number" class="input-text" type="text" size="30" name="bill_number"></td>
+                        </tr>
+                    <elseif condition="$info['status'] eq 2"/>
+                        <tr>
+                            <th>票据单号</th>
+                            <td>{$info['bill_number']}</td>
+                        </tr>
+                    <elseif condition="$info['status'] eq 3"/>
+                        <tr>
+                            <th>票据单号</th>
+                            <td>-</td>
+                        </tr>
+                    </if>
+
+                    <if condition="$info['account_type'] eq 2">
+                        <tr>
+                            <th>收款银行 :</th>
+                            <td>{$info.bank}</td>
+                        </tr>
+                        <tr>
+                            <th>开户行 :</th>
+                            <td>{$info.account_bank}</td>
+                        </tr>
+                    </if>
+
+					<tr>
+						<th>姓名 :</th>
+						<td>{$info.name}</td>
+					</tr>
+					<tr>
+						<th>提现金额 :</th>
+						<td>{$info.money}</td>
+					</tr>
+                    <tr>
+                        <th>状态 :</th>
+                        <td>
+                            <switch name="info['status']">
+                                <case value="1">申请提现</case>
+                                <case value="2"><span style="color: #006600">打款成功</span></case>
+                                <case value="3"><span style="color: #ff0000">打款失败</span></case>
+                                <case value="4"><span style="color: #d35605">延迟打款</span></case>
+                            </switch>
+                        </td>
+                    </tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10">
+            <if condition="$info['status'] eq 1 OR $info['status'] eq 4">
+                <input rel="2" type="button" value="打 款" name="dosubmit" class="btn btn_submit J_sunmit" style="margin:0 0 10px 100px;">
+                <input rel="4" type="button" value="延迟打款" name="dosubmit" class="btn btn_submit J_sunmit" style="margin:0 0 10px 20px;">
+                <input rel="3" type="button" value="帐号有误" name="dosubmit" class="btn btn_submit J_sunmit" style="margin:0 0 10px 20px;">
+            </if>
+        </div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+<input type="hidden" name="member_status" id="member_status" value="{$info['member_status']}" />
+</form>
+<include file="public:footer" />
+<script type="text/javascript">
+$(function(){
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#bill_number").formValidator({onshow:'请填写票据单号',onfocus:'请填写票据单号'}).inputValidator({min:1,onerror:'请填写票据单号'});
+
+	//避免重复发起ajax请求
+	$.ajaxSetup({
+		dataType	: 'json',
+		async		: false,
+	});
+	
+    $('.J_sunmit').click(function(){
+        var id     = $('#id').val();
+        var pid   = $(this).attr('rel');
+        var bill_number   = $.trim($('#bill_number').val());
+        var member_status = $.trim($('#member_status').val());
+        if(member_status == 0){
+            $.pinphp.tip({content:'该客户已经被禁用,无法完成操作', icon:'error'});
+            return false;
+        }
+        if(member_status == 2){
+            $.pinphp.tip({content:'该客户已经被删除,无法完成操作', icon:'error'});
+            return false;
+        }
+        if(pid!=2 && pid!=3 && pid!=4){
+            $.pinphp.tip({content:'系统参数出错,提交失败', icon:'error'});
+            return false;
+        }
+        if(bill_number == '' && pid ==2){
+            $.pinphp.tip({content:'请填写票据单号', icon:'error'});
+            return false;
+        }
+        var url  = '{:U('withdraw_cash/edit')}';
+        if(pid == 2){
+            var msg = '请确认之后再打款';
+        }else if(pid == 3){
+            var msg = '请确认打款账号是否有误，点击“确定”本次打款失败！ ';
+        }else if(pid == 4){
+            var msg = '确定延迟打款?';
+        }
+        if(confirm(msg)){
+        	if(pid == 2){
+        		try
+        		{
+	        		$.post("{:U('withdraw_cash/payTest')}",{id:id,pid:pid,bill_number:bill_number},function(json){
+	    				if(json.status == 'success'){
+	    					if(confirm('用户钱包余额充足,请确认后打款!'))
+	    					{
+	    						$.post(url,{id:id,pid:pid,bill_number:bill_number},function(result){
+	    		                    if(result.status == 1){
+	    		                        $.pinphp.tip({content:result.msg});
+	    		                        window.location.reload();
+	    		                        return false;
+	    		                    } else {
+	    		                        $.pinphp.tip({content:result.msg, icon:'error'});
+	    		                        return false;
+	    		                    }
+	    		                },'json'); 
+	    					}
+	    				}else if(json.status == '2001'){
+	    					if(confirm('用户钱包余额不足,确认后打款失败!'))
+	    					{
+	    						pid	= 3;
+	    						$.post(url,{id:id,pid:pid,bill_number:bill_number},function(result){
+	    		                    if(result.status == 1){
+	    		                        $.pinphp.tip({content:result.msg});
+	    		                        window.location.reload();
+	    		                        return false;
+	    		                    } else {
+	    		                        $.pinphp.tip({content:result.msg, icon:'error'});
+	    		                        return false;
+	    		                    }
+	    		                },'json');
+	    					}
+	    				}
+	    				else if(json.status == '2002'){
+	    					return alert('请审核所有的现金记录后再打款!');
+	    				}else{
+	    					return alert(json.msg);
+	    				}
+	                },'json'); 
+	        	}
+	        	catch(e)
+	        	{
+	        		alert('系统错误.');
+	        	}
+        	}else{
+                $.post(url,{id:id,pid:pid,bill_number:bill_number},function(result){
+                    if(result.status == 1){
+                        $.pinphp.tip({content:result.msg});
+                        window.location.reload();
+                        return false;
+                    } else {
+                        $.pinphp.tip({content:result.msg, icon:'error'});
+                        return false;
+                    }
+                },'json');     		
+        	}
+         }
+    });
+})
+</script>
+</body>
+</html>

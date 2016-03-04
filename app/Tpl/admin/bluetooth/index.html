@@ -1,0 +1,106 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="bluetooth" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                UUID :
+                <input name="uuid" type="text" class="input-text" size="25" value="{$search.uuid}" maxlength="32" />
+                &nbsp;&nbsp;major :
+                <input name="major" type="text" class="input-text" size="15" value="{$search.major}" maxlength="5" />
+                &nbsp;&nbsp;minor：
+                <input name="minor" type="text" class="input-text" size="15" value="{$search.minor}" maxlength="5" />
+                &nbsp;&nbsp;当前安置楼盘 :
+                <input name="title" type="text" class="input-text" size="25" value="{$search.title}" maxlength="32" />
+                &nbsp;&nbsp;使用状态:
+                <select name="status">
+                <option value="">-{:L('all')}-</option>
+                <option value="1" <if condition="$search.status eq '1'">selected="selected"</if>>已启用</option>
+                <option value="0" <if condition="$search.status eq '0'">selected="selected"</if>>未启用</option>
+                </select>
+                &nbsp;&nbsp;添加时间：
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}" readonly>
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}" readonly>
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('article/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <!--<th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>-->
+                <th width="30">序号</th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="center">UUID</th>
+                <th align="center">major</th>
+                <th align="center">minor</th>
+                <th align="center">设备ID</th>
+                <th align="left"><span data-tdtype="order_by" data-field="title">当前安置楼盘</span></th>
+                <th align="center"><span data-tdtype="order_by" data-field="pid">链接人次</span></th>
+                <th>使用状态</th>
+                <th width=150>添加时间</th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <!--<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>-->
+                    <td align="center">{$p*20-20+$i}</td>
+                    <td align="center">{$val.id}</td>
+                    <td align="center">{$val.uuid}</td>
+                    <td align="center">{$val.major}</td>
+                    <td align="center">{$val.minor}</td>
+                    <td align="center">{$val.deviceID}</td>
+                    <td align="left"><if condition="$val['title'] neq ''">{$val.title}<else/><span style="color: #ff0000">未绑定</span></if></td>
+                    <td align="center">{$val.links}</td>
+                    <td align="center">
+                        <if condition="$val['status'] eq 1">已启用<else/><span style="color:#ff0000">已停用</span></if>
+                    </td>
+                    <td align="center">{$val.add_time|date='Y-m-d',###}</td>
+                    <td align="center"><a href="{:u('bluetooth/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">{:L('edit')}</a> | <a href="{:u('bluetooth/show', array('id'=>$val['id'], 'menuid'=>$menuid))}">查看</a></td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <!--<label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />-->
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</body>
+</html>

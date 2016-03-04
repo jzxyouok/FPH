@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+<style type="text/css">
+.PADDING_FRM {
+	padding: 0 10%;
+}
+.NO_DATA_MSG {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+.BTNs.back {
+	max-width: 70%;
+	margin: 0 auto;
+}
+.LRCP_bottom_frm {
+	margin-top: 30px;
+}
+</style>
+</head>
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+  </header>
+  <section class="scroll_body noPadding">
+    <notempty name="user_stores_id">
+      <section class="photo"> <a href="javascript:;">
+        <figure>
+			<img id="J_store_avatar" src="{:get_fdfs_image($stores_info['img'], '_100x70')}" onerror="this.src='./data/upload/avatar/default_100.jpg'" />
+        </figure>
+        <section class="info">
+          <h2>{$stores_info.name}
+            <eq name="stores_info['status']" value="1"><i class="LBL_STATUS sc_a1">已认证</i></eq>
+          </h2>
+          <span class="address">{$stores_info.address}</span> 
+      <span class="contactor">服务专员：{$stores_type_info['username']}<strong>{$stores_type_info['mobile']}</strong></span>
+      <span class="store_code">邀请码：{$stores_info.code_id}</span>
+		  </section>
+          
+      </section>
+      </a>
+	  </notempty>
+	  <if condition="$stores_info['type'] eq 2">
+    <notempty name="list">
+      <section class="links_list">
+        <section class="blocks">
+          <ul class="display_list">
+            <volist name="list" id="v" >
+              <li><a href="javascript:;"><span class="title">{$v.username}</span><span class="mobile">{$v.mobile}</span> <span class="status">成交{$v.count}套</span></a></li>
+            </volist>
+          </ul>
+        </section>
+      </section>
+    </notempty>
+	</if>
+	<eq name="stores_info['type']" value="1">
+	<section class="se_btn"><a href="tel:{$stores_type_info['mobile']}" class="BTNs">联系服务专员</a></section>
+	</eq>
+  </section>
+  <empty name="list">
+    <if condition="$id !=''">
+      <section class="PADDING_FRM">
+        <div class="NO_DATA_MSG">该门店还没有经纪人加入</div>
+      </section>
+    </if>
+  </empty>
+  <if condition="$user_stores_id eq '0' ">
+    <section class="PADDING_FRM">
+      <div class="NO_DATA_MSG">您尚未加入任何门店</div>
+      <ul class="FORM_LISTS">
+        <li>
+          <input name="code_id" id="code_id" type="tel" placeholder="请输入门店邀请码">
+        </li>
+      </ul>
+      <a href="javascript:;" class="BTNs stores_get_add">加入</a> 
+      <!--     <a href="tel:18621969373" class="BTNs back">联系客服添加门店信息</a> --> 
+    </section>
+    <div class="LRCP_bottom_frm">
+      <div class="form_frm">
+        <div class="bottom_links"> <span class="title">如果您是店长，请点击创建门店</span> <!--<a href="{:U('m/stores/add')}" class="btn">创建门店</a>--> </div>
+      </div>
+    </div>
+  </if>
+  
+</div>
+<include file="public:footer" />
+</body>
+</html>

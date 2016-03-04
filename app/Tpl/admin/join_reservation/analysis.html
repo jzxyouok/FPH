@@ -1,0 +1,175 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('reservation/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加预约</em>
+        </a>
+    </div>
+</div>
+
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+
+                <div class="content_menu ib_a blue line_x">
+                    <a  href="{:U('reservation/index',array('id'=>$id))}">
+                        <em>预约奖励金</em>
+                    </a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="{:U('join_reservation/index',array('id'=>$id,'roleid'=>1))}">
+                        <em>客户预约列表</em>
+                    </a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a class="on"  href="{:U('join_reservation/analysis',array('id'=>$id,'roleid'=>1))}">
+                        <em>预约报表统计</em>
+                    </a>
+                </div>
+
+                <form name="searchform" method="get" >
+                    <table width="100%" cellspacing="0" class="search_form">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="explain_col">
+                                    <input type="hidden" name="g" value="admin" />
+                                    <input type="hidden" name="m" value="join_reservation" />
+                                    <input type="hidden" name="a" value="analysis" />
+                                    年份：
+                                    <select name="year" id="year">
+                                        <volist name="year" id="vo">
+                                            <option value="{$vo}" <if condition="$getYear eq $vo">selected="selected"</if>>{$vo}</option>
+                                        </volist>
+                                    </select> &nbsp;&nbsp;&nbsp;&nbsp;
+                                    月份：
+                                    <select name="month" id="month">
+                                        <volist name="month" id="vo">
+                                        <option value="{$vo}" <if condition="$getMonth eq $vo">selected="selected"</if>>{$vo}</option>
+                                        </volist>
+                                    </select>
+                                    <input type="hidden" name="id" id="pid" value="{$id}" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="submit" name="search" class="btn" value="分析" />
+                                    <a href="javascript:void(0);" style="color: #0099CC;" id="export">导出数据</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+
+                <div class="J_tablelist table_list" data-acturi="" style="margin-bottom:0px;" id="container">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="__STATIC__/css/admin/js/highcharts.js"></script>
+<script type="text/javascript" src="__STATIC__/css/admin/js/exporting.js"></script>
+<script type="text/javascript" src="__STATIC__/css/admin/js/dark-green.js"></script>
+<script>
+
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '{$getMonth} 月份 预约到访记录分析  '
+            },
+            subtitle: {
+                text: '总计：{$memberNum} 人'
+            },
+            xAxis: {
+                categories: [{$categories}]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '单位 : 人'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0;"><b style="margin-left: 5px;">{point.y:1f} 人 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td><td width="30">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '当日预约总人数',
+                data: [{$count}],
+                data2: [{$count}]
+
+            }, {
+                name: '当日到访人数（准）',
+                data: [{$arrived}],
+                data2: [{$arrived}]
+
+            }, {
+                name: '当日到访人数（早）',
+                data: [{$arrivedBefore}],
+                data2: [{$arrivedBefore}]
+
+            }, {
+                name: '当日到访人数（晚）',
+                data: [{$arrivedLate}],
+                data2: [{$arrivedLate}]
+
+            }]
+        });
+
+
+        // export
+        $('#export').click(function(){
+            var exYear = $('#year').val();
+            var exMonth = $('#month').val();
+            var pid = $('#pid').val();
+            var url = "/?g=admin&m=join_reservation&a=export&exYear="+exYear+"&exMonth="+exMonth+"&pid="+pid;
+            if(confirm('确定导出 '+exYear+' 年 '+exMonth+' 月份预约到访数据?'))
+            {
+                window.location.href = url;
+            }
+        });
+
+       $("#container").delegate("svg","mousemove",function(){
+           var dom = $('.highcharts-tooltip').find('table tr');
+           var a = dom.eq(0).find('td').eq(1).text();
+               a = a.split('人')[0];
+           foramatRate(dom,a);
+       });
+    });
+
+    function foramatRate(dom,a)
+    {
+        for(var i=1; i<=3; i++)
+        {
+            var d = dom.eq(i).find('td').eq(1).text();
+            d = d.split('人')[0];
+            var persentd=new Number(d/a*100);
+            if(isNaN(persentd)){
+                persentd = 0;
+            }
+            var rd = persentd.toFixed(2)+"%";
+            var tmpd = rd;
+            dom.eq(i).find('td').eq(2).text(tmpd);
+        }
+    }
+</script>
+</body>
+</html>
+	

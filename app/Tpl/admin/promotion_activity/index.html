@@ -1,0 +1,42 @@
+<include file="public:header" />
+<br>
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <div class="J_tablelist table_list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th>活动类型</th>
+                <th>手机号码</th>
+                <th>用时</th>
+                <th>参加时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val">
+                <tr>
+                    <td align="center">{$p*20-20+$i}</td>
+                    <td align="center">{$val.id}</td>
+                    <td align="center">
+                        <switch name="val['type']">
+                            <case value="1">房品君</case>
+                        </switch>
+                    </td>
+                    <td align="center">{$val['mobile']}</td>
+                    <td align="center">{$val['receive_time']}s</td>
+                    <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

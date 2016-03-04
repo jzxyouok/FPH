@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="public:new_head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/profile.css" rel="stylesheet" />
+<style>
+html,body{background-color:#ebeced}
+.top_sum:after {display:block;	content:'';	clear:both;	visibility:hidden}
+.top_sum dl { padding:0 12px; margin:1.2em 0; float:left; border-right:1px solid #d2d7db;text-align:left; line-height:100%; }
+.top_sum dl:last-child { border-right:0;}
+.top_sum dt { font-size:14px; color:#666; margin-bottom:0.6em}
+.top_sum dd { padding:0; margin:0; font-size:18px; color:#f60;}
+.top_sum dd span {font-size:12px;}
+
+.item_box { width:100%;}
+.item_box .item ul { background-color:#fff; padding-left:0.8em;}
+.item_box b.times { color:#999; font-size:14px; display:inline-block; padding:0 12px;line-height:45px;}
+.item_box .item li {border-bottom:1px solid #ebeced; padding:0 12px 0 0; font-size:14px;line-height:45px;}
+.item_box .item li:last-child {border-bottom:0}
+.item_box .item li:after {display:block;	content:'';	clear:both;	visibility:hidden}
+.item_box .item li span { font-size:14px; color:#999; float:right;font-style:normal;}
+.item_box .item li span i { font-style:normal; padding:0 2px; }
+@media all and (min-width:1080px) {
+.wrap { width:480px; margin:0 auto}
+.topNavi { position:relative}
+.bt_loading {background-color:#ebeced!important}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+<!-- <div class="topNavi"> <a href="javascript:history.back();" class="goBack btns"></a> <a href="{:U('weixin/user/index')}" class="home btns"></a>房品汇</div> -->
+<div class="top_sum">
+	<!--<dl>
+    <dt>友推奖池</dt>
+    <dd><span id="target" style="font-size: 30px; color: #fff799;">0 </span><span>元</span></dd>
+    </dl>
+    <dl>
+    <dt>可领取</dt>
+    <dd><span id="targets" style="font-size: 30px; color: #fff799;">0 </span><span>元</span></dd>
+    </dl>-->
+    <dl>
+    <dt>已推广</dt>
+    <dd><span style="font-size: 30px; color: #FE6600;">{$team[count]} </span><span>人</span></dd>
+    </dl>
+</div>
+<script type="text/javascript" src="__STATIC__/css/default/weixin/js/jquery.color.min.js"></script>
+<script type="text/javascript" src="__STATIC__/css/default/weixin/js/jquery.animateNumber.min.js"></script>
+<script>
+  var comma_separator_number_step=$.animateNumber.numberStepFactories.separator(',')
+ $('#target').animateNumber(
+    {
+      number: {$team[prize_pool]},
+      color: '#FF6600',
+      'font-size': '30px',
+      easing: 'easeInQuad',
+      numberStep: comma_separator_number_step
+    },
+    1000
+  );
+
+
+  $('#targets').animateNumber(
+    {
+      number: {$team[input]},
+      color: '#FF6600',
+      'font-size': '30px',
+      easing: 'easeInQuad',
+      numberStep: comma_separator_number_step
+    },
+    1000
+  );
+	//向下滑动加载
+	var winH = $(window).height(); //页面可视区域高度 
+	var pagefirst = 1; //设置当前页数
+	var stopstatus = true; 
+	$(window).scroll(function () { 
+        var pageH = $(document.body).height(); 
+        var scrollT = $(window).scrollTop(); //滚动条top 
+        var lq_height = (pageH-winH-scrollT)/winH; 
+		var url = PINER.root + '/?g=weixin&m=user&a=ajax_team';
+        if(lq_height<0.02 && stopstatus == true){ 
+			stopstatus = false;
+			$.post(url,{page:pagefirst},function(result){
+				if(result.status == 1){
+					$('.item_box').append(result.data);
+					pagefirst++;
+					stopstatus = true;
+					return false; 
+				} else {
+					//$(".bt_loading").html(result.msg); 
+                    return false; 
+				}
+			},'json');
+        } 
+    });
+  
+</script> 
+
+<div class="item_box">
+  <if condition="$list neq '' ">
+   <volist name="list" id='val'>
+	<div class="item">
+    	<b class="times">{$val.date}</b>
+        <ul>
+        <volist name="val.item" id="value">
+         <li>{$value.username} {$value.mobile}<span>成交<i>{$value.count}</i>套</span></li>
+        </volist>
+        </ul>
+    </div>
+    </volist>
+    </if>
+</div>
+<if condition="$list eq '' ">
+  <div class="nodate_msg" style="padding:100px 16px;">
+    <h1 style="color:#ccc">您尚未邀请到好友</h1>
+    <h3 style="color:#ccc">赶快邀请您的好友，赚取友推奖金吧！</h3>
+  </div>
+</if>
+ <if condition="$count egt 8"><div class="bt_loading"><span>向上滑动加载更多</span></div></if>
+<!-- <a href="tel:{:C('pin_kefu_tel')}" class="btn_next bc_007fd4">联系房品汇客服</a> -->
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

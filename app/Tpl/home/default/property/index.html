@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<include file="public:head" />
+</head>
+
+<body>
+<include file="public:header" />
+<div class="brand_remit_header">
+  <div class="brand_remit_header_bg">
+    <div class="content">
+      <div class="brand_remit_headline">
+        <div class="brand_remit_crumbs">
+          <ul>
+            <li><a href="__ROOT__/">首页</a></li>
+            <li><a href="javascript:;">{$setTitle}</a></li>
+          </ul>
+        </div>
+        <h2>热销楼盘</h2>
+        <h5>汇聚热销好盘 确保快速成交 高效安全分佣</h5>
+      </div>
+      <div class="search_box">
+        <form name="form" id="from" method="get" action="__ROOT__/index.php">
+        <input type="hidden" name="m" value="property"/>
+        <input type="hidden" name="a" value="index"/>
+		<if condition="$keyword eq ''">
+			<input style="color:#999" type="text" id="search" name="search" onFocus="focusInputEle(this)" onBlur="blurInputEle(this)" defaultVal="请输入楼盘名称关键词..." value="请输入楼盘名称关键词..."/>
+		<else/>
+			<input type="text" id="search" name="search" value="{$keyword}"/>
+		</if>
+        <button class="button J_property_but" type="button"><i class="search"></i>搜索</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cooperate_realestate_main">
+  <div class="content">
+    <div class="filter_list">
+      <h6>列表筛选</h6>
+      <div class="detail">
+        <label>区域：</label>
+        <ul>
+	    <li><a href="{:U('property/index',array('house_type'=>$house_type,'tenement'=>$tenement))}" class='<if condition="$area eq ''">on <else /> </if>'>不限</a></li>
+         <volist name="citylist" id="vo">
+	         <if condition="$area eq $vo[id]">
+	           <li><a href="{:U('property/index',array('area'=>$vo[id],'house_type'=>$house_type,'tenement'=>$tenement))}" class="on">{$vo.name}</a></li>
+	         <else />
+	           <li><a href="{:U('property/index',array('area'=>$vo[id],'house_type'=>$house_type,'tenement'=>$tenement))}">{$vo.name}</a></li>
+	         </if>
+         </volist>
+        </ul>
+      </div>
+      <div class="detail">
+        <label>房型：</label>
+        <ul>
+          <li><a href="{:U('property/index',array('area'=>$area,'tenement'=>$tenement))}" class='<if condition="$house_type eq ''">on <else /> </if>'>不限</a></li>
+          <volist name="room" id="vo">
+	          <if condition="$vo neq 0 and $vo neq ''">
+	           <li>
+		    <a href="{:U('property/index',array('area'=>$area,'house_type'=>$vo,'tenement'=>$tenement))}" class='<if condition="$house_type eq $vo">on <else /> </if>'>
+	              <switch name="vo" >
+					<case value="1">一室</case>
+					<case value="2">二室</case>
+					<case value="3">三室</case>
+					<case value="4">四室</case>
+					<case value="5">五室</case>
+					<case value="6">六室</case>
+			    </switch>
+	          </a>
+		   </li>
+	        </if>
+          </volist>
+        </ul>
+      </div>
+      <div class="detail">
+        <label>物业：</label>
+        <ul>
+          <li><a href="{:U('property/index',array('area'=>$area,'house_type'=>$house_type))}" class='<if condition="$tenement eq ''">on <else /> </if>'>不限</a></li>
+          <volist name='property_cate' id='vo'>
+              <if condition="$tenement eq $vo[id]">
+               <li><a href="{:U('property/index',array('area'=>$area,'house_type'=>$house_type,'tenement'=>$vo[id]))}" class='on'>{$vo.name}</a></li>
+              <else />
+                <li><a href="{:U('property/index',array('area'=>$area,'house_type'=>$house_type,'tenement'=>$vo[id]))}">{$vo.name}</a></li>
+              </if>
+          </volist>
+        </ul>
+      </div>
+    </div>
+    
+    <empty name="list">
+		<div class="no_data_case">
+		<h3>系统中没有找到你当前搜索的数据！</h3>
+		<p>你可以：</p>
+		<p>1.拨打房品汇客服电话：<span>{:C('pin_kefu_tel')}</span></p>
+		<p>2.返回<a href="{:U('property/index')}">热销楼盘首页</a>查看其它楼盘</p>
+	   </div>
+	</empty>
+   
+    <div class="realestate_list">
+      <ul>
+       <volist name='list' id='vo'>
+         <li>
+	    <a href="{:U('property/detail',array('pid'=>$vo[id]))}">
+		<i <if condition="$vo['pid'] eq 1">  class="coop" </if>></i>
+	       <img src="{:get_fdfs_image($vo['img_thumb'], '_pc_thumb')}" onerror="this.src='__STATIC__/css/default/images/no_img.gif';"  alt="{$vo.title}"/>
+	    </a>
+          <div class="title"><span>[{$vo.city}]</span>{$vo.title}
+               <i>
+		{:trim($vo['item_price'])}元/㎡
+               </i>
+           </div>
+	  <if condition="$vo['pid'] eq 1">
+          <div class="BC discount"><span>优惠</span>{$vo.prefer}</div>
+          <div class="BC brokerage"><span>佣金</span>每套{$vo.list_price}元起</div>
+	  </if>
+        </li>
+        </volist>
+      </ul>
+    </div>
+    
+    <div class="pagination">{$page}</div>
+  </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

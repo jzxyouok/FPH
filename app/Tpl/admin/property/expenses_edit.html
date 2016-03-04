@@ -1,0 +1,212 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+        <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property/expenses_add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加路费</em>
+        </a>
+    </div>
+</div>
+<script type="text/javascript">
+    var PINER = {
+        root: '__ROOT__',
+    };
+</script>
+<form id="info_form" action="{:U('property/expenses_edit')}" method="post">
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10 ">
+                <table width="100%" cellspacing="0"  class="table_form">
+                <tr>
+                    <th width="120">开始时间：</th>
+                    <td>
+                        <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$info.time_start|date='Y-m-d',###}" readonly="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>结束时间：</th>
+                    <td>
+                        <input type="text" name="time_end" id="time_end"  class="date" size="12" value="{$info.time_end|date='Y-m-d',###}" readonly="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>路费来源：</th>
+                    <td>
+                        客户: {$info.partners}元&nbsp;&nbsp;&nbsp;&nbsp;房品汇: {$info.fangpinhui}元
+                    </td>
+                </tr>
+                <tr>
+                    <th>发放方式：</th>
+                    <td>
+                        <if condition="$info.manner eq '1'">固定金额</if>
+                        <if condition="$info.manner eq '2'">金额随机</if>
+                    </td>
+                </tr>
+                <tr>
+                    <th>总金额：</th>
+                    <td>{$info.total_amount}</td>
+                </tr>
+                <tr>
+                    <th>路费总份数：</th>
+                    <td>
+                        {$info.copies}
+                        <input type="hidden" name="copies" value="{$info.copies}">
+                        <span class="gray ml10">份</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>预计总金额：</th>
+                    <td>{$info.forecast_money} <span class="gray ml10">元</span></td>
+                </tr>
+                <tr>
+                    <th>路费金额：</th>
+                    <td>{$info.rule} <span class="gray ml10">元/人</span></td>
+                </tr>
+                    <if condition="$info.manner eq '2'">
+                        <volist name="extend_list" id="vo">
+                            <tr>
+                                <th>路费金额：</th>
+                                <td>
+                                    路费金额: {$vo.toll_amount_small} - {$vo.toll_amount_max}元
+                                    &nbsp;&nbsp;发放份数: {$vo.number}份 &nbsp;&nbsp;总金额: {$vo.amount}元
+                                </td>
+                            </tr>
+                        </volist>
+                    </if>
+                <tr>
+                    <th>是否分享：</th>
+                    <td>
+                        <label><input type="radio" name="share" value="1" <if condition="$info.share eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+                        <label><input type="radio" name="share" value="0" <if condition="$info.share eq '0'">checked="checked"</if>> {:L('no')}</label>
+                    </td>
+                </tr>
+				<tr>
+                    <th>广告机编码：</th>
+                    <td>
+                         <input class="input-text" type="text" name="machine_code" id="machine_code" value="{$info.machine_code}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>路费领取方式：</th>
+                    <td>
+                    	<select name="type">
+                    		<option value="1" <if condition="$info.type eq '1'">selected="selected"</if>>摇一摇+签到领路费</option>
+                    		<option value="2" <if condition="$info.type eq '2'">selected="selected"</if>>人工领取码+签到领路费</option>
+                    		<option value="3" <if condition="$info.type eq '3'">selected="selected"</if>>摇一摇+人工领取码+签到领路费</option>
+                    		<option value="4" <if condition="$info.type eq '4'">selected="selected"</if>>签到领路费</option>
+                    	</select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>是否 GPS 验证：</th>
+                    <td>
+                        <label><input type="radio" name="check_gps" class="radio_style" value="1" <if condition="$info.check_gps eq '1'">checked="checked"</if>> {:L('yes')} </label>&nbsp;&nbsp;
+                        <label><input type="radio" name="check_gps" class="radio_style" value="0" <if condition="$info.check_gps eq '0'">checked="checked"</if>> {:L('no')}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>拍照样例：</th>
+                    <td>
+                    	<div class="img_border" id="img_data">
+	                    	<notempty name="info['photo']">
+	                    	<ul><li><img src="{:U('ossimage/index')}&image={$info.photo}@property@420*600"></li><li><a href="javascript:;" rel="J_img" class="del_img" onclick="doDeletePhoto()">删除</a></li></ul>
+	                    	</notempty>
+                    	</div>
+                    	<div id="J_upload_img" class="upload_btn" <notempty name="info['photo']">style="display:none"</notempty>><span>{:L('upload')}</span></div>
+						<input type="hidden" name="photo" id="photo" value="{$info.photo}" />
+                    </td>
+                </tr>                
+            </table>
+            </div>
+        </div>
+        <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+    </div>
+</div>
+<input type="hidden" name="menuid" value="{$menuid}" />
+<input type="hidden" name="id" value="{$info.pid}" />
+<input type="hidden" name="pid" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+$(function() {
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#time_start").formValidator({onshow:"",onfocus:"请选择合作开始时间"}).inputValidator({min:3,onerror:"请选择合作开始时间"});
+    $("#time_end").formValidator({onshow:"",onfocus:"请选择合作结束时间"}).inputValidator({min:3,onerror:"请选择合作结束时间"});
+//  $("#copies").formValidator({onshow:"请输入路费总份数",onfocus:"请输入路费总份数"}).inputValidator({min:1,onerror:"请输入路费总份数"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写正整数"});
+    $("#machine_code").formValidator({onshow:"请输入广告机编码"}).inputValidator({max:45,onerror:"广告机编码不能超过45个字"});
+    //$("#rule").formValidator({onshow:"",onfocus:"请输入路费金额"}).inputValidator({min:1,onerror:"请输入路费金额"}).regexValidator({regexp:"num3",datatype:"enum",onerror:"只能填写正整数"});
+});
+
+/*
+ * 上传图片
+ */
+var doDeletePhoto	= function(){
+    $.post("{:U('property/deleteExpensesPhoto')}", $('#info_form').serialize(), function(json){
+        if(json.status == 1){
+            $('#photo').val('');
+        	$('#img_data').empty();
+        	$('#J_upload_img').show();
+            return false;
+        } else {
+            $.pinphp.tip({content:json.msg, icon:'error'});
+            return false;
+        }
+    },'json');
+}
+new qq.FileUploaderBasic({
+    allowedExtensions: ['jpg','gif','jpeg','png','bmp'],
+    button: document.getElementById('J_upload_img'),
+    multiple: false,
+    action: "{:U('property/uploadExpensesPhoto')}",
+    inputName: 'photo',
+    forceMultipart: true, //用$_FILES
+    messages: {
+        typeError: lang.upload_type_error,
+        sizeError: lang.upload_size_error,
+        minSizeError: lang.upload_minsize_error,
+        emptyError: lang.upload_empty_error,
+        noFilesError: lang.upload_nofile_error,
+        onLeave: lang.upload_onLeave
+    },
+    showMessage: function(message){
+        $.pinphp.tip({content:message, icon:'error'});
+    },
+    onSubmit: function(id, fileName){
+        $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+    },
+    onComplete: function(id, fileName, result){
+        $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+        if(result.status == '1'){
+            $('#J_upload_img').hide();
+        	$('#photo').val(result.data);
+            $('#img_data').html('<ul><li><img src="{:U("ossimage/index")}&image='+result.data+'@property@420*600"></li><li><a href="javascript:;" rel="J_img" class="del_img" onclick="doDeletePhoto()">删除</a></li></ul>');
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'error'});
+        }
+    }
+});
+</script>
+</body>
+</html>

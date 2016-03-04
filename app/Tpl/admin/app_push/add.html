@@ -1,0 +1,109 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" action="{:U('app_push/add')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">推送类型 :</th>
+						<td><select class="J_cate_select mr10" id="cate_id" data-pid="0" data-uri="{:U('app_push_cate/ajax_getchilds',array('roleid'=>1))}" data-selected=""></select>
+						    <input type="hidden" name="cate_id" id="J_cate_id" value="" /></td>
+					</tr>
+					 <tr>
+						<th>内容ID :</th>
+						<td><input type="text" name="pid" id="title" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>标题 :</th>
+						<td><div id="J_loupan_name"></div></td>
+					</tr>
+					<tr>
+						<th width="120">推送城市 :</th>
+						<td>
+						    <volist name="city_list" id="val">
+							<label><input name="city_id[]" id="city_id{$i}" type="checkbox" value="{$val.id}" /> {$val.name}</label>&nbsp;&nbsp;
+							</volist>
+							<div id="city_id1Tip" class="onError"></div>
+						</td>
+					</tr>
+					<!-- 
+					<tr>
+						<th width="120">推送类型 :</th>
+						<td>
+							<label><input name="cast" id="cast1" type="radio" value="1"  /> 组播</label>&nbsp;&nbsp;
+                            <label><input name="cast" id="cast2" type="radio" value="2" /> 广播</label>&nbsp;&nbsp;
+							<div id="cast1Tip" class="onError"></div>
+						</td>
+					</tr>
+					 -->
+		            <tr>
+						<th>{:L('author')} :</th>
+						<td><input type="text" name="author" id="author" class="input-text" size="30" value="{$author}" readonly=""></td>
+					</tr>
+					<tr>
+						<th>推送文案 :</th>
+						<td><textarea name="info" id="info" style="width:68%;height:90px;"></textarea></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="推送" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script>
+$('.J_cate_select').cate_select('请选择');
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#cate_id").formValidator({onshow:"请选择所属类型",onfocus:"请选择所属类型"}).inputValidator({min:1,onerror:"请选择所属类型"});
+	$("#title").formValidator({onshow:lang.please_input+"id号",onfocus:lang.please_input+"id号"}).inputValidator({min:1,onerror:lang.please_input+"id号"});
+	$(":checkbox[name='city_id[]']").formValidator({tipID:"city_id1Tip",onshow:"请选择推送城市",onfocus:"请选择推送城市",oncorrect:"选择正确"}).inputValidator({min:1,onerror:"请选择推送城市"});
+	$(":radio[name='cast']").formValidator({tipID:"cast1Tip",onshow:"请选择推送类型",onfocus:"请选择推送类型",oncorrect:"选择正确"}).inputValidator({min:1,onerror:"请选择推送类型"});
+	$("#info").formValidator({onshow:lang.please_input+"详细内容",onfocus:lang.please_input+"详细内容",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,max:280,onerror:"请认真输入详细内容  限140字"});
+
+	
+	 
+	//搜索楼盘
+	$('#title').blur(function(){
+		var cate_id = $.trim($('#J_cate_id').val());
+		if(cate_id == ''||cate_id == 0 ){
+			$.pinphp.tip({content:'请先选择类别', icon:'error'});
+			return false;
+		}
+		var pid     = $.trim($('#title').val()); 
+		var url   = '{:U('app_push/ajax_title',array('roleid'=>1))}';    
+		if(pid!='' && cate_id!=''){
+			$.post(url,{cate_id:cate_id,pid:pid},function(result){
+				if(result.status == 1){
+					$('#J_loupan_name').html(result.data+'<input type="hidden" name="title"  value="'+result.data+'" />');
+					return false;
+				}else{
+					$.pinphp.tip({content:'没有找到相对应的信息', icon:'error'});
+				    $('#title').val(''); 
+				    $('#J_loupan_name').html('');
+					return false;
+				}
+			},'json');
+		}
+	});
+	
+	$(".J_cate_select").change(function(){
+		
+		$('#title').val('');
+		$('#J_loupan_name').html('');
+	});
+	
+});
+
+
+
+
+</script>
+</body>
+</html>

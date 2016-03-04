@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/report.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="__STATIC__/css/default/weixin/css/calendar_new.css" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/profile.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div class="steps paddingLR">
+  <h1>{$data.title}</h1>
+  <div class="step_img">
+    <div class="bar on"><span>1</span>
+      <div class="text">选择带看类型</div>
+    </div>
+    <div class="bar on"><span>2</span>
+      <div class="text">提交客户信息</div>
+    </div>
+    <div class="bar"><span>3</span>
+      <div class="text">完成申请</div>
+    </div>
+  </div>
+</div>
+
+<div class="info_frm paddingLR marginBottom">
+  <h3>第二步：提交客户信息</h3>
+  <label>客户姓名</label>
+  <input type="text" maxlength="50" name="name" id="name" > 
+   <label>修改性别</label>
+  <a href="javascript:;"  class="btn_sex west on" rel="1">男</a> <a href="javascript:;" class="btn_sex east" rel="0">女</a>
+  <input name="gender" id="gender" class="gender" type="hidden" value="1">
+  
+  <label>客户电话</label>
+  <input type="number" maxlength="50" name="mobile" id="mobile" >
+  <if condition="$data['with_look'] eq 1">
+    <label>到访时间</label>
+    <input type="text" maxlength="50" readonly class="date visit_time" name="visit_time" id="visit_time">
+  </if>
+</div>
+<input type="hidden" name="property" value="{$data.property}"  class="property"> 
+<input type="hidden" name="uid" value="{$data.uid}" class="uid">
+<input type="hidden" name="with_look"  value="{$data.with_look}" class="with_look">
+<input type="button"  class="btn_next bc_007fd4 J_baobei_add_submit" value="下一步" name="sub">
+
+<script type="text/javascript"  src="__STATIC__/css/default/weixin/js/calendar_new.js"></script>
+<script type="text/javascript">
+    var $btn_sex = $('.btn_sex');
+    $btn_sex.live('click',function(){
+	$btn_sex.removeClass('on');
+	$(this).addClass('on');
+        $('#gender').val($(this).attr('rel'));
+});
+	$('.visit_time').Calendar();
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

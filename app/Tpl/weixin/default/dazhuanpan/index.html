@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<include file="public:head" />
+<link href="__STATIC__/css/default/css/activity-style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="activity-lottery-winning">
+<div class="main">
+<script type="text/javascript">
+var loadingObj = new loading(document.getElementById('loading'),{radius:20,circleLineWidth:8});   
+    loadingObj.show();   
+</script>
+ <div id="outercont">
+<div id="outer-cont">
+<div id="outer"><img src="__STATIC__/css/default/images/activity-lottery-1.png" width="310px"></div>
+</div>
+<div id="inner-cont">
+<div id="inner"><img src="__STATIC__/css/default/images/activity-lottery-2.png"></div>
+</div>
+</div>
+<div class="content">
+<div class="boxcontent boxyellow" id="result" style="display:none">
+<div class="box">
+<div class="title-orange"><span class="title-h1">恭喜你中奖了</span></div>
+<div class="Detail">
+<a class="ui-link" href="#" id="opendialog" style="display: none;" data-rel="dialog"></a>
+<p>你中了：<span class="red" id="prizetype"></span></p>
+<p>奖品为：<span class="red" id="prizename"></span></p>
+<p><input class="pxbtn" id="save-btn" name="提 交" type="button" value="确认领奖" onClick="location.href='{:U('weixin/dazhuanpan/show',array('uid'=>$id,'pid'=>$lottery['id']))}';"></p>
+</div>
+</div>
+</div>
+<if condition="$lottery neq ''">
+	<div class="boxcontent boxyellow">
+		<div class="box">
+			<div class="title-green"><span>奖项设置：</span></div>
+			<div class="Detail">
+				<p>一等奖：{$lottery.one}</p>
+				<p>二等奖：{$lottery.two}</p>
+				<p>三等奖：{$lottery.three}</p>
+				<p>四等奖：{$lottery.four}</p>
+			</div>
+		</div>
+	</div>
+</if>
+<div class="boxcontent boxyellow">
+<div class="box">
+<div class="title-green">活动说明：</div>
+<div class="Detail">
+<if condition="$lottery neq ''">
+{$lottery.info}
+<else/>
+本期活动已经结束。
+</if>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<script type="text/javascript">
+$(function() {
+	window.requestAnimFrame = (function() {
+		return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+		function(callback) {
+			window.setTimeout(callback, 1000 / 60)
+		}
+	})();
+	var totalDeg = 360 * 3 + 0;
+	var steps = [];
+	var lostDeg = [36,96,156,216,276,336]; //H.J.H 2014.8.15 解决转到三等奖不中奖的问题
+	//var lostDeg = [36, 66, 96, 156, 186, 216, 276, 306, 336];//这是以前不在获奖范围内的度数
+	var prizeDeg = [6,66,126,186,246,306]; //这是以前获取的度数,分别为一等奖度数、二等奖度数、三等奖度数
+	//var lostDeg = [36, 66, 96, 156, 186, 216, 276, 306, 336];//这是我修改后的,其实不起作用了
+	//var prizeDeg = [6,36, 66, 96, 126,156, 186, 216,246, 276, 306, 336];//这是我修改后的,其实不起作用了
+	var prize, sncode;
+	var count = 0;
+	var now = 0;
+	var a = 0.01;
+	var strmsg;
+	var outter, inner, timer, running = false;
+	function countSteps() {
+		var t = Math.sqrt(2 * totalDeg / a);
+		var v = a * t;
+		for (var i = 0; i < t; i++) {
+			steps.push((2 * v * i - a * i * i) / 2)
+		}
+		steps.push(totalDeg)
+	}
+	function step() {
+	
+		outter.style.webkitTransform = 'rotate(' + steps[now++] + 'deg)';
+		outter.style.MozTransform = 'rotate(' + steps[now++] + 'deg)';
+		if (now < steps.length) {
+			requestAnimFrame(step)
+		} else {
+			running = false;
+			setTimeout(function() {
+			
+				if (prize != null) {
+					$("#sncode").text(sncode);
+					var type = "";
+					if (prize == 1) {
+						type = "一等奖"
+					} else if (prize == 2) {
+						type = "二等奖"
+					} else if (prize == 3) {
+						type = "三等奖"
+					} else if (prize == 4) {
+						type = "四等奖"
+					}
+					
+					//alert(prize);
+					$("#prizetype").text(type);
+					$("#prizename").text(prizename);
+					$("#result").slideToggle(500);//这个是展开所在的id内容
+					$("#outercont").slideUp(500) //这个是折叠所在的id内容
+				} else {
+					$.layer({
+						shade : [0.4 , '#000' , false],
+						area : ['auto','auto'],
+						title : false,
+						closeBtn:false,
+						time : 2,
+						dialog : {msg:strmsg,type : 9}	
+					});
+						//alert(prize);
+						//alert("谢谢您的参与，下次再接再厉")
+					
+					
+				}
+			},
+			200)
+		}
+	}
+	//大概看了下，源码中是没有给start传参的，所以函数里的deg都是随机生成的，所以最后转盘转动的度数也会随机。如果给start传参，转盘的转动的度数就会确定（即你穿的角度+360*5），那么位置也就确定了。
+	function start(deg) {
+		deg = deg || lostDeg[parseInt(lostDeg.length * Math.random())];
+		running = true;
+		clearInterval(timer);
+		totalDeg = 360 * 2 + deg;
+		steps = [];
+		now = 0;
+		countSteps();
+		requestAnimFrame(step)
+	}
+	window.start = start;
+	
+	outter = document.getElementById('outer');
+	inner = document.getElementById('inner');
+	i = 10;
+	var id = {$id};
+	var info_hits = {$info_hits};
+	var lottery_id= {$lottery.id};
+	$("#inner").click(function() {
+		if (running) return;
+		if(id==''){
+			layer.msg('参数出错',2,3);
+			return false;
+		}
+		if(info_hits==''){
+			layer.msg('每天只有三次抽奖机会哦',2,8);
+			return false;
+		}
+		if (count >= 3) {
+			layer.msg('每天只有三次抽奖机会哦',2,8);
+			return
+		}
+		$.ajax({
+			url: PINER.root + '/?g=weixin&m=dazhuanpan&a=click_pointer&id='+id+'',
+			dataType: "json",
+			data: {
+				token: "o7MB9ji5fQRsE0ZoVAMU7SlnRyMI",
+				ac: "activityuser",
+				tid: "5",
+				t: Math.random()
+			},
+			beforeSend: function() {
+				running = true;
+				timer = setInterval(function() {
+					i += 5;
+					outter.style.webkitTransform = 'rotate(' + i + 'deg)';
+					outter.style.MozTransform = 'rotate(' + i + 'deg)'
+				},
+				1)
+			},
+			success: function(data) {
+				if (data.error == "invalid") {
+					alert("您已经抽了 3 次奖。");
+					count = 3;
+					clearInterval(timer);
+					return
+				}
+				if (data.error == "getsn") {
+					alert('本次活动你已经中过奖，本次只显示你上次抽奖结果!兑奖SN码为:' + data.sn);
+					count = 3;
+					clearInterval(timer);
+					prize = data.prizetype;
+					sncode = data.sn;
+					start(prizeDeg[data.prizetype - 1]);
+					return
+				}
+				if (data.success) {
+					prize = data.prizetype;
+					sncode = data.sn;
+					strmsg=data.msg;
+					prizename = data.lottery_name;
+					//start(prizeDeg[data.prizetype - 1])//这是以前的
+					start(data.angle)//这是我修改的。如果中奖后，则直接转的度数就是index.php返回的度数
+				}
+				
+				//if (data.error) {
+				else{
+					prize = null;
+					strmsg=data.msg;
+					start()
+					
+				}
+				
+				running = false;
+				count++
+			},
+			
+			error: function() {
+				
+				prize = null;
+				start();
+				running = false;
+				count++
+			},
+			
+			timeout: 4000
+		})
+	})
+});
+/*
+$("#save-btn").bind("click",
+function() {
+	var btn = $(this);
+	var tel = $("#tel").val();
+	if (tel == '') {
+		alert("请输入手机号码");
+		return
+	}
+	var regu = /^[1][0-9]{10}$/;
+	var re = new RegExp(regu);
+	if (!re.test(tel)) {
+		alert("请输入正确手机号码");
+		return
+	}
+	var submitData = {
+		tid: 5,
+		code: $("#sncode").text(),
+		tel: tel,
+		action: "setTel"
+	};
+
+	jQuery.post( url, [data], [callback], [type] ) ：使用POST方式来进行异步请求
+	参数：
+
+	url (String) : 发送请求的URL地址.
+	data (Map) : (可选) 要发送给服务器的数据，以 Key/value 的键值对形式表示。服务端index.php页面取data里的值时直接用:$_REQUEST['key值'],而不是$_REQUEST['data']
+	callback (Function) : (可选) 载入成功时回调函数(只有当Response的返回状态是success才是调用该方法)。
+	type (String) : (可选)官方的说明是：Type of data to be sent。其实应该为客户端请求的类型(JSON,XML,等等)
+
+	$.post('index.php?ac=activityuser_sn', submitData,
+	function(data) {
+		if (data.success) {
+			alert("提交成功，谢谢您的参与");
+			$("#result").slideUp(500);
+			$("#outercont").slideToggle(500);
+			running = false;
+			return
+		} else {alert("提交失败");
+			$("#result").slideUp(500);
+			$("#outercont").slideToggle(500);
+		}
+		
+		
+	},
+	"json")
+	
+	
+
+	
+	
+});*/
+</script>
+
+
+</body></html>

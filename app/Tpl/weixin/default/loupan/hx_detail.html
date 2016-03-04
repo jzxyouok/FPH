@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/premises.css">
+</head>
+
+<body>
+<div class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+    <section class="dropdown">
+      <select id="citylist" onChange="MM_jumpMenu('parent',this,0)">
+	<volist name="citylist" id="vo">
+		<option  value="{:U('weixin/loupan/index',array('select_city'=>$vo['id'],'select_name'=>$vo['name']))}" >{$vo['name']}</option>
+	</volist>
+      </select>
+		<a href="javascript:void(0);" id="city_name"  class="city">{$search['select_name']}<i></i></a>
+     </section>
+    <if condition="$favorites_count eq 0">
+      <a href="javascript:" class='gotolist nobg J_favorite'>收藏楼盘</a>
+      <input type="hidden" id="uid" value="{$uid}">
+      <input type="hidden" id="return_url" value="{$return_url}">
+    <else/>
+      <a href="javascript:" class='gotolist nobg J_favorites off'>取消收藏</a>
+    </if>
+    <input type="hidden" id="favorite" value="{$list.pid}">
+  </header>
+  <section class="scroll_body noPadding">
+    <div class="premises_photo"> <img src="{:get_fdfs_image($list['house_img'], '_800x600')}"> </div>
+    <div class="sub_title">户型参数</div>
+    <section class="PADDING_FRM">
+      <ul class="info_list">
+        <li>
+          <label>户型名称</label>
+          <span>{$list['house_name']}</span></li>
+        <li>
+          <label>户型标签</label>
+          <span>{$list['property_label_name']}</span></li>
+        <li>
+          <label>在售状态</label>
+          <span>
+            <if condition="$list['status'] eq 1"><i class="LBL_STATUS ssc_2">在售</i></if>
+            <if condition="$list['status'] eq 2"><i class="LBL_STATUS ssc_4">售罄</i></if>
+          </span>
+        </li>
+        <li>
+          <label>参考面积</label>
+          <span>{$list['house_area']}平米</span></li>
+        <li>
+          <label>户型结构</label>
+          <span>{$list['house_room']}/{$list['house_hall']}/{$list['house_wc']}</span></li>
+      </ul>
+    </section>
+    <div class="sub_title">户型卖点</div>
+    <section class="PADDING_FRM">
+      <p>{$list['house_info']}</p>
+    </section>
+  </section>
+  
+  
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

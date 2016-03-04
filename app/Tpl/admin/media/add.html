@@ -1,0 +1,296 @@
+<include file="public:header" />
+<style>
+.popup {position:absolute;width:229px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto; z-index:100}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+
+a { text-decoration:none; }
+ul, li { list-style:none; margin:0; padding:0; }
+.area_list { width:620px; border:1px solid #eee; padding:15px; font-size:12px;}
+.area_list > li{ display:inline-block; position:relative; z-index:1; line-height:180%; width:86px;}
+.area_list > li.cur { color:#0089cb;z-index:999; font-weight:bold; background-color:#0089cb; color:#fff; }
+.area_list div { padding:5px 12px;cursor:pointer;}
+.area_list div span { cursor:pointer;}
+.sub_list { position:absolute; z-index:19; background-color:#fff; border:1px solid #0089cb; width:230px; padding-top:5px;}
+.sub_list a { font-size:12px; text-align:center; display:block; background-color:#e4f6ff; color:#4d7c9f; padding:5px 0; font-weight:normal;}
+.sub_list li {display:inline-block; color:#0089cb;font-weight:normal;}
+input[type=checkbox] { margin:-3px 3px 0px 0; padding:0; vertical-align:middle;}
+label { display:block; padding:5px 12px; }
+.none { display:none}
+li { list-style:none;}
+.qudaobox {padding:15px; font-size:12px; width:620px;}
+.qudao_type li{ display:inline-block; border:1px solid #ddd; color:#333; padding:2px 10px; cursor:pointer;}
+.qudao_type li.cur { background-color:#498cd0; color:#fff; border-color:#498cd0;}
+.qudao_info {}
+.qudao_info label { padding:0 10px 0 0; display:inline-block!important;}
+.type_child { padding:20px 0;}
+.qudao_info p { margin:5px 0; color:#666;}
+.qudao_info p span { display:inline-block; width:5em; margin-right:5px; text-align:right;}
+.qudao_info textarea {width:300px;height:30px; vertical-align:middle}
+</style>
+<!--添加文章-->
+<form id="info_form" action="{:U('media/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th>渠道名称 :</th>
+						<td><input type="text" name="name" id="name" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>上传图片 :</th>
+						<td>
+							<input name="img" id="J_img" type="hidden" value="" />
+							<div class="img_border" id="img_data"></div>
+          					<div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+						</td>
+					</tr>
+					<tr>
+						<th width="120">覆盖城市 :</th>
+						<td class="select_area">
+							<div>
+								<ul class="area_list">
+									<label><input type="checkbox" class="J_check_all" />选择全部城市</label>
+									<volist name="city_list" id="val"> 
+										<li>
+											<div><input type="checkbox" class="J_province_checkall"><span>{$val.name}</span></div>
+											<ul class="sub_list">
+												<volist name="val['two']" id='vo'>
+													<li><label><input name="city[]" type="checkbox" value="{$vo.id}" class="J_city_checkall">{$vo.name}</label></li>
+												</volist> 
+												<a href="javascript:;">关闭</a>
+											</ul>
+										</li>
+									</volist>
+								</ul>
+							</div>
+                        </td>
+					</tr>
+					<tr>
+						<th>联系人 :</th>
+						<td><input type="text" name="contact" id="contact" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+	                    <th>联系电话 :</th>
+	                    <td><input type="text" name="tel" id="tel" class="input-text" size="30"></td>
+	                </tr>
+					<tr>
+	                    <th>渠道类型 :</th>
+	                    <td>
+							<div class="qudaobox">
+								<ul class="qudao_type J_cate_parent">
+									<volist name="media_cate" id="vo">
+										<li <eq name="i" value="1">class="cur"</eq> rel="{$vo.id}">{$vo.name}</li>
+									</volist>
+								</ul>
+								<ul class="qudao_info">
+									<li><!--社交软件-->
+										<div class="type_child J_cate_children">
+										<volist name="media_cate_list" id="vo">
+											<label><input name="cate_id" id="cate_id" type="radio"<if condition="$i eq 1"> checked="checked"</if> value="{$vo.id}">{$vo.name}</label>
+										</volist>
+										</div>
+										<input type="hidden" name="type" id='media_type_id' value=1 >
+										<p><span>账号/域名</span><input type="text" name="account" id="account" class="input-text" size="30"></p>
+										<p><span>描述</span><textarea name="intro" id="intro"></textarea></p>
+										<p><span>覆盖人数</span><input type="text" name="fans" id="fans" class="input-text" size="30"></p>            
+									</li>
+									
+									
+								</ul>
+							</div>
+						</td>
+	                </tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div> 
+</div>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#name").formValidator({onshow:"请填写渠道名称",onfocus:"请填写渠道名称"}).inputValidator({min:1,onerror:"请填写渠道名称"});
+	$("#account").formValidator({onshow:"请填写渠道类型账户/域名",onfocus:"请填写渠道类型账户/域名"}).inputValidator({min:1,onerror:"请填写渠道类型账户/域名"});
+	//$("#tel").formValidator({onshow:"请填写电话号码",onfocus:"请填写电话号码"}).inputValidator({min:1,onerror:"请填写电话号码"});
+	$("#J_img").formValidator({onshow:'请上传图片',onfocus:'请上传图片'}).inputValidator({min:1,onerror:'请上传图片'});
+	//$("#tel").formValidator({empty:true,onshow:""}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+});
+
+//选择类型
+function test(id){
+	 if($("#test"+id).is(":hidden")){
+       $("#test"+id).show();    //如果元素为隐藏,则将它显现
+     }else{
+       $("#test"+id).hide();     //如果元素为显现,则将其隐藏
+    }
+}
+$(function(){
+	$(".sub_list").hide();
+	$(".area_list > li > div").click(function(){
+		$('.sub_list').parent().removeClass("cur");
+		$('.sub_list').hide();
+		$(this).next('ul').show();
+		$(this).parent().addClass("cur");				 
+	})
+	$('.sub_list > a').click(function(){
+		$(this).parent('ul').hide();
+		$(this).parent().parent().removeClass("cur");
+	});
+	
+	//媒体类型
+	$('.J_cate_parent > li').click(function(){
+		var th  = $(this);
+		var id  = th.attr('rel');
+		var url = ROOT_PATH + '/?g=admin&m=media&a=ajax_children_cate&roleid=1';
+		
+		
+		$.post(url,{id:id},function(result){
+			if(result.status == 1){
+				$('#cate_id').val(id);
+				$('#media_type_id').val(id);
+				$('.J_cate_parent').children('li').removeClass('cur')
+				th.addClass('cur')
+				var html = '';
+				var i = 0;
+				$.each(result.data,function(i,n){
+					if(i==0){
+						html += '<label><input name="cate_id" id="cate_id" type="radio" checked="checked" value="' + n['id'] + '">' + n['name'] + '</label>';	
+					}else{
+						html += '<label><input name="cate_id" id="cate_id" type="radio" value="' + n['id'] + '">' + n['name'] + '</label>';
+					}
+					i++;
+					$('.J_cate_children').html(html);
+				 });
+				return false;
+            } else {
+				$.pinphp.tip({content:result.msg, icon:'alert'});
+				return false;
+            }
+		},'json');
+		
+	});
+	
+	//全选反选
+	$('.J_province_checkall').live('click',function(){
+		 if (this.checked) {
+			 $(this).parent().next().find('.J_city_checkall').attr("checked", true);
+		 } else {
+			 $(this).parent().next().find('.J_city_checkall').attr("checked", false);
+		 }
+		 
+		var flag = true;
+		$(this).parents('.area_list').find('.J_province_checkall').each(function () {
+			if (!this.checked) {
+				flag = false;
+			}
+		});
+		if (flag) {
+			$('.J_check_all').attr('checked', true);
+		} else {
+			$('.J_check_all').attr('checked', false);
+		}
+	});
+	//如果子checked有一个没有被选中，父checked也失去选中
+	$('.J_city_checkall').live('click',function(){
+		var flag = true;
+		$(this).parents('.sub_list').find('.J_city_checkall').each(function () {
+			if (!this.checked) {
+				flag = false;
+			}
+		});
+		if (flag) {
+			$(this).parents('.sub_list').prev().find('.J_province_checkall').attr('checked', true);
+		} else {
+			$(this).parents('.sub_list').prev().find('.J_province_checkall').attr('checked', false);
+		}
+		var flag_parent = true;
+		$(this).parents('.area_list').find('.J_province_checkall').each(function () {
+			if (!this.checked) {
+				flag_parent = false;
+			}
+		});
+		if (flag_parent) {
+			$('.J_check_all').attr('checked', true);
+		} else {
+			$('.J_check_all').attr('checked', false);
+		}
+		
+	});
+	
+	//选择全部城市
+	$('.J_check_all').live('click',function(){
+		 if (this.checked) {
+			 $(this).parents('ul').children('li').find('.J_province_checkall').attr("checked", true);
+			 $(this).parents('ul').children('li').children('.sub_list').find('.J_city_checkall').attr("checked", true);
+		 } else {
+			 $(this).parents('ul').children('li').find('.J_province_checkall').attr("checked", false);
+			 $(this).parents('ul').children('li').children('.sub_list').find('.J_city_checkall').attr("checked", false);
+		 }
+	});
+
+	//上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('media/ajax_upload_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+            	$('#J_upload_img').hide();
+                $('#J_img').val(result.data);
+                $('#J_img').blur();
+                $('#img_data').html('<ul><li><img src="'+IMG_URL+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+
+	//删除图片
+	$('.del_img').live('click',function(){
+		var img_path   = $('#J_img').val();
+		var delimg_url = '{:U('media/del_img',array('roleid'=>1))}';
+		$.post(delimg_url,{img_path:img_path},function(result){
+			if(result.status == 1){
+				$('#img_data').html('');
+				$('#J_img').val('');
+				$('#J_upload_img').show();
+				$('#J_img').focus();
+				return false;
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+            }
+		},'json');
+	});
+	
+})
+</script>
+</body>
+</html>

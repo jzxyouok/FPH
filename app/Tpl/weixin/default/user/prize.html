@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="public:head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/profile.css" rel="stylesheet" />
+</head>
+
+<body style="background-color:#FFF">
+
+<div class="info_frm nobg paddingLR" style="padding-top:0;">
+  <div class="cus_topinfo">
+    <div class="inforight">
+      <div class="infobar bottomLine"> <span class="title">累积中奖次数</span> <span class="num">
+        <label>{$count_lottery}</label>
+        次</span> </div>
+      <div class="infobar bottomLine"> <span class="title">尚未领取话费</span> <span class="num">
+        <label>
+          <if condition="$mobile_money eq '' ">
+                  0
+                  <else />
+                  {$mobile_money}
+          </if>
+        </label>元</span>
+      </div>
+    </div>
+    <div class="mypic"> <img src="__STATIC__/css/default/weixin/images/prize.jpg" width="80" height="80" /> </div>
+  </div>
+  <div class="selBtns">
+    <a href="javascript:;" rel='1' class="on">中奖纪录</a>
+    <a href="javascript:;" rel='2'>领取纪录</a>
+  </div>
+  <div class="recordList lotteryon" style="padding-bottom:60px">
+    <ul>
+      <volist name="lottery_list" id="v">
+      <li>
+        <label>{$v['amount']} </label>
+        <span class="normal">{$v['add_time']|date="Y-m-d",###}</span>
+      </li>
+      </volist>
+    </ul>
+    <empty name="lottery_list">
+    <div class="nodate_msg">
+      <h1>您尚无中奖纪录</h1>
+    </div>	
+    </empty>
+  </div>
+  <div class="recordList lotteryout" style="padding-bottom:60px">
+    <ul>
+      <volist name="lottery_listtwo" id="v">
+      <li>
+        <label>{$v['mobile']}充值{$v['the_phone']}元<if condition="$v.status eq 1"><i style="color:#f60">(充值成功)</i><else/><i style="color:#0C0">(充值中)</i></if></label>
+        <span class="normal">{$v['add_time']|date="Y-m-d",###}</span>
+      </li>
+      </volist>
+      <empty name="lottery_listtwo">
+        <div class="nodate_msg">
+          <h1>您还没有领取过奖品</h1>
+        </div>	
+      </empty>
+    </ul>
+  </div>
+</div>
+<a href="{:U('weixin/guaguaka/recharge')}" class="btn_next bc_007fd4" style="position:fixed">充值申请</a>
+<script type="text/javascript">
+$('.lotteryout').hide();
+var $selBtns = $('.selBtns a');
+$selBtns.live('click',function(){
+        if($(this).attr('rel') == 1)
+        {
+          $('.lotteryon').show();
+          $('.lotteryout').hide();
+        }
+        else
+        {
+          $('.lotteryon').hide();
+          $('.lotteryout').show();
+        }
+        $selBtns.removeClass('on');
+        $(this).addClass('on');
+});
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>

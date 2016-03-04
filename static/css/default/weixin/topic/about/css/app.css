@@ -1,0 +1,138 @@
+html.screen{height:100%}
+html.screen body{width:100%;height:100%;overflow:hidden;background:#2c81ff}
+html.screen body>*,.app-page>section{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}
+body{margin:0;background:#fff}
+a{-webkit-tap-highlight-color:transparent}
+h1,h2,h3,h4,ul,p{margin:0}
+ul{padding:0;list-style:none}
+.transition{-webkit-transition:all .3s}
+/* 版权 */
+.copyright{position:absolute;bottom:80px;margin:0;width:100%;font-size:16px;color:#999;line-height:20px;text-align:center; font-family:"微软雅黑"; z-index:999}
+.copyright a{color:#333;text-decoration:none}
+/* 分享、音乐 */
+.share-dialog{opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;background:url(../images/common-share-arrow.png) right top rgba(0,0,0,.8) no-repeat;background-size:94px auto;-webkit-transition:all .8s}
+.share-dialog.show{z-index:100;opacity:1}
+.share-dialog img{position:absolute;top:150px;left:50%;margin-left:-160px;width:320px}
+.share,.player{position:absolute;z-index:10;top:12px;width:30px;height:30px;background:url(../images/common-icon.png);background-size:90px auto;text-indent:-9999px}
+.share{right:50px}
+.player{right:15px;background-position:-30px 0}
+.player.stop{background-position:-60px 0}
+/* 预加载 */
+.loading{z-index:100;-webkit-transition:all 1s}
+.loading-bg{width:100%;height:100%;background:#2c81ff;background-size:100% 100%}
+.loading-bg p { position:absolute; display:block; width:100px; height:30px; left:50%; top:50%; margin:-15px 0 0 -50px; color:#fff; text-align:center; font-size:12px;}
+.loading-wrapper{position:absolute;top:50%;left:0;margin-top:-2px;width:100%;height:4px;background:rgba(0,0,0,.1);-webkit-transition:all 1.2s}
+.loading-progress{position:absolute;top:50%;left:0;margin-top:-2px;height:4px;background:#fff;box-shadow:0 1px 3px rgba(255,255,255,.4),0 -1px 3px rgba(255,255,255,.4);border-radius:4px;-webkit-transition:all 1s}
+/* 首页 */
+.app-index{opacity:0;display:none;background:url(http://c.weizhi.in/dkt/2015fbh/img/index-bg.png) #2c81ff;background-size:100% 100%}
+.app-index.show{display:block;-webkit-animation:show 1s forwards}
+.app-index hgroup{opacity:0;-webkit-transform:translate(0,20px);position:absolute;top:111px;left:50%;margin-left:-160px;width:320px;height:85px}
+.app-index.show hgroup{-webkit-animation:translate_reset 1s ease-out forwards}
+.app-index h1{height:38px;background:url(http://c.weizhi.in/dkt/2015fbh/img/index-title.png);background-size:320px auto;text-indent:-9999px}
+.app-index h2{margin-top:8px;height:39px;background:url(http://c.weizhi.in/dkt/2015fbh/img/index-title-des.png);background-size:320px auto;text-indent:-9999px}
+.app-index .txt{opacity:0;position:absolute;top:50%;left:0;margin-top:-27px;width:100%;height:24px;background:url(http://c.weizhi.in/dkt/2015fbh/img/index-txt.png) center center no-repeat;background-size:320px auto;text-indent:-9999px}
+.app-index.show .txt{-webkit-animation:show 1.5s .6s forwards}
+.app-index .button{opacity:0;position:absolute;display:block;bottom:118px;left:50%;margin-left:-33px;width:66px;height:66px;background:url(http://c.weizhi.in/dkt/2015fbh/img/index-touch-bg.png);background-size:66px auto;text-indent:-9999px;-webkit-touch-callout:none;-webkit-user-select:none}
+.app-index.show .button{-webkit-animation:show 1.5s 1.2s forwards}
+.app-index .button strong{opacity:.2;display:block;width:100%;height:100%;background:url(http://c.weizhi.in/dkt/2015fbh/img/index-touch.png);background-size:66px auto}
+.app-index.show .button strong{-webkit-animation:show .8s linear infinite alternate}
+.app-index .button i{position:absolute;display:none;top:0;left:0;width:100%;height:100%;background:url(http://c.weizhi.in/dkt/2015fbh/img/index-touch-start.png);background-size:66px auto}
+.app-index .button.active i{display:block}
+/* 滑动页面 */
+.app-page{opacity:0;display:none;background:#fff}
+.app-page.show{display:block;-webkit-animation:show 1s linear forwards}
+.app-page .page-bg{position:absolute;bottom:0;width:100%}
+[class*="page-"]>*{position:absolute}
+.app-page .arrow{opacity:0;bottom:130px;left:50%;margin-left:-17px;width:34px}
+.app-page section.show .arrow{-webkit-animation:arrow 1.5s 1.5s linear infinite}
+@-webkit-keyframes arrow{
+	0%{opacity:0;-webkit-transform:translate(0,20px)}
+	50%{opacity:1}
+	80%{opacity:1}
+	100%{opacity:0;-webkit-transform:translate(0,0)}
+}
+.page{display:none}
+.page.show{display:block}
+a.button { position:absolute; left:50%; margin-left:-80px; bottom:100px; display:block; width:160px; font-size:14px; font-family:"微软雅黑"; color:#fff; background-color:#fc686d; border-radius:8px; text-align:center; text-decoration:none; padding:8px 0;}
+/* 第1页 */
+.page-1 { background:#115fad url(../images/index-bg.png) no-repeat center center; background-size:100% 100%;}
+.page-1 img.top { width:320px; height:103px; left:50%; margin-left:-160px; top:40px;}
+.page-1 .copyright { color:#fff; font-size:14px; bottom:20px;}
+.page-10 .copyright { color:#999;}
+.page-1 .title{opacity:0;top:50%;left:50%;margin:-72px 0 0 -160px;width:320px}
+.page-1.show .title{-webkit-animation:show 1s ease-in forwards}
+/* 第2页 */
+.page-2 h3,.page-3 h3,.page-4 h3,.page-7 h3,.page-8 h3,.page-10 h3,.page-11 h3{-webkit-transform:translate(0,-100%);top:0;left:0;width:100%;height:110px}
+.page-2.show h3,.page-3.show h3,.page-4.show h3,.page-7.show h3,.page-8.show h3,.page-10.show h3,.page-11.show h3{-webkit-animation:translate_reset .8s forwards}
+.page-2 h3 p,.page-3 h3 p,.page-4 h3 p,.page-7 h3 p,.page-8 h3 p,.page-10 h3 p,.page-11 h3 p{width:100%;height:100%;background:#3292ff url(../images/index-bg.png) no-repeat center center; background-size:100% auto ;text-indent:-9999px}
+.page-2 h3 span,.page-3 h3 span,.page-4 h3 span,.page-7 h3 span,.page-8 h3 span,.page-10 h3 span,.page-11 h3 span{display:block;width:100%;height:100%;background:url(../images/02-title.png) center center no-repeat;background-size:320px auto}
+.page-3 h3 span {background-image:url(../images/03-title.png);}
+.page-4 h3 span {background-image:url(../images/04-title.png);}
+.page-7 h3 span {background-image:url(../images/07-title.png);}
+.page-8 h3 span {background-image:url(../images/08-title.png);}
+.page-10 h3 span {background-image:url(../images/10-title.png);}
+.page-11 h3 span {background-image:url(../images/11-title.png);}
+.page-2 .content,.page-3 .content,.page-4 .content,.page-7 .content,.page-8 .content,.page-10 .content,.page-11 .content{top:50%;left:50%;margin:-80px 0 0 -160px;width:320px;height:160px}
+
+.page-2 .content img,.page-3 .content img,.page-4 .content img,.page-7 .content img,.page-8 .content img,.page-10 .content img,.page-11 .content img {opacity:0;-webkit-transform:translate(0,40px);width:100%}
+.page-2.show .content img,.page-3.show .content img,.page-4.show .content img,.page-7.show .content img,.page-8.show .content img,.page-10.show .content img,.page-11.show .content img{-webkit-animation:translate_reset .8s forwards}
+/* 第5页  第9页*/
+.page-5 h3,.page-9 h3{opacity:0;position:absolute;z-index:2;top:60px;width:100%;height:47px;background:url(../images/05-title.png) center center no-repeat;background-size:320px auto;text-indent:-9999px}
+.page-9 h3 { background-image:url(../images/09-title.png);}
+.page-5.show h3,.page-9.show h3{-webkit-animation:show .8s .6s forwards}
+.page-5 .content,.page-9 .content{opacity:0;-webkit-transform:translate(0,-50%);top:0;left:0;width:100%}
+.page-5 .content>div,.page-9 .content>div{width:100%;height:100%}
+.page-5.show .content,.page-9.show .content{-webkit-animation:translate_reset .8s forwards}
+.page-5 .content-bg,.page-9 .content-bg{display:block;width:100%}
+.page-5 .txt,.page-9 .txt{opacity:0;-webkit-transform:translate(0,-20px);position:absolute;top:50%;left:50%;margin:-70px 0 0 -160px;width:320px}
+.page-5.show .txt,.page-9.show .txt{-webkit-animation:translate_reset 1s .4s ease-out forwards}
+.page-5 .phone,.page-9 .phone{position:absolute;bottom:-46px;left:50%;margin-left:-160px;width:320px;height:152px}
+.page-5 .phone div,.page-9 .phone div{position:absolute;top:0;left:0;width:100%;height:100%}
+.page-5 .phone div:nth-child(1),.page-9 .phone div:nth-child(1){opacity:0;-webkit-transform:translate(0,10px)}
+.page-5.show .phone div:nth-child(1),.page-9.show .phone div:nth-child(1){-webkit-animation:translate_reset .8s .6s forwards}
+.page-5 .phone div:nth-child(2),.page-9 .phone div:nth-child(2){opacity:0;-webkit-transform:translate(0,10px)}
+.page-5 .phone div:nth-child(3),.page-9 .phone div:nth-child(3){opacity:0;-webkit-transform:translate(0,10px)}
+.page-5.show .phone div:nth-child(2),.page-9.show .phone div:nth-child(2){-webkit-animation:translate_reset .6s .8s linear forwards}
+.page-5.show .phone div:nth-child(3),.page-9.show .phone div:nth-child(3){-webkit-animation:translate_reset .6s 1s linear forwards}
+.page-5 .phone img,.page-9 .phone img{display:block;width:100%}
+/* 第6页 */
+.page-6 h3{-webkit-transform:translate(0,-100%);top:0;left:0;width:100%;height:110px}
+.page-6.show h3{-webkit-animation:translate_reset .8s forwards}
+.page-6 h3 p{width:100%;height:100%;background:url(../images/common-title-bg.jpg) #3292ff no-repeat;background-size:100% 129px;text-indent:-9999px}
+.page-6 h3 span{display:block;width:100%;height:100%;background:url(../images/06-title.png) center center no-repeat;background-size:320px auto}
+.page-6 .content{position:absolute;top:50%;left:0;margin-top:-88px;width:100%;height:210px}
+.page-6 .center-bg{-webkit-transform:scale(0,0);position:absolute;top:0;left:50%;margin-left:-160px;width:320px;height:210px}
+.page-6.show .center-bg{-webkit-animation:scale_reset .5s ease-in forwards}
+.page-6 .center-bg img{width:100%}
+.page-6 .center{opacity:0;position:absolute;top:0;left:50%;margin-left:-160px;width:320px;height:210px;background:url(../images/06-center-txt.png);background-size:320px auto}
+.page-6.show .center{-webkit-animation:show 2s forwards}
+.page-6 .center img{width:100%}
+.page-6 [class*="txt"]{opacity:0;position:absolute;left:50%;width:49px;height:74px;background-size:100% auto}
+.page-6.show [class*="txt"]{-webkit-animation:show .8s forwards}
+.page-6 [class*="txt"] img{-webkit-transform:rotateY(-90deg);width:100%}
+.page-6.show [class*="txt"] img{-webkit-animation:rotate_reset .8s forwards}
+.page-6 .txt1{-webkit-animation-delay:.5s!important;top:24px;margin-left:-115px;background-image:url(../images/06-txt1-bg.png)}
+.page-6 .txt2{-webkit-animation-delay:.65s!important;top:24px;margin-left:65px;background-image:url(../images/06-txt2-bg.png)}
+.page-6 .txt3{-webkit-animation-delay:.8s!important;bottom:9px;margin-left:-115px;background-image:url(../images/06-txt3-bg.png)}
+.page-6 .txt4{-webkit-animation-delay:.95s!important;bottom:9px;margin-left:65px;background-image:url(../images/06-txt4-bg.png)}
+.page-6 .txt1 img{-webkit-animation-delay:.5s!important}
+.page-6 .txt2 img{-webkit-animation-delay:.65s!important}
+.page-6 .txt3 img{-webkit-animation-delay:.8s!important}
+.page-6 .txt4 img{-webkit-animation-delay:.95s!important}
+
+/* 动画 */
+@-webkit-keyframes show{
+	to{opacity:1}
+}
+@-webkit-keyframes hide{
+	to{opacity:0}
+}
+@-webkit-keyframes translate_reset{
+	to{opacity:1;-webkit-transform:translate(0,0)}
+}
+@-webkit-keyframes scale_reset{
+	to{opacity:1;-webkit-transform:scale(1,1)}
+}
+@-webkit-keyframes rotate_reset{
+	to{opacity:1;-webkit-transform:rotateX(0) rotateY(0)}
+}

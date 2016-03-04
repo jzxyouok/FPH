@@ -1,0 +1,130 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('stores/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">门店信息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+          <tr>
+            <th width=100>联系人 :</th>
+            <td><input type="text" name="contact" id="contact" class="input-text"  > </td>
+          </tr>
+          <tr>
+            <th width=100>联系人电话 :</th>
+            <td><input type="text" name="contact_tel" id="contact_tel" class="input-text"  > </td>
+          </tr>
+		      <tr>
+            <th width=100>门店名称 :</th>
+            <td><input type="text" name="name" id="name" class="input-text"  > </td>
+          </tr>
+          <tr>
+            <th>所属公司 :</th>
+            <td style="position:relative;">
+        			<input type="text" name="stores_name" id="stores_name" class="input-text" size="30" autocomplete="off" >
+              <input name="stores_id" id="stores_id" type="hidden" value="" />
+        			<div id="J_stores_name" style="display:none"></div>
+  			    </td>
+          </tr>
+          
+          <tr>
+          <th>所在地区 :</th>
+            <td id="select_area" class="select_area"><select class="J_city_select mr10" data-pid="0" data-uri="{:U('stores/ajax_city',array('roleid'=>1))}" data-selected=""></select><input type="hidden" name="city_id" id="J_city_id" value='' /></td>
+          </tr>
+          <tr>
+            <th>详细地址 :</th>
+            <td><input type="text" name="address" id="address" class="input-text" ></td>
+          </tr>
+		  <tr>
+            <th>开户行 :</th>
+            <td><input type="text" name="bank" id="bank" class="input-text" size="30" value="{$info.bank}" ></td>
+          </tr>
+		  <tr>
+            <th>开户账号 :</th>
+            <td><input type="text" name="bank_account" id="bank_account" class="input-text" size="30" value="{$info.bank_account}" ></td>
+          </tr>
+		  <tr>
+            <th>开户名称 :</th>
+            <td><input type="text" name="bank_name" id="bank_name" class="input-text" size="30" value="{$info.bank_name}" ></td>
+          </tr>
+          <input type="hidden" name="type"  value="{$store_type}">
+		</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="保存" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script>
+  var check_mobile_url = "{:U('admin/company/ajax_check_mobile',array('roleid'=>1))}";
+$('.J_city_select').city_select('请选择');
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+  $("#contact").formValidator({onshow:lang.please_input+"联系人",onfocus:lang.please_input+"联系人"}).inputValidator({min:1,onerror:lang.please_input+"联系人"});
+$("#contact_tel").formValidator({onshow:lang.please_input+"联系人电话",onfocus:lang.please_input+"联系人电话"}).inputValidator({min:1,onerror:lang.please_input+"联系人电话"});
+	$("#name").formValidator({onshow:lang.please_input+"门店名称",onfocus:lang.please_input+"门店名称"}).inputValidator({min:1,onerror:lang.please_input+"门店名称"});
+	$("#stores_id").formValidator({onshow:'输入公司全称或简称',onfocus:'输入公司全称或简称'}).inputValidator({min:1,onerror:'输入公司全称或简称'});
+/*$('#mobile').formValidator({onshow:lang.please_input+"经纪人手机号码",onfocus:lang.please_input+"经纪人手机号码", oncorrect: '请输入正确'})
+  .inputValidator({min:11,onerror:'请输入正确的手机号码'})
+  .inputValidator({max:11,onerror:'请输入正确的手机号码'})
+  .regexValidator({regexp:'mobile',datatype:'enum',onerror:'请输入正确的手机号码'}).ajaxValidator({
+    type : "get",
+    url : check_mobile_url,
+    datatype : "json",
+    async:'false',
+    success : function(result){
+      if(result.status == 0){
+        return false;
+      }else{
+        $('#uid').val(result.data);
+        return true;
+      }
+    },
+    onerror : '该号码不存在',
+    onwait : '正在检测'
+  });*/
+    $("#J_city_id").formValidator({onshow:lang.please_input+"所在地区",onEmpty:lang.please_input+'所在地区',onfocus:lang.please_input+"所在地区",oncorrect:'输入正确'}).regexValidator({regexp:"intege1",datatype:"enum",onerror:'',oncorrect:'输入正确'}).inputValidator({min:1,onerror:lang.please_input+"所在地区"});
+   $("#address").formValidator({onshow:lang.please_input+"详细地址",onfocus:lang.please_input+"详细地址"}).inputValidator({min:1,onerror:lang.please_input+"详细地址"});
+	 //搜索门店名称
+    $('#stores_name').keyup(function(){
+        var stores_name = $.trim($('#stores_name').val());
+        var url   = ROOT_PATH + '/?g=admin&m=company&a=company&roleid=1';
+        if(stores_name!=''){
+            $('#stores_id').val('').blur();
+            $.post(url,{stores_name:stores_name},function(result){
+                if(result.status == 1){
+                    $('#J_stores_name').show();
+                    var html = '<ul class="popup_s">';
+                    $.each(result.data,function(i,n){
+                        html += '<li rel="' + n['id'] + '">' + n['name'] + '</li>';
+                     });
+                      html += '</ul>';
+                      $('#J_stores_name').html(html);
+                    return false;
+                }else{
+                    $('#J_stores_name').hide().html('');
+                    //$.pinphp.tip({content:result.msg, icon:'error'});
+                    return false;
+                }
+            },'json');
+        }else{
+            $('#J_stores_name').hide().html('');
+            $('#stores_id').val('');
+            $("#stores_id").formValidator({onshow:'输入公司全称或简称',onfocus:'输入公司全称或简称'}).inputValidator({min:1,onerror:'输入公司全称或简称'});
+        }
+    });
+    //选择
+    $('#J_stores_name > ul > li').live('click',function(){
+        var rel = $(this).attr('rel');
+        var stores_name = $(this).text();
+         $('#stores_id').val(rel).blur();
+        $('#stores_name').val(stores_name);
+        $('#J_stores_name').hide().html('');
+    });
+});
+</script>
+</body>
+</html>

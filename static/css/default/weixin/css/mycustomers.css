@@ -1,0 +1,167 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+html, body {
+	background-color: #FFF;
+}
+.info_frm.nobg {
+	padding-top: 0px;
+	padding-bottom: 15px;
+}
+.info_frm .cus_topinfo {
+	height: 114px;
+}
+.info_frm .cus_topinfo .mypic {
+	height: 80px;
+	width: 80px;
+	border-radius: 80px;
+	overflow: hidden;
+	position: absolute;
+	margin-top: 15px;
+}
+.info_frm .cus_topinfo .inforight {
+	height: 83px;
+	margin-top: 15px;
+	width: 96%;
+	position: absolute;
+	overflow: hidden;
+	text-indent: 100px;
+}
+.info_frm .cus_topinfo .inforight .infobar {
+	line-height: 41px;
+	font-size: 16px;
+}
+.info_frm .cus_topinfo .inforight .infobar span, .info_frm .cus_topinfo .inforight .infobar span label {
+	font-size: inherit;
+}
+.info_frm .cus_topinfo .inforight .infobar span.num {
+	position: absolute;
+	right: 0px;
+}
+.info_frm .cus_topinfo .inforight .infobar span.num label {
+	display: inline;
+	color: #ff6600;
+}
+.info_frm .cus_info_list {
+	min-height: 80px;
+	border: 1px solid #d9d9d9;
+	border-radius: 5px;
+	background-color: #FFF;
+	margin-bottom: 15px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.info_frm .cus_info_list a {
+	min-height: inherit;
+	width: inherit;
+	display: block;
+}
+.info_frm .cus_info_list a:hover {
+	text-decoration: none;
+	background-color: #f8f8f8;
+}
+/*.info_frm .cus_info_list .cus_name {
+	margin-top: 10px;
+	line-height: 28px;
+	height: 28px;
+	display: inline-block;
+	min-width: 20px;
+	color: #FFF;
+	font-size: 14px;
+	padding-left: 8px;
+	padding-right: 25px;
+	background-color: #00a0e9;
+	position:relative;
+}
+.info_frm .cus_info_list .cus_name:after {
+	content: '';
+	width:23px;
+	height:28px;
+	background-image: url(../images/cus_name.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	background-size:cover;
+	position: absolute;
+	margin-left: 20px;
+}
+*/
+.info_frm .cus_info_list .cus_name {
+	display: block;
+	height: 41px;
+	line-height: 41px;
+	background-color: #f2f2f2;
+	text-indent: 10px;
+	color: #333;
+	background-image: url(../images/common/btn_more.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.info_frm .cus_info_list .dates {
+	float: right;
+	right: 20px;
+	height: 41px;
+	line-height: 41px;
+	display: block;
+	padding-right: 30px;
+	font-style: normal;
+	color: #999;
+	font-size: 12px;
+}
+.info_frm .cus_info_list a ul li {
+	line-height: 32px;
+	height: 32px;
+	color: #666;
+	font-size: 14px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #efefef;
+	position: relative;
+	margin: 0 10px;
+}
+.info_frm .cus_info_list a ul li:last-child {
+	border: none;
+}
+.info_frm .cus_info_list a ul li span {
+	position: absolute;
+	right: 0px;
+	font-size: 14px;
+}
+.info_frm .cus_info_list a ul li span.passed {
+	color: #666666;
+}
+.info_frm .cus_info_list a ul li span.suspended {
+	color: #ff6600;
+}
+.info_frm .cus_info_list a ul li span.failed {
+	color: #cccccc;
+}
+.search_customer {
+	border: 1px solid #a9bec8;
+	border-radius: 12px;
+	height: 36px;
+	padding: 4px 65px 4px 36px;
+	background: url(../images/common/icon_search_blue.png) no-repeat 10px center;
+	background-size: 24px 24px;
+	margin-bottom: 20px;
+}
+.noBorderinput {
+	border: none!important;
+	line-height: 28px!important;
+	height: 28px!important;
+	color: #666!important;
+	outline: none;
+}
+.search_customer a.btn {
+	display: block;
+	position: absolute;
+	right: 10px;
+	height: 36px;
+	line-height: 36px;
+	width: 63px;
+	text-align: center;
+	color: #FFF;
+	background-color: #33ccff;
+	margin-top: -5px;
+	border-radius: 0 12px 12px 0;
+}
+

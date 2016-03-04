@@ -1,0 +1,225 @@
+/* CSS Document */
+/*!
+ * Author:yoleon
+ * email:yoleon2008@gmail.com
+ * 鎶勮铏芥槗锛屽師鍒涗笉鏄擄紝涓旀妱涓旂弽鎯滐紒
+ * powered by 00ok
+ */
+
+/**
+ * 鍏叡鏍峰紡
+ * @type {Number}
+ */
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,label,dl,dt,dd,fieldset,img{margin:0;padding:0;border:0;list-style:none;font-weight:normal; }
+html,body{ overflow:hidden;background-color: #000;}
+img{ border:none;padding:0;margin:0;vertical-align:top;}
+body {font-family:'寰蒋闆呴粦',Arial, sans-serif;color: #a36131;padding: 0;margin: 0;font-size: 24px;}
+
+a{text-decoration:underline;}
+a:link { text-decoration:none;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:none;}
+.clear{clear:both; height:0px; font-size:0px;overflow:hidden; display:block; font-size:0px;}
+
+.hide{display:none; z-index:0;}
+.show{display:block; z-index:5;}
+.active{ display:block; z-index:10}
+.level{display:block;z-index:3}
+/**
+ * 鍔犺浇
+ * @type {[type]}
+ */
+.loading{ position:fixed; z-index:10; width:100%; height:100%; top:0; left:0; background-color:#000;}
+
+.loading .loadCon{width:90px; height:90px; position: absolute;  left:50%;top:50%; background:url(../images/logo.png) no-repeat center; background-size:90px 90px; margin-left:-45px; margin-top:-45px;    -webkit-animation:changeBig 1s infinite; }
+
+/*杈撳嚭娴嬭瘯*/
+.output{position:absolute; height:50px; width:100%; background: rgba(0,0,0,0.4); color: #fff;z-index: 10000}
+/**
+ * 椤甸潰璁剧疆
+ * @type {[type]}
+ */
+#main { width: 640px;height: 100%; left:50%; margin-left: -320px; position:absolute; overflow: hidden;}
+.main .page{ position: absolute; width: 100%; height: 100%; overflow: hidden;}
+.page .pageContent{ position:absolute; width:640px; height:100%;background-position: center center;background-repeat: no-repeat;}
+/*榛樿鐨勮儗鏅笎鍙樿壊*/
+
+
+/**
+ * 寮曞椤�
+ */
+.info{ position: absolute; width:640px; height:100%; z-index: 0; overflow: hidden; opacity:0; left:50%; margin-left:-320px; z-index:10px; 
+transform: scale(1.5);
+-webkit-transform: scale(1.5);
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  -moz-backface-visibility:hidden;
+  -ms-backface-visibility:hidden;
+  -o-backface-visibility:hidden;
+
+ -webkit-transform-origin:center 50%;
+ -webkit-perspective-origin: center 50%;
+}
+
+.info .earthLight{ position: absolute; width:800px; height:964px; top:50%; margin-top:140px; margin-left: -84px; opacity: 0; 
+-webkit-transform:rotate(-45deg); -webkit-transform-origin:center; }
+/* .infoBg{ background:url(../images/page/p1.jpg) center center no-repeat; width:100%; height: 100%;} */
+
+/**
+ * 鎻愮ず婊戝姩鐨勭澶�
+ * @type {[type]}
+ */
+.tips{width:80px; height:28px; position: absolute; left:47%; bottom:15px; display:none; z-index: 10; background: url(../images/arrow.png) no-repeat;}
+
+/**
+ * 闊充箰
+ * @type {[type]}
+ */
+.topCon{/* display:none;  */position:absolute; z-index: 1000; top:25px; width:100%; height:100px;}
+.sound{ width:40px; height:40px; padding:5px; right:25px; position: absolute;  border:2px solid #fff; display: none;  border-radius: 40px;-webkit-border-radius: 40px;  background: url(../images/soundoff.png) center center no-repeat; background-size:80% 80%; 
+  box-shadow: 0px 0px 4px #555;
+}
+
+
+
+/**
+ * 鐗堟潈
+ * @type {[type]}
+ */
+.copyright{ position:absolute; bottom:5px; width:100%; height:30px; text-align:center; font-size:18px; color:#fff;}
+
+
+
+/**
+ * CSS3
+ */
+.animated{
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+/**
+ * TIPS鎻愮ず鏍囩
+ * @type {[type]}
+ */
+.tipsAnimation{
+-webkit-animation-delay:.5s;
+-webkit-animation-name: tipsAnimation;
+-webkit-animation-duration: 1.5s;
+-webkit-animation-timing-function:ease-out; 
+-webkit-animation-iteration-count:infinite;
+ }
+
+/**
+ *loading animation
+ */
+.cubeLoading {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 50%;
+  top:50%;
+  margin:-50px 0 0 -40px;
+}
+ 
+.cube1, .cube2 {
+  background-color: #8cbbff;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+   
+  -webkit-animation: cubemove 1.8s infinite ease-in-out;
+  animation: cubemove 1.8s infinite ease-in-out;
+}
+ 
+.cube2 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+  background-color: #1e6dde;
+}
+
+
+/**
+ * 鍏夌洏鏃嬭浆
+ */
+.rotateAm{
+  -webkit-animation-name: rotateAm;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-timing-function:linear;
+  -webkit-animation-iteration-count:infinite;
+}
+
+
+
+/*--------------------------------------------------------*/
+/*鍏抽敭甯�*/
+/*--------------------------------------------------------*/
+/**
+ * TIPS
+ */
+@-webkit-keyframes changeBig{
+   0%{ -webkit-transform:scale(1,1)}
+   100%{-webkit-transform:scale(1.1,1.1)}
+	}
+@-webkit-keyframes tipsAnimation {
+  0% { -webkit-transform: translateY(0px); opacity: 0 }
+  50% { -webkit-transform: translateY(-25px); opacity: 1}
+  100% { -webkit-transform: translateY(0px); opacity: 0}
+}
+
+
+/**
+ * loading WEBKIT
+ */
+@-webkit-keyframes cubemove {
+  25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
+  50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
+  75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
+  100% { -webkit-transform: rotate(-360deg) }
+}
+
+
+/**
+ * loading W3C
+ */
+@keyframes cubemove {
+  25% { 
+    transform: translateX(42px) rotate(-90deg) scale(0.5);
+    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
+  } 50% { 
+    transform: translateX(42px) translateY(42px) rotate(-179deg);
+    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
+  } 50.1% { 
+    transform: translateX(42px) translateY(42px) rotate(-180deg);
+    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
+  } 75% { 
+    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+  } 100% { 
+    transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+  }
+}
+
+
+
+
+
+/**
+ * 鍏夌洏鏃嬭浆 WEBKIT
+ */
+@-webkit-keyframes rotateAm {
+  25% { -webkit-transform: rotate(0deg) }
+  25% { -webkit-transform: rotate(90deg) }
+  50% { -webkit-transform: rotate(180deg) }
+  75% { -webkit-transform: rotate(270deg) }
+  100% { -webkit-transform: rotate(360deg) }
+}
+
+
+

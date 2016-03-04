@@ -1,0 +1,49 @@
+<include file="public:header" />
+<style>
+#brokercontain li{ padding-top: 5px; border-bottom: dashed 1px #ccc; padding-left: 5px; cursor: pointer;}
+#brokercontain li:hover{ background: #DEF7CE;}
+.pad_lr_10{margin-top:15px;}
+.table_form td label{ cursor: pointer; margin-right:8px;}
+</style>
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="member:classification" />
+		<div class="J_panes">
+			<div class="content_list pad_10">
+<div class="J_tablelist table_list" style="margin-bottom:0px;">           
+          <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+            <thead>
+              <tr>
+                  <th width="8%" align="left" style="background-color:#FFFFFF;">序号</th>
+                  <th width="12%" align="left" style="background-color:#FFFFFF;">活动ID</th>
+                  <th width="20%" style="background-color:#FFFFFF;text-align:left">活动名称</th>
+                  <th width="17%" style="background-color:#FFFFFF;text-align:left">活动描述</th>
+                  <th width="22%" style="background-color:#FFFFFF;text-align:left">提交时间</th>
+                  <th width="80" style="background-color:#FFFFFF;text-align:left">{:L('operations_manage')}</th>
+             </tr>
+            </thead>
+            <tbody id='newlist'>
+            <volist name="list" id="vo">
+             	 <tr>
+                    <td align="left" style="background-color:#FFFFFF;">{$key+1}</td>
+                    <td align="left" style="background-color:#FFFFFF;">{$vo.id}</td>
+                     <td align="left" style="background-color:#FFFFFF; text-align:left">{$vo.title}</td>
+                    <td align="left" style="background-color:#FFFFFF; text-align:left">{$vo.intro}</td>
+                    <td style="background-color:#FFFFFF; text-align:left;">{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                     <td align="left"><a href="{:u('activity/edit', array('id'=>$vo['id'], 'menuid'=>636))}">查看活动</a></td>
+                  </tr>  
+               </volist>   
+            </tbody>
+          </table>         
+        </div>
+      		<div class="btn_wrap_fixed" style="margin-bottom:10px;">
+            	  <div id="pages">{$page}</div>
+            </div>	
+			</div>
+        </div>		
+	</div>
+</div>
+
+<include file="public:footer" />
+</body>
+</html>

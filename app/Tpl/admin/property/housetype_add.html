@@ -1,0 +1,169 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('menuid'=>298,'roleid'=>1))}">
+        <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a  href="javascript:history.go(-1);">
+        <em>返回</em>
+        </a>
+    </div>
+</div>
+<form id="info_form" action="{:U('property/housetype_add',array('id'=>$id,'roleid'=>1))}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10 ">
+                <table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">户型名称：</th>
+                        <td>
+                            <input type="text" id="house_name" name="house_name" class="input-text" size="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="120">户型标签：</th>
+                        <td>
+                            <volist name="catelist['property_label']" id="v">
+                                <label><input type="checkbox" name="property_label[]"  value="{$v['id']}" class="input-text" size="30">&nbsp;{$v['name']}&nbsp;&nbsp;</label>
+                            </volist>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="120">户型图片：</th>
+                        <td>
+                            <input name="house_img" id="J_img" type="hidden" value="" />
+                            <div class="img_border" id="img_data"></div>
+                            <div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+                            <font color="#999999">&nbsp;图片的最佳尺寸为480*360px</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="120">物业类型：</th>
+                        <td>
+                            <select id='property_type' name='property_type'>
+                                <option value=''>请选择物业类型</option>
+                                <volist name="catelist['property_type']" id="v">
+                                    <option value="{$v['id']}">{$v['name']}</option>
+                                </volist>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="120">在售状态：</th>
+                        <td>
+                            <select name='status' id="status">
+                                <option value="0">请选择在售状态</option>
+                                <option value='1'>在售</option>
+                                <option value='2'>售完</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="120">户型面积：</th>
+                        <td>
+                            <input type="text" id="house_area" name="house_area" class="input-text" size="30"><font color="#999999">&nbsp;㎡</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="120">户型结构：</th>
+                        <td>
+                            <input type="text" id="house_room" name="house_room" class="input-text" size="1"><font color="#999999">&nbsp;室</font>
+                            <input type="text" id="house_hall" name="house_hall" class="input-text" size="1"><font color="#999999">&nbsp;厅</font>
+                            <input type="text" id="house_wc" name="house_wc" class="input-text" size="1"><font color="#999999">&nbsp;卫</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>户型描述 :</th>
+                        <td>
+                            <textarea name="house_info" id="house_info" style="width:68%;height:250px;"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+        </div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$(function() {
+
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#house_name").formValidator({onshow:lang.please_input+"户型名称",onfocus:lang.please_input+"户型名称",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:1,onerror:"请输入户型名称"});
+    $("#J_img").formValidator({onshow:lang.please_input+"户型图片",onfocus:lang.please_input+"户型图片",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,onerror:"请上传户型图片"});
+    $("#property_type").formValidator({onshow:"请选择物业类型",onfocus:"物业类型必须选择"}).inputValidator({min:1,onError: "请选择物业类型!"});
+	$("#status").formValidator({onshow:"请选择在售状态",onfocus:"请选择在售状态"}).inputValidator({min:1,onError: "请选择在售状态!"});
+    $("#house_area").formValidator({onshow:"请输入面积，可以不输入"}).inputValidator({min:1,onerror:"请输入面积,只能填写数字"}).regexValidator({regexp:"price2",datatype:"enum",onerror:"只能填写数字"});
+    $("#house_room").formValidator({onshow:"请输入户型室"}).inputValidator({min:1,onerror:"请输入户型室,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+    $("#house_hall").formValidator({onshow:"请输入户型厅"}).inputValidator({min:1,onerror:"请输入户型厅,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+    $("#house_wc").formValidator({onshow:"请输入户型卫"}).inputValidator({min:1,onerror:"请输入户型卫,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写数字"});
+    $("#house_info").formValidator({onshow:lang.please_input+"户型描述",onfocus:lang.please_input+"户型描述",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,onerror:"请认真输入户型描述"});
+
+    //上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('property/ajax_housetype_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_upload_img').hide();
+                $('#J_img').val(result.data);
+                $('#J_img').blur();
+                var name = result.data.split(".");
+                $('#img_data').html('<ul><li><img src="'+IMG_URL+name[0]+'_100x75.'+name[1]+'" width="100"></li><li><a href="javascript:;" rel="J_img" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+
+    $('.del_img').live('click',function(){
+        var img_path = $('#J_img').val();
+        var delimg_url = "{:U('property/del_img',array('roleid'=>1))}";
+        var th = $(this);
+        $.post(delimg_url,{img_path:img_path},function(result){
+            if(result.status == 1){
+                var parentUl = th.parents('ul');
+                parentUl.prev().remove();
+                parentUl.remove();
+                $('#'+th.attr('rel')).val('');
+                $('#J_upload_img').show();
+                return false;
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+                return false;
+            }
+        },'json');
+    });
+
+});
+</script>
+</body>
+</html>

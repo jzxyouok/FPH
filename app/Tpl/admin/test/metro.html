@@ -1,0 +1,56 @@
+<style type="text/css">
+.ad-buttons{ display:none}
+</style>
+<div class="dialog_content">
+  <div class="chkbox_groups">
+ 	<volist name="metro_list" id="vo">
+		<h3>{$vo.name}</h3>
+		<div class="chkbox_list">
+		  <input type="checkbox" class="J_checkitem_metro" value="{$vo.name}" rel="{$vo.id}" style="display:none" <in name="vo['id']" value="$metro_id">checked</in>>
+		  <volist name="vo['subway']" id="v">
+			  <label><input class="J_checkitem_metro" type="checkbox" value="{$v.name}" rel="{$v.id}" <in name="v['id']" value="$metro_id">checked</in>>{$v.name}</label>
+		  </volist>
+		</div>
+	</volist>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+$(function(){
+	$('.d-state-highlight').click(function(){
+		var btn = this;
+			if($('.J_checkitem_metro:checked').length == 0){
+				$.pinphp.tip({content:lang.plsease_select_rows, icon:'alert'});
+				return false;
+			}
+			//组合站名
+			var ids = '';
+			$('.J_checkitem_metro:checked').each(function(){
+				ids += $(this).val() + ',';
+			});
+			ids = ids.substr(0, (ids.length - 1));
+			ids=ids.replace(/,(\d+)/g, '\n$1'); 
+			ids=ids.replace(/\线,/g, '线：');
+			
+			//组合id
+			var rel = '';
+			$('.J_checkitem_metro:checked').each(function(){
+				rel += $(this).attr('rel') + ',';
+			});
+			rel = rel.substr(0, (rel.length - 1));
+			var url = ROOT_PATH + '/?g=admin&m=test&a=metro&metro_id='+rel+'';
+			$('.J_showdialog').attr('data-uri',url);
+			
+			$('#metro').val(ids);
+	});
+	
+	$('.J_checkitem_metro').click(function(){
+		$(this).parents('.chkbox_list').children('.J_checkitem_metro').attr('checked', this.checked);
+	});
+	
+})
+
+
+</script>

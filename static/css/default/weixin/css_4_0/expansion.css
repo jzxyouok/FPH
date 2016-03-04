@@ -1,0 +1,59 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+/************************************************************************************************/
+html, body {
+	background-color: #eeeeee;
+}
+.TOP_FRAME .scroll_body .expansion_frm {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #7ecef4;
+	background-color: #FFF;
+	min-height: 40px;
+}
+.TOP_FRAME .scroll_body .expansion_frm ul {
+	min-height: inherit;
+	line-height: 40px;
+}
+.TOP_FRAME .scroll_body .expansion_frm ul li {
+	float: left;
+	width: 33.3%;
+	display: block;
+	min-height: inherit;
+}
+.TOP_FRAME .scroll_body .expansion_frm ul li a {
+	display: block;
+	width: 100%;
+	min-height: inherit;
+	background-color: #d5f1ff;
+	text-align: center;
+	color: #666;
+}
+.TOP_FRAME .scroll_body .expansion_frm ul li a.on {
+	background-color: #00a0e9;
+	color: #FFF;
+}
+.TOP_FRAME .scroll_body .table_blocks table {
+	width: 100%;
+	border-collapse:collapse;
+	border-spacing:0px;
+}
+.TOP_FRAME .scroll_body .table_blocks table th, .TOP_FRAME .scroll_body .table_blocks table td {
+	border: solid 1px #eee;
+}
+.TOP_FRAME .scroll_body .table_blocks table th {
+	background-color: #afe2bb;
+	height: 39px;
+	font-weight: lighter;
+}
+.TOP_FRAME .scroll_body .table_blocks table td {
+	background-color: #FFF;
+	height: 40px;
+	color: #666;
+	text-align: center;
+}
+.tablebg { background-color:#fff; width:100%;}
+.baifang { float:left; width:33%!important;}
+.tuozhan { float:right; width:64%!important;}
+.tablebg:after{ content:""; clear:both; display:block;}

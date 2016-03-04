@@ -1,0 +1,76 @@
+<include file="public:header" />
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <form name="searchform" method="get" >
+                    <table width="100%" cellspacing="0" class="search_form">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="explain_col">
+                                    <input type="hidden" name="g" value="admin" />
+                                    <input type="hidden" name="m" value="invitationCode" />
+                                    <input type="hidden" name="a" value="index" />
+                                    <input type="hidden" name="menuid" value="{$_GET['menuid']}" />
+                                    推广员：
+                                    <input type="text" name="username" id="username" class="input-text" size="12" maxlength="11" value="{$username}">
+                                    &nbsp;&nbsp;推广员手机：
+                                    <input type="text" name="mobile" id="mobile" class="input-text" size="12" maxlength="11"  value="{$mobile}">
+                                    &nbsp;&nbsp;推广日期：
+                                    <input type="text" name="inviteTime" id="inviteTime" class="date" size="12" value="{$_GET['inviteTime']}" readonly>
+                                    <input type="submit" name="search" class="btn" value="{:L('search')}" />
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+
+                <div class="J_tablelist table_list" data-acturi="" style="margin-bottom:0px;">
+                    <table width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="100px;" align="center">推广员</th>
+                            <th width="100px;" align="center">推广员手机</th>
+                            <th width="100px;" align="center">邀请码</th>
+                            <th width="100px;" align="center">{$tableColumn}</th>
+                            <th width="80px;" align="center">当前累计总人数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="list" id="val">
+                            <tr class="collapsed">
+                                <td align="center">{$val.username}</td>
+                                <td align="center">{$val.mobile}</td>
+                                <td align="center"><font style=" font-size:15px;font-weight: 600; color: #e21900;">{$val.code}</font></td>
+                                <td align="center">{$val.singleCount}</td>
+                                <td align="center">{$val.allCount}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+
+            </div>
+        </div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "inviteTime",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>
+	

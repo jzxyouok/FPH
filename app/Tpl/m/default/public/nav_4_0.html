@@ -1,0 +1,25 @@
+<style type="text/css">
+.TOP_FRAME footer ul li a#hasData:after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 15px;
+	left: 80%;
+	width: 8px;
+	height: 8px;
+	border-radius: 8px;
+	background-color: #F00;
+}
+</style>
+<footer>
+    <ul>
+      <li><a href="{:U('weixin/loupan/index')}" <if condition="MODULE_NAME eq 'loupan' AND ACTION_NAME eq 'index'">class="cur"</if>>楼盘</a></li>
+      <li><a href="{:U('weixin/loupan/huodong')}" <if condition="MODULE_NAME eq 'loupan' AND ACTION_NAME eq 'huodong'">class="cur"</if>>资讯</a></li>
+	  <eq name="stores_type" value="1">
+     	 <li><a href="{:U('m/stores/index')}" <if condition="MODULE_NAME eq 'stores' AND ACTION_NAME eq 'index'">class="cur"</if>>驻守</a></li>
+	  <else/>
+	  	<li><a href="{:U('m/stores/index')}" <if condition="MODULE_NAME eq 'stores' AND ACTION_NAME eq 'index'">class="cur"</if> <eq name="user_stores_stauts" value="1">id="hasData"</eq>>门店</a></li>
+	  </eq>
+      <li><a href="{:U('weixin/user/index')}" <if condition="MODULE_NAME eq 'user' AND ACTION_NAME eq 'index'">class="cur"</if>>我的...</a></li>
+    </ul>
+</footer>

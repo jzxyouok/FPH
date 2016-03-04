@@ -1,0 +1,74 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <!--<form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="activity_coupon" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                类型:
+                <select name="type">
+                    <option value="">-{:L('all')}-</option>
+                    <option value="1" <if condition="$search.type eq '1'">selected="selected"</if>>新人奖励</option>
+                    <option value="2" <if condition="$search.type eq '2'">selected="selected"</if>>首次看房</option>
+                </select>
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>-->
+
+    <div class="J_tablelist table_list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <!--<th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>-->
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th>名称</th>
+                <th>金额</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+				<th>发放份数</th>
+				<th>发放总额</th>
+				<th>状态</th>
+                <th width="100">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <!--<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>-->
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+                <td align="center"><if condition="$val['type'] eq 1">新人奖励<else/>首次看房</if></td>
+                <td align="center">{$val.money}</td>
+                <td align="center">{$val.time_start|date='Y-m-d',###}</td>
+				<td align="center">{$val.time_end|date='Y-m-d',###}</td>
+				<td align="center">{$val.number}</td>
+				<td align="center">{$val.total_money}元</td>
+                <td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center"><a href="{:u('activity_coupon/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">{:L('edit')}</a> | <a href="{:u('activity_coupon/lists', array('id'=>$val['id'], 'menuid'=>$menuid))}">领取记录</a></td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <!--<label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />-->
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

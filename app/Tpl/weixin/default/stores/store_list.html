@@ -1,0 +1,310 @@
+<!doctype html>
+<html style="background-color:#eee;">
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+</head>
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header>
+    <section class="logo">{$setTitle}</section>
+    <section class="dropdown">
+      <select id="citylist" onChange="MM_jumpMenu('parent',this,0)">
+        <volist name="citylist" id="vo">
+          <option  value="{:U('weixin/stores/store_list',array('select_city'=>$vo['id'],'select_name'=>$vo['name']))}" >{$vo['name']}</option>
+        </volist>
+      </select>
+      <a href="javascript:void(0);" id="city_name"  class="city">{$search['select_name']}
+      <i></i></a> </section>
+    <a href="javascript:;" class="gotolist">筛选<i></i></a>
+    <section class="search"> <a href="javascript:void(0);" onClick="sub('search_title');" class="btn_search">搜索</a>
+      <div class="frm">
+        <form id='search_title'  method="get" >
+           <input type="hidden" name="g" value="weixin" />
+            <input type="hidden" name="m" value="stores" />
+            <input type="hidden" name="a" value="store_list" />
+            <input type="hidden" name="select_city" value="{$search['select_city']}" />
+            <input type="hidden" name="select_name" value="{$search['select_name']}" />
+            <input name="search_title" value="{$search['title']}" type="text" placeholder="">
+      </div>
+    </section>
+  </header>
+  <section class="scroll_body noPadding">
+    <section class="PADDING_FRM bgWhite">
+      <section class="links_list store_mgmt">
+        <notempty name='list'>
+        <ul class="display_list">
+          <volist name="list" id="v">
+          <li><a href="{:U('weixin/stores/store_show',array('id'=>$v['id']))}">
+            <h2>{$v.name}<b class="LBL_STATUS sc_11">邀请码：{$v.code_id}</b></h2>
+            <span class="address">{$v.address}</span><span class="store_code">服务专员:{$v.username} {$v.mobile}</span><span class="store_code_r">成员{$v.user_count}人</span><i></i></a></li>
+           </volist>
+        </ul>
+      </notempty>
+      <empty name='list'>
+      <script>
+        $('#TOP_FRAME').removeClass('gray');
+      </script>
+      <div class="NO_DATA_MSG">暂无数据</div>
+    </empty>
+    <if condition="$countlp egt 6">
+     <div class="LOADING">正在加载...</div> 
+    </if>
+      </section>
+    </section>
+  </section>
+  <div class="footer_2"><span class="deposit">{$count}个门店 共{$store_count}人</span> 
+    <if condition="$search['internal'] eq 1">
+      <a href="{:U('weixin/stores/add')}" class="BTNs">新建门店</a>
+    </if>
+  </div>
+</div>
+<!---------------------------------------------------------------------------------------------------------------------------->
+<div id="HIDDEN_POPUP" class="HIDDEN_POPUP">
+  <div class="TOP_FRAME gray">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+      <section class="dropdown">
+      </section>
+      <a href="javascript:;" onClick="shai_list();" class="gotolist nobg">重置筛选</a> </header>
+      <input type="hidden" name="g" value="weixin" />
+      <input type="hidden" name="m" value="stores" />
+      <input type="hidden" name="a" value="store_list" />
+      <input type="hidden" id="search_company_city" name="search_company_city" value="{$search['search_company_city']}">
+      <input type="hidden" id="search_shai_city" name="search_shai_city" value="{$search['search_shai_city']}" >
+      <input type="hidden" id="search_ban_city" name="search_ban_city" value="{$search['search_ban_city']}" >
+      <input type="hidden" id="search_ban_city_name" name="search_ban_city_name" value="{$search['search_ban_city_name']}" >
+      <input type="hidden" id="search_status_name" name="search_status_name" value="{$search['search_status_name']}">
+
+    <section class="scroll_body noPadding">
+   <section class="filters">
+   <div class="dv_sel">
+      <select name="shai_status" id="shai_status"  onchange="shai_status_name();">
+        <option id='shai_status1' value="1" <if condition="1 eq $search['search_status_name']">selected="selected"</if>>全部门店</option>
+        <option id='shai_status2' value="2" <if condition="2 eq $search['search_status_name']">selected="selected"</if>>我创建的门店</option>
+      </select>
+      <i></i> <a href="javascript:;" id="shai_status_name">全部门店</a> </div>  
+      </section>
+      <section class="filters">
+          <div class="dv_sel">
+          <select id="shai_company"  onchange="shai_company_pid();">
+            <option value=''>不限</option>
+            <volist name="company_list" id="vo">
+              <option sele  id="shai_company{$vo['id']}" value="{$vo['id']}" <if condition="$vo.id eq $search['search_company_city']"> selected="selected"</if>>{$vo['name']}</option>
+            </volist>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_company_name">公司筛选</a> </div>
+      </section>
+      <section class="filters">
+
+          <div class="dv_sel">
+          <select id="shai_city"  onchange="shai_city_pid2();">
+            <option value=''>不限</option>
+            <volist name="shailist_city" id="vo">
+              <option sele  id="shai_city_id{$vo['id']}" value="{$vo['id']}" <if condition="$vo.id eq $search['search_shai_city']">selected="selected"</if>>{$vo['name']}</option>
+            </volist>
+          </select>
+          <i></i> <a href="javascript:;" id="shai_city_name">区域筛选</a> </div>
+          <div class="dv_sel">
+          <select id="shai_ban" onChange="shai_ban_city_id();">
+          </select>
+          <i></i> <a href="javascript:;" id="shai_ban_name">板块筛选</a> </div>
+
+      </section>
+     
+      <section class="se_btn"><a href="javascript:;" onClick="sub('search_title');" class="BTNs">确定</a> <a href="javascript:;" class="BTNs cancel">取消</a></section>
+      </form>
+    </section>
+  </div>
+</div>
+<include file="public:footer_4_0" />
+<script type="text/javascript">
+//提交
+function sub(str){
+  $('#'+str).submit();
+}
+var search_shai_city = "{$search['search_shai_city']}";//选择的区ID
+var select_city = "{$search['select_city']}";//城市ID
+var search_title =  "{$search['title']}";//搜索关键字
+var select_name =  "{$search['select_name']}";//城市名称
+var search_ban_city = "{$search['search_ban_city']}";//板块ID
+var search_ban_city_name=  "{$search['search_ban_city_name']}";//板块名字 **
+var search_company_city = "{$search['search_company_city']}";
+if(search_company_city != ''){
+  $('#shai_company_name').html($('#shai_company'+search_company_city).html());
+}
+if(search_ban_city != ''){ 
+  $('#shai_ban_name').html(search_ban_city_name);
+}
+if(search_shai_city != ''){
+  $('#shai_city_name').html($('#shai_city_id'+search_shai_city).html());
+  shai_city_pid();
+}
+var search_status_name = "{$search['search_status_name']}";
+if(search_status_name != ''){
+  $('#shai_status_name').html($('#shai_status'+search_status_name).html());
+}
+//重置
+function shai_list(){
+
+  $('#search_shai_city').val('');
+  $('#search_ban_city').val('');
+  $('#search_ban_city_name').val('');
+  $('#shai_city_name').html('区域筛选');
+  $('#shai_ban_name').html('板块筛选');
+  $('#shai_company_name').html('公司筛选');
+  $('#shai_company').val('');
+  $('#shai_status').val('');
+  $('#search_company_city').val('');
+  $('#shai_status_name').html('全部门店');
+  $('#search_status_name').val('');
+  $("#shai_city_id"+$('#shai_city option:selected').val()).attr("selected",false);
+  $("#shai_ban_id"+$('#shai_ban option:selected').val()).attr("selected",false);
+  $('#shai_ban').hide();
+  return false;
+}
+//公司筛选
+function shai_company_pid(){
+
+  if($('#shai_company').val() == ''){
+    $('#shai_company_name').html('公司筛选');
+    $('#search_company_city').val('');
+  }else{
+    $('#shai_company_name').html($('#shai_company'+$('#shai_company').val()).html());
+    $('#search_company_city').val($('#shai_company').val());
+  }
+}
+//区域
+function shai_city_pid(){
+  if($('#shai_city').val() == ''){
+    $('#shai_city_name').html('区域筛选');
+  }else{
+    var url = PINER.root + '/?g=weixin&m=loupan&a=shai_city';
+    $.post(url,{
+      shai_city:$('#shai_city').val(),
+      },function(result){
+      if(result.status == 1){
+        $('#shai_ban').html(result.data);
+      }
+      $('#shai_city_name').html($('#shai_city_id'+$('#shai_city').val()).html());
+      $('#search_shai_city').val($('#shai_city').val());
+      $("#shai_ban_id"+search_ban_city).attr("selected","selected");
+    },'json');
+  }
+}
+//板块
+if($('#shai_city').val()==''){
+  $('#shai_ban').hide();
+}
+  function shai_city_pid2(){
+  $('#search_ban_city').val('');
+  $('#search_ban_city_name').val('');
+  if($('#shai_city').val() == ''){
+    $('#shai_city_name').html('区域筛选');
+    $('#search_shai_city').val('');
+    $('#shai_ban_name').html('板块筛选');
+    $('#shai_ban').hide();
+  }else{
+    $('#shai_ban').show();
+    var url = PINER.root + '/?g=weixin&m=loupan&a=shai_city';
+    $.post(url,{
+      shai_city:$('#shai_city').val(),
+      },function(result){
+      if(result.status == 1){
+        $('#shai_ban').html(result.data);
+      }
+      $('#shai_city_name').html($('#shai_city_id'+$('#shai_city').val()).html());
+      $('#shai_ban_name').html('板块筛选');
+      $('#search_shai_city').val($('#shai_city').val());
+      $("#shai_ban_id"+search_ban_city).attr("selected","selected");
+    },'json');
+  }
+}
+function shai_ban_city_id(){
+  if($('#shai_ban').val() == ''){
+    $('#shai_ban_name').html('板块筛选');
+    $('#search_ban_city').val('');
+    $('#search_ban_city_name').val('');
+  }else{
+    $('#shai_ban_name').html($('#shai_ban_id'+$('#shai_ban').val()).html());
+    $('#search_ban_city').val($('#shai_ban').val());
+    $('#search_ban_city_name').val($('#shai_ban_id'+$('#shai_ban').val()).html());
+  }
+  if(search_ban_city != '')
+  {
+    $("#shai_ban_id"+search_ban_city).attr("selected","selected");
+  }
+}
+//门店类别
+function shai_status_name(){
+  if($('#shai_status').val() == ''){
+    $('#shai_status_name').html('全部门店');
+    $('#search_status_name').val('');
+  }else{
+    $('#shai_status_name').html($('#shai_status'+$('#shai_status').val()).html());
+    $('#search_status_name').val($('#shai_status').val());
+  }
+}
+$(function(){
+  //向下滑动加载
+  var winH = $(window).height(); //页面可视区域高度 
+  var pagefirst = 1; //设置当前页数
+  var stopstatus = true; 
+  $(window).scroll(function () { 
+      var pageH = $(document.body).height(); 
+      var scrollT = $(window).scrollTop(); //滚动条top 
+      var lq_height = (pageH-winH-scrollT)/winH;
+      var url = PINER.root + '/?g=weixin&m=stores&a=ajax_company_list';
+      if(lq_height<0.02 && stopstatus == true){ 
+          stopstatus = false;
+          $.post(url,{
+          page:pagefirst,
+          search_shai_city:search_shai_city,
+          select_city:select_city,
+          search_title:search_title,
+          select_name:select_name,
+          search_ban_city:search_ban_city,
+          search_ban_city_name:search_ban_city_name,
+          search_company_city:search_company_city,
+          search_status_name:search_status_name,
+          },function(result){
+             if(result.status == 1){
+              $('.display_list').append(result.data);
+              $('.LOADING').html('正在加载...');
+              pagefirst++;
+              stopstatus = true;
+              return false; 
+            }else{
+              $('.LOADING').html(result.msg);
+              return false;
+            }
+        },'json');
+      }
+    });
+});
+
+
+  var $gotolist = $('.gotolist');
+  var $HIDDEN_POPUP = $('#HIDDEN_POPUP');
+  $gotolist.click(function(e) {
+    $HIDDEN_POPUP.fadeIn(function(e){
+      $('#TOP_FRAME').hide();
+    });
+  });
+
+
+  var $input_search = $('.search').find('input');
+  var $footer = $('footer');
+  $input_search.focus(function(e){
+    $footer.hide();
+  }).blur(function(e){
+      $footer.show();
+  });
+  var $cancel = $('.cancel');
+  $cancel.click(function(e){
+    $HIDDEN_POPUP.fadeOut();
+    $('#TOP_FRAME').show();
+  });
+</script>
+</body>
+</html>

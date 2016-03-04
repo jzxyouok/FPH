@@ -1,0 +1,91 @@
+<include file="public:header" />
+<!--公司管理-->
+<div class="pad_lr_10">
+<form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="company" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    时间筛选：
+                    <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}">
+                    -
+                    <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}">
+                    &nbsp;输入公司全称或简称 :
+                   <input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" />
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('company/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th>时间</th>
+                <th align='left'>公司简称</th>
+                <th align='left'>公司全称</th>
+                <th>门店数</th>
+      			<th>合作状态</th>
+                <th align='left'>所属者</th>
+                <th align='left'>联系人</th>
+                <th align='left'>联系人电话</th>
+                <th width=100>{:L('operations_manage')}</th>
+            </tr>
+            </thead>
+    	    <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center">{$val.id}</td>
+                <td align="center">{$val.add_time|date='Y.m.d H:i',###}</td>
+                <td align="left">{$val.short_name}</td>
+                <td align="left">{$val.name}</td>
+                <td align="center">{$val.count}</td>
+                <td align="center">
+                    <img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.teamwork eq 0">disabled<else/>enabled</if>.gif" />
+                  <!--  <if condition="$val.teamwork eq 1">√<else/>×</if> -->
+                </td>
+                 <td align="left">{$val.user_edit}</td>
+                 <td align="left">{$val.contact}</td>
+                 <td align="left">{$val.contact_tel}</td>
+                <td align="center">
+                    <a href="{:U('company/edit', array('id'=>$val['id'],'menuid'=>$menuid))}">{:L('edit')}</a>
+                </td>
+            </tr>
+            </volist>
+    	   </tbody>
+        </table>
+        <empty name='list'>暂无数据</empty>
+    </div>
+    <div class="btn_wrap_fixed">
+		<div id="pages">{$page}</div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$(function(){
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+})
+</script>

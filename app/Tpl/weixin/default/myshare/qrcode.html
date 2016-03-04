@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:new_head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/makemoney.css" rel="stylesheet" />
+<script src="__STATIC__/css/default/js/jquery.qrcode.min.js"></script>
+<script>   
+jQuery(function(){   
+    jQuery('#output').qrcode("{$rq_img}").append('<p>扫描二维码，加入房品汇，高额佣金等你赚</p>');   
+})   
+</script>  
+</head>
+
+<body>
+
+<div class="personalinfo">
+  <div class="mypic">
+  	<table width="100" border="0">
+  <tr>
+    <td width="100" height="100" align="center" valign="middle"><img src="{:avatar($uid, 100)}"></td>
+  </tr>
+</table>
+
+  </div>
+  <div class="detailinfo"> <span class="name">{$user['username']}</span> <span class="address">{$user['address']}</span> </div>
+</div>
+<div id='output' class="info_frm paddingLR">
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

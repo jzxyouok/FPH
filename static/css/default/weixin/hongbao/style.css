@@ -1,0 +1,62 @@
+html {	font-size:12px\9;	font-size: 62.5%;/*10 ¡Â 16 ¡Á 100% = 62.5%*/	font-family:"Î¢ÈíÑÅºÚ",Arial, Helvetica, sans-serif;}
+body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dl, dt, dd, figure, textarea, input, button, select {	margin:0;	padding:0;}
+body {	-webkit-tap-highlight-color:rgba(255, 255, 255, 0);	cursor:default;	-ms-content-zooming:none;	-webkit-text-size-adjust:1.4rem;	font-size:1.4rem;
+	text-align:center;	width:100%;	height:100%;}
+h1, h2, h3, h4, h5, h6 {	font-weight:400;	line-height:1.8;}
+a {	color:#fff1a7;	outline:none;	text-decoration:none}
+a:hover {	color:#ffeed5;	text-decoration:none;}
+
+.wrap {background-color:#fff1a7;}
+header { background:url(bg_top.jpg) no-repeat 0 0; background-size:cover; padding:40px 0 20px 0;}
+header img { width:84%; margin:0 auto;-moz-animation:heart_beat .5s ease-in-out;-webkit-animation:heart_beat .5s ease-in-out; }
+@-moz-keyframes heart_beat{0%{-moz-transform:scale(2); opacity:0.3}
+25%{-moz-transform:scale(1.5); opacity:0.8}
+50%{-moz-transform:scale(0.9)}
+75%{-moz-transform:scale(1.55)}
+100%{-moz-transform:scale(1)}}
+@-webkit-keyframes heart_beat{0%{-webkit-transform:scale(2); opacity:0.3}
+25%{-webkit-transform:scale(1.5); opacity:0.8}
+50%{-webkit-transform:scale(0.9) }
+75%{-webkit-transform:scale(1.55)}
+100%{-webkit-transform:scale(1)}}
+.content { background-color:#fff1a7; padding:10px 0;}
+.content h2 { font-size:1.8rem; color:#d61e42;}
+.btn { widows:100%; }
+.bg_hongbao { background:url(img_hongbao.png) no-repeat 0 0; background-size:cover; position:relative; height:300px; width:80%; left:50%; margin-left:-40%; }
+.btn_chai { display:block; position:absolute; font-size:2.4rem; color:#d61e42; width:100%; height:9.4rem; line-height:9.4rem; top:2rem; background:url(btn_chai.png) no-repeat center top;  background-size:100% 100%; /*top:2rem; padding:3.5rem 0; */overflow:hidden;}
+.btn_chai:hover { color:#F00}
+.bottom_c { background:url(bg_bot.png) no-repeat 0 0; width:100%;  background-size:100% 100%;  padding:120px 0 10px 0; color:#fff1a7; position:relative; margin-top:-120px; z-index:888;}
+.bottom_c a { display:block; width:40%; background-color:#fff1a7; margin:0 auto 10px auto; border-radius:10px; color:#c61c3d; font-size:1.6rem; padding:0.5rem 0}
+.bottom_c strong { line-height:1.5; font-size:1.4rem}
+.bottom_c p { line-height:1.5; font-size:1.2rem}
+.result { width:80%; margin:0 auto; line-height:1.5;}
+.result h3 { font-size:2.4rem; color:#d61e42;line-height:1.5;}
+.result h3.grey {color:grey;}
+.result h4 { font-size:1.6rem; color:#6a3906;line-height:1.5;}
+.result h5 { font-size:2.8rem; color:#d61e42;line-height:1.5;}
+.result h5 span {font-size:1.4rem; color:#6a3906; padding-left:0.5rem;}
+.result dl { margin:20px auto 80px auto ;}
+.result dd { font-size:1.2rem; color:#999;}
+.result a{ display:block; border-radius:1rem; padding:0.5rem 0rem; width:50%;  margin:10px auto 0px auto;  font-size:1.6rem; color:#fff; background-color:#bb1538;}
+a.red { background-color:#bb1538;}
+a.blue { background-color:#00a0e9;}
+a.green { background-color:#22ac38;}
+a.yellow { background-color:#ff6600;}
+.popup { background:url(bg_70.png) repeat 0 0; width:100%; position:absolute; top:0; left:0; z-index:900;height:720px;}
+.popbox { width:80%; position:relative; left:50%; margin-left:-40%; background-color:#e5004f; top:15%; padding-top:20px;}
+.popbox img { width:20%;}
+.popbox h3 { color:#fff; font-size:1.6rem;}
+.popbox h4 { color:#ffeed5; font-size:1.4rem;}
+.popup dl { width:90%; margin:10px auto; padding:20px 0;}
+.popup dd { margin-bottom:15px; color:#640d1f; font-size:1.2rem;}
+.popup a { display:block; width:50%; padding:0.8rem 0; font-size:1.4rem; margin:0 auto; border-radius:0.8rem;}
+.popup a.yellow { background-color:#fffab7; color:#e5004f}
+.share { width:100%; position:relative; right:0; top:0;}
+.share img { width:90%; float:right;}
+.popup:after{ content:""; clear:both;}
+@media all and (min-width:1280px) {
+body { background:#fff1a7;}
+.wrap { width:500px; margin:0 auto; background-color:#fff}
+.popup {width:100%; height:1080px;}
+.popbox {width:400px; margin-left:-200px; }
+	}

@@ -1,0 +1,136 @@
+<include file="public:header" />
+<div class="pad_lr_10" >
+    <div class="col_tab">
+    <ul class="J_tabs tab_but cu_li">
+			<a href="{:u('withdraw_cash/edit', array('id'=>$withdraw_cash_id, 'menuid'=>$menuid))}"><li>{:L('article_basic')}</li></a>
+			<li class="current">现金记录</li>
+		</ul>
+	</div>
+    <div class="J_tablelist table_list pad_10">
+    <form autocomplete="off">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+				<th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th align="center" width="30">序号</th>
+                <th align="center">ID</th>
+                <th align="left">客户姓名</th>
+                <th>手机号码</th>
+                <th align="left">楼盘</th>
+                <th>领取金额</th>
+                <th>拍照时间</th>
+                <th>领取时间</th>
+				<th>领取状态</th>
+				<th>领取方式</th>
+				<th>楼盘广告机</th>
+				<th>现场图</th>
+				<th>综合评分</th>
+                <th>{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                	<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}" name="id[]"></td>
+                    <td align="center">{$p*20-20+$i}</td>
+                    <td align="center">{$val.id}</td>
+                    <td align="left">{$val.username}</td>
+                    <td align="center">{$val.mobile}</td>
+                    <td align="left">{$val.title}</td>
+                    <td align="center">{$val.journal_account}</td>
+                    <td align="center">{$val.photo_time|date='Y-m-d H:i',###}</td>
+                    <td align="center"><notempty name="val['receive_time']">{$val.receive_time|date='Y-m-d H:i',###}<else/>-</notempty></td>
+                    <td align="center"><if condition="$val['status'] eq 0"><span style="color:#ff0000">未领取</span><else/>已领取</if></td>
+                    <td align="center">
+                    	<if condition="$val['type'] eq 0">改版以前数据</if>
+                    	<if condition="$val['type'] eq 1">人工领取码</if>
+                    	<if condition="$val['type'] eq 2">蓝牙摇一摇</if>
+                    	<if condition="$val['type'] eq 3">签到领路费</if>
+                    </td>
+                    <td align="center">{$val.machine_code}</td>
+                    <td align="center" onmouseover="doDisplayPhotoBig('{$val.id}')" onmouseout="doHidePhotoBig('{$val.id}')">
+	                    	<div id="photo_{$val.id}" style="position:absolute;"></div>
+	                    	<notempty name="val['photo']">
+ 	                    		<img src="{:U('ossimage/index')}&image={$val.photo}@property@480*600" height="40" width="32" id="photo_image_{$val.id}"/>
+ 							</notempty>
+                    </td>
+                    <td align="center">{$val.score}</td>
+                    <td align="center">
+                    	<a href="javascript:void(0)" onclick="doCheck(this,1)">审核通过</a>
+                    	|
+                    	<a href="javascript:void(0)" onclick="doCheck(this,2)">审核不通过</a>
+                    </td>
+                </tr>
+            </volist>
+        </tbody>
+    </table>
+	</form>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" value="批量审核通过" onclick="doCheck('all',1)" />
+        <input type="button" class="btn" value="批量审核不通过" onclick="doCheck('all',2)" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+
+<script src="__STATIC__/js/jquery/plugins/listTable.js"></script>
+<script type="text/javascript">
+
+var doDisplayPhotoBig	= function(id){
+	if($('#photo_'+id).find('img').size() == 0 )	$('#photo_'+id).append('<img src="'+$('#photo_image_'+id).prop('src')+'" />');
+	$('#photo_'+id).show();
+	$('#photo_'+id).css({
+		'position'	:'absolute',
+		'border'	: '1px solid',
+		'left'		: $('#photo_'+id).parent().position().left - $('#photo_'+id).width(),
+		'top'		: $('#photo_'+id).parent().position().top - $(window).scrollTop() > $('#photo_'+id).height() + $('#photo_image_'+id).height() 
+					? $('#photo_'+id).parent().position().top - $('#photo_'+id).height() + $('#photo_image_'+id).height() 
+					: $('#photo_'+id).parent().position().top - $('#photo_'+id).height() + ($('#photo_'+id).height() - $('#photo_'+id).parent().position().top + $(window).scrollTop()),
+	});
+}
+
+var doHidePhotoBig		= function(id){
+	$('#photo_'+id).hide();
+}
+
+/*
+ * 审核
+ */
+var doCheck	= function(target,check_status)
+{
+	try
+	{
+		var	post_params	= $(target).closest('tr').find('[name="id[]"]').prop('checked',true).add('<input name="check_status" value="'+check_status+'" />').serialize();
+		if( target == 'all' )	post_params	= $('[name="id[]"]:checked').add('<input name="check_status" value="'+check_status+'" />').serialize();
+		if(confirm('你确定?'))
+		{
+			$.post("{:u('withdraw_cash/check')}",post_params,function(json){
+				if(json.status.status　== false)	return alert(json.status.info);
+				alert('操作成功.');
+				location.reload();
+			},'json');
+		}
+	}
+	catch(e)
+	{
+		alert('系统错误.');
+	}
+}
+/*
+ * 
+ */
+$(function(){
+	$('.J_tablelist').listTable();
+	
+	//避免重复请求
+	$.ajaxSetup({
+		dataType	: 'json',
+		async		: false,
+	});
+});
+</script>
+</body>
+</html>

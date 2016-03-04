@@ -1,0 +1,202 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+html, body {
+	background-image: url(../images/lottery/body_bg.png);
+}
+.top_logo {
+	background-color: #fdfce3;
+	height: 44px;
+	width: 86px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border-left: 1px solid #e21900;
+	border-right: 1px solid #e21900;
+	border-bottom: 1px solid #e21900;
+	border-radius: 0 0 5px 5px;
+	position: absolute;
+	background-image: url(../images/lottery/top_logo.png);
+	left: 16px;
+}
+.top_banner {
+	min-height: 400px;
+	background-image: url(../images/lottery/top_radial_bg.png);
+	background-repeat: no-repeat;
+	background-position: center -40px;
+	clear: both;
+}
+.top_banner .inner {
+	background:url(../images/lottery/top_bg.png) no-repeat center center;
+	width:480px;
+	height:260px;
+	margin:0 auto;
+}
+@media screen and (max-width:480px) {
+.top_banner .inner {
+	width:100%;
+	background-size:100%;
+	}
+}
+.top_banner .info {
+	color: #fdff44;
+	text-align: center;
+	padding: 0px 10px 0 10px;
+	margin: 0px;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.top_banner .lottery {
+	background-image: url(../images/lottery/lottery_bg.png);
+	background-position: -5px top;
+	background-repeat: repeat-x;
+	height: 110px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	margin: 8px 10px 0 10px;
+	overflow: hidden;
+	position: relative;
+}
+.top_banner .lottery.tall {
+	background-image: url(../images/lottery/lottery_tall_bg.png);
+	height: 211px;
+}
+.top_banner .lottery .section {
+	height: 60px;
+	margin-right: 12px;
+	margin-left: 12px;
+	overflow: hidden;
+	background-color: #fff;
+	position: relative;
+}
+.paddingLR .btn {
+	height: 42px;
+	line-height: 42px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #06F;
+	display: block;
+	font-size: 14px;
+	text-align: center;
+	margin-bottom: 14px;
+}
+.paddingLR .btn:first-child {
+	margin-top: 25px;
+}
+.paddingLR .btn.style1 {
+	background-color: #fff5b7;
+	border-top-color: #fffadb;
+	color: #9e0001;
+}
+.paddingLR .btn.style2 {
+	background-color: #eb7400;
+	border-top-color: #f5ba80;
+	color: #FFF;
+}
+.paddingLR .bulletin {
+	line-height: 40px;
+	height: 40px;
+	background-color: #fdfce3;
+	position: relative;
+}
+.paddingLR .bulletin .title {
+	height: inherit;
+	width: 125px;
+	text-indent: 10px;
+	color: #FFF;
+	position: absolute;
+	background-image: url(../images/lottery/bulletin_top_bg.png);
+	background-repeat: no-repeat;
+}
+.paddingLR .bulletin marquee {
+	position: absolute;
+	display: block;
+	width: 98%;
+	height: 40px;
+	overflow: hidden;
+}
+.paddingLR .bulletin marquee ul li {
+	display: inline-block;
+	height: 40px;
+	min-width: 80px;
+	padding-right: 10px;
+	white-space: nowrap;
+}
+.paddingLR .bulletin marquee ul li span {
+	color: #ff6600;
+}
+.details {
+	padding: 15px;
+	min-height: 200px;
+	margin-bottom: 15px;
+	color: #FFF;
+	background: rgba(0,0,0,0.2);
+}
+.details ol {
+	list-style-type: decimal;
+	padding-left: 20px;
+}
+.details ol li {
+	font-size: 12px;
+}
+.details label {
+	line-height: 34px;
+}
+.top_banner .lottery.tall .result {
+	font-size: 16px;
+	color: #F00;
+	line-height: 50px;
+	text-align: center;
+}
+.top_banner .lottery.tall .btns {
+	margin-right: 12px;
+	margin-left: 12px;
+	height: 48px;
+	text-align: center;
+}
+.top_banner .lottery.tall .btns > a {
+	height: 47px;
+	line-height: 47px;
+	font-size: 16px;
+	display: block;
+	width: 48%;
+	text-align: center;
+	color: #FFF;
+}
+.top_banner .lottery.tall .btns > a.only {
+	background-color: #22ac38;
+	border-top: solid 1px #00e024;
+	margin-left: auto;
+	margin-right: auto;
+}
+.top_banner .lottery.tall .btns > a.west {
+	float: left;
+	background-color: #22ac38;
+	border-top: solid 1px #00e024;
+}
+.top_banner .lottery.tall .btns > a.east {
+	float: right;
+	background-color: #e5004f;
+	border-top: solid 1px #ff5e96;
+}
+.top_banner #prize {
+	font-size: 14px;
+	top: 0;
+	position: absolute;
+	width: 100%;
+	z-index: 996;
+	height: inherit;
+	line-height: 60px;
+	text-align: center;
+}
+.top_banner #scratchpad {
+	width: 100%;
+	height: inherit;
+	position: absolute;
+	top: 0;
+	z-index: 997;
+}
+#prize, #scratchpad {
+	color: #333;
+}
+

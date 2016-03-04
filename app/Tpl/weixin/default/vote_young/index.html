@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+<title>{$actinfo[0]['data']}</title>
+<link href="__STATIC__/css/default/weixin/vote_young/css/young.css" rel="stylesheet" type="text/css">
+<script src="__STATIC__/js/jquery/jquery-1.7.2.min.js"></script>
+<!-- <script src="__STATIC__/layer_mobile/layer.m.js"></script>
+<script src="__STATIC__/css/default/weixin/js_4_0/comment.js?id=v1"></script> -->
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+	<section class="banner">
+    <img src="__STATIC__/css/default/weixin/vote_young/images/banner.jpg">
+    <a href="javascript:void(0);" onClick="javascript:document.getElementById('note').style.display='block';">活动说明</a>
+    </section>
+    <h2 class="title">选手列表</h2>
+	<ul class="list_item clearfix" id="list_item">
+        <volist name="list" id="vo">
+    	<li>
+            <a href="{:u('vote_young/detail',array('id'=>$vo['id']))}">
+            <figure><img src="{:get_fdfs_image($vo['avatar'], '')}"></figure>
+            <h4>{$vo.vote_personal}<span>{$vo.vote_id}号</span></h4>
+            <p class="vote">{$vo.clickfans}个赞<span>(排名{$vo.order})</span></p>
+            </a>
+        </li>
+       </volist>
+    </ul>
+ <if condition="$countlp egt 16 ">
+     <div id="loading" class="LOADING">正在加载...</div>                    
+</if>   
+    <footer>&copy;房品汇 保留活动最终解释权</footer>
+</div>
+<section id="note" class="note">
+	<dl>
+    	<dt>活动说明</dt>
+        {$actinfo[1]['data']}
+    </dl>
+    <a href="javascript:void(0);" onClick="javascript:document.getElementById('note').style.display='none';">关闭</a>
+</section>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    $(function(){
+    //向下滑动加载
+    var winH = $(window).height(); //页面可视区域高度 
+    var pagefirst = 1; //设置当前页数
+    var stopstatus = true; 
+    $(window).scroll(function () { 
+        var pageH = $(document.body).height(); 
+        var scrollT = $(window).scrollTop(); //滚动条top 
+        var lq_height = (pageH-winH-scrollT)/winH; 
+    var url = "{:u('weixin/vote_young/ajax_list')}";
+        if(lq_height<0.02 && stopstatus == true){ 
+        stopstatus = false;
+        $.post(url,{
+            page:pagefirst            
+            },function(result){
+            if(result.status == 1){
+                //alert(result.data)
+                $('#list_item').append(result.data);
+                $('#loading').html('正在加载...');
+                pagefirst++;
+                stopstatus = true;
+                return false; 
+            }
+            else
+            {
+                $('#loading').html('暂无数据');
+                //$(".bt-roading").html(result.msg); 
+                return false; 
+            }
+        },'json');
+        } 
+    });
+});
+//添加分享js
+wx.config({
+    debug: false,
+    appId: '{$jssdk.appId}',
+    timestamp: {$jssdk.timestamp},
+    nonceStr: '{$jssdk.nonceStr}',
+    signature: '{$jssdk.signature}',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+    ]
+});
+var title = '花young时代，不一样又怎样！';
+var desc  = "房品汇首届经纪人创意自拍活动火热进行中！";
+var link = 'http://www.fangpinhui.com/?g=weixin&m=vote_young&a=index';
+var imgUrl = "{$url}/static/css/default/weixin/vote_young/images/share.jpg";
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: title, // 分享标题
+    //desc: "分享描述分享描述分享描述分享描述分享描述分享描述", // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+             $('.share').hide();
+             $('.gray_cover').hide();
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+             $('.share').hide();
+             $('.gray_cover').hide();
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        type: '', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+    wx.onMenuShareQQ({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+            $('.share').hide();
+            $('.gray_cover').hide();
+        },
+        cancel: function () { 
+           // 用户取消分享后执行的回调函数
+           $('.share').hide();
+           $('.gray_cover').hide();
+        }
+    });
+    wx.onMenuShareWeibo({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+});
+</script>
+</body>
+</html>

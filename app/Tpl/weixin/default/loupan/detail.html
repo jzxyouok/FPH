@@ -1,0 +1,370 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/premises.css">
+</head>
+<body>
+<div class="TOP_FRAME">
+  <if condition="$origin neq 'app'">
+    <header class="noPadding">
+      <section class="logo">房品汇</section>
+      <section class="dropdown">
+        <select id="citylist" onChange="MM_jumpMenu('parent',this,0)">
+  	<volist name="citylist" id="vo">
+  		<option  value="{:U('weixin/loupan/index',array('select_city'=>$vo['id'],'select_name'=>$vo['name']))}" >{$vo['name']}</option>
+  	</volist>
+        </select>
+  		<a href="javascript:void(0);" id="city_name"  class="city">{$search['select_name']}<i></i></a>
+       </section>
+      <if condition="$favorites_count eq 0">
+        <a href="javascript:" class='gotolist nobg J_favorite'>收藏楼盘</a>
+        <input type="hidden" id="uid" value="{$uid}">
+        <input type="hidden" id="return_url" value="{$return_url}">
+      <else/>
+        <a href="javascript:" class='gotolist nobg J_favorites off'>取消收藏</a>
+      </if>
+      <input type="hidden" id="favorite" value="{$list.id}">
+    </header>
+  </if>
+  <section class="scroll_body noPadding"> 
+    <!-------------------------------------------------------------------------------->
+    <div class="top_sample">
+      <section class="lbl_status">
+        <if condition="$list['prize'] neq '' ">
+        <label class="red">带看奖{$list.prize}元/每客</label>
+        </if>
+      </section>
+      <a href="javascript:void(0);"><img src="{:get_fdfs_image($list['img'], '_640x480')}"></a></div>
+    <!-------------------------------------------------------------------------------->
+    <section class="PADDING_FRM">
+      <ul class="info_list">
+        <li>
+          <h2>{$list['title']}</h2>
+	  <if condition="$list['sub_title'] neq '' ">
+          <span class="sub_label">{$list['sub_title']}</span>
+	  </if>
+	</li>
+        <li>
+          <label>项目均价</label>
+          <span>
+	     <if condition="$list['item_price'] neq '' ">  <font style="color:#ff6600">{$list['item_price']}</font>元/㎡<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>优惠折扣</label>
+          <span>
+	    <if condition="$list['prefer'] neq '' ">{$list['prefer']}<else/> {:C('STRNULL')} </if>
+	    </span> </li>
+        <li>
+          <label>楼盘特色</label>
+          <span>
+	    <if condition="$list['property_feature_name'] neq '' ">{$list['property_feature_name']}<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>项目地址</label>
+          <span>
+	    <if condition="$list['address'] neq '' ">{$list['address']}<else/> {:C('STRNULL')} </if>
+	   </span> </li>
+        <li>
+          <label>咨询电话</label>
+          <span>
+	     <if condition="$list['tel'] neq '' "><a href="tel:{$list['tel']}" class="mobiles">{$list['tel']} </a><else/>{:C('pin_kefu_tel')}</if>
+	    
+	  </span> </li>
+      </ul>
+    </section>
+    <!-------------------------------------------------------------------------------->
+    <if condition="$list['commission'] neq '' ">
+    <div class="sub_title">赚佣金</div>
+    <section class="PADDING_FRM">
+      <ul class="info_list">
+	<volist name="list['commission']" key="key" id="vo">
+        <li>
+	  <volist name="vo['cate']" key="k" id="v">
+	  <i class="LBL_STATUS sc_{$v['id']}">{$v['name']}</i>
+	  </volist>
+	  <span class="spec">
+		  <if condition="$vo['price'] neq  0.00">总价{$vo['price']}%&nbsp;</if>
+		  <if condition="$vo['each'] neq  0">每套{$vo['each']}元&nbsp;</if>
+		  <if condition="$vo['money'] neq  0">现金奖{$vo['money']}元&nbsp;</if>
+		  <!-- <if condition="$vo['see'] neq  0">带看奖{$vo['see']}元&nbsp;</if>
+		  <if condition="$vo['entrust_price'] neq  0.00">委托总价{$vo['entrust_price']}%&nbsp;</if>
+		  <if condition="$vo['entrust_each'] neq  0">委托每套{$vo['entrust_each']}元&nbsp;</if> -->
+	 </span>
+	</li>
+	</volist>
+      </ul>
+    </section>
+    </if>
+    <!-------------------------------------------------------------------------------->
+    <if condition="$list['commission_info'] neq '' ">
+    <div class="sub_title">结佣细则</div>
+    <section class="PADDING_FRM">
+      <p>{$list['commission_info']}</p>
+    </section>
+    </if>
+    <!-------------------------------------------------------------------------------->
+    <if condition="$list['report_info'] neq '' ">
+    <div class="sub_title">报备规则</div>
+    <section class="PADDING_FRM">
+      <p>{$list['report_info']}</p>
+    </section>
+    </if>
+    <!-------------------------------------------------------------------------------->
+    <if condition="$list['article'] neq '' ">
+    <div class="sub_title">热门活动</div>
+    <section class="PADDING_FRM">
+      <ul class="info_list">
+	<volist name="list['article']" id="vo">
+        <li><i class="bg"></i><a href="{:U('weixin/loupan/hd_show',array('id'=>$vo['id']))}"><i class="LBL_STATUS sc_6">{$vo['article_name']}</i>{$vo['title']}</a></li>
+	</volist>
+      </ul>
+    </section>
+    </if>
+    <!-------------------------------------------------------------------------------->
+    <if condition="$list['feature'] neq '' ">
+    <div class="sub_title">楼盘卖点</div>
+    <section class="PADDING_FRM">
+      <p>{$list['feature']}</p>
+    </section>
+    </if>
+    <!-------------------------------------------------------------------------------->
+    <div class="sub_title">地图</div>
+    <section class="PADDING_FRM">
+      <div id="map" class="maps">
+	
+      </div>
+    </section>
+    <!-------------------------------------------------------------------------------->
+    <if condition="$list['project'] neq '' ">
+    <div class="sub_title">项目配套</div>
+    <section class="PADDING_FRM">
+      <p>{$list['project']}</p>
+    </section>
+    </if>
+    <!-------------------------------------------------------------------------------->
+    <if condition="$list['metro'] neq '' || $list['bus'] neq '' || $list['elevated'] neq ''  ">
+    <div class="sub_title">交通配套</div>
+    <section class="PADDING_FRM">
+      <ul class="info_list">
+	<if condition="$list['metro'] neq '' ">
+        <li>
+          <label>周边地铁</label>
+          <span>
+		<volist name="list['metro']" id="vo">
+		      {$vo['metro_name']}:
+		      <volist name="vo['metro_end']" id="v">
+			 &nbsp;{$v['name']}
+		      </volist>
+		 <br>
+		</volist>
+	  </span>
+	</li>
+	</if>
+	<if condition="$list['bus'] neq '' ">
+        <li>
+          <label>公交线路</label>
+          <span>{$list['bus']}</span>
+	</li>
+	</if>
+	<if condition="$list['elevated'] neq '' ">
+        <li>
+          <label>高速高架</label>
+          <span>{$list['elevated']}</span> </li>
+	</if>
+      </ul>
+    </section>
+    </if>
+    <!-------------------------------------------------------------------------------->
+    <div class="sub_title">销售信息</div>
+    <section class="PADDING_FRM">
+      <ul class="info_list">
+        <li>
+          <label>销售状态</label>
+          <span>
+	  <if condition="$list['sales'] eq  0"><i class="LBL_STATUS ssc_2">未知</i> </if>
+	  <if condition="$list['sales'] eq  1"><i class="LBL_STATUS ssc_2">在售</i> </if>
+	  <if condition="$list['sales'] eq  2"><i class="LBL_STATUS ssc_2">待售</i> </if>
+	  <if condition="$list['sales'] eq  3"><i class="LBL_STATUS ssc_2">售罄</i> </if>
+	  </span>
+	</li>
+        <li>
+          <label>开盘时间</label>
+          <span>
+	    <if condition="$list['open_time'] neq 0 ">{$list['open_time']|date='Y/m/d',###}<else/> {:C('STRNULL')} </if></span> </li>
+        <li>
+          <label>入住时间</label>
+          <span>
+	    <if condition="$list['check_time'] neq 0 ">{$list['check_time']|date='Y/m/d',###}<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+	  <if condition="$list['payment'] neq 0">
+		<li>
+		<label>最低首付</label>
+			<span>
+				<if condition="$list['payment'] neq '' ">{$list['payment']}万<else/> {:C('STRNULL')} </if>
+			</span>
+		</li>
+	 </if>
+      </ul>
+    </section>
+    <!-------------------------------------------------------------------------------->
+    <if condition="$list['housetype'] neq '' ">
+    <div class="sub_title">户型介绍</div>
+    <ul class="premises_list">
+      <volist name="list['housetype']" id="vo">
+	  <li>
+	    <a href="{:U('weixin/loupan/hx_detail',array('id'=>$vo['id'],'select_city'=>$search['select_city'],'select_name'=>$search['select_name']))}">
+	    <figure><img src="{:get_fdfs_image($vo['house_img'], '_100x75')}" width="120" height="90"> </figure>
+	    <section class="detail">
+	      <h3>{$vo['house_name']}</h3>
+	      <span class="region">结构：{$vo['house_room']}/{$vo['house_hall']}/{$vo['house_wc']}</span>
+	      <span class="price">面积：{$vo['house_area']}平米 </span> </section>
+	    <section class="links">
+	      <if condition="$vo['status'] eq  1"> <i class="LBL_STATUS ssc_2">在售</i></if>
+	      <if condition="$vo['status'] eq  2"> <i class="LBL_STATUS ssc_4">售罄</i></if>
+	      <i class="bg"></i>
+	    </section>
+	    </a>
+	  </li>
+      </volist>
+    </ul>
+    </if>
+    <!-------------------------------------------------------------------------------->
+    <div class="sub_title">项目介绍</div>
+    <section class="PADDING_FRM">
+      <p>{$list['info']}</p>
+    </section>
+    <!--------------------------------------------------------------------------------><!--{:C('STRNULL')}-->
+    <div class="sub_title">基本参数</div>
+    <section class="PADDING_FRM">
+      <ul class="info_list">
+        <li>
+          <label>物业类型</label>
+          <span>
+	    <if condition="$list['property_type_name'] neq '物业类型' ">{$list['property_type_name']}<else/> {:C('STRNULL')} </if>
+	  </span></li>
+        <li>
+          <label>开发商</label>
+          <span>
+	    <if condition="$list['business'] neq '' ">{$list['business']}<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>建筑类型</label>
+          <span>
+	    <if condition="$list['building_type_name'] neq '' ">{$list['building_type_name']}<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>产权年限</label>
+          <span>
+	    <if condition="$list['property_age'] eq 0">未知 </if>
+	    <if condition="$list['property_age'] eq 1">70年 </if>
+	    <if condition="$list['property_age'] eq 2">50年 </if>
+	    <if condition="$list['property_age'] eq 3">40年 </if>
+	    <if condition="$list['property_age'] eq 4">永久 </if>
+	  </span>
+	</li>
+        <li>
+          <label>装修情况</label>
+          <span>
+	    <if condition="$list['decoration_name'] neq '' ">{$list['decoration_name']}<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>容积率</label>
+          <span>
+	    <if condition="$list['volume_rate'] neq '' ">{$list['volume_rate']}<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>绿化率</label>
+          <span>
+	    <if condition="$list['green_rate'] neq '' ">{$list['green_rate']}%<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>规划户数</label>
+          <span>
+	    <if condition="$list['gouseholds'] neq '' ">{$list['gouseholds']}户<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>楼层状况</label>
+          <span>
+	    <if condition="$list['floors'] neq '' ">{$list['floors']}<else/> {:C('STRNULL')} </if>
+	  </span>
+	</li>
+        <li>
+          <label>工程进度</label>
+          <span>
+	     <if condition="$list['progress'] eq '' "> {:C('STRNULL')} </if>
+	      <if condition="$list['progress'] eq 1">在建中 </if>
+	      <if condition="$list['progress'] eq 2">已竣工 </if>
+	      <if condition="$list['progress'] eq 3">未动工 </if>
+	  </span>
+	</li>
+        <li>
+          <label>物业费</label>
+          <span>
+	    <if condition="$list['property_costs'] neq '' ">{$list['property_costs']}元/平米/月<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>物业公司</label>
+          <span>
+	    <if condition="$list['propert_company'] neq '' ">{$list['propert_company']}<else/> {:C('STRNULL')} </if>
+	  </span> </li>
+        <li>
+          <label>车位数</label>
+          <span>
+	    <if condition="$list['parking'] neq '' ">{$list['parking']}<else/> {:C('STRNULL')} </if>
+	  </span>
+	</li>
+        <li>
+          <label>车位比</label>
+          <span>
+	    <if condition="$list['parking_ratio'] neq '' ">{$list['parking_ratio']}<else/>{:C('STRNULL')} </if>
+	  </span>
+	</li>
+      </ul>
+    </section>
+    
+    <!--------------------------------------------------------------------------------> 
+  </section>
+  
+  <if condition="$list['pid'] eq 1 AND $origin neq 'app'">
+    <div class="footer_2">
+  		<i class="PREMISES_STATUS">佣</i>
+  		<span class="deposit">每套{$list['list_price']}元起</span>
+  		<a href="javascript:;" class="BTNs J_loupan_baobei">报备</a>
+	  </div>
+  </if>
+  <if condition="$origin eq 'app'">
+    <section class="share">
+      <h3>更多高佣金房源、房产行业干货，尽在房品汇APP</h3>
+      <img src="http://d.fangpinhui.com/static/css/default/home/images/app_coming/down_app_code.jpg">
+      <p>长按二维码扫描下载房品汇APP</p>
+    </section>
+  </if>
+</div>
+<input name="protection" id="protection" type="hidden" value="{$list.protection}">
+<input name="property" id="property" type="hidden" value="{$list.id}">
+
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=WLNi0kvSQOxWfm27gVxzHYXs&v=1.0"></script> 
+<script type="text/javascript">
+
+$(document).ready(function(e) {
+  // 百度地图API功能
+  var map = new BMap.Map("map");            // 创建Map实例
+  var point = new BMap.Point({$list['latitude']});    // 创建点坐标
+  map.centerAndZoom(point,18);                     // 初始化地图,设置中心点坐标和地图级别。
+  var marker1 = new BMap.Marker(point);  // 创建标注
+  map.addOverlay(marker1);              // 将标注添加到地图中
+  
+  ////创建信息窗口
+  var infoWindow1 = new BMap.InfoWindow("{$list['address']}");
+  marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
+  marker1.openInfoWindow(infoWindow1);
+  map.setDoubleClickZooming(false);
+      
+});
+</script>
+<include file="public:footer_4_0" />
+</body>
+</html>
+

@@ -1,0 +1,103 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property_group_buy/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加砍价</em>
+        </a>
+    </div>
+</div>
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <form id="info_form" action="{:u('property_group_buy/add')}" method="post">
+                <table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">开始时间 :</th>
+                        <td><input autocomplete="off" class="input-text" type="text" size="25" name="time_start" id="time_start" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>结束时间 :</th>
+                        <td><input autocomplete="off" class="input-text" type="text" size="25" name="time_end" id="time_end" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>规则 :</th>
+                        <td><input class="input-text" type="text" size="15" name="demand" id="demand" maxlength="8"> 人起团</td>
+                    </tr>
+                         <th>优惠幅度 :</th>
+                         <td><input class="input-text" type="text" size="25" name="preferential" id="preferential" maxlength="30"></td>
+                    </tr>
+                         <th>砍价规则 :</th>
+                         <td><textarea id="rule" name="rule" style="width:67%;height:90px;resize:none;" maxlength="255"></textarea></td>
+                    </tr>
+                    <tr>
+                    <th>客服专员 :</th>
+                    <td>
+                        <select name="aid" id="aid">
+                            <option value="0">请选择</option>
+                            <volist name="user_list" id="vo">
+                                <option value="{$vo['id']}">{$vo['username']}</option>
+                            </volist>
+                        </select>
+                    </td>
+                    </tr>
+                    <tr>
+                        <th>砍价进度 :</th>
+                        <td>
+                            <select name="schedule" id="schedule">
+                                <option value="0">请选择</option>
+                                <option value="3">砍价成功</option>
+                                <option value="4">砍价失败</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>状态 :</th>
+                        <td>
+                            <label><input type="radio" name="status" class="radio_style" value="1"> 有效 </label>&nbsp;&nbsp;
+                            <label><input type="radio" name="status" class="radio_style" value="0" checked="checked"> 无效</label>
+                        </td>
+                    </tr>
+                </table>
+                <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+                <input type="hidden" name="menuid"  value="{$menuid}"/>
+                <input type="hidden" name="id" id="id" value="{$id}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#time_start").formValidator({onshow:"请选择开始时间",onfocus:"请选择开始时间"}).inputValidator({min:1,onerror:"请选择开始时间"});
+        $("#time_end").formValidator({onshow:"请选择结束时间",onfocus:"请选择结束时间"}).inputValidator({min:1,onerror:"请选择结束时间"});
+        $("#demand").formValidator({onshow:"请填写规则",onfocus:"请填写规则"}).inputValidator({min:1,onerror:"请填写规则"}).inputValidator({min:1,onerror:"请确认,只能填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"只能填写正整数"});
+        $("#rule").formValidator({onshow:"请输入砍价规则",onfocus:"请输入砍价规则"}).inputValidator({min:5,max:510,empty:{leftempty:false,rightempty:false,emptyerror:"前后不能输入空格"},onerror:"砍价规则只能输入255个字符"});
+        $("#aid").formValidator({onshow:"请选择服务专员",onfocus:"请选择服务专员"}).inputValidator({min:1,onerror:"请选择服务专员"});
+    })
+</script>
+</body>
+</html>
+	

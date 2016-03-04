@@ -1,0 +1,105 @@
+<include file="public:header" />
+<script type="text/javascript" src="__STATIC__/css/admin/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="__STATIC__/css/admin/js/highcharts.js"></script>
+<script type="text/javascript" src="__STATIC__/css/admin/js/exporting.js"></script> 
+<script> 
+$(function () {
+	$('#container').highcharts({
+		title: {
+			text: '经纪人活跃周报',
+			x: -20 //center
+		},
+		subtitle: {
+			text: 'Source: fangpinhui.com',
+			x: -20
+		},
+		xAxis: {
+			categories: [{$weeks}]
+		},
+		yAxis: {
+			title: {
+				text: 'The number (number)'
+			},
+			plotLines: [{
+				value: 0,
+				width: 1,
+				color: '#808080'
+			}]
+		},
+		tooltip: {
+			valueSuffix: '个'
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'middle',
+			borderWidth: 0
+		},
+		series: [ {
+			name: '活跃用户数',
+			data: [{$active_users}]
+		}, {
+			name: '有效活跃数',
+			data: [{$effective}]
+		}, {
+			name: '总用户数',
+			data: [{$total_users}]
+		}, {
+			name: '活跃比(%)',
+			data: [{$active_ratio}]
+		}, {
+			name: '有效活跃比(%)',
+			data: [{$effective_active_ratio}]
+		}]
+	});
+});
+</script> 
+  <div id="container" style="min-width:700px;height:400px"></div>
+ <div class="table_list pad_lr_10">
+  <table border=1 bordercolor="#d5dfe8" cellspacing="0" width=100% align=center>
+ <caption>【经纪人活跃周报相关数据参考】</caption>
+ <tr style="background:#eaf0f7">
+  <td width="150px" align=center>时间</td>
+  <volist name="arr_weeks" id='val'>
+  <th>{$val}</th>
+  </volist>
+ </tr>
+ <tr align=center>
+  <td>活跃用户数</td>
+  <volist name="arr_active_users" id='val'>
+  <th>{$val}</th>
+  </volist>
+ </tr>
+ <tr align=center>
+  <td>有效活跃数</td>
+  <volist name="arr_effective" id='val'>
+  <th>{$val}</th>
+  </volist>
+ </tr>
+  <tr align=center>
+  <td>总用户数</td>
+  <volist name="arr_total_users" id='val'>
+  <th>{$val}</th>
+  </volist>
+ </tr>
+  <tr align=center>
+  <td>活跃比(%)</td>
+  <volist name="arr_active_ratio" id='val'>
+  <th>{$val}</th>
+  </volist>
+ </tr>
+   <tr align=center>
+  <td>有效活跃比(%)</td>
+  <volist name="arr_effective_active_ratio" id='val'>
+  <th>{$val}</th>
+  </volist>
+ </tr>
+ <tr><td colspan="31">注：<br/>活跃用户数：每个周期和房品汇发生数据交互（登陆，浏览，带看，报备）的注册用户数<br/>
+                                          有效活跃数：每个周期（报备，带看）的注册用户数<br/>
+                                              总用户数：每个周期的最后时间点的注册用户总数<br/>
+                                                  活跃比：（活跃用户数/总用户数）X100%<br/>
+                                           有效活跃比：（有效活跃数/总用户数）X100%</td></tr>
+</table>
+</div> 
+</body>
+</html>

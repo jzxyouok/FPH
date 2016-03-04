@@ -1,0 +1,109 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('member/play')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">客户姓名 :</th>
+						<td>{$info.username}</td>
+					</tr>
+					<tr>
+						<th>手机号码 :</th>
+						<td>{$info.mobile}</td>
+					</tr>
+					<tr>
+						<th>申请时间 :</th>
+						<td>{$info.add_time|date='Y-m-d H:i',###}</td>
+					</tr>
+					<tr>
+						<th>帐号类型 :</th>
+						<td><if condition="$info['account_type'] eq 1">支付宝<else/>银行卡</if></td>
+					</tr>
+		            <tr>
+						<th><if condition="$info['account_type'] eq 1">支付宝<else/>银行卡</if>帐号 :</th>
+						<td>{$info.account}</td>
+					</tr>
+
+                    <if condition="$info['account_type'] eq 2">
+                        <tr>
+                            <th>收款银行 :</th>
+                            <td>{$info.bank}</td>
+                        </tr>
+                        <tr>
+                            <th>开户行 :</th>
+                            <td>{$info.account_bank}</td>
+                        </tr>
+                    </if>
+
+					<tr>
+						<th>姓名 :</th>
+						<td>{$info.name}</td>
+					</tr>
+					<tr>
+						<th>提现金额 :</th>
+						<td>{$info.money}</td>
+					</tr>
+                    <tr>
+                        <th>状态 :</th>
+                        <td>
+                            <if condition="$info['status'] eq 1">
+                                    申请提现
+                            <elseif condition="$info['status'] eq 2"/>
+                                    <span style="color: #006600">打款成功</span>
+                            <elseif condition="$info['status'] eq 3"/>
+                                    <span style="color: #ff0000">打款失败</span>
+                            </if>
+                        </td>
+                    </tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10">
+            <if condition="$info['status'] eq 1">
+                <input rel="2" type="button" value="{:L('submit')}" name="dosubmit" class="btn btn_submit J_sunmit" style="margin:0 0 10px 100px;">
+                <input rel="3" type="button" value="帐号有误" name="dosubmit" class="btn btn_submit J_sunmit" style="margin:0 0 10px 20px;">
+            </if>
+        </div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script type="text/javascript">
+    $(function(){
+        $('.J_sunmit').click(function(){
+            var id     = $('#id').val();
+            var pid   = $(this).attr('rel');
+            if(pid!=2 && pid!=3){
+                $.pinphp.tip({content:'系统参赛出错,提交失败', icon:'error'});
+                return false;
+            }
+            var url  = '{:U('member/edit')}';
+            if(confirm("请确认之后再打款")){
+                $.post(url,{id:id,pid:pid},function(result){
+                    if(result.status == 1){
+                        $.pinphp.tip({content:result.msg});
+                        window.location.reload();
+                        return false;
+                    } else {
+                        $.pinphp.tip({content:result.msg, icon:'error'});
+                        return false;
+                    }
+                },'json');
+             }
+        });
+
+
+
+
+
+    })
+</script>
+</body>
+</html>

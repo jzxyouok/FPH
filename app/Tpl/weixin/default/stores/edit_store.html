@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+</head>
+
+<body>
+<div class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+  </header>
+  <section class="scroll_body noPadding">
+    <section class="PADDING_FRM">
+      <ul class="FORM_LISTS noborder">
+        
+          <li>
+            <if condition="$type eq 1 "> 
+            <label>修改门店联系人</label>
+            <input name="store_info" class='store_info' type="text" value="{$stores_info.contact}">
+             <else /> 
+              <label>修改门店手机</label>
+              <input name="store_info" class='store_info' type="text" value="{$stores_info.contact_tel}">
+              </if>
+              <input type='hidden' value="{$type}" id='store_type' name='store_type'>
+            <input type='hidden' value="{$stores_info.id}" id='store_id' name='store_id'>
+          </li>
+      </ul>
+    </section>
+    <section class="se_btn"><a href="javascript:;" class="BTNs edit_store">保存</a></section>
+  </section>
+</div>
+<include file="public:footer_4_0" />
+</body>
+</html>

@@ -1,0 +1,71 @@
+<include file="public:header" />
+<style>
+.popup {position:absolute;width:229px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto; z-index:100}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<form id="info_form" action="{:u('joinus/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+		           <tr>
+						<th>招聘岗位 :</th>
+						<td><input type="text" name="title" id="title" class="input-text" value="{$info['title']}" size="30"></td>
+					</tr>
+					<tr>
+						<th>岗位人数 :</th>
+						<td><input type="text" name="people" id="people" class="input-text" value="{$info['people']}" size="30"></td>
+					</tr>
+					<tr>
+						<th>显示状态 :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> 审核</label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> 未审核</label>
+						</td>
+					</tr>
+		            <tr>
+						<th>岗位职责 :</th>
+		                <td><textarea name="duty" id="duty" style="width:68%;height:400px;visibility:hidden;resize:none;">{$info['duty']}</textarea></td>
+					</tr>
+					<tr>
+						<th>岗位要求 :</th>
+		                <td><textarea name="requirement" id="requirement" style="width:68%;height:400px;visibility:hidden;resize:none;">{$info['requirement']}</textarea></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor-min.js"></script>
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#title").formValidator({onshow:lang.please_input+"招聘岗位不能为空",onfocus:lang.please_input+"招聘岗位不能为空"}).inputValidator({min:1,onerror:lang.please_input+"招聘岗位不能为空"});
+	$("#people").formValidator({onshow:'岗位人数不能为空',onfocus:'岗位人数不能为空'}).inputValidator({min:1,onerror:'岗位人数不能为空'});
+	$("#duty").formValidator({onshow:'岗位职责不能为空',onfocus:'岗位职责不能为空'}).inputValidator({min:1,onerror:'岗位职责不能为空'});
+	$("#requirement").formValidator({onshow:'岗位要求不能为空',onfocus:'岗位要求不能为空'}).inputValidator({min:1,onerror:'岗位要求不能为空'});
+	$("#status").formValidator({onshow:"请选择在状态",onfocus:"请选择在状态"}).inputValidator({min:1,onerror:"请选择在状态"});
+	KindEditor.create('#duty', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	KindEditor.create('#requirement', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+});
+</script>
+</body>
+</html>

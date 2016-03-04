@@ -1,0 +1,9 @@
+<ul class="J_tabs tab_but cu_li">
+	<a href="{:u('app_fkb_customer/edit', array('id'=>$id))}"><li <if condition="ACTION_NAME eq edit">class="current"</if>>主访客户</li></a>
+    <a href="{:u('app_fkb_customer/wanttobuy', array('id'=>$id))}"><li <if condition="ACTION_NAME eq wanttobuy">class="current"</if>>购买意向</li></a>
+    <a href="{:u('app_fkb_customer/partner', array('id'=>$id))}"><li <if condition="ACTION_NAME eq partner">class="current"</if>>陪同者</li></a>
+    <a href="{:u('app_fkb_customer/brokersuggest', array('id'=>$id))}"><li <if condition="ACTION_NAME eq brokersuggest">class="current"</if>>顾问推荐</li></a>
+	<a href="{:u('app_fkb_customer/process', array('id'=>$id))}"><li <if condition="ACTION_NAME eq process">class="current"</if>>顾问跟进</li></a>
+	<a href="{:u('app_fkb_customer/viewed', array('id'=>$id))}"><li <if condition="ACTION_NAME eq viewed">class="current"</if>>客户浏览楼盘记录</li></a>
+	<a href="{:u('app_fkb_customer/history', array('id'=>$id))}"><li <if condition="ACTION_NAME eq history">class="current"</if>>客户浏览记录</li></a>
+</ul>

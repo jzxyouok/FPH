@@ -1,0 +1,139 @@
+<include file="public:header" /><br />
+<style type=' text/css'>
+    .J_tablelist td{border:1px solid #999;}
+    .now_bg{background:red;} 
+</style>
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="agent_visit" />
+                <input type="hidden" name="a" value="agent_visit_weekly" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                <input type='hidden' value='{$search.agent_status}' id='agent_status' name='agent_status'>
+                选择时间:
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}">
+                <select name='select_city'>
+                    <volist name="citylist" id="vo">
+                        <option value="{$vo['id']}">{$vo['name']}</option>
+                    </volist>
+                </select>
+                &nbsp;&nbsp; 
+                <select name='type'>
+                    <option value="1" <if condition="$search.type eq 1"> selected </if>>周</option>
+                    <option value="2" <if condition="$search.type eq 2"> selected </if>>月</option>
+                </select>&nbsp;&nbsp; 
+                <font style='font-size:15px;'><b>{$search.time}</b></font>&nbsp;&nbsp; 
+               <select name='uid'>
+                    <if condition="$search.agent_status eq 1">
+                        <option value="" >全部</option>
+                        <option value="one" <if condition="$search.uid eq 'one'"> selected </if>>扩展一组</option>
+                        <option value="two" <if condition="$search.uid eq 'two'"> selected </if>>扩展二组</option>
+                        <volist name="search[v_1]" id="v1" >
+                        <option value="{$key}" <if condition="$search.uid eq $key"> selected </if>>{$v1}</option>
+                   </volist>
+                    </if>
+                     <if condition="($search.agent_status eq 2) OR ($search.agent_status eq 1)">
+                        <neq name="search.agent_status" value="1"><option value="one" >扩展一组</option></neq>
+                        <volist name="search[v_2]" id="v2" >
+                        <option value="{$key}" <if condition="$search.uid eq $key"> selected </if>>{$v2}</option>
+                   </volist>
+                    </if>
+                     <if condition="($search.agent_status eq 3) OR ($search.agent_status eq 1)">
+                        <neq name="search.agent_status" value="1"><option value="two" >扩展二组</option></neq>
+                        <volist name="search[v_3]" id="v3" >
+                        <option value="{$key}" <if condition="$search.uid eq $key"> selected </if>>{$v3}</option>
+                   </volist>
+                    </if>
+                </select>
+                &nbsp;&nbsp; 
+                <input type="submit" name="search" class="btn" value="查看" />
+                 <if condition="$search.is_min eq 1"><span class='red'><b>注意:最早录入数据日期为:{$search.time_start}</b></span></if>
+                 <if condition="$search.is_min eq 2"><span class='red'><b>注意:最晚录入数据日期为:{$search.time_start}</b></span></if>
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" >
+    <table width="100%"  border=1>
+        <tr align='center'>
+           <volist name="search[date][tim]" id="val" key='k'>
+           <td <if condition="$search.date_w eq $k"> style='background:#ffff99;'</if>>{$search[date][dat][$k-1]}</td>
+           </volist>
+         </tr>
+        <tr align='center'>
+        <volist name="search[date][tim]" id="val" key='k'>
+          <td <if condition="$search.date_n eq $val['tim']"> style='background:#ffff99;'</if> >
+              {$val.link}
+        </td>
+        </volist>
+        </tr>
+    </table>
+     <table width="100%"  >
+        <tr>
+            <td colspan=3></td>
+        </tr>
+        <tr>
+            <td width='50%'  valign="top">
+                <table width="100%"  border=1 >
+                <tr>
+                    <td>开拓门店</td><td>新增经纪人</td><td>经纪人服务专员</td>
+                </tr>
+                 <volist name="search[s_list]" id="s_list" >
+                    <if condition="$s_list.name neq ''">
+                <tr>
+                    <td>{$s_list.name}</td><td>{$s_list.count}</td><td>{$s_list.username}</td>
+                </tr></if>
+                </volist>
+                 <tr>
+                    <td>总量:{$search.s_list.s_count}</td><td>总量:{$search.s_list.u_count|default='0'}</td><td></td>
+                </tr>
+                </table>
+            </td>
+            <td width='2'></td>
+            <td  width='50%'  valign="top">
+                <table width="100%" border=1 >
+                    <tr><td>拜访门店</td><td>经纪人服务专员</td></tr>
+                    <volist name="search[l_list]" id="l_list" >
+                         <if condition="$l_list.name neq ''">
+                        <tr><td>{$l_list.name}</td><td>{$l_list.username}</td></tr>
+                        </if>
+                    </volist>
+                    <tr><td>总量:{$search.l_list.l_count}</td><td></td></tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table width='100%'>
+        <tr><td colspan=3><b>本周（{$search.week.pre}-{$search.week.next}）</b></td></tr>
+        <tr><td colspan=3>
+        <table width=100% border=1>
+            <tr><td>开拓门店</td><td>拜访门店</td><td>新增经纪人</td></tr>
+        <tr><td>{$search['w_s_count']}</td><td>{$search['w_l_count']}</td><td>{$search['w_u_count']}</td></tr>  
+        </table>
+        </td></tr>
+        
+    </table>
+    </div>
+ 
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+</script>
+</body>
+</html>

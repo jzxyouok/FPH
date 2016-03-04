@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<include file="public:new_head" />
+<link href="__STATIC__/css/default/css/index.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/css/default/css/base.css" rel="stylesheet" type="text/css" media="all">
+<link href="__STATIC__/css/default/css/common.css" rel="stylesheet" type="text/css" media="all">
+<style type="text/css">
+.bgdiv{background-color:#000000;position:absolute;z-index:10;left:0;top:0;display:none;width:100%;height:100%;opacity:0.5;filter:alpha(opacity=50);-moz-opacity: 0.5;}
+#J_list_data { height:280px; overflow-y:auto}
+</style>
+</head>
+
+<body class="bgcolor-body">
+<div class="bgdiv"></div>
+    <header class="pr">
+    <h2>{$setTitle}</h2>
+    <div class="pa goblackbox"><a class="btn-black" href="javascript:history.go(-1);">返回</a></div>
+    </header>
+    <!--内容开始-->
+    <div class="customer_detail_box">
+        <div class="vcard customer_detail pr">
+        <a href="tel:{$list['mobile']}" class="btn_call_r">联系客户</a>
+        <dl>
+        <dt class="fn">{$list['name']}
+	    <span class="wt">
+	    </span>
+	</dt>
+        <dd class="cell">{$list['mobile']}</dd>
+        </dl>
+        <i class="ic_sanjiaoxing_b pa" style="bottom:-8px;"></i>
+	</div>
+		<div class="customerPan part-box j_property">
+		<h5>{$list['area']}{$list['price']}<span>更新时间：{$list['update_time']|date="Y-m-d",###}</span></h5>
+		<div class="jindu_box">
+			<div <if condition="$list['status'] eq 1">class="jd-one"</if>>		    
+			<span>已报备</span>
+			</div>		    
+			<div <if condition="$list['status'] gt 1">class="finish"</if>>
+			<span>电话拜访</span>
+			</div>
+			<div <if condition="$list['status'] gt 2">class="finish"</if>>
+			<span>到访带看</span>
+			</div>
+			<div <if condition="$list['status'] gt 3">class="finish"</if>>
+			<span>支付定金</span>
+			</div>
+			<div <if condition="$list['status'] gt 4">class="finish"</if>>
+			<span>成交</span>
+			</div>
+		</div>
+		</div>
+		<input class="node_len" type="hidden"/>
+		
+    <a href="tel:{:C('pin_kefu_tel')}" class="btn btn-blue pf">联系房品汇客服人员</a>
+<include file="public:footer_4_0" />
+</body>
+</html>

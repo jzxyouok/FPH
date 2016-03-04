@@ -1,0 +1,85 @@
+<include file="public:header" />
+<style>
+    #searchform{margin-top: 10px;}
+</style>
+<!--路费提现-->
+<div class="pad_lr_10" >
+    <form name="searchform" id="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="repeatReceiveMember" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+               手机号码：
+                <input name="mobile" type="text" class="input-text" size="25" value="{$search}" maxlength="11" />
+                <input type="button" name="search" class="btn search_btn" value="{:L('search')}" />
+
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('article/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th>手机号码</th>
+                <th>当前钱包余额</th>
+                <th>重复领取金额</th>
+                <th>提现金额</th>
+                <th width="100">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.uid}</td>
+                <td align="center">{$val.mobile}</td>
+                <td align="center">{$val.wallet_current}</td>
+                <td align="center">{$val.wallet_repeat}</td>
+                <td align="center">{$val.withdraw_cash}</td>
+                <td align="center">
+                    <a href="{:u('repeatReceiveMember/repeatList', array('uid'=>$val['uid'], 'menuid'=>562))}">重复记录</a>
+
+                </td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+       <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+
+$(function(){
+    $('.search_btn').click(function(){
+        $('input[name="a"]').val('index');
+        $('#searchform').submit();
+        return false;
+    });
+    $('.export_but').click(function(){
+        $('input[name="a"]').val('export');
+        $('#searchform').submit();
+        return false;
+    });
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<title>天津房产网_新房,楼盘,天津买房,免费看房APP,打车软件 - 房品汇</title>
+<meta name="keywords" content="房品汇，天津房产网，天津房地产，天津买房，天津购房，天津新房，天津楼盘，顺风车，打车软件，拼车软件，手机打车软件，免费看房软件，手机看房，房品汇APP" />
+<meta name="description" content="天津房品汇是中国新型房地产C2B看房服务平台，专业的天津房产网，为天津购房者提供最新的楼盘团购、房源优惠等房地产信息与服务。房品汇为广大天津买房用户定制一款手机免费看房APP软件，看房即送路费，直逼滴滴、快的等打车软件，看房砍价团更可让您买房更优惠！" />
+<link rel="stylesheet" href="__STATIC__/css/default/home/tianjin/less/style.css" />
+<link rel="stylesheet" href="__STATIC__/css/default/home/tianjin/css/plugins.css" />
+<!-- Favicons--><!-- hannah 20140918 10:30 start-->
+<link rel="shortcut icon" href="bitbug_favicon.ico"/>
+<link rel="apple-touch-icon" href="favicon.png"/>
+<style type="text/css">
+  #preload_Mask{position: absolute;top: 0;left: 0;width: 100%;height:649px;line-height: 320px;z-index: 99;background-color: #ddd;text-align: center;}
+</style>
+<!-- hannah 20140918 10:30 end-->
+<script type="text/javascript" src="__STATIC__/css/default/home/tianjin/js/jquery.js"></script>
+<script type="text/javascript" src="__STATIC__/css/default/home/tianjin/js/corner.js"></script>
+<script type="text/javascript" src="__STATIC__/css/default/home/tianjin/js/tab.js"></script>
+<!--[if lte IE 8]>
+	<link rel="stylesheet" href="__STATIC__/css/default/home/tianjin/css/ie8.css" />
+	<script type="text/javascript">
+        document.createElement("header");
+        document.createElement("footer");
+        $('.advantage_box ul li').corner("130px");
+    </script>
+<![endif]-->
+<script type="text/javascript">
+	function force_refresh(){
+		window.location.reload();
+		$('#js_banner, #js_banner_img li').width($window.width());
+	}
+	$(function(){
+		var $window = $(window),window_width = $window.width();
+		$('#js_banner, #js_banner_img li').width(window_width);
+    $("#preload_Mask").stop().fadeOut(function(){
+      $(this).remove()
+    });
+		new $.Tab({
+			target: $('#js_banner_img li'),
+			effect: 'slide3d',
+			animateTime: 1000,
+			stay: 3500,
+			autoPlay: true,
+			merge: true,
+			prevBtn: $('#js_banner_pre'),
+			nextBtn: $('#js_banner_next')
+		});
+		setInterval('force_refresh()',300000);
+	});
+	$(window).resize(function(){
+		setTimeout('force_refresh()',50);
+	});
+
+</script>
+</head>
+<body>
+<header>
+  <div class="content">
+    <div class="logo"><a href="/" title="房品汇"><img src="__STATIC__/css/default/home/tianjin/images/logo.png" alt=""/></a></div>
+    <div class="regions">
+      <div class="DropDowns">
+        <ul>
+          <li> <span class="titles">热门</span>
+            <ul>
+              <volist name="city_list" id="vo">
+                <li><a href="{:U('home/index/index',array('city'=>$vo['id']))}">{$vo['name']}</a></li>
+              </volist>
+            </ul>
+            <div class="clearfix"></div>
+          </li>
+        </ul>
+      </div>
+      <span>{$city_list[0]['name']}</span> <a href="javascript:;">[切换城市]</a>
+    </div>
+    <div class="reminders" <if condition="$_COOKIE['head_select'] eq '' "> style="display: none;" </if>>
+      <a href="javascript:;" class="btn_close"></a>
+      <a href="javascript:;" class="btn_selcity">切换城市看看</a>
+    </div>
+    <div class="nav">
+      <ul>
+        <li class="cur"> <a href="__ROOT__/">首页</a></li>
+        <li> <a href="{:U('joinus/index')}">加入我们</a> </li>
+        <li> <a href="{:U('article/contact')}">联系我们</a> </li>
+        <li class="download"> <a href="{:U('download/index')}">下载中心</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<!-- js_banner -->
+<div id="js_banner" class="fx_banner">
+  <div id="preload_Mask">
+    <img src="__STATIC__/css/default/home/tianjin/images/loading_d.gif" alt="载入中...">
+  </div>
+  <ul id="js_banner_img" class="fx_banner_img clear">
+
+    <li style="background:url(__STATIC__/css/default/home/tianjin/images/bg1.jpg) no-repeat center center">
+      <div class="fx_banner_inner fx_grid_c1">
+        <div class="child child0" data-z="1"></div>
+        <div class="child" data-z="2" style="left:50px;top:0;">
+          <a href="{:C('c')}">
+            <img src="__STATIC__/css/default/home/tianjin/images/bg11.png" alt="">
+          </a>
+        </div>
+        <div class="child" data-z="3" style="left:570px;top:0;">
+          <a href="{:C('c')}">
+            <img src="__STATIC__/css/default/home/tianjin/images/bg12.png" alt="">
+          </a>
+        </div>
+      </div>
+    </li>
+
+  </ul>
+<!--   <div class="fx_banner_common fx_grid_c1"> <a ytag="30000" id="js_banner_pre" href="javascript:;" class="fx_banner_pre"></a> <a ytag="30010" id="js_banner_next" href="javascript:;" class="fx_banner_next"></a> </div> -->
+</div>
+<!-- js_banner -->
+<div class="advantage_box">
+  <div class="content2">
+    <h2>看房神器 送路费 更优惠</h2>
+    <h6>中国新型房地产C2B看房服务平台</h6>
+    <ul>
+      <li> <a href="javascript:;" class="iconst_house"></a>
+        <h3>看房送路费</h3>
+        <p>摇一摇赚路费</p>
+        <p>250个楼盘1亿+路费任你领</p>
+        <p class="content_status">已有 35456 人领取路费</p>
+      </li>
+      <li> <a href="javascript:;" class="iconst_cut"></a>
+        <h3>组团砍价</h3>
+        <p>抱团砍价</p>
+        <p>挑战开发商价格最底线</p>
+        <p class="content_status">已有 1898 人组团砍价</p>
+      </li>
+      <li> <a href="javascript:;" class="iconst_fund"></a>
+        <h3>看房点评</h3>
+        <p>聆听购房者</p>
+        <p>200万用户的看房心得</p>
+        <p class="content_status">已有 10256 条点评</p>
+      </li>
+      <li> <a href="javascript:;" class="iconst_gift"></a>
+        <h3>邀请有礼</h3>
+        <p>邀好友赚现金</p>
+        <p>邀请即送5元多邀多送</p>
+        <p class="content_status">已有 13765 人获得邀请奖励</p>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="cut_collection_box">
+  <div class="content">
+    <h2>组团砍价</h2>
+    <h6>人数越多折扣越高最高优惠30%</h6>
+    <ul class="house_list">
+      <li>
+        <div class="house_img">
+          <img src="__STATIC__/css/default/home/tianjin/images/house-list1.png">
+        </div>
+        <div class="house_content">
+          <h4>中海八里臺</h4>
+          <p class="content_line"><em class="addr">河西区:</em>均价:26000元/m<sup>2</sup></p>
+          <p class="content_number">目前参团人数:6人</p>
+        </div>
+      </li>
+      <li>
+        <div class="house_img">
+          <img src="__STATIC__/css/default/home/tianjin/images/house-list2.png">
+        </div>
+        <div class="house_content">
+          <h4>公馆1882</h4>
+          <p class="content_line"><em class="addr">和平区:</em>均价:28000元/m<sup>2</sup></p>
+          <p class="content_number">目前参团人数:26人</p>
+        </div>
+      </li>
+      <li>
+        <div class="house_img">
+          <img src="__STATIC__/css/default/home/tianjin/images/house-list3.png">
+        </div>
+        <div class="house_content">
+          <h4>府上和平</h4>
+          <p class="content_line"><em class="addr">和平区:</em>均价:37000元/m<sup>2</sup></p>
+          <p class="content_number">目前参团人数:12人</p>
+        </div>
+      </li>
+      <li>
+        <div class="house_img">
+          <img src="__STATIC__/css/default/home/tianjin/images/house-list4.png">
+        </div>
+        <div class="house_content">
+          <h4>新汇华庭</h4>
+          <p class="content_line"><em class="addr">和平区:</em>均价:17500元/m<sup>2</sup></p>
+          <p class="content_number">目前参团人数:6人</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="rank_collection_box">
+  <div class="content">
+    <h2>排行榜</h2>
+    <h6>看房送路费买房砍价更优惠</h6>
+    <div class="rank_wrap">
+      <!-- 最高路费排行榜 -->
+      <div class="rank rank_lg fl">
+        <div class="rank_title">
+          天津最高路费排行榜
+        </div>
+        <table class="rank_table">
+          <thead>
+            <tr>
+              <td>排名</td>
+              <td>楼盘名</td>
+              <td>区域</td>
+              <td>均价</td>
+              <td>全家看房最高可领</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>宝安江南城</td>
+              <td>西青区</td>
+              <td>11500元/平</td>
+              <td>90元</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>香缇花园</td>
+              <td>东丽区</td>
+              <td>12600元/平</td>
+              <td>78元</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>融创全运村</td>
+              <td>河西区</td>
+              <td>22000元/平</td>
+              <td>75元</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>万科四季花园</td>
+              <td>西青区</td>
+              <td>10000元/平</td>
+              <td>75元</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>华润橡树湾</td>
+              <td>东丽区</td>
+              <td>6980元/平</td>
+              <td>60元</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>万科民和巷</td>
+              <td>东丽区</td>
+              <td>13000元/平</td>
+              <td>54元</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>恒大帝景</td>
+              <td>河东区</td>
+              <td>11500元/平</td>
+              <td>51元</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>钱隆学府</td>
+              <td>津南区</td>
+              <td>5200元/平</td>
+              <td>51元</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>保利梧桐语</td>
+              <td>武清区</td>
+              <td>13000元/平</td>
+              <td>51元</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>北大资源·阅城</td>
+              <td>河西区</td>
+              <td>24000元/平</td>
+              <td>45元</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="rank_footer">
+          下载房品汇APP赚更多楼盘路费
+        </div>
+      </div>
+      <!-- 最高路费排行榜end -->
+      <!-- 赚路费达人榜 -->
+      <div class="rank rank_md fr">
+        <div class="rank_title">
+          赚路费达人榜
+        </div>
+        <table class="rank_table">
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>陈先生</td>
+              <td>133****1985</td>
+              <td>2288元</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>周先生</td>
+              <td>150****1319</td>
+              <td>1398元</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>赵先生</td>
+              <td>138****1358</td>
+              <td>856元</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>吴先生</td>
+              <td>158****4513</td>
+              <td>745元</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>赵女士</td>
+              <td>133****9865</td>
+              <td>563元</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- 赚路费达人榜end -->
+      <!-- 邀请好友人气榜 -->
+      <div class="rank rank_md fr md_margin">
+        <div class="rank_title">
+          邀请好友人气榜
+        </div>
+        <table class="rank_table">
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td style="text-align:left;">朱先生成功邀请150人</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td style="text-align:left;">叶先生成功邀请100人</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td style="text-align:left;">黄先生成功邀请50人</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td style="text-align:left;">周先生成功邀请46人</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td style="text-align:left;">王先生成功邀请32人</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- 邀请好友人气榜end -->
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="footer_top">
+    <div class="content">
+      <h1>看房神器 送路费 更优惠</h1>
+      <div class="two_dimension_code app"><span>手机APP二维码</span><img src="__STATIC__/css/default/home/tianjin/images/c_code.png" alt=""/></div>
+    </div>
+  </div>
+  <div class="footer_bottom">
+    <div class="content">
+      <ul>
+        <li><a href="{:U('article/about')}">关于我们</a></li>
+        <li><a href="{:U('article/contact')}">联系我们</a></li>
+        <li><a href="{:U('joinus/index')}">加入我们</a></li>
+        <li><a href="javascript:;">友情链接</a></li>
+        <li><a href="javascript:;">法律声明</a></li>
+      </ul>
+      <div class="index_hotlines">免费客服电话<b>400-886-9081</b></div>
+      <div class="details_box">
+        <p>天津市河西区大沽南路362号1705室</p>
+        <p>Tel: 022-23236787/23266895</p>
+        <p>Copyright &copy; 2012 - 2014 Fangpinhui.com. All Rights Reserved.房品汇 版权所有  沪ICP备14024338号</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript" src="__STATIC__/css/default/home/tianjin/js/loupan_tag.js"></script>
+<script type="text/javascript" src="__STATIC__/css/default/home/tianjin/js/jquery.easing.js"></script>
+<script type="text/javascript" src="__STATIC__/css/default/home/tianjin/js/base.js"></script>
+<script>
+	var $DropDowns = $('.DropDowns');
+	var $reminders = $('.reminders');
+	$('.regions').find('a').live('click',function(e){
+		OPR(e);
+	});
+	$(document).click(function(){
+		$DropDowns.hide();
+	});
+	$('.btn_close').click(function(e) {
+        $reminders.hide();
+    });
+	$('.btn_selcity').live('click',function(e) {
+		OPR(e);
+    });
+	// #f9f9f9
+  //隔行变色
+  var trArr=[];
+  $(".rank_table").each(function(){
+    var oTrs=$(this).find('tbody').find('tr');
+    trArr.push(oTrs);
+  });
+  $.each(trArr,function(idx,ele){
+    $.each(ele,function(index,tr){
+      if(index%2==0){
+        $(tr).css("background-color","#f9f9f9");
+      }
+    });
+  });
+
+	function OPR(e){
+		e.stopPropagation();
+		$DropDowns.fadeIn();
+		$reminders.hide();
+	}
+</script>
+</body>
+</html>

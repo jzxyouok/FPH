@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head" />
+<link href="__STATIC__/css/default/css/index.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/css/default/css/base.css" rel="stylesheet" type="text/css" media="all">
+<link href="__STATIC__/css/default/css/common.css" rel="stylesheet" type="text/css" media="all">
+<link href="__STATIC__/css/default/css/detail.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="content">
+		<div style="margin-bottom:15px;">请登录：</div>
+		 
+        <div class="box">
+            <h3>输入手机号</h3>
+            <input class="hpone_number" type="number" name="mobile" id="mobile">
+        </div>      
+        <div class="box">
+            <h3>输入密码</h3>
+            <input class="hpone_number" type="password" name="password" id="password">
+
+			<a href="{:U('weixin/edit_pass/send_code')}" class="btn_change_pw gray fr">忘记密码？</a>
+
+        </div>
+       <div class="box">
+       		<input class="submit" type="button" id="submit_login" value="登录">
+       </div>
+       <div class="box">
+       		<h3>没有账号？</h3>
+       		<input class="submit_reg" type="button" value="注册成为房品汇会员" onClick="location.href='{:U('weixin/user/register',array('url'=>$url))}';">
+       </div>
+    </div>
+	<input name="url" id="url" type="hidden" value="{$url}">
+</body>
+</html>

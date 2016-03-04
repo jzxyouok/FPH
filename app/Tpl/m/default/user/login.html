@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/lrcp.css">
+<style>
+.LRCP_top_frm.nb {background-image:url(__STATIC__/css/default/weixin/images_4_0/logo_nb.png)}
+.LRCP_bottom_frm .form_frm .title.nb { font-size:2rem; color:#FF0}
+.LRCP_bottom_frm .bottom_links .title.nb { font-size:1.4rem; color:#666; line-height:180%; padding-top:20px;}
+.LRCP_bottom_frm .bottom_links .title.nb a { color:#666; display:block; }
+</style>
+</head>
+<body>
+<div class="LRCP_top_frm nb"> </div>
+<div class="LRCP_bottom_frm">
+  <div class="form_frm">
+    <label class="title nb">{$setTitle}</label>
+    <div class="input_frm">
+      <ul>
+        <li>
+          <input type="tel" name="mobile" id="mobile" placeholder="您的手机号">
+        </li>
+        <li>
+          <input type="password" name="password" id="password" placeholder="您的密码">
+        </li>
+      </ul>
+    </div>
+    <input name="remember" id="remember" type="hidden" value="1">
+    <input name="url" id="url" type="hidden" value="{$url}">
+    <a href="javascript:;" class="btn J_sub_m_login">登录</a>
+	<!--<a href="{:U('weixin/password/index')}" class="other_link">忘记密码？</a>-->
+    <div class="bottom_links"> <span class="title nb">不能登录？请联系产品研发部开通!<a href="tel:13564639041">吴天石 13564639041</a></span></div>
+  </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

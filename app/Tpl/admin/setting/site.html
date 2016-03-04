@@ -1,0 +1,58 @@
+<include file="public:header" />
+<!--全局设置-->
+<div class="pad_lr_10">
+	<form id="info_form" action="{:u('setting/edit')}" method="post" enctype="multipart/form-data">
+	<table width="100%" class="table_form">
+        <tr>
+            <th width="150">{:L('ipban_switch')} :</th>
+            <td>
+                <label><input type="radio" <if condition="C('pin_ipban_switch') eq '1'">checked="checked"</if> value="1" name="setting[ipban_switch]"> {:L('open')}</label> &nbsp;&nbsp;
+                <label><input type="radio" <if condition="C('pin_ipban_switch') eq '0'">checked="checked"</if> value="0" name="setting[ipban_switch]"> {:L('close')}</label>
+                <span class="gray ml10">如果本站没有添加黑名单数据，建议关闭改功能提升性能</span>
+            </td>
+        </tr>
+       <tr>
+            <th>报备保护期 :</th>
+            <td>
+                <input type="text" name="setting[protection_time]" class="input-text" size="20" value="{:C('pin_protection_time')}">
+                <span class="gray ml10">天</span>
+            </td>
+        </tr>
+		<tr>
+            <th>带看保护期 :</th>
+            <td>
+                <input type="text" name="setting[delegate_time]" class="input-text" size="20" value="{:C('pin_delegate_time')}">
+                <span class="gray ml10">天</span>
+            </td>
+        </tr>
+        <tr>
+            <th>带看次数 :</th>
+            <td>
+                <input type="text" name="setting[daikan_views]" class="input-text" size="20" value="{:C('pin_daikan_views')}">次/天
+                <span class="gray ml10">经纪人每天带看次数</span>
+            </td>
+        </tr>
+        <tr>
+            <th>手机每天可领路费次数 :</th>
+            <td>
+                <input type="text" name="setting[receiveRuleLimit]" class="input-text" size="20" value="{:C('pin_receiveRuleLimit')}">次/天
+                <span class="gray ml10">每部手机每天可领路费次数</span>
+            </td>
+        </tr>
+        <tr>
+            <th>{:L('statics_url')} :</th>
+            <td>
+                <input type="text" name="setting[statics_url]" class="input-text" size="40" value="{:C('pin_statics_url')}">
+                <span class="gray ml10">默认为空，外部服务器请填写如：http://s.fangpinhui.com</span>
+            </td>
+        </tr>
+        <tr>
+        	<th></th>
+        	<td><input type="hidden" name="menuid"  value="{$menuid}"/><input type="submit" class="btn btn_submit" name="do" value="{:L('submit')}"/></td>
+    	</tr>
+	</table>
+	</form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

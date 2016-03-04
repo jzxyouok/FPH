@@ -1,0 +1,115 @@
+<include file="public:header" />
+<div class="pad_lr_10" >
+<form id="info_form" action="{:U('case_field/add')}" method="post">
+<style>
+.lp_msg label{display:inline-block;font-size:12px;color:#999;width:110px}
+.lp_msg li{clear:both;padding:5px 0;border-bottom:1px solid #eee;}
+.lp_msg .lp_name{color:#000;width:210px;}
+</style>
+<table width="100%" cellspacing="0" class="table_form">
+	<tr>
+		<th width="120">案场人 :</th>
+		<td>
+		<select name="admin_id" id="admin_id">
+			<option value="0">请选择</option>
+			<volist name="admin_user" id="vo">
+			<option value="{$vo.id}">{$vo.username}-{$vo.mobile}</option>
+			</volist>
+		</select>
+		</td>
+	</tr>
+<!--	<tr>
+		<th>手机 :</th>
+		<td><input type="text" name="mobile" id="J_mobile" class="input-text" size="30"></td>
+	</tr>-->
+	<tr> 
+		<th>关联楼盘:</th>
+		<td id='property'>
+			<ul class="lp_msg">
+			<volist name="list" key="key" id="vo">
+				<li>
+					<label class="lp_name"><input type="checkbox" name="property[]" id="qq{$i}" value="{$vo.pid}" />&nbsp;[{$vo.city_name}]&nbsp;{$vo.title}</label>
+					<label><input class="checkbox_true" type="checkbox" name="sms_mobile[]" value="{$vo.pid}" disabled="true" />&nbsp;接收短信</label>
+					<!-- <label><input class="checkbox_true J_property_docking" type="checkbox" name="docking[]" value="{$vo.pid}" disabled="true" />&nbsp;对接人</label> -->
+				</li>
+			</volist>
+			</ul>
+		</td>
+	</tr>
+	 
+</table>
+<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+</form>
+<include file="public:footer" />
+</body>
+</html>
+<script>
+var check_name_url = "{:U('case_field/ajax_check_name',array('roleid'=>1))}";
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#admin_id").formValidator({onshow:lang.please_input+"案场人姓名",onfocus:lang.please_input+"案场人姓名", oncorrect: '&nbsp;'})
+	.inputValidator({min:1,onerror:lang.please_input+"案场人姓名"}).ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+				return false;
+			}else{
+				return true;
+			}
+		},
+		onerror : '该用户已经分配过权限',
+		onwait : '正在检测'
+	});
+	
+	//是否可以选中
+	$('.lp_name').click(function(){
+		 if($(this).find('input[type=checkbox]').attr("checked")=='checked'){
+		 	$(this).parent('li').find('.checkbox_true').prop('disabled', false);
+			//$(this).parent('li').find('.checkbox_true').attr('checked', false);
+		 }else{
+		 	$(this).parent('li').find('.checkbox_true').prop('disabled', true);
+			$(this).parent('li').find('.checkbox_true').attr('checked', false);
+		 }
+	});
+	
+	$('.J_property_docking').click(function(){
+		if($(this).attr("checked")=='checked'){
+		 	var th  = $(this);
+			var pid = th.val();
+			var url = ROOT_PATH + '/?g=admin&m=case_field&a=ajax_property_docking';
+			$.post(url,{pid:pid},function(result){
+				if(result.status == 1){
+					
+					return false;
+				} else {
+					
+					return false;
+				}
+			},'json');
+		}
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+});
+</script>

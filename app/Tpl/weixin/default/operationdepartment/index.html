@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<title>今日签到</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css//default/weixin/operationdepartment_sign/lib/jquery_ui/jquery-ui.structure.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css//default/weixin/operationdepartment_sign/css/main.css"/>
+		<script type="text/javascript">
+			var URL = "{:u('operationdepartment/addsign')}";
+			var OPENID = "{$openid}"
+		</script>
+	</head>
+	<body>
+		<div id="contain" rel="{$data}"></div>
+		<div id="count" rel="{$count}"></div>
+		<div id="lastsign" rel="{$lastsign}"></div>
+		<section class="page p-main show">
+			<header>
+				<h1>今日签到<img src="__STATIC__/css//default/weixin/operationdepartment_sign/img/signer.png"/></h1>
+			</header>
+			<div id="datePicker" class="calendar1"></div>
+			<div class="box-wrap cl">
+				<img src="__STATIC__/css//default/weixin/operationdepartment_sign/img/phone.jpg" class="fl reward">
+				<div class="content fl">
+					<h4>活动规则:</h4>
+					<p>1.每位用户每天可以签到1次，每次1积分。</p>
+					<p>2.连续签到20天的用户可获得精美大礼。</p>
+					<button id="checkBtn" class="fr">立即签到</button>
+				</div>
+			</div>
+		</section>
+		<input type="hidden" value="{$nickname}" id="nickname">
+		<script src="__STATIC__/js/jquery/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/css//default/weixin/operationdepartment_sign/lib/jquery_ui/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/css//default/weixin/operationdepartment_sign/js/main.js" type="text/javascript" charset="utf-8"></script>
+
+		
+
+	</body>
+</html>

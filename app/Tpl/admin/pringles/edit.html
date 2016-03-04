@@ -1,0 +1,163 @@
+<include file="public:header" />
+<style>
+.popup {position:absolute;width:229px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;overflow-y:auto; z-index:999}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<form id="info_form" action="{:u('pringles/edit')}" method="post" enctype="multipart/form-data" autocomplete="off">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">修改文章</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th>分类 :</th>
+						<td>
+							<select id="cate" name="cate_id">
+									<option value="">请选择</option>
+								<volist name="cate" id="val" >
+									<option <if condition="$info['cate_id'] eq $val['id']"> selected="selected" </if> value="{$val['id']}">{$val['name']}</option>
+								</volist>
+							</select>
+						</td>
+					</tr>
+		            <tr>
+						<th>标题 :</th>
+						<td><input type="text" name="title" id="title" class="input-text" size="60" value="{$info.title}"> </td>
+					</tr>
+					<tr>
+						<th>文章简介 :</th>
+						<td><textarea name="intro" id="intro" cols="30">{$info.intro}</textarea></td>
+					</tr>
+					<tr>
+						<th>文章作者 :</th>
+						<td><input type="text" name="author" id="author" class="input-text" value="{$info.author}" size="30"></td>
+					</tr>
+		            <tr>
+						<th>文章封面图 :</th>
+						<td>
+						<notempty name="info['img']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:get_fdfs_image($info['img'], '')}"><img src="{:get_fdfs_image($info['img'], '')}" width="100" /></span><br /></notempty>
+                        <input type="file" name="img" class="input-text"  style="width:200px;" />
+                        </td>
+		 			</tr>
+		 			<tr>
+						<th>排序 :</th>
+						<td><input type="text" name="ordid" id="ordid" class="input-text" size="30" value="{$info.ordid}"></td>
+					</tr>
+					<tr>
+						<th>文章来源 :</th>
+		 				<td>
+		                	<label><input type="radio" name="from" class="radio_style" value="1" <if condition="$info['from'] eq 1"> checked="checked" </if>> 原创 </label>&nbsp;&nbsp;
+							<label><input type="radio" name="from" class="radio_style" value="2" <if condition="$info['from'] eq 2"> checked="checked" </if>>转载</label>
+						</td>
+					</tr>
+		            <tr id="info_content" <if condition="$info['from'] eq 2"> style="display:none" </if>>
+		                <th>详细内容 :</th>
+						<td><textarea name="info" id="info" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+					</tr>
+					<tr id="from_content" <if condition="$info['from'] eq 1"> style="display:none" </if>>
+						<th>转载地址 :</th>
+						<td><input type="text" name="from_url" id="from_url" value="{$info['from_url']}" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>关联楼盘 :</th>
+						<td style="position:relative;">
+							<input type="text" name="pidtitle" id="pidtitle" class="input-text" size="30" value="{$info['property_title']}" />
+		                    <div id="J_loupan_name" style="display:none;"></div>
+		                    <input name="pid" id="pid" type="hidden" value="{$info['pid']}" />
+						</td>
+					</tr>
+					<tr>
+						<th>审核 :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info['status'] eq 1"> checked="checked" </if> > 审核 </label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info['status'] eq 0"> checked="checked" </if>>未审核</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor-min.js"></script>
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#cate").formValidator({onshow:"请选择所属分类",onfocus:"请选择所属分类"}).inputValidator({min:1,onerror:"请选择所属分类"});
+	$("#intro").formValidator({onshow:'请输入文章简介',onfocus:'请输入文章简介'}).inputValidator({min:1,max:255,onerror:'文章简介必填,且不能超过255字符.'});
+	$("#title").formValidator({onshow:'请输入文章标题',onfocus:'请输入文章标题'}).inputValidator({min:1,onerror:'文章标题不能为空,且不能超过255字符.'});
+	$("#author").formValidator({onshow:'请输入文章作者',onfocus:'请输入文章作者'}).inputValidator({max:100,onerror:'文章作者不能超过100字符.'});
+	$("#img").formValidator({onshow:'文章封面图不能为空',onfocus:'文章封面图不能为空'}).inputValidator({min:1,onerror:'文章封面图不能为空'});
+	$("#ordid").formValidator({onshow:'排序',onfocus:'排序'}).inputValidator({type:'number',max:255,onerror:'排序只能是数字,不能大于255.'});
+	$("#info").formValidator({onshow:'内容不能为空',onfocus:'内容不能为空'}).inputValidator({max:65545,onerror:'内容不能超过65545个字符.'});
+	$("#from_url").formValidator({onshow:'仅支持转载房品汇内部文章(域名为fangpinhui.com)',onfocus:'仅支持转载房品汇内部文章(域名为fangpinhui.com)'}).inputValidator({max:100,onerror:'转载地址不能超过100字符'});
+
+	KindEditor.create('#info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	
+	$('#info_form').submit(function(){
+		if($('[name="from"]:checked').val() == '2' && $('#from_url').val() == ''){
+			$('#from_urlTip').addClass('onError').removeClass('onCorrect').html('转载地址不能为空.');
+			return false;
+		}else if($("#info").val() == ''){
+			$("#infoTip").addClass('onError').removeClass('onCorrect').html('内容不能为空.');
+			return false;
+		}
+	});
+	
+	$('[name="from"]').click(function(){
+		if($(this).val() == '2'){
+			$('#info_content').hide();
+			$('#from_content').show();
+		}else{
+			$('#info_content').show();
+			$('#from_content').hide();			
+		}
+	});
+});
+
+//搜索楼盘
+$('#pidtitle').keyup(function(){return $(this).change();});
+$('#pidtitle').change(function(){
+	var title = $.trim($('#pidtitle').val());
+    var url   = "{:U('pringles/input_search',array('roleid'=>1))}";
+    if(title!=''){
+		$('#J_loupan_name').show();
+    	$.post(url,{title:title},function(result){
+			if(result.status == 1){
+				$('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+				$('#J_loupan_name').html(result.data);
+				return false;
+			}else{
+				$.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+			}
+		},'json');
+    }else{
+		$('#pid').val(0).blur();
+		$('#J_loupan_name').hide();
+	}
+});
+
+//选择
+$('#J_loupan_name > ul > li').live('click',function(){
+	var rel = $(this).attr('rel');
+	var title = $(this).text();
+	$('#pid').val(rel).blur();
+	$('#pidtitle').val(title);
+	$('#J_loupan_name').hide();
+});
+</script>
+</body>
+</html>

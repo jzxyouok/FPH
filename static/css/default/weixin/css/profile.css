@@ -1,0 +1,567 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+.personalinfo {
+	height: 124px;
+	width: 100%;
+	padding-top: 13px;
+	padding-right: 15px;
+	padding-bottom: 13px;
+	padding-left: 15px;
+	background-color: #FFF;
+}
+.personalinfo a {
+	display: block;
+	height: 100px;
+	width: inherit;
+	background-image: url(../images/common/btn_more.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.personalinfo .mypic {
+	height: 98px;
+	width: 98px;
+	border: 1px solid #eeeeee;
+	overflow: hidden;
+	background-color: #FFF;
+	position: absolute;
+}
+.personalinfo .detailinfo {
+	position: absolute;
+	padding-left: 115px;
+	height: inherit;
+}
+.personalinfo .detailinfo span {
+	display: block;
+}
+.personalinfo .detailinfo .name {
+	line-height: 40px;
+	font-size: 18px;
+	font-weight: normal;
+	min-width: 150px;
+	color: #333;
+}
+.personalinfo .detailinfo .address {
+	line-height: 25px;
+	color: #999;
+}
+.info_frm {
+	padding-top: 20px;
+}
+.info_frm .list_block {
+	min-height: 80px;
+	background-color: #FFF;
+	border-radius: 5px;
+	overflow: hidden;
+	border: 1px solid #d9d9d9;
+	margin-bottom: 15px;
+}
+.info_frm .list_block a {
+	line-height: 40px;
+	display: block;
+	background-image: url(../images/common/btn_more.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #d9d9d9;
+	height: 40px;
+	text-indent: 15px;
+	position: relative;
+}
+.info_frm .list_block a:hover {
+	text-decoration: none;
+	background-color: #fafafa;
+}
+.info_frm .list_block a:last-child {
+	border: none;
+}
+.info_frm .list_block a label, .info_frm .list_block a span {
+	display: inline;
+	font-size: 14px;
+}
+.info_frm .list_block a span {
+	position: absolute;
+	right: 0px;
+	padding-right: 25px;
+	color: #999;
+}
+.info_frm .list_block a span b {
+	color: #ff6600;
+	font-weight: normal;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.btn_next {
+	position: relative;
+}
+.takephoto {
+	height: 160px;
+	background-color: #00a0e9;
+	position: relative;
+}
+.takephoto a {
+	display: block;
+	height: 100px;
+	width: 100px;
+	border: solid 2px #FFFFFF;
+	left: 50%;
+	top: 50%;
+	margin-top: -50px;
+	margin-left: -50px;
+	position: absolute;
+	background-color: #eeeeee;
+	text-align: center;
+}
+.takephoto a div {
+	width: inherit;
+	height: inherit;
+}
+.takephoto a img {
+	max-width: 100%;
+	max-height: 100%;
+}
+.info_frm label {
+	font-size: 14px;
+	line-height: 35px;
+	min-width: 200px;
+	display: block;
+	clear: both;
+}
+.info_frm input[type=text], .info_frm input[type=password], .info_frm input[type=number], .info_frm select, div.selcss {
+	height: 40px;
+	line-height: 40px;
+	font-size: 14px;
+}
+div.selcss {
+	/*position: absolute;*/
+	display: inline-block;
+	background-color: #FFF;
+	text-indent: 0;
+	padding: 0;
+	position: relative;
+	height: 40px;
+	line-height: 40px;
+	margin-right: 3px;
+}
+div.selcss select {
+	position: absolute;
+}
+div.selcss span {
+	position: absolute;
+	height: inherit;
+	line-height: inherit;
+	text-indent: 10px;
+}
+.info_frm input.bg, .info_frm select.bg, div.selcss.bg {
+	background-image: url(../images/common/btn_more.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.info_frm input.short, .info_frm select.short, div.selcss.short {
+	width: 55%;
+	display: inline-block;
+}
+.info_frm input.exshort, .info_frm select.exshort, div.selcss.exshort {
+	width: 32%;
+	display: inline-block;
+}
+.info_frm input.longSel, .info_frm select.longSel, div.selcss.longSel {
+	/*margin-top: 15px;*/
+	line-height: 35px;
+}
+.info_frm .longSel_content {
+	padding: 10px;
+	border-left: solid 1px #cccccc;
+	border-right: solid 1px #cccccc;
+	border-bottom: solid 1px #cccccc;
+}
+.info_frm .longSel_content label {
+	padding-right: 5px;
+	display: inline-block;
+	min-width: 30px;
+}
+.info_frm textarea {
+	border: solid 1px #cccccc;
+	width: 100%;
+	height: 80px;
+	padding: 8px;
+}
+.info_frm a.btn_getcode {
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	width: 40%;
+	background-color: #80c269;
+	text-align: center;
+	color: #FFF;
+	float: right;
+}
+.info_frm .btn_sex {
+	display: inline-block;
+	line-height: 40px;
+	height: 40px;
+	width: 49%;
+	font-size: 14px;
+	border: solid 1px #cccccc;
+	text-align: center;
+	color: #333;
+}
+.info_frm .btn_sex.on {
+	background-color: #d2f1ff;
+	border: solid 1px #d2f1ff;
+}
+.info_frm .btn_sex:hover {
+	text-decoration: none;
+}
+.info_frm .btn_sex.west {
+	float: left;
+}
+.info_frm .btn_sex.east {
+	float: right;
+}
+.info_frm .cus_topinfo {
+	height: 114px;
+}
+.info_frm .cus_topinfo .mypic {
+	height: 80px;
+	width: 80px;
+	border-radius: 80px;
+	overflow: hidden;
+	position: absolute;
+	margin-top: 15px;
+}
+.info_frm .cus_topinfo .inforight {
+	height: 83px;
+	margin-top: 15px;
+	width: 96%;
+	position: absolute;
+	overflow: hidden;
+	text-indent: 100px;
+}
+.info_frm .cus_topinfo .inforight .infobar {
+	line-height: 41px;
+	font-size: 16px;
+}
+.info_frm .cus_topinfo .inforight .infobar.inherit {
+	height: inherit;
+	line-height: 83px;
+}
+.info_frm .cus_topinfo .inforight .infobar span, .info_frm .cus_topinfo .inforight .infobar span label {
+	font-size: inherit;
+}
+.info_frm .cus_topinfo .inforight .infobar span.num {
+	position: absolute;
+	right: 0px;
+}
+.info_frm .cus_topinfo .inforight .infobar span.num label {
+	display: inline;
+	color: #ff6600;
+}
+.info_frm .cus_info_list {
+	min-height: 80px;
+	border: 1px solid #d9d9d9;
+	border-radius: 5px;
+	background-color: #FFF;
+	margin-bottom: 15px;
+}
+.info_frm .cus_info_list a {
+	min-height: inherit;
+	width: inherit;
+	display: block;
+}
+.info_frm .cus_info_list a:hover {
+	text-decoration: none;
+	background-color: #f8f8f8;
+	border-radius: 5px;
+}
+.info_frm .cus_info_list .cus_name {
+	margin-top: 10px;
+	line-height: 28px;
+	height: 28px;
+	display: inline-block;
+	min-width: 20px;
+	color: #FFF;
+	font-size: 14px;
+	padding-left: 8px;
+	padding-right: 25px;
+	background-color: #00a0e9;
+	position: relative;
+}
+.info_frm .cus_info_list .cus_name:after {
+	content: '';
+	width: 23px;
+	height: 28px;
+	background-image: url(../images/cus_name.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	background-size: cover;
+	position: absolute;
+	margin-left: 20px;
+}
+.info_frm .cus_info_list a ul li {
+	line-height: 32px;
+	height: 32px;
+	color: #666;
+	font-size: 14px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #efefef;
+	position: relative;
+	margin: 0 10px;
+}
+.info_frm .cus_info_list a ul li:last-child {
+	border: none;
+}
+.info_frm .cus_info_list a ul li span {
+	position: absolute;
+	right: 0px;
+	font-size: 14px;
+}
+.info_frm .cus_info_list a ul li span.passed {
+	color: #666666;
+}
+.info_frm .cus_info_list a ul li span.suspended {
+	color: #ff6600;
+}
+.info_frm .cus_info_list a ul li span.failed {
+	color: #cccccc;
+}
+.info_frm .recordList {
+	min-height: 100px;
+	padding-bottom: 20px;
+}
+.info_frm .recordList ul li {
+	line-height: 49px;
+	height: 49px;
+	overflow: hidden;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #efefef;
+}
+.info_frm .recordList ul li label {
+	display: inline;
+	color: #333;
+	float: left;
+	line-height: inherit;
+	height: inherit;
+}
+.info_frm .recordList ul li span {
+	float: right;
+}
+.info_frm .recordList ul li span.normal {
+	color: #999;
+}
+.info_frm .label_east {
+	display: block;
+	line-height: 40px;
+	text-align: right;
+	color: #666666;
+}
+.info_frm .recharge_detail {
+	background-color: #FFF;
+	padding: 10px;
+	min-height: 200px;
+	margin-top: 20px;
+	margin-bottom: 25px;
+	border: solid 1px #dedede;
+	color: #666666;
+}
+.info_frm .recharge_detail label {
+	font-size: 14px;
+}
+.info_frm .recharge_detail ol {
+	list-style-type: decimal;
+	padding-left: 20px;
+}
+.info_frm .recharge_detail ol li {
+	font-size: 12px;
+	line-height: 22px;
+}
+label.title {
+	font-size: 16px;
+	line-height: 50px;
+}
+.info_frm .rechargeInfo_frm {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-top-color: #ffda81;
+	border-right-color: #ffda81;
+	border-left-color: #ffda81;
+	min-height: 30px;
+	background-color: #fffce8;
+	margin-bottom: 25px;
+}
+.info_frm .rechargeInfo_frm ul li {
+	line-height: 40px;
+	height: 40px;
+	border-bottom: solid 1px #ffda81;
+}
+.info_frm .rechargeInfo_frm ul li label {
+	display: inline-block;
+	text-indent: 10px;
+	min-width: 30px;
+}
+.info_frm .rechargeInfo_frm ul li span {
+	float: right;
+	padding-right: 10px;
+	color: #ff6600;
+	font-size: 16px;
+}
+.btn_next {
+	display: inline-block;
+}
+.btn_next:first-child {
+	float: left;
+}
+.btn_next:last-child {
+	float: right;
+}
+.info_frm .recharge_secceed {
+	color: #ff6600;
+	font-weight: lighter;
+}
+.info_frm .recharge_secceed h2, .info_frm .recharge_secceed h4 {
+	font-weight: lighter;
+}
+.info_frm .recharge_secceed h2 {
+	font-size: 18px;
+}
+.info_frm .recharge_secceed h4 {
+	line-height: 35px;
+}
+.info_frm .loupan_list {
+	margin-top: 20px;
+	margin-bottom: 25px;
+}
+.info_frm .loupan_list li {
+	height: 146px;
+	display: block;
+	border: 1px solid #d9d9d9;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.info_frm .loupan_list li:hover {
+	background-color: #f4fbff;
+}
+.info_frm .loupan_list li h3 {
+	display: block;
+	line-height: 42px;
+	height: 42px;
+}
+.info_frm .loupan_list li h3 a {
+	display: block;
+	height: inherit;
+	width: 100%;
+	font-weight: lighter;
+	font-size: 16px;
+	color: #333;
+	text-indent: 10px;
+	border-bottom: dotted 1px #dcdcdc;
+	background-image: url(../images/common/btn_more.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.info_frm .loupan_list li .info {
+	min-height: 75px;
+	margin-right: 15px;
+	margin-left: 15px;
+	margin-top: 14px;
+	margin-bottom: 14px;
+	overflow: hidden;
+	position: relative;
+}
+.info_frm .loupan_list li .info img {
+	width: 100px;
+	height: 75px;
+	float: left;
+}
+.info_frm .loupan_list li .info .detail {
+	position: absolute;
+	height: inherit;
+	padding-left: 115px;
+}
+.info_frm .loupan_list li .info .detail label {
+	line-height: 23px;
+}
+.info_frm .loupan_list li .info .detail label.title {
+	color: #ff6600;
+}
+.info_frm .loupan_list li .info a {
+	position: absolute;
+	right: 0px;
+	display: block;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	border: 1px solid #007fd4;
+	border-radius: 5px;
+	color: #007fd4;
+	padding-left: 5px;
+	padding-right: 5px;
+	top: 50%;
+	margin-top: -16px;
+}
+.info_frm .loupan_list li .info a:hover {
+	border: 1px solid #f60;
+	color: #f60;
+}
+.info_frm .brokerageList {
+	margin-bottom: 25px;
+	display: none;
+}
+.info_frm .brokerageList ul li {
+	min-height: 73px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #e5e5e5;
+	display: block;
+	position: relative;
+}
+.info_frm .brokerageList ul li i {
+	line-height: 40px;
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	display: block;
+	text-align: center;
+	margin-top: -20px;
+	top: 50%;
+	font-style: normal;
+	border-radius: 40px;
+	font-size: 12px;
+}
+.info_frm .brokerageList ul li i.delegate {
+	background-color: #e5e5e5;
+}
+.info_frm .brokerageList ul li i.instead {
+	background-color: #d0e9f5;
+}
+.info_frm .brokerageList ul li .label_info {
+	height: 56px;
+	line-height: 28px;
+	margin-left: 55px;
+	position: absolute;
+	top: 50%;
+	margin-top: -22px;
+}
+.info_frm .brokerageList ul li .label_info label {
+	line-height: 22px;
+}
+.info_frm .brokerageList ul li .label_info label:last-child {
+	font-size: 12px;
+}
+.info_frm .brokerageList ul li span {
+	line-height: 24px;
+	color: #ff6600;
+	height: 24px;
+	position: absolute;
+	display: block;
+	margin-top: -12px;
+	top: 50%;
+	right: 5px;
+}

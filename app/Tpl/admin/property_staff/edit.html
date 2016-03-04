@@ -1,0 +1,79 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+            <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property_staff/add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加人员</em>
+        </a>
+    </div>
+</div>
+
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10">
+                <form id="info_form" action="{:u('property_staff/edit')}" method="post">
+                <table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th width="120">用户 :</th>
+                        <td>
+                            <select id="uid" name="uid">
+                                <option value="0">请选择</option>
+                                <volist name="admin_list" id="vo">
+                                    <option value="{$vo.id}" <if condition="$info['uid'] eq $vo['id']">selected</if>>{$vo.username}</option>
+                                </volist>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>驻场人员 :</th>
+                        <td>
+                            <label><input type="radio" name="garrison" class="radio_style" value="1" <if condition="$info['garrison'] eq 1">checked="checked"</if>> 是</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="garrison" class="radio_style" value="0" <if condition="$info['garrison'] eq 0">checked="checked"</if>> 否</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>砍价师 :</th>
+                        <td>
+                            <label><input type="radio" name="bargain" class="radio_style" value="1" <if condition="$info['bargain'] eq 1">checked="checked"</if>> 是 </label>&nbsp;&nbsp;
+                            <label><input type="radio" name="bargain" class="radio_style" value="0" <if condition="$info['bargain'] eq 0">checked="checked"</if>> 否</label>
+                        </td>
+                    </tr>
+                         <th>案场管理 :</th>
+                         <td>
+                             <label><input type="radio" name="principal" class="radio_style" value="1" <if condition="$info['principal'] eq 1">checked="checked"</if>> 是 </label>&nbsp;&nbsp;
+                             <label><input type="radio" name="principal" class="radio_style" value="0" <if condition="$info['principal'] eq 0">checked="checked"</if>> 否</label>
+                         </td>
+                    </tr>
+
+                    <tr>
+                        <th>状态 :</th>
+                        <td>
+                            <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info['status'] eq 1">checked="checked"</if>> 有效 </label>&nbsp;&nbsp;
+                            <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info['status'] eq 0">checked="checked"</if>> 无效</label>
+                        </td>
+                    </tr>
+                </table>
+                <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+                <input type="hidden" name="menuid"  value="{$menuid}"/>
+                <input type="hidden" name="id" id="id" value="{$id}" />
+                <input type="hidden" name="pid" id="pid" value="{$pid}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+$(function(){
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#uid").formValidator({onshow:"请选择用户",onfocus:"请选择用户"}).inputValidator({min:1,onerror:"请选择用户"});
+})
+</script>
+</body>
+</html>
+	

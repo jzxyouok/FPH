@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:head_4_0" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/css_4_0/lottery.css">
+</head>
+<body>
+<!--加载遮罩层-->
+<div class="gray_cover"></div>
+<div class="loading">正在加载，请稍后......</div>
+<!--加载遮罩层-->
+
+<section class="TOPS"> <img src="__STATIC__/css/default/weixin/images_4_0/lottery/top_bg.jpg"></section>
+<section class="main_body">
+  <h5>再抢1次就能收到微信红包咯！</h5>
+  
+  <section class="form_frame">
+    <div class="top">哈！抢到了
+      <mark>{$info.amount}</mark>
+      元，再接再厉哦！ </div>
+    <p>原来是房品汇会员啊！</p>
+    <table class="forms">
+      <tr> 
+        <td><a href="javascript:;" id='lottery' class="btn_tryagain">再抢一次</a></td>
+      </tr>
+    </table>
+  </section>
+  <p>据调查，99%的聪明人此时选择再抢一次</p>
+</section>
+<footer>
+  <mark>本活动最终解释权归房品汇所有</mark>
+</footer>
+
+<script type="text/javascript">
+$('#lottery').live('click',function(){
+    var open_id = "{$open_id}";
+    var url = PINER.root + '/?g=weixin&m=lottery&a=scratch';
+    var url_ok = PINER.root + '/?g=weixin&m=lottery&a=lottery_complete&open_id='+open_id;
+    var dzp_url = PINER.root + '/?g=weixin&m=lottery&a=lottery_get&open_id='+open_id;
+    $.post(url,{id:'1',open_id:open_id},function(result){
+      if(result.success == 3){
+        login_url = PINER.root +'/?g=weixin&m=user&a=login&url='+get_url;
+        window.location.href=login_url; return false;
+      }
+      if(result.success == 2){
+        window.location.href=url_ok;
+         return false;
+      }
+      if(result.success == 1){
+        //$('.show_money mark ').html(result.amount);
+        //抽奖成功
+        window.location.href=dzp_url;
+      }
+    },'json');
+})
+
+$(window).load(function(){
+	$('.gray_cover').hide();
+	$('.loading').hide();
+	
+	//底部横底部
+	var $windowHeight = $(window).height()
+	var $bodyHeight = $('body').height();
+	if($bodyHeight < $windowHeight) {
+		$('body').height($windowHeight);
+		$('footer').css({
+			'position': 'fixed',
+			'bottom': '0'
+		});
+	}
+});
+	
+</script>
+</body>
+</html>

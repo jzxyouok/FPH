@@ -1,0 +1,99 @@
+<include file="public:header" />
+<!--管理员管理-->
+<style>
+.contain_count{ height:25px; padding-left:10px; padding-top:10px; font-size:15px; }
+.count_font{ color:#F00;font-weight:600;}
+</style>
+<div class="contain_count">
+    共有客户：<font class="count_font">{$count}</font> 人 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 今日新增客户：<font class="count_font">{$todaycount}</font> 人 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报备总数：<font class="count_font">{$bakcount.allcount}</font> 个楼盘 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 今日报备：<font class="count_font">{$bakcount.todaycount}</font> 个楼盘
+</div>
+<div class="pad_lr_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="app_fkb_customer" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                 &nbsp;&nbsp;主访客户电话 :
+                <input name="tel" type="text" class="input-text" size="25" value="{$tel}" />               
+                &nbsp;&nbsp;客户等级 :
+                <select name="level" id="level">
+                        <option value="0" <if condition="$level eq ''">selected = "selected"</if>>--请选择--</option>
+                        <option value="1" <if condition="$level eq 1">selected = "selected"</if>>A 级客户</option>
+                        <option value="2" <if condition="$level eq 2">selected = "selected"</if>>B 级客户</option>
+                        <option value="3" <if condition="$level eq 3">selected = "selected"</if>>C 级客户</option>
+                        <option value="4" <if condition="$level eq 4">selected = "selected"</if>>D 级客户</option>
+                </select>              
+                 &nbsp;&nbsp;直销顾问电话 :
+                <input name="broker_tel" type="text" class="input-text" size="25" value="{$broker_tel}" />
+                &nbsp;&nbsp;所在城市：
+                <select class="J_city_select mr10" data-pid="0" data-uri="{:U('app_fkb_customer/ajax_city',array('roleid'=>1))}" data-selected="{$selected_ids_city}"></select>
+                <input type="hidden" name="city_id" id="J_city_id" value="{$selected_ids_city}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('app_fkb_customer/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="40"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                <th width="40"><span data-field="id" data-tdtype="order_by" class="sort_th">ID</span></th>
+                 <th align="center">终端</th>
+                <th align="left">主访客户</th>
+                 <th align="left"><span data-field="level" data-tdtype="order_by" class="sort_th">客户等级</span></th>
+                <th align='left'>直销顾问</th>
+                <th>所在城市</th>
+                <th>新增时间</th>
+                <th>最新修改</th>
+                <th width=100>{:L('operations_manage')}</th>
+            </tr>
+            </thead>
+    	    <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td align="center"><b>{$val.client}</b></td>
+                <td align="left">{$val.customer}&nbsp;&nbsp;&nbsp;&nbsp;{$val.tel}</td>
+                <td align="left">{$val.level}</td>
+                <td align="left">{$val.brokername}</td>
+                <td align="center">{$val.city}</td>
+                <td align="center">{$val.addtime|date="Y-m-d H:i:s",###}</td>
+                <td align="center">{$val.updatetime|date="Y-m-d H:i:s",###}</td>
+                <td align="center">
+                    <a href="{:U('app_fkb_customer/edit', array('id'=>$val['id'],'menuid'=>$menuid))}">{:L('edit')}</a> | 
+					<if condition="$val.status eq 1">
+                    	<a href="{:U('app_fkb_customer/edit', array('id'=>$val['id']))}">编辑</a>
+					<else/>
+						<a href="javascript:;" class="J_confirmurl" data-acttype="ajax"  data-uri="{:U('app_fkb_customer/ajax_delete', array('id'=>$val['id']))}" data-msg="确定要删除该客户么?">删除</a>
+					</if>
+                </td>
+            </tr>
+            </volist>
+    	   </tbody>
+        </table>
+    </div>
+    <div class="btn_wrap_fixed">
+		<label class="select_all mr10"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+    	<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('app_fkb_customer/ajax_delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+		<div id="pages">{$page}</div>
+    </div>
+</div>
+<include file="public:footer" />
+<script src="/static/js/jquery/plugins/listTable.js"></script>
+<script>
+$('.J_city_select').city_select('请选择');
+$(function(){
+    $('.J_tablelist').listTable();
+});
+</script>
+</body>
+</html>

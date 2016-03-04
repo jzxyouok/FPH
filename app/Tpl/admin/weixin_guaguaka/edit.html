@@ -1,0 +1,60 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" action="{:U('weixin_guaguaka/edit')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+		            <tr>
+						<th>最小值 :</th>
+						<td><input type="text" name="min" id="min" class="input-text" size="30" value="{$info.min}">分</td>
+					</tr>
+					<tr>
+						<th>最大值:</th>
+						<td><input type="text" name="max" id="max" class="input-text" size="30" value="{$info.max}">分</td>
+					</tr>
+					<tr>
+						<th>最高限额 :</th>
+						<td><input type="text" name="geiling" id="geiling" class="input-text" size="30" value="{$info.geiling}">分</td>
+					</tr>
+ 					<tr>
+						<th>中奖率:</th>
+						<td><input type="text" name="proportion" id="proportion" class="input-text" size="30" value="{$info.proportion}">%</td>
+					</tr>
+					<tr>
+						<th>门槛 :</th>
+						<td><input type="text" name="cond" id="cond" class="input-text" size="30" value="{$info.cond}">次</td>
+					</tr>
+					<tr>
+						<th>审核 :</th>
+						<td>
+							<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> {:L('no')}</label>
+						</td>
+					</tr>
+                   
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#min").formValidator({onshow:' ',onfocus:'请填写最小值'}).inputValidator({min:1,onerror:'请填写最小值'});
+	$("#max").formValidator({onshow:' ',onfocus:'请填写最大值'}).inputValidator({min:1,onerror:'请填写最大值'});
+	$("#geiling").formValidator({onshow:' ',onfocus:'请填写最高限额值'}).inputValidator({min:1,onerror:'请填写最高限额值'});
+	$("#proportion").formValidator({onshow:' ',onfocus:'请填写中奖率值'}).inputValidator({min:1,max:4,onerror:'请填写中奖率'});
+	$("#cond").formValidator({onshow:' ',onfocus:'请填写门槛'}).inputValidator({min:1,onerror:'请填写门槛'});
+});
+</script>
+</body>
+</html>

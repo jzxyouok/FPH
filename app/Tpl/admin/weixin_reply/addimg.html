@@ -1,0 +1,109 @@
+<include file="public:header" />
+<!--添加文章-->
+<form id="info_form" name="info_form" action="{:U('weixin_reply/add')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">添加图片消息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+                    <tr>
+                        <th>图片名称 :</th>
+                        <td><input type="text" name="title" id="title" size="30" class="input-text"></td>
+                    </tr>
+                    <tr>
+						<th width="16%">上传图片 :</th>
+						<td width="84%">
+                            <input name="img" id="J_img" type="hidden" value="" />
+                            <div class="img_border" id="img_data"></div>
+                            <div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+                      </td>
+					</tr>
+                    <tr>
+                        <th>链接地址 :</th>
+                        <td>
+                            <input type="text" name="url" id="url" size="30" class="input-text">
+                            <font color="#999">链接地址必须以http://开头</font>
+                        </td>
+                    </tr>
+					<tr>
+						<th>{:L('publish')} :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" checked="checked"> {:L('yes')} </label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0"> {:L('no')}</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input name="pid" id="pid" type="hidden" value="2" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#J_img").formValidator({onshow:'请上传图片',onfocus:'请上传图片'}).inputValidator({min:1,onerror:'请上传图片'});
+
+	//上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('weixin_reply/ajax_upload_img',array('roleid'=>1))}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_upload_img').hide();
+                $('#J_img').val(result.data);
+                $('#J_img').blur();
+                $('#img_data').html('<ul><li><img src="./data/upload/advert/'+result.data+'" width="100"></li><li><a href="javascript:;" class="del_img">删除</a></li></ul>');
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+
+    //删除图片
+    $('.del_img').live('click',function(){
+        var img_path = $(this).parent().prev().children().attr('src');
+        var delimg_url = '{:U('weixin_reply/del_img',array('roleid'=>1))}';
+        $.post(delimg_url,{img_path:img_path},function(result){
+            if(result.status == 1){
+                $('#img_data').html('');
+                $('#J_img').val('');
+                $('#J_upload_img').show();
+                $('#J_img').focus();
+                return false;
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+                return false;
+            }
+        },'json');
+    });
+
+});
+</script>
+</body>
+</html>

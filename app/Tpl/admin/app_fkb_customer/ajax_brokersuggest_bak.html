@@ -1,0 +1,112 @@
+<!--添加栏目-->
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('app_fkb_customer/ajax_brokersuggest_bak')}" method="post">
+	<table width="100%" class="table_form">
+      
+		<tr>
+			<th width="120">推荐楼盘 :</th>
+			<td id="" class="">
+           <font id=""  style="font-size:18px; font-weight:600; color:#06C">{$info.title}</font>
+           </td>
+		</tr>
+       	<tr> 
+	      <th width="80">报备客户 :</th>
+	      <td>
+          	<font id="" style="font-size:18px; font-weight:600; color:#06C">{$info.customer} {$info.tel}</font>
+          </td>
+	    </tr> 
+        <tr> 
+	      <th width="80">报备人 :</th>
+	      <td>
+          	<font id="brokerfont" style="font-size:18px; font-weight:600; color:#06C"></font>
+          </td>
+	    </tr> 
+      <tr> 
+	      <th width="80">报备手机/姓名 :</th>
+	      <td>
+          	<input type="text" name="searchdata" id="searchdata" class="input-text" size="25" value="">
+            <ul id="brokercontain">
+				<li data-id=""></li>				
+			</ul>	
+          </td>
+	    </tr>    
+       
+	</table>
+    <input type="hidden" name="property_id" id="property_id"  value="{$info.property_id}" />      
+    <input type="hidden" name="customerid" id="customerid" value="{$info.customerid}" />
+    <input type="hidden" name="brokerid" id="brokerid"  value="" /> 	
+	</form>
+</div>
+<script>
+function delHtmlTag(str)
+{
+        var str=str.replace(/<\/?[^>]*>/gim,"");//去掉所有的html标记
+        var result=str.replace(/(^\s+)|(\s+$)/g,"");//去掉前后空格
+        return  result.replace(/\s/g,"");//去除文章中间空格
+}
+
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	
+	$('#property').keyup(function(){
+			var property = $(this).val();
+			var url = "{:u('app_fkb_customer/search_property')}"
+			$.post(url,{property:property},function(data){
+						if(data.status==1){
+								$('#brokercontain').html(data.data).slideDown();
+							}else{
+									$.pinphp.tip({content:data.msg, icon:'alert'});
+								}
+ 						
+							
+				},'json')
+		})
+	
+	
+	
+	//获取经纪人信息
+ $('#searchdata').keyup(function(){
+ 		var name = $(this).val();
+ 		if(delHtmlTag(name) !=''){
+ 				var url = "{:u('app_fkb_customer/getbakbrokerinfo')}"
+ 				$.post(url,{name:name},function(data){
+ 					if(data.status==1)
+ 						$('#brokercontain').html(data.data).slideDown();
+ 				},'json')
+ 		}
+  })
+
+ $('#brokercontain li').live('click',function(){
+ 		var name = $(this).text();
+ 		var id = $(this).attr('data-id');
+ 		var error = $(this).attr('data-error');
+ 		//$('#brokerid').val(id);
+ 		if(error !=1){
+	 		$('#brokerid').val(id);	
+			$('#brokerfont').text(name);
+				 		
+ 		}
+ 		$('#brokercontain').slideUp();
+ 		
+
+ })
+ 
+});
+
+function delHtmlTag(str)
+{
+        var str=str.replace(/<\/?[^>]*>/gim,"");//去掉所有的html标记
+        var result=str.replace(/(^\s+)|(\s+$)/g,"");//去掉前后空格
+        return  result.replace(/\s/g,"");//去除文章中间空格
+}
+</script>

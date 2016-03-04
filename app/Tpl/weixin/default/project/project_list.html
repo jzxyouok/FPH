@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+<style type="text/css">
+</style>
+</head>
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header style="padding-bottom:0px;">
+    <section class="logo">房品汇</section>
+      <section class="dropdown">
+      <select id="citylist" onChange="MM_jumpMenu('parent',this,0)">
+        <volist name="citylist" id="vo">
+          <option  value="{:U('weixin/project/project_list',array('select_city'=>$vo['id']))}" >{$vo['name']}</option>
+        </volist>
+      </select>
+      <a href="javascript:void(0);" id="city_name"  class="city">{$search['select_name']}
+      <i></i></a> 
+    </section>
+  </header>
+  <section class="scroll_body noPadding">
+    <section class="PADDING_FRM bgWhite">
+      <section class="links_list store_mgmt">
+        <ul class="display_list">
+          <volist name="list" id="v">
+          <li><a href="{:U('weixin/project/project_detail',array('id'=>$v['id']))}">
+            <h2>{$v.title}</h2>
+            <span class="address">{$v.address}</span><i></i></a></li>
+          </volist>
+        </ul>
+        <if condition="$countlp egt 10">
+         <div class="LOADING">正在加载...</div> 
+        </if>
+      </section>
+    </section>
+  </section>
+  <input type="hidden" name="select_city" value="{$search['select_city']}" />
+  <div class="footer_2"><span class="deposit">共有{$search['count']}个项目</span> <a href="{:U('weixin/project/project_add')}" class="BTNs">新建项目</a></div>
+</div>
+<script type="text/javascript">
+var select_city = "{$search['select_city']}";
+$(function(){
+  //向下滑动加载
+  var winH = $(window).height(); //页面可视区域高度 
+  var pagefirst = 1; //设置当前页数
+  var stopstatus = true; 
+  $(window).scroll(function () {
+      var pageH = $(document.body).height();
+      var scrollT = $(window).scrollTop(); //滚动条top 
+      var lq_height = (pageH-winH-scrollT)/winH;
+      var url = PINER.root + '/?g=weixin&m=project&a=ajax_project_list';
+      if(lq_height<0.02 && stopstatus == true){
+          stopstatus = false;
+          $.post(url,{
+          page:pagefirst,
+          //id:get_store_id,
+          select_city:select_city,
+          },function(result){
+             if(result.status == 1){
+              $('.display_list').append(result.data);
+              $('.LOADING').html('正在加载...');
+              pagefirst++;
+              stopstatus = true;
+              return false; 
+            }else{
+              $('.LOADING').html(result.msg);
+              return false;
+            }
+        },'json');
+      }
+    });
+});
+</script>
+</body>
+</html>

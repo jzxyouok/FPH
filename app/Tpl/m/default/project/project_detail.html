@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+<style type="text/css">
+#TOP_FRAME .scroll_body .comments {
+	color: #bbbbbb;
+	padding: 10px;
+	font-size: 1.2rem;
+	background-color: #FFF;
+	margin-top: 1px;
+}
+#TOP_FRAME .scroll_body .comments strong {
+	color: #e5004f;
+	font-size: 1.6rem;
+	padding-right: 5px;
+	display: block;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li a .status {
+	right: 20px;
+}
+#TOP_FRAME .scroll_body .links_list .display_list li a .title {
+	padding-left: 35px;
+}
+#TOP_FRAME .scroll_body .FORM_LISTS li .BTNs {
+	display: block;
+	line-height: 26px;
+	height: 26px;
+	min-height: 26px;
+	width: 25%;
+	text-align: center;
+	font-size: 1.6rem;
+	font-weight: lighter;
+	color: #FFF;
+	margin: 0;
+	border-radius: 8px;
+	background: #1aa83b;
+	background: gradient(linear, center bottom, center top, from(#009944), to(#22ac38));
+	background: -webkit-gradient(linear, center bottom, center top, from(#009944), to(#22ac38));
+	background: -moz-gradient(linear, center bottom, center top, from(#009944), to(#22ac38));
+}
+.records_list {
+	min-height: 65px;
+	background-color: #FFF;
+	border-left: solid 2px #999;
+}
+#TOP_FRAME .scroll_body .records_list .top {
+	height: 22px;
+}
+#TOP_FRAME .scroll_body .records_list .top .contactor {
+	color: #999999;
+	float: left;
+	margin-left: 5px;
+}
+#TOP_FRAME .scroll_body .records_list .top .date {
+	color: #d3d3d3;
+	float: right;
+	margin-right: 5px;
+	font-size: 1.2rem;
+}
+#TOP_FRAME .scroll_body .records_list p {
+	line-height: 22px;
+	display: block;
+	padding: 0 5px;
+	color: #666;
+	padding-bottom: 10px;
+	clear:both;
+}
+.mobi_list li{ background:url(__STATIC__/css/default/weixin/images_4_0/icon_tel.png) no-repeat left center; background-size:21px 21px; height:40px; line-height:40px; border-bottom:1px solid #ebeced; padding-left:30px;}
+.mobi_list li:last-child{border-bottom:none; }
+.mobi_list li a { display:block; color:#666;float:left;}
+.mobi_list li a span { color:#2883b1; padding-left:0.5rem}
+.mobi_list li a:last-child { float:right; color:#999; font-size:1.2rem; padding:0 1rem}
+</style>
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">房品汇</section>
+    <a href="{:U('m/project/project_contact_add',array('id'=>$user_project_id))}" class="gotolist" id="btn_reset">增加联系人<i></i></a></header>
+  <section class="scroll_body noPadding">
+    <section class="photo inner"> <a href="javascript:;">
+      <figure><!-- <img src="images_4_0/test.jpg"> -->
+        <img src="{:attach(get_thumb($info['img_thumb'], '_weixin_thumb'), 'property/thumbnail')}"   onerror="this.src='./data/upload/avatar/default_100.jpg'">
+      </figure>
+      <section class="info" style=" width:70%;">
+        <h2>{$info.title}</h2>
+        <span class="address" style=" margin-top:3px; width:100%; display:block;">{$info.address}</span>
+        <span class="address" style=" margin-top:3px; width:100%; display:block;">最低单价:<b style="color:#f60; font-size:1.4rem;">{$info.item_price}</b>元/㎡</span>
+         <span class="address" style=" margin-top:3px; width:100%; display:block;">
+          <volist name="property_cate_arr" id="vo">
+            <neq name="i" value="1">,</neq>{$vo.name}
+          </volist>
+         </span>
+      </section>
+      </a> </section>
+    
+    <section class="links_list">
+      <section class="blocks">
+        <ul class="mobi_list">
+          <volist name="property_contact_list" id="v">
+            <li><a href="tel:{$v.tel}">{$v.thework} {$v.name}<span>{$v.tel}</span></a><a href="{:U('m/project/project_contact_add',array('id'=>$user_project_id,'cid'=>$v[id]))}">修改</a></li>
+          </volist>
+         
+        </ul>
+      </section>
+    </section>
+    <section class="PADDING_FRM">
+      <ul class="FORM_LISTS noborder">
+        <li>
+          <label>发布跟进</label>
+          <textarea name="project_info" id="project_info" cols="" rows="" placeholder="填写跟进内容"></textarea>
+          <a href="javascript:;" class="BTNs get_project_log">发布跟进</a> </li>
+          <input type='hidden' value="{$user_project_id}" name="project_id" id="project_id" >
+        <li>
+          <label>跟进记录</label>
+        </li>
+        <span id="project_log_list">
+        <volist name="project_log_list" id="v" >
+          <li>
+            <div class="records_list">
+              <section class="top"> <span class="contactor">{$v.name} {$v.mobile} </span><span class="date">{$v.add_time|date='Y-m-d',###}</span> </section>
+              <p>{$v.info}</p>
+            </div>
+          </li>
+        </volist>
+      </span>
+      </ul>
+      <if condition="$count_log_list egt 5">
+     <div class="LOADING">正在加载...</div>
+    </if>
+    </section>
+  </section>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+var get_project_id = "{$user_project_id}";
+$(function(){
+  //向下滑动加载
+  var winH = $(window).height(); //页面可视区域高度 
+  var pagefirst = 1; //设置当前页数
+  var stopstatus = true; 
+  $(window).scroll(function () {
+      var pageH = $(document.body).height();
+      var scrollT = $(window).scrollTop(); //滚动条top 
+      var lq_height = (pageH-winH-scrollT)/winH;
+      var url = PINER.root + '/?g=m&m=project&a=ajax_project_log_list';
+      if(lq_height<0.02 && stopstatus == true){
+          stopstatus = false;
+          $.post(url,{
+          page:pagefirst,
+          id:get_project_id,
+          },function(result){
+             if(result.status == 1){
+              $('#project_log_list').append(result.data);
+              $('.LOADING').html('正在加载...');
+              pagefirst++;
+              stopstatus = true;
+              return false; 
+            }else{
+              $('.LOADING').html(result.msg);
+              return false;
+            }
+        },'json');
+      }
+    });
+});
+</script>
+</body>
+</html>

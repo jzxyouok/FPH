@@ -1,0 +1,142 @@
+<include file="public:header" />
+<style>
+.popup {position:absolute;width:229px;left:8px;top:31px;background-color:#fff;border:1px solid #ddd;height:230px;overflow-y:auto; z-index:100}
+.popup li {color:#666;padding:6px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+.popup li:hover {background-color:#f8f8f8;color:#333;}
+</style>
+<!--添加文章-->
+<form id="info_form" action="{:U('article/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th width="120">{:L('article_cateid')} :</th>
+						<td><select class="J_cate_select mr10" data-pid="0" data-uri="{:U('article_cate/ajax_getchilds',array('roleid'=>1))}" data-selected=""></select><input type="hidden" name="cate_id" id="J_cate_id" value="" /></td>
+					</tr>
+					 <tr>
+						<th>活动标题 :</th>
+						<td><input type="text" name="title" id="title" class="input-text" size="30"></td>
+					</tr>
+					<tr>
+						<th>相关楼盘 :</th>
+						<td style="position:relative;"><input autocomplete="off" type="text" name="pidtitle" id="pidtitle" value="{$pidtitle}" class="input-text input_loupan_search" size="30" <if condition="$pid neq ''">readonly=''</if>/>
+		                     <div id="J_loupan_name" style="display:none"></div>
+		                     <input name="pid" id="pid" type="text" value="{$pid}" style="width:0px;height:0px;border:0px;" />
+	                   	</td>
+					</tr>
+					<tr>
+						<th width="120">活动地区 :</th>
+						<td class="select_area"><select class="J_city_select mr10" data-pid="0" data-uri="{:U('property/ajax_city',array('roleid'=>1))}" data-selected=""></select><input type="hidden" name="city_id" id="J_city_id" value="" /></td>
+					</tr>
+		            <tr>
+						<th>{:L('author')} :</th>
+						<td><input type="text" name="author" id="author" class="input-text" size="30" value="房品汇"></td>
+					</tr>
+					<tr>
+						<th>开始时间 :</th>
+						<td><input type="text" name="time_start" id="time_start" class="date" size="20" readonly=""></td>
+					</tr>
+					<tr>
+						<th>结束时间 :</th>
+						<td><input type="text" name="time_end" id="time_end" class="date" size="20" readonly=""></td>
+					</tr>
+					<tr>
+	                    <th>咨询电话 :</th>
+	                    <td><input type="text" name="tel" id="tel" class="input-text" size="30"></td>
+	                </tr>
+					<tr>
+						<th>报名 :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" checked="checked"> {:L('yes')} </label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0"> {:L('no')}</label>
+						</td>
+					</tr>
+		            <tr>
+						<th>{:L('article_img')} :</th>
+						<td><input type="file" name="img" id="img" class="input-text"  style="width:200px;" /><font color="#999999">&nbsp;图片最佳尺寸720*540(不低于480*360)</font></td>
+		 			</tr>
+
+		            <tr>
+						<th>详细内容 :</th>
+		                <td><textarea name="info" id="info" style="width:68%;height:400px;"></textarea></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$('.J_cate_select').cate_select('请选择');
+$('.J_city_select').city_select('请选择');
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d %H:%M",
+    showsTime  : true,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d %H:%M",
+    showsTime  : true,
+    timeFormat : "24"
+});
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#pid").formValidator({onshow:"请选择所属楼盘",onfocus:"请选择所属楼盘"}).inputValidator({min:1,onerror:"请选择所属楼盘"});
+	$("#J_cate_id").formValidator({onshow:"请选择所属分类",onfocus:"请选择所属分类"}).inputValidator({min:1,onerror:"请选择所属分类"});
+	$("#J_city_id").formValidator({onshow:"请选择活动地区",onfocus:"请选择活动地区"}).inputValidator({min:1,onerror:"请选择活动地区"}).regexValidator({regexp:"intege",datatype:"enum",onerror:"请选择活动地区"});
+	$("#title").formValidator({onshow:lang.please_input+"活动标题",onfocus:lang.please_input+"活动标题"}).inputValidator({min:1,onerror:lang.please_input+"活动标题"});
+	//$("#J_img").formValidator({onshow:'请上传图片',onfocus:'请上传图片'}).inputValidator({min:1,onerror:'请上传图片'});
+	$("#time_start").formValidator({onshow:"请输入开始时间",onfocus:"请输入开始时间"}).inputValidator({min:3,onerror:"请输入开始时间"});
+    $("#time_end").formValidator({onshow:"请输入结束时间",onfocus:"请输入结束时间"}).inputValidator({min:3,onerror:"请输入结束时间"});
+
+	$("#info").formValidator({onshow:lang.please_input+"详细内容",onfocus:lang.please_input+"详细内容",onError:function(){alert("具体错误，请看网页上的提示")}}).inputValidator({min:3,onerror:"请认真输入详细内容"});
+
+	$('ul.J_tabs').tabs('div.J_panes > div');
+});
+
+//搜索楼盘
+$('.input_loupan_search').keyup(function(){
+	var title = $.trim($('#pidtitle').val());
+    var url   = '{:U('hezuo_property/input_search',array('roleid'=>1))}';
+    if(title!=''){
+		$('#J_loupan_name').show();
+    	$.post(url,{title:title},function(result){
+			if(result.status == 1){
+				$('#J_loupan_name').html('<img src="__STATIC__/css/admin/bgimg/loading2.gif" />');
+				$('#J_loupan_name').html(result.data);
+				return false;
+			}else{
+				$.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+			}
+		},'json');
+    }else{
+		$('#pid').val('').blur();
+		$('#J_loupan_name').hide();
+	}
+});
+
+//选择
+$('#J_loupan_name > ul > li').live('click',function(){
+	var rel = $(this).attr('rel');
+	var title = $(this).text();
+	$('#pid').val(rel).blur();
+	$('#pidtitle').val(title);
+	$('#J_loupan_name').hide();
+});
+
+</script>
+</body>
+</html>

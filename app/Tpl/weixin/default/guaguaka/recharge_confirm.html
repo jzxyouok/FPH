@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:new_head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/profile.css" rel="stylesheet" />
+</head>
+
+<body>
+<div class="info_frm nobg paddingLR" style="padding-top:0;">
+  <label class="title">请核对充值信息！</label>
+  <div class="rechargeInfo_frm">
+    <ul>
+      <li>
+        <label>充值手机号</label>
+        <span>{$mobile}</span></li>
+      <li>
+        <label>充值金额</label>
+        <span>{$the_phone}
+        <label>元</label></span>
+        </li>
+    </ul>
+  </div>
+  <input type="hidden" id="mobile" value="{$mobile}">
+  <input type="hidden" id="the_phone" value="{$the_phone}">
+  <a href="javascript:;" class="btn_next half confirm">确认充值</a><a href="javascript:history.back(-1)" class="btn_next half disable">取消</a> </div>
+
+
+<script type="text/javascript">
+$(function(){
+ 	$('.confirm').click(function(){
+ 		var mobile      = $.trim($('#mobile').val());
+ 		var the_phone   = $.trim($("#the_phone").val());
+ 		var recharge_url   = PINER.root + '/?g=weixin&m=guaguaka&a=recharge_confirm';
+ 		var dzp_url     = PINER.root + '/?g=weixin&m=guaguaka&a=recharge_succeed';
+   		$('.confirm').text('正在提交...');
+   		$(this).removeClass('confirm');
+ 		$.post(recharge_url,{mobile:mobile,the_phone:the_phone},function(result){
+ 			if(result.status == 1){
+ 				window.location.href=dzp_url; 
+ 				return false;
+             }else{
+				layer.open({
+					content: result.msg,
+					style: '',
+					time: 1,
+					shade:true,
+					anim:true
+				});
+ 				$('.btn_next').text('确认充值');
+ 		   		$('.btn_next').addClass('confirm');
+ 				return false;
+             }
+ 		},'json');
+ 	});
+})
+     </script>
+</body>
+</html>

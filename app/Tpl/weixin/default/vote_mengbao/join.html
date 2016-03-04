@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<title>萌宝投票报名</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/default/weixin/vote_mengbao/css/join.css">
+</head>
+<body>
+	<div class="wrap">
+		<form action="{:u('vote_mengbao/joinvote')}" id="joinForm" method="post" onsubmit="return toVaild()">
+			<label for="user">姓名</label>
+			<input type="text" id="user" name="user">
+			<label for="age">年龄</label>
+			<input type="text" id="age" name="age">
+			<label for="sex">性别</label>
+			<select name="sex" id="sex">
+				<option value="1" checked="checked">男</option>
+				<option value="2">女</option>
+			</select>
+			<label for="tel">手机号</label>
+			<input type="tel" id="tel" name="tel">
+			<label for="intro">简介</label>
+			<textarea name="intro" id="intro" cols="30" rows="8" placeholder='可以留空,但最多输入100个字符'></textarea>
+			<h2>上传照片</h2>
+			<p>上传照片最多为5张,第一张默认为头像</p>
+			<p id="loadCont">还可以上传<span id="totalLoadNumber">5</span>张(每张图限制大小5M以内)</p>
+			<input type="file" id="imgLoad" name="imgLoad">
+			<div class="load-img-wrap"></div>
+            <input type="hidden" name="avatar" value="" id="imgs_1">
+            <input type="hidden" name="imgs[]" value="" id="imgs_2">
+            <input type="hidden" name="imgs[]" value="" id="imgs_3">
+            <input type="hidden" name="imgs[]" value="" id="imgs_4">
+            <input type="hidden" name="imgs[]" value="" id="imgs_5">
+			<input type="submit" id="smt" value="提交">
+		</form>
+		<p class="copyright">上海房品汇网络信息技术有限公司提供技术支持</p>
+	</div>
+	<script src="__STATIC__/js/jquery/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__STATIC__/css/default/weixin/vote_mengbao/js/lib/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="__STATIC__/css/default/weixin/vote_mengbao/js/join.js"></script>
+   
+</body>
+</html>

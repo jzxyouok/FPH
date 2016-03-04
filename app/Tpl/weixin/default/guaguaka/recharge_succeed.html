@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<include file="public:new_head" />
+<link type="text/css" href="__STATIC__/css/default/weixin/css/profile.css" rel="stylesheet" />
+</head>
+
+<body>
+<div class="info_frm nobg paddingLR">
+  <div class="recharge_secceed">
+    <h2>申请成功！</h2>
+    <h4>我们将于3个工作日之内为您充值，谢谢！（春节期间申请的充值，将于2月25日进行统一充值）</h4>
+  </div>
+  <ul class="loupan_list">
+  <volist name="list" id="vo">
+    <li>
+      <h3><a href="{:U('weixin/loupan/detail',array('id'=>$vo['id']))}" >{$vo.title}</a></h3>
+      <div class="info"><img src="{:attach(get_thumb($vo['img_thumb'], '_weixin_thumb'), 'property/thumbnail')}" onerror="this.src='__STATIC__/css/default/images/no_img.gif';" />
+        <div class="detail">
+          <label class="title">{$vo.list_price}</label>
+          <label>{$vo.city}</label>
+          <label>    <if condition="is_numeric(trim($vo['item_price'])) eq FALSE ">{:trim($vo['item_price'])}
+                    <else />{:trim($vo['item_price'])}元/㎡</if></label>
+        </div>
+        <a href="{:U('weixin/loupan/detail',array('id'=>$vo['id']))}">去看看</a> </div>
+    </li>
+    </volist>
+  </ul>
+</div>
+<a href="{:U('weixin/user/prize')}" class="btn_next bc_007fd4">我的中奖纪录</a>
+</body>
+</html>

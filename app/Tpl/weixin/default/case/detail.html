@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<include file='public:head_4_0' />
+<link type="text/css" href="__STATIC__/css/default/weixin/css_4_0/store.css" rel="stylesheet" />
+</head>
+
+<body>
+<div id="TOP_FRAME" class="TOP_FRAME">
+  <header class="noPadding">
+    <section class="logo">{$setTitle}</section>
+    <a href="javascript:;" class="gotolist J_case_user_html">添加驻守人员<i></i></a> </header>
+  <section class="scroll_body noPadding">
+    <section class="photo inner"> <a href="javascript:;">
+      <figure><img src="{:attach(get_thumb($stores_info['img'], '_100'), 'stores_avatar')}" onerror="this.src='./data/upload/avatar/default_100.jpg'"></figure>
+      <section class="info">
+        <h2>{$stores_info.name}<i class="LBL_STATUS sc_a1">已认证</i></h2>
+        <span class="address">{$stores_info.address}</span> <span class="contactor">服务专员：{$stores_info['user_info']['username']}</span><span class="contactor">电话：<strong>{$stores_info['user_info']['mobile']}</strong></span> </section>
+      </a> </section>
+      <section class="comments"><strong>邀请码 {$stores_info.code_id}</strong></section>
+    <section class="links_list" style="padding-top:10px;"> <span class="title" style="padding-left:12px;">案场成员</span>
+      <section class="blocks">
+        <ul class="display_list">
+			<volist name="user_list" id="vo">
+			  <li><a href="tel:{$vo.mobile}"><span class="title">{$vo.username}</span><span class="mobile">{$vo.mobile}</span> <span class="status">成交{$vo.count}套</span></a></li>
+			</volist>
+        </ul>
+      </section>
+    </section>
+  </section>
+</div>
+<input name="stores_id" id="stores_id" type="hidden" value="{$stores_info.id}">
+<include file="public:footer_4_0" />
+</body>
+</html>

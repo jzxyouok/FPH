@@ -1,0 +1,135 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('admin/myclient/index',array('menuid'=>$menuid))}">
+        <em>客户管理</em>
+        </a>
+    </div>
+</div>
+<div style="margin:10px 10px 0 10px;">
+	<form name="searchform"  method="get" >
+	<table width="100%" cellspacing="0" class="search_form">
+	    <tbody>
+	    <tr>
+	        <td>
+	        <div class="explain_col">
+	            <input type="hidden" name="output"  id="output" />
+	            <input type="hidden" name="g" value="admin" />
+	            <input type="hidden" name="m" value="myclient" />
+	            <input type="hidden" name="a" value="myclientdaikan" />
+	            <input type="hidden" name="id" value="{$id}" />
+				      &nbsp;&nbsp;申请人电话 :
+	            <input name="mobile" type="text" class="input-text" size="25" value="{$search.mobile}" />
+              &nbsp;&nbsp;楼盘名称 :
+              <input name="title" type="text" class="input-text" size="25" value="{$search.title}" />
+	            <input type="submit" name="search" id="sub" class="btn" value="{:L('search')}" />
+	        </div>
+	        </td>
+	    </tr>
+	    </tbody>
+	</table>
+	</form>
+</div>
+
+<!--添加文章-->
+<form id="info_form" action="" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="myclient:myclientnav" />
+	</div>
+	<div class="J_tablelist table_list" >
+        <table width="100%" cellspacing="0" id="J_cate_tree" class="treeTable">
+        <thead>
+            <tr>
+                <th width=40>序号</th>
+                <th width=60>ID</th>
+                <th align="left">报备人</th>
+                <th align="left">客户</th>
+                <th align="left">带看楼盘</th>
+                <th>当前状态</th>
+				        <th>报备时间</th>
+                <th>案场人员</th>
+                <th>{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr class="collapsed">
+				<td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val['id']}</td>
+                <td align="left">{$val['username']}&nbsp;&nbsp;{$val['user_mobile']}</td>
+                <td align="left">{$val['name']}&nbsp;&nbsp;{$val['mobile']}</td>
+                <td align="left">{$val['title']}</td>
+                <td align="center">
+                    <if condition="$val['status'] eq 1">
+                          带看申请
+                      </if>
+                      <if condition="$val['status'] eq 2">
+                          <if condition="$val['status_cid'] eq 1">
+                          邀约成功
+                           <else/>
+                          邀约失败
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 3">
+                          <if condition="$val['status_cid'] eq 1">
+                          开发商确认
+                           <else/>
+                          开发商拒绝
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 4">
+                           <if condition="$val['status_cid'] eq 1">
+                          已带看
+                           <else/>
+                          未带看
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 5">
+                          <if condition="$val['status_cid'] eq 1">
+                          支付意向金
+                          <elseif condition="$val['status_cid'] eq 2"/>
+                          参加团购
+                          <else /> 
+                          购买意向终止
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 6">
+                          <if condition="$val['status_cid'] eq 1">
+                          已支付定金
+                          <else /> 
+                               <if condition="$val['zhongzhi'] eq 1">
+                                客户申请退回意向金
+                                 <else/>
+                                客户申请退回团购费
+                                </if>
+                          </if>
+                      </if>
+                      <if condition="$val['status'] eq 7">
+                          签约成交
+                      </if>
+                      <if condition="$val['status'] eq 8">
+                          违约
+                      </if>
+                       <if condition="$val['status'] eq 9">
+                          失效
+                      </if>
+                </td>
+				        <td align="center">{$val.add_time|date='Y-m-d H:i',###}</td>
+                <td align="center">{$val['case_name']}</td>
+                <td align="center">
+                    <a href="{:u('myclient/liuchengnone', array('id'=>$val['id'],'with_look'=>1))}">查看详情</a>
+                </td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page_list}</div>
+    </div>
+    </div>
+</div>
+</form>
+<include file="public:footer" />
+</body>
+</html>

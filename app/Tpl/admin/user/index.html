@@ -1,0 +1,125 @@
+<include file="public:header" />
+<div class="clearfix pad_lr_10">
+<div class="fl title_2">共有会员：{$user_count}人<spsn class="pad_lr_10">今天注册用户：{$time_count}人</spsn></div>
+<!--<a href="{:U('user/pushExcel',array('roleid'=>1))}" class="fr btn">导出会员</a>-->
+</div>
+<!--会员列表-->
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="user" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    {:L('publish_time')}：
+                    <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}">
+                    -
+                    <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}">
+                    &nbsp;用户名 :
+                    <input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" />
+					&nbsp;手机号码 :
+                    <input name="mobile" type="text" class="input-text" size="25" value="{$search.mobile}" />
+					&nbsp; 
+
+                    所属城市 :
+                    <select class="J_city_select mr10" data-pid="0" data-uri="{:U('user/ajax_city',array('roleid'=>1))}" data-selected="{$selected_ids_city}"></select><input type="hidden" name="city_id" id="J_city_id" value="{$info.city_id}" />
+                    &nbsp;门店 :
+					<select name="stores_id">
+						<option value="">全部</option>
+						<option value="1" <if condition="$search['stores_id'] eq '1'">selected="selected"</if>>有门店</option>
+						<option value="0" <if condition="$search['stores_id'] eq '0'">selected="selected"</if>>无门店</option>
+					</select>
+					&nbsp;
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+				<th><span data-tdtype="order_by" data-field="origin">终端</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="username">用户名</span></th>
+				<th align="left">所属公司</th>
+                <th align="left">所属门店</th>
+                <th width="120" align="left"><span data-tdtype="order_by" data-field="mobile">手机</span></th>
+                <th width="120"><span data-tdtype="order_by" data-field="city_id">所在城市</span></th>
+                <th width="120"><span data-tdtype="order_by" data-field="add_time">注册时间</span></th>
+                <th width="120"><span data-tdtype="order_by" data-field="last_time">最后登陆</span></th>
+                <th width="100"><span data-tdtype="order_by" data-field="last_ip">最后IP</span></th>
+                <th width="30"><span data-tdtype="order_by" data-field="status">{:L('status')}</span></th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+				<td align="center">
+					<switch name="val['origin']" >
+						<case value="1">微信</case>
+						<case value="2">IOS</case>
+						<case value="3">Android</case>
+						<case value="4">PC</case>
+                    </switch> 
+				</td>
+                <td align="left">{$val.username}</td>
+				<td align="left">{$val.company_name}</td>
+                <td align="left">{$val.stores_name}</td>
+                <td align="left">{$val.mobile}</td>
+                <td align="center">{$val.sheng_name}&nbsp;{$val.shi_name}</td>
+                <td align="center">{$val.reg_time|date="Y-m-d H:i",###}</td>
+                <td align="center"><neq name="val['last_time']" value="0">{$val.last_time|date="Y-m-d H:i",###}</neq></td>
+                <td align="center"><if condition="$val['last_ip'] neq ''">{$val.last_ip}</if></td>
+                <td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center">
+                <a href="{:u('user/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">编辑</a> | <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('user/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['username'])}">{:L('delete')}</a></td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <empty name='list'>暂无数据</empty>
+    <div class="treeTable" style="display:none">
+       <form action="{:U('admin/user/out_put')}" enctype="multipart/form-data" method="post" name="uploadfile">
+                                    选择需要导入的表格： <input type="hidden" name="leadExcel" value="true">
+           <input type="file" name="inputExcel"><input type="submit" value="导入数据">
+       </form>
+    </div> 
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('user/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+$('.J_city_select').city_select('请选择');
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>

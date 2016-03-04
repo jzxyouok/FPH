@@ -1,0 +1,462 @@
+<include file="public:header" />
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" href="{:U('property/index',array('roleid'=>1,'menuid'=>298))}">
+        <em>信息管理</em>
+        </a>
+        &nbsp;
+        <a href="{:U('property/expenses_add',array('id'=>$id,'roleid'=>1))}">
+            <em>添加路费</em>
+        </a>
+    </div>
+</div>
+<script type="text/javascript">
+    var PINER = {
+        root: '__ROOT__',
+    };
+</script>
+<form id="info_form" action="{:U('property/expenses_add')}" method="post" autocomplete="off">
+<div class="pad_lr_10">
+    <div class="col_tab">
+        <include file="property:classification" />
+        <div class="J_panes">
+            <div class="content_list pad_10 ">
+                <table width="100%" cellspacing="0"  class="table_form">
+                <tr>
+                    <th width="120">开始时间：</th>
+                    <td>
+                        <input type="text" name="time_start" id="time_start" class="date" size="12" readonly="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>结束时间：</th>
+                    <td>
+                        <input type="text" name="time_end" id="time_end"  class="date" size="12" readonly="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>路费来源：</th>
+                    <td>
+                        客户
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="text" name="partners" id="partners"  class="input-text" size="22">
+                        <span class="gray ml10">元</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        房品汇
+                        <input type="text" name="fangpinhui" id="fangpinhui"  class="input-text" size="22">
+                        <span class="gray ml10">元</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>发放方式：</th>
+                    <td>
+                        <label><input type="radio" name="manner" value="1" checked="checked"> 固定金额</label>&nbsp;&nbsp;
+                        <label><input type="radio" name="manner" value="2"> 金额随机</label>
+                    </td>
+                </tr>
+                <tbody class="fixed">
+                    <tr>
+                        <th>总金额：</th>
+                        <td>
+                            <input class="input-text" type="text" size="29" name="total_amount" id="total_amount"  readonly>
+                            <span class="gray ml10">元</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>总份数：</th>
+                        <td>
+                            <input class="input-text" type="text" size="29" name="copies" id="copies" readonly>
+                            <span class="gray ml10">份</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>路费金额：</th>
+                        <td>
+                            <input class="input-text" type="text" size="29" name="rule" id="rule" maxlength="8">
+                            <span class="gray ml10">元</span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="random" style="display: none;">
+                    <tr>
+                        <th>总金额：</th>
+                        <td>
+                            <input class="input-text" type="text" size="29" id="total_amount2" name="total_amount2" readonly>
+                            <span class="gray ml10">元</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>总份数：</th>
+                        <td>
+                            <input class="input-text" type="text" size="29" name="copies2" id="copies2" readonly>
+                            <span class="gray ml10">份</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>路费金额：</th>
+                        <td>
+                            <input class="input-text" type="text" size="29" name="rule2" id="rule2" readonly>
+                            <span class="gray ml10">元</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>路费金额：</th>
+                        <td>
+                            路费金额: <input class="input-text" type="text" size="12" name="toll_amount_small[]" maxlength="8"> -
+                            <input class="input-text" type="text" size="12" name="toll_amount_max[]" maxlength="8">
+                            &nbsp;&nbsp;发放份数: <input class="input-text" type="text" size="12" name="number[]" maxlength="8">
+                            &nbsp;&nbsp;总金额: <input class="input-text" type="text" size="12" name="amount[]" maxlength="8">
+                            <a href="javascript:;" class="add_toll_amount">添加</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tr>
+                    <th>是否分享：</th>
+                    <td>
+                        <label><input type="radio" name="share" class="radio_style" value="1"> {:L('yes')} </label>&nbsp;&nbsp;
+                        <label><input type="radio" name="share" class="radio_style" value="0" checked="checked"> {:L('no')}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>广告机编码：</th>
+                    <td>
+                         <input class="input-text" type="text" name="machine_code" id="machine_code" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>路费领取方式：</th>
+                    <td>
+                    	<select name="type">
+                    		<option value="1">摇一摇+签到领路费</option>
+                    		<option value="2">人工领取码+签到领路费</option>
+                    		<option value="3">摇一摇+人工领取码+签到领路费</option>
+                    		<option value="4">签到领路费</option>
+                    	</select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>是否 GPS 验证：</th>
+                    <td>
+                        <label><input type="radio" name="check_gps" class="radio_style" value="1"> {:L('yes')} </label>&nbsp;&nbsp;
+                        <label><input type="radio" name="check_gps" class="radio_style" value="0" checked="checked"> {:L('no')}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>拍照样例：</th>
+                    <td>
+                    	<div class="img_border" id="img_data"></div>
+                    	<div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+                    	<input type="hidden" name="photo" id="photo" readonly="readonly" />
+					</td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div class="mt10"><input type="button" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+    </div>
+</div>
+<input type="hidden" name="menuid" value="{$menuid}" />
+<input type="hidden" name="id" value="{$id}" />
+<input type="hidden" name="roleid" value="1" />
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/layer/layer.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+
+/*
+ * 上传图片
+ */
+var doDeletePhoto	= function(){
+    $.post("{:U('property/deleteExpensesPhoto')}", $('#info_form').serialize(), function(json){
+        if(json.status == 1){
+            $('#photo').val('');
+        	$('#img_data').empty();
+        	$('#J_upload_img').show();
+            return false;
+        } else {
+            $.pinphp.tip({content:json.msg, icon:'error'});
+            return false;
+        }
+    },'json');
+}
+new qq.FileUploaderBasic({
+    allowedExtensions: ['jpg','gif','jpeg','png','bmp'],
+    button: document.getElementById('J_upload_img'),
+    multiple: false,
+    action: "{:U('property/uploadExpensesPhoto')}",
+    inputName: 'photo',
+    forceMultipart: true, //用$_FILES
+    messages: {
+        typeError: lang.upload_type_error,
+        sizeError: lang.upload_size_error,
+        minSizeError: lang.upload_minsize_error,
+        emptyError: lang.upload_empty_error,
+        noFilesError: lang.upload_nofile_error,
+        onLeave: lang.upload_onLeave
+    },
+    showMessage: function(message){
+        $.pinphp.tip({content:message, icon:'error'});
+    },
+    onSubmit: function(id, fileName){
+        $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+    },
+    onComplete: function(id, fileName, result){
+        $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+        if(result.status == '1'){
+            $('#J_upload_img').hide();
+        	$('#photo').val(result.data);
+            $('#img_data').html('<ul><li><img src="{:U("ossimage/index")}&image='+result.data+'@property@420*600"></li><li><a href="javascript:;" rel="J_img" class="del_img" onclick="doDeletePhoto()">删除</a></li></ul>');
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'error'});
+        }
+    }
+});
+
+$(function() {
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $("#time_start").formValidator({onshow:"请选择开始时间",onfocus:"请选择开始时间"}).inputValidator({min:3,onerror:"请选择开始时间"});
+    $("#time_end").formValidator({onshow:"请选择结束时间",onfocus:"请选择结束时间"}).inputValidator({min:3,onerror:"请选择结束时间"});
+    //$("#copies").formValidator({onshow:"请输入路费总份数",onfocus:"请输入路费总份数"}).inputValidator({min:1,onerror:"请输入路费总份数"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写正整数"});
+    $("#machine_code").formValidator({onshow:"请输入广告机编码"}).inputValidator({max:45,onerror:"广告机编码不能超过45个字"});
+    $("#photo").formValidator({onshow:"请上传图片"}).inputValidator({max:100,onerror:"图片上传异常."});
+    $("#partners").formValidator({onshow:"路费来源客户和房品汇必须输入一个",onfocus:"路费来源客户和房品汇必须输入一个"});
+    $("#fangpinhui").formValidator({onshow:"路费来源客户和房品汇必须输入一个",onfocus:"路费来源客户和房品汇必须输入一个"});
+
+    $("#rule").formValidator({onshow:"请输入路费金额",onfocus:"请输入路费金额"}).inputValidator({min:1,onerror:"请输入路费金额"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写正整数"});
+
+    var regx=/^[1-9]\d*$/;
+    $("#partners, #fangpinhui").on("blur",function(){
+        var total_amount = toNumber($("#total_amount").val());
+        var rule = toNumber($("#rule").val());
+        var sum= parseInt(total_amount / rule);
+        $('#copies').val(sum>0 ? sum : '');
+        if(rule !== ''){
+            if(rule > total_amount){
+                $.pinphp.tip({content:'路费金额不能大于总金额', icon:'error'});
+                return false;
+            }
+        }
+
+        var p=$("#partners").val(),f=$("#fangpinhui").val();
+        if( (regx.test(p) && f=='') || (regx.test(f) && p=='') || ( regx.test(p) && regx.test(f) ) ){
+            $("#partners").formValidator({empty:true,onshow:"",onfocus:""}).inputValidator({min:0,onerror:"路费来源客户和房品汇必须输入一个"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写正整数"});
+            $("#fangpinhui").formValidator({empty:true,onshow:"",onfocus:""}).inputValidator({min:0,onerror:"路费来源客户和房品汇必须输入一个"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写正整数"});
+        }else{
+            $("#partners").formValidator({onshow:"路费来源客户和房品汇必须输入一个",onfocus:"路费来源客户和房品汇必须输入一个"}).inputValidator({min:1,onerror:"路费来源客户和房品汇必须输入一个"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写正整数"});
+            $("#fangpinhui").formValidator({onshow:"路费来源客户和房品汇必须输入一个",onfocus:"路费来源客户和房品汇必须输入一个"}).inputValidator({min:1,onerror:"路费来源客户和房品汇必须输入一个"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写正整数"});
+        }
+    });
+
+    //计算总金额
+    $('#partners, #fangpinhui').on('input',function(){
+        var partners = toNumber( $("#partners").val() );
+        var fangpinhui = toNumber ( $("#fangpinhui").val() );
+        var sum=partners+fangpinhui;
+        $('#total_amount').val(sum>0 ? sum : '');
+        $('#total_amount2').val(sum>0 ? sum : '');
+    });
+
+    function toNumber(val){
+        return isNaN(parseInt(val)) ? 0 : parseInt(val);
+    }
+    $('#rule').on('input',function(){
+        var partners = toNumber( $("#partners").val() );
+        var fangpinhui = toNumber ( $("#fangpinhui").val() );
+        var total_amount = toNumber($("#total_amount").val());
+        var rule = toNumber($(this).val());
+        if(partners == 0 && fangpinhui ==0){
+            $.pinphp.tip({content:'请输入路费来源', icon:'error'});
+            $('#rule').val('');
+            return false;
+        }
+        var sum=partners+fangpinhui;
+        if(rule > sum){
+            $.pinphp.tip({content:'路费金额不能大于总金额', icon:'error'});
+            $('#rule').val('');
+            return false;
+        }
+        var sum= parseInt(total_amount / rule);
+        $('#copies').val(sum>0 ? sum : '');
+
+    });
+
+    $('input[name="manner"]').click(function(){
+        var manner = $(this).val();
+        if(manner == 1){
+            $('.random').hide();
+            $('.fixed').show();
+        }else{
+            $('.fixed').hide();
+            $('.random').show();
+        }
+    });
+
+    //添加路费金额列表
+    $('.add_toll_amount').click(function(){
+        var Ipts_sm=$('input[name="toll_amount_small[]"]').length;
+        if(Ipts_sm > 9){
+            $.pinphp.tip({content:'路费金额最多添加10条', icon:'error'});
+            return false;
+        }
+        var html = '<tr>'+
+                '<th>路费金额：</th>'+
+        '<td>'+
+        '路费金额: <input class="input-text" type="text" size="12" name="toll_amount_small[]"> - '+
+                '<input class="input-text" type="text" size="12" name="toll_amount_max[]">'+
+                '&nbsp;&nbsp;&nbsp;发放份数: <input class="input-text" type="text" size="12" name="number[]">'+
+                '&nbsp;&nbsp;&nbsp;总金额: <input class="input-text" type="text" size="12" name="amount[]">'+
+                '&nbsp;<a href="javascript:;" class="delete_toll_amount">删除</a>'+
+                '</td>'+
+                '</tr>';
+        $('.random').append(html);
+    });
+    //删除路费金额列表
+    var $randTable=$(".random");
+    var totalCopies=$("#copies2");
+    var totalAmount2=$("#total_amount2");
+    var oRule=$("#rule2");
+    var totalNum= 0,totalMon=0;
+    $randTable
+    .delegate('input[name="number[]"]','input',getAllNumber)
+    .delegate('input[name="amount[]"]','input',getAllNumber)
+    .delegate(".add_toll_amount",'click',getAllNumber)
+    .delegate('.delete_toll_amount','click',function(){
+        $(this).parents('tr').remove();
+        getAllNumber();
+    });
+    function getAllNumber(){
+        var $Ipts_num=$randTable.find('input[name="number[]"]');
+        var $Ipts_mon=$randTable.find('input[name="amount[]"]');
+        //总份数
+        totalNum=calcTotal($Ipts_num);
+        totalCopies.val(totalNum);
+        //总金额
+        totalMon=calcTotal($Ipts_mon);
+        oRule.val( calcArg(totalMon,totalNum) );
+    }
+    function calcTotal(objArr){
+        var sum=0;
+        $.each(objArr,function(idx,ele){
+            sum+=toNumber($(ele).val());
+        });
+        return sum>0 ? sum : '';
+    }
+    function calcArg(total,num){
+        if(num==0 || total==0){
+            return '';
+        }
+        return (total/num).toFixed(2);
+    }
+    //判断number1是否<=number2
+    function isLeqt(num1,num2){
+        return num1<=num2;
+    }
+    //判断是否满足num1<num2<num3
+    function isLt(n1,n2,n3){
+        n1=toNumber(n1);
+        n2=toNumber(n2);
+        n3=toNumber(n3);
+        return (n1<=n2 && n1<=n3);
+    }
+    //判断是否为空
+    function isEmpty(n){
+        return n==='' || !( regx.test(n) );
+    }
+
+    //判断连锁输入框的值
+    function validAmount(){
+        var $Ipts_sm=$('input[name="toll_amount_small[]"]');
+        for(var i=0;i<$Ipts_sm.length;i++){
+            var ipt=$Ipts_sm[i];
+            var $sm=$(ipt).val();
+            var $max=$(ipt).siblings('input[name="toll_amount_max[]"]').val();
+            var $amount=$(ipt).siblings('input[name="amount[]"]').val();
+            var $number=$(ipt).siblings('input[name="number[]"]').val();
+            if(isEmpty($sm)){
+                $.pinphp.tip({content:'最小金额应为正整数', icon:'error'});
+                return false;
+            }
+            else if(isEmpty($max)){
+                $.pinphp.tip({content:'最大金额应为正整数', icon:'error'});
+                return false;
+            }
+            else if(isEmpty($number)){
+                $.pinphp.tip({content:'发放份数应为正整数', icon:'error'});
+                return false;
+            }
+            else if(isEmpty($amount)){
+                $.pinphp.tip({content:'总金额应为正整数', icon:'error'});
+                return false;
+            }
+            if( !(isLt($sm,$max,$amount)) ){
+                $.pinphp.tip({content:'路费最大值或总金额必须大于等于最小值', icon:'error'});
+                return false;
+            }
+            if( toNumber ($amount)<toNumber($number)*toNumber($sm) ){
+                $.pinphp.tip({content:'总金额必须大于或等于最小金额*发放份数', icon:'error'});
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //验证随机路费
+    function validRandom(){
+        var lg=toNumber(totalAmount2.val());
+        if( !isLeqt(totalMon,lg) ){
+            $.pinphp.tip({content:'阶梯总金额之和必须小于等于总金额', icon:'error'});
+            return false;
+        }else {
+           return validAmount();
+        }
+    }
+    $("#dosubmit").on('click',function(){
+        var manner=$("input[name='manner']:checked").val();
+        if(manner==2){
+            $("#rule").formValidator({empty:true,onshow:"请输入路费金额",onfocus:"请输入路费金额"}).inputValidator({min:1,onerror:"请输入路费金额"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写正整数"});
+            if(validRandom()){
+                if(confirm("请确认数据正确性再进行保存!")){
+                    $('#info_form').submit();
+                    return false;
+                }
+            }
+        }else if(manner == 1){
+            $("#rule").formValidator({onshow:"请输入路费金额",onfocus:"请输入路费金额"}).inputValidator({min:1,onerror:"请输入路费金额"}).regexValidator({regexp:"intege1",datatype:"enum",onerror:"只能填写正整数"});
+
+            var total_amount = toNumber($("#total_amount").val());
+            var rule = toNumber($("#rule").val());
+            if(rule > total_amount){
+                $.pinphp.tip({content:'路费金额不能大于总金额', icon:'error'});
+                return false;
+            }
+
+
+            if(confirm("请确认数据正确性再进行保存！")){
+                $('#info_form').submit();
+                return false;
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>

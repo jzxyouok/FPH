@@ -1,0 +1,136 @@
+<include file="public:header" />
+<style>
+#brokercontain{width:194px; border: solid 1px #ccc; min-height: 25px; border-top: none; border-bottom: none; display: none;}
+#brokercontain li{ padding-top: 5px; border-bottom: dashed 1px #ccc; padding-left: 5px; cursor: pointer;}
+#brokercontain li:hover{ background: #DEF7CE;}
+.pad_lr_10{margin-top:15px;}
+</style>
+<!--添加管理员-->
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<include file="app_fkb_customer:classification" />
+		<div class="J_panes">
+			<div class="content_list pad_10">
+	<form id="info_form" name="info_form" action="{:u('app_fkb_customer/edit')}" method="post">
+	<table width="100%" class="table_form">
+    	<tr> 
+	      <th width="80">新增时间 :</th>
+	      <td>{$info.addtime|date='Y-m-d H:i:s',###}</td>
+	    </tr>
+		<tr> 
+	      <th width="80">客户姓名 :</th>
+	      <td><input type="text" name="customer" id="customer" class="input-text" size="25" value="{$info.customer}"></td>
+	    </tr>
+		<tr>
+			<th width="120">所在城市 :</th>
+			<td id="select_area" class="select_area"><select class="J_city_select mr10" data-pid="0" data-uri="{:U('app_fkb_customer/ajax_city',array('roleid'=>1))}" data-selected="{$selected_ids_city}"></select><input type="hidden" name="city" id="J_city_id" value="{$info.city}" /></td>
+		</tr>
+	    <tr>
+			<th width="120">性别 :</th>
+			<td  class="select_area">
+				<select class=" mr10" name="sexy">
+						<option value="1" <if condition="$info['sexy'] eq 1"> selected ="selected"</if>>男</option>
+						<option value="2" <if condition="$info['sexy'] eq 2"> selected ="selected"</if>>女</option>
+				</select>
+			</td>
+		</tr> 
+		<tr> 
+	      <th>直销顾问 :</th>
+	      <td><input type="text" name="brokername" id="brokername" class="input-text" size="25" value="{$info.broker}">
+	      	<input type="hidden" name="brokerid" id="brokerid" class="input-text" value="{$info.brokerid}" />
+			<ul id="brokercontain">
+				<li data-id=""></li>				
+			</ul>	
+	      </td>
+	    </tr>
+		<!-- <tr>
+			<th width="120">购房时间 :</th>
+			<td  class="select_area">
+				<select class=" mr10" name="level">
+						<option value="" <if condition="$info['level'] eq 0"> selected ="selected"</if>>--请选择--</option>
+						<option value="1" <if condition="$info['level'] eq 1"> selected ="selected"</if>>1-2个月（A级客户）</option>
+						<option value="2" <if condition="$info['level'] eq 2"> selected ="selected"</if>>2-3个月（B 级客户）</option>
+						<option value="3" <if condition="$info['level'] eq 3"> selected ="selected"</if>>1年左右（C 级客户）</option>
+						<option value="4" <if condition="$info['level'] eq 4"> selected ="selected"</if>>不确定（D 级客户）</option>
+				</select>
+				
+			</td>
+		</tr>  -->
+	    <tr> 
+	      <th>手机号码 :</th>
+	      <td><input type="text" name="tel" id="tel" class="input-text" size="25" value="{$info.tel}"></td>
+	    </tr>
+	    <tr> 
+	      <th>联系地址 :</th>
+	      <td><input type="text" name="address" id="address" class="input-text"  style="width:380px;" value="{$info.address}"></td>
+	    </tr>
+	    <tr>
+	      <th>基本家庭工作情况 :</th>
+	      <td>
+			<textarea name="basicinfo" style="width:380px; height:65px;">{$info.basicinfo}</textarea>
+	      </td>
+	    </tr>
+	    <tr>
+	      <th>客户分析 :</th>
+	      <td>
+			<textarea name="analysis" style="width:380px; height:65px;">{$info.analysis}</textarea>
+	      </td>
+	    </tr>
+		
+	   
+	</table>
+	<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	<input type="hidden" name="id" value="{$info.id}" />	
+	</form>
+			</div>
+        </div>		
+	</div>
+</div>
+<include file="public:footer" />
+<script>
+$('.J_city_select').city_select('请选择');
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#customer").formValidator({onshow:'请输入客户姓名',onfocus:'请输入客户姓名'}).inputValidator({min:1,onerror:'请输入客户姓名'}).defaultPassed();	
+	$('#tel').formValidator({onshow:'请输入手机号码',onfocus:'请输入手机号码', oncorrect: '输入正确'})
+	.inputValidator({min:11,onerror:'请输入正确的手机号码'})
+	.inputValidator({max:11,onerror:'请输入正确的手机号码'})
+	.regexValidator({regexp:'mobile',datatype:'enum',onerror:'请输入正确的手机号码'}).defaultPassed();
+	$("#brokername").formValidator({onshow:'请指定直销顾问',onfocus:'请指定直销顾问'}).inputValidator({min:1,onerror:'请指定直销顾问'}).defaultPassed();
+
+//获取经纪人信息
+ $('#brokername').keyup(function(){
+ 		var name = $(this).val();
+ 		if(delHtmlTag(name) !=''){
+ 				var url = "{:u('app_fkb_customer/getbrokerinfo')}"
+ 				$.post(url,{name:name},function(data){
+ 					if(data.status==1)
+ 						$('#brokercontain').html(data.data).slideDown();
+ 				},'json')
+ 		}
+  })
+
+ $('#brokercontain li').live('click',function(){
+ 		var name = $(this).text();
+ 		var id = $(this).attr('data-id');
+ 		var error = $(this).attr('data-error');
+ 		$('#brokername').val(name);
+ 		if(error !=1){
+	 		$('#brokerid').val(id);		 		
+ 		}
+ 		$('#brokercontain').slideUp();
+ 		
+
+ })
+
+});
+function delHtmlTag(str)
+{
+        var str=str.replace(/<\/?[^>]*>/gim,"");//去掉所有的html标记
+        var result=str.replace(/(^\s+)|(\s+$)/g,"");//去掉前后空格
+        return  result.replace(/\s/g,"");//去除文章中间空格
+}
+</script>
+</body>
+</html>
+	

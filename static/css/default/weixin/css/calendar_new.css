@@ -1,0 +1,158 @@
+.calender_frm {
+	height: 257px;
+	width: 100%;
+	min-width: 295px;
+	overflow: hidden;
+	border: 1px solid #A6C8E3;
+	font-family: "微软雅黑", "Courier New", Courier, monospace;
+	background-color: #FFF;
+	position: absolute;
+	border-radius: 5px 5px 5px 5px;
+	display: none;
+	z-index: 9999;
+}
+.calender_frm .arrow {
+	height: 24px;
+	width: 24px;
+	position: absolute;
+	margin-top: 8px;
+	overflow: hidden;
+}
+.calender_frm .arrow a {
+	height: inherit;
+	width: inherit;
+	display: block;
+}
+.calender_frm .arrow.prev {
+	background-image: url(../images/new/btn.png);
+	background-position: 0px 0px;
+	left: 10px;
+}
+.calender_frm .arrow.prev:hover {
+	background-position: 0px -24px;
+}
+.calender_frm .arrow.next {
+	background-image: url(../images/new/btn.png);
+	background-position: -24px 0px;
+	right: 10px;
+}
+.calender_frm .arrow.next:hover {
+	background-position: -24px -24px;
+}
+.calender_frm .top {
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	color: #FFF;
+	margin: 2px;
+	background-color: #89B7D9;
+	border: 1px solid #5C9CCC;
+	border-radius: 5px 5px 5px 5px;
+}
+.calender_frm .date_frm {
+	width: 100%;
+	height: 172px;
+	font-size: 12px;
+	color: #727272;
+	margin-right: auto;
+	margin-left: auto;
+}
+.calender_frm .date_frm a {
+	color: #727272;
+}
+.calender_frm .date_frm .date_name {
+	height: 28px;
+	width: 100%;
+}
+.calender_frm .date_frm .date_name ul, .calender_frm .date_frm .datetime ul {
+	margin: 0px;
+	/*padding: 0px 3px 0px 3px;*/
+	list-style-image: none;
+	list-style-type: none;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	/*column-count: 7;
+	column-gap: 3px;*/
+}
+.calender_frm .date_frm .date_name ul li {
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	font-size: 16px;
+	width: 14.25%;
+	float: left;
+}
+.calender_frm .date_frm .datetime {
+	width: inherit;
+}
+.calender_frm .date_frm .datetime ul li {
+	line-height: 28px;
+	height: 28px;
+	margin-bottom: 3px;
+	margin-left: 1px;
+	margin-right: 1px;
+	text-align: center;
+	/*border: solid 1px #C7DEEF;*/
+	width: 13.5%;
+	float: left;
+	border-radius: 5px;
+	box-shadow: 0 0 inset #FF6600 8px ;
+	overflow: hidden;
+}
+.calender_frm .date_frm .datetime ul li a {
+	line-height: inherit;
+	color: #516EAF;
+	height: inherit;
+	/*width: inherit;*/
+	width: 100%;
+	text-align: center;
+	display: block;
+	text-decoration: none;
+	background-color: #E7F3FD;
+	cursor: default;
+	font-size: 18px
+}
+.calender_frm .date_frm .datetime ul li a:hover, .calender_frm .date_frm .datetime ul li a.highlighten {
+	background-color: #F00;
+	color: #FFF;
+}
+.calender_frm .date_frm .datetime ul li a.on {
+	background-color: #FBEC88;
+}
+.calender_frm .date_frm .datetime ul li a.on:hover {
+	background-color: #FFF;
+	color: #717171;
+}
+.calender_frm .date_frm .time {
+	line-height: 30px;
+	padding: 5px;
+	display: none;
+}
+.calender_frm .date_frm .time label {
+	padding-right: 3px;
+	padding-left: 3px;
+}
+.calender_frm .date_frm .time a {
+	display: inline-block;
+	line-height: 22px;
+	color: #FFF;
+	background-color: #89B7D9;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 5px;
+	height: 22px;
+	width: 40px;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 5px 5px 5px 5px;
+}
+.absoluteCenter {
+	left: 50%;
+	top: 50%;
+	margin-left: -50%;
+	margin-top: -135px;
+	z-index: 99999;
+}

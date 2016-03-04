@@ -1,0 +1,326 @@
+/* CSS Document */
+@import url("core.css");
+@import url("common.css");
+.top_imgbanner {
+	height: 170px;
+	background-image: url(../images/makemoney/top_imgbanner.png);
+	background-position: left -73px;
+	position: relative;
+}
+.top_imgbanner .left_text {
+	margin-top: 20px;
+	color: #FFF;
+	width: 250px;
+	height: inherit;
+	position: absolute;
+	left: 15px;
+	z-index: 999;
+}
+.top_imgbanner .left_text span {
+	display: inline-block;
+	line-height: 34px;
+}
+.top_imgbanner .left_text .fontstyle1 {
+	font-size: 18px;
+}
+.top_imgbanner .left_text .fontstyle2 {
+	font-size: 24px;
+}
+.top_imgbanner .left_text span.textbox {
+	margin-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	height: 40px;
+	line-height: 40px;
+	min-width: 20px;
+	background-color: #FFF;
+	border-radius: 5px;
+	color: #666666;
+	font-size: 16px;
+	box-shadow: inset 3px 3px 5px #888888;
+	border: 1px solid #fff192;
+}
+.top_imgbanner .left_text span.textbox label {
+	font-size: 20px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #ff6600;
+}
+.top_imgbanner .right_banner_man {
+	height: 170px;
+	width: 127px;
+	background-image: url(../images/makemoney/top_banner_man.png);
+	position: absolute;
+	right: 18px;
+	bottom: 3px;
+	z-index: 998;
+}
+.contents {
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+.contents h3 {
+	font-size: 18px;
+	font-weight: normal;
+	line-height: 180%;
+}
+.contents ol {
+	display: block;
+}
+.contents ol li {
+	font-size: 18px;
+	line-height: 24px;
+	min-height: 24px;
+	display: block;
+	font-weight: lighter;
+	padding-left:28px;
+	position: relative;
+}
+.contents ol li span.num {
+	line-height: 18px;
+	height: 18px;
+	width: 18px;
+	font-size:12px;
+	border-radius: 18px;
+	text-align: center;
+	color: #FFF;
+	display: inline-block;
+	background-color: #a40000;
+	position: absolute;
+	margin-left: -28px;
+	margin-top: 4px;
+}
+.contents ol li span.listtext {
+	line-height: inherit;
+	font-size: 16px;
+}
+.contents .details {
+	margin-left: 28px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	line-height: 20px;
+}
+.contents .details span {
+	font-size: 16px;
+	font-weight: bold;
+	color: #ff6600;
+}
+.contents .sample_info {
+	font-size: 12px;
+	color: #b4b4b4;
+}
+.btn_next {
+	position: relative;
+}
+/*.top_tips {
+	border: 1px dotted #ddb369;
+	background-color: #fffceb;
+	min-height: 30px;
+	color: #ff6600;
+	margin: 15px;
+	padding: 10px;
+}*/
+.top_tips.normal {
+	color: #333;
+}
+.top_tips h2 {
+	display: block;
+	height: 20px;
+	line-height: 20px;
+	font-size: 18px;
+	background-image: url(../images/makemoney/right_top_bg.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	text-align: right;
+	padding-right: 26px;
+}
+.top_tips h4 {
+	color: #666666;
+}
+.top_tips p.tips {
+	margin: 0px;
+	display: block;
+	text-align: right;
+	margin-top: 10px;
+}
+.top_tips p.text {
+	margin: 0px;
+	display: block;
+	text-align: left;
+	margin-top: 10px;
+	color: #666666;
+}
+.topic {
+	height: 120px;
+	background-image: url(../images/makemoney/banner_bg.jpg);
+	color: #FFF;
+	font-weight: normal;
+}
+.topic .right_bg {
+	height: inherit;
+	width: 95px;
+	position: absolute;
+	background-image: url(../images/makemoney/hudiejie.png);
+	background-repeat: no-repeat;
+	background-position: right -15px;
+	right: 0px;
+}
+.topic h1 {
+	margin-left: 25px;
+	line-height: 70px;
+	font-size: 28px;
+	font-weight: normal;
+}
+.topic h2 {
+	margin-left: 25px;
+	font-weight: normal;
+	font-size: 18px;
+}
+.topic input[type=text] {
+	margin-left: 25px;
+	margin-right: 25px;
+	width: 80%;
+	font-size: 18px;
+	border: none;
+}
+.edit_content {
+	display: block;
+	margin-right: 15px;
+	margin-left: 15px;
+	text-align: right;
+	color: #666666;
+	margin-bottom: 20px;
+}
+.personalinfo {
+	height: 100px;
+	margin-right: 15px;
+	margin-left: 15px;
+	margin-top: 13px;
+	margin-bottom: 13px;
+}
+.personalinfo .mypic {
+	height: 98px;
+	width: 98px;
+	border: 1px solid #eeeeee;
+	overflow: hidden;
+	background-color: #FFF;
+	position: absolute;
+}
+.personalinfo .detailinfo {
+	position: absolute;
+	padding-left: 115px;
+	height: inherit;
+}
+.personalinfo .detailinfo span {
+	display: block;
+}
+.personalinfo .detailinfo .name {
+	line-height: 40px;
+	font-size: 18px;
+	font-weight: normal;
+	min-width: 150px;
+}
+.personalinfo .detailinfo .address {
+	line-height: 25px;
+}
+.info_frm {
+	background-color: #FFF;
+	text-align: center;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	color: #666666;
+}
+/*.textarea_frm {
+	margin: 15px;
+	height: 100px;
+}
+textarea.top_tips {
+	border: 1px dotted #ddb369;
+	background-color: #FFF;
+	height: inherit;
+	color: #ff6600;
+	display: block;
+	width: 100%;
+	overflow: auto;
+	margin: 0;
+	color: #666;
+}*/
+.contents .ad_text {
+	display: block;
+	line-height: 35px;
+	color: #ff6600;
+	font-weight: normal;
+}
+.contents .ad_text.m1 {
+	font-size: 18px;
+}
+.contents .ad_text.m2 {
+	font-size: 24px;
+}
+.text_block {
+	min-height: 80px;
+}
+.text_block label {
+	display: block;
+	color: #737371;
+}
+.text_block input[type=text], .text_block input[type=password], .text_block input[type=number] {
+	height:40px;
+	padding-left: 10px;
+	width: 100%;
+	border: solid 1px #cccccc;
+	font-size: 14px;
+}
+.text_block input.short {
+	width: 55%;
+	display: inline-block;
+}
+.text_block a.btn_getcode {
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	width: 40%;
+	background-color: #80c269;
+	text-align: center;
+	color: #FFF;
+	float: right;
+	font-size:12px;
+}
+.top_tips_new { 
+	background:#000;
+	border-radius:8px;
+	opacity:0.8;
+	position:absolute;
+	z-index:1;
+	right:12px;
+	top:15px;
+	padding:0 0 8px 0;
+	font-family:"宋体";
+	font-size:12px;
+}
+.top_tips_new i {
+	display:block;
+	width:11px;
+	height:12px;
+	background-image:url(../images/makemoney/right_top_bg_2.png);
+	overflow:hidden;
+	opacity:0.8;
+	position:relative;
+	top:-12px;
+	left:90%;
+}
+.top_tips_new p {
+	color:#fff;
+	margin:0; 
+	padding:5px 12px;
+	}
+.top_tips_new a { 
+	display:block;
+ 	text-align:right;
+	color:#fff;
+	text-decoration:underline;
+	padding:0px 12px;
+	cursor:pointer;
+	font-family:"宋体";
+	font-size:12px;
+	}

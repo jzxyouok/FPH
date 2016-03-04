@@ -1,0 +1,68 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="bluetooth_cate" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                城市:
+                <select class="J_city_select mr10" data-pid="0" data-uri="{:U('user/ajax_city',array('roleid'=>1))}" data-selected="{$selected_ids_city}"></select>
+                <input type="hidden" name="city_id" id="J_city_id" value="{$search.city_id}" />
+                &nbsp;&nbsp;major :
+                <input name="major" type="text" class="input-text" size="25" value="{$search.major}" maxlength="5" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('article/ajax_edit',array('roleid'=>1))}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <!--<th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>-->
+                <th width="30">序号</th>
+                <th>ID</th>
+                <th align="left">城市</th>
+                <th align="left">对应major</th>
+                <!--<th width="80">{:L('operations_manage')}</th>-->
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <!--<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>-->
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.city_name}</td>
+                <td align="left">{$val.major}</td>
+                <!--<td align="center">
+                    <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('bluetooth_cate/delete', array('id'=>$val['id']))}" data-msg="你确定要删除此对应关系吗?">{:L('delete')}</a>
+                </td>-->
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+       <!-- <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />-->
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+$('.J_city_select').city_select('请选择');
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<include file="public:header" />
+<div class="subnav">
+	<div class="content_menu ib_a blue line_x">
+		<a class="on" href="{:U('weixin_day_reply/index')}">
+		<em>信息管理</em>
+		</a>
+	<span>|</span>
+		<a href="{:U('weixin_day_reply/add')}">
+		<em>添加信息</em>
+		</a>
+	</div>
+</div>
+<!--添加文章-->
+<form id="info_form" name="info_form" action="{:U('weixin_day_reply/edit')}" method="post">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">修改信息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">					
+					<tr>
+						<th>回复类型 :</th>
+						<td class="select_type">
+							  <label><input name="tid" type="radio" value="1" <if condition="$info.tid eq '1'">checked="checked"</if> /> 文字</label>&nbsp;&nbsp;
+							  <label><input name="tid" type="radio" value="2" <if condition="$info.tid eq '2'">checked="checked"</if> /> 图片</label>&nbsp;&nbsp;
+							  <label><input name="tid" type="radio" value="3" <if condition="$info.tid eq '3'">checked="checked"</if> /> 单图文</label>&nbsp;&nbsp;
+							  <label><input name="tid" type="radio" value="4" <if condition="$info.tid eq '4'">checked="checked"</if> /> 多图文</label>
+						</td>
+					</tr>
+					<tr>
+						<th>检索信息 :</th>
+		 				<td>
+		 					<input type="text" name="info_search" id="info_search" class="input-text info_search" size="30">
+		 					<font color="#999">搜索添加的回复消息</font>
+		 				</td>
+					</tr>
+					<tr>
+						<th>回复信息 :</th>
+		 				<td class="txt_data">
+							<div class="txt_border">
+								<ul>
+									<if condition="$info['tid'] eq 4">
+										<table width="100%" cellspacing="0" class="treeTable">
+										<volist name="list" id="vo">
+											<volist name="vo['title']" id="v" key="k">
+												<if condition="$k eq 1">
+													<tr id="{$vo.id}" class="collapsed">
+														<td class="select_td_txt <if condition="$vo['id'] eq $info['pid']">xuanzhong</if>" id="{$vo.id}"><span class="expander" style="padding-left:20px"></span>{$v}</td>
+													</tr>
+												<else/>
+													<tr class="code-{$vo.id} dispnone" style="display:none;">
+														<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ {$v}</td>
+													</tr>
+												</if>
+											</volist>
+										</volist>
+										</table>
+
+									<else/>
+										<volist name="reply_list" id="vo">
+											<li <if condition="$vo['id'] eq $info['pid']">class="xuanzhong"</if> rel="{$vo.id}">{$vo.title|msubstr=0,35,'utf-8',true}</li>
+										</volist>
+									</if>
+								</ul>
+							</div>
+							<div id="pidTip" class="onShow">请选择回复信息</div>
+						</td>
+						<input name="pid" id="pid" type="hidden" value="{$info.pid}" />
+					</tr>
+					<tr>
+						<th>{:L('publish')} :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> {:L('no')}</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script>
+$(function() {
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#pid").formValidator({onshow:' ',onfocus:'请选择回复信息'}).inputValidator({min:1,onerror:'请选择回复信息'});
+
+	//选择发送类型
+	$('.select_type > label > input').click(function(){
+		var tid = $('input[name="tid"]:checked').val();
+		var url = '{:U('weixin_keyword_reply/type_search')}';
+		$('#pid').val('');
+		$('#pid').blur();
+		$.post(url,{tid:tid},function(result){
+			if(result.status == 1){
+				$('.txt_border').html('__STATIC__/css/admin/bgimg/loading2.gif');
+				$('.txt_border').html(result.data);
+				return false;
+			}else{
+				$.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+			}
+		},'json');
+	});
+	//选择当前
+	$('.txt_border > ul > li').live('click',function(){
+		var id = $(this).attr('rel');
+		$('.xuanzhong').removeClass('xuanzhong');
+		$(this).addClass('xuanzhong');
+		$('#pid').val(id);
+		$('#pid').blur();
+		//alert(id);
+	})
+	//搜索消息
+	$('.info_search').keyup(function(){
+		var info_search = $.trim($('#info_search').val());
+		var tid = $('input[name="tid"]:checked').val();
+        var url = '{:U('weixin_keyword_reply/input_search',array('roleid'=>1))}';
+        var type_url = '{:U('weixin_keyword_reply/type_search',array('roleid'=>1))}';
+	    if(info_search==''){
+	    	$.post(type_url,{tid:tid},function(result){
+				if(result.status == 1){
+					$('.txt_border').html('__STATIC__/css/admin/bgimg/loading2.gif');
+					$('.txt_border').html(result.data);
+					return false;
+				}else{
+					$.pinphp.tip({content:result.msg, icon:'error'});
+					return false;
+				}
+			},'json');
+	    }else{
+		    $.post(url,{info_search:info_search,tid:tid},function(result){
+			if(result.status == 1){
+				$('.txt_border').html('__STATIC__/css/admin/bgimg/loading2.gif');
+				$('.txt_border').html(result.data);
+				return false;
+			}else{
+				$.pinphp.tip({content:result.msg, icon:'error'});
+				return false;
+			}
+			},'json');
+		}
+	});
+	//二级菜单
+	$('.expander').live('click',function(){
+		var id = $(this).parents('tr').attr('id');
+		$('.dispnone').hide();
+		$('.code-'+id+'').toggle();
+	})
+	//多图文选中
+	$('.select_td_txt').live('click',function(){
+		var id = $(this).attr('id');
+		$('.xuanzhong').removeClass('xuanzhong');
+		$(this).addClass('xuanzhong');
+		$('#pid').val(id);
+		$('#pid').blur();
+	})
+});
+</script>
+</body>
+</html>
